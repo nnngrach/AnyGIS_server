@@ -19,7 +19,6 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
 
     // Configure a SQLite database
     //let sqlite = try SQLiteDatabase(storage: .memory)
-    //let sqlite = try SQLiteDatabase(storage: .file(path: "/Users/macbookpro15/Documents/VaporHello/gbhellolesson/base.sqlite"))
     let sqlite = try SQLiteDatabase(storage: .file(path: "/Projects/GIS/AnyGIS server/AnyGIS_Server/Sources/App/Models of Data/base.sqlite"))
 
     /// Register the configured SQLite database to the database config.
