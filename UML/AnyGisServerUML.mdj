@@ -32,7 +32,7 @@
 							"top": 24,
 							"width": 337,
 							"height": 745,
-							"text": "Model of logic"
+							"text": "Model of Logic (Tools)"
 						},
 						{
 							"_type": "UMLNoteView",
@@ -281,7 +281,7 @@
 											"top": 231,
 											"width": 253.02392578125,
 											"height": 13,
-											"text": "RouterController"
+											"text": "PrimaryController"
 										},
 										{
 											"_type": "LabelView",
@@ -527,7 +527,7 @@
 											"top": 231,
 											"width": 176.87109375,
 											"height": 13,
-											"text": "UrlCreator"
+											"text": "TilePatchCreator"
 										},
 										{
 											"_type": "LabelView",
@@ -2789,7 +2789,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "RouterController",
+					"name": "PrimaryController",
 					"ownedElements": [
 						{
 							"_type": "UMLDependency",
@@ -2888,7 +2888,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "UrlCreator",
+					"name": "TilePatchCreator",
 					"ownedElements": [
 						{
 							"_type": "UMLDependency",
