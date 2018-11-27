@@ -17,9 +17,14 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     middlewares.use(ErrorMiddleware.self) // Catches errors and converts to HTTP response
     services.register(middlewares)
 
+    // Дописал!!
+    let directoryConfig = DirectoryConfig.detect()
+    services.register(directoryConfig)
+    
     // Configure a SQLite database
     //let sqlite = try SQLiteDatabase(storage: .memory)
-    let sqlite = try SQLiteDatabase(storage: .file(path: "/Projects/GIS/AnyGIS server/AnyGIS_Server/Sources/App/Models of Data/base.sqlite"))
+//    let sqlite = try SQLiteDatabase(storage: .file(path: "/Projects/GIS/AnyGIS server/AnyGIS_Server/Sources/App/Models of Data/base.sqlite"))
+    let sqlite = try SQLiteDatabase(storage: .file(path: "\(directoryConfig.workDir)base.sqlite"))
 
     /// Register the configured SQLite database to the database config.
     var databases = DatabasesConfig()
@@ -29,6 +34,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     /// Configure migrations
     var migrations = MigrationConfig()
     migrations.add(model: Todo.self, database: .sqlite)
+    migrations.add(model: MapData.self, database: .sqlite)
     services.register(migrations)
 
 }
