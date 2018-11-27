@@ -17,9 +17,9 @@ class IndependentController {
     
     
     
-    func findTile(_ mapName: String, _ xText: String, _ yText: String, _ zoom: Int) -> ProcessingResult {
+    func findTile(_ mapName: String, _ xText: String, _ yText: String, _ zoom: Int, _ mapInfo: MapData) -> ProcessingResult {
         
-//        let tileNumbers = try coordinateTransformer.normalizeCoordinates(xText, yText, zoom)
+        // Если пользователь ввел координаты - преобразовать их в номера
         
         do {
             let tileNumbers = try coordinateTransformer.normalizeCoordinates(xText, yText, zoom)
@@ -28,21 +28,18 @@ class IndependentController {
         }
         
         
-        // Запросить строку из базы по имении
+        
         
         // Запустить требуемый режим по имени
         //временный вариант для проверки работоспособности
-        switch mapName {
+        switch mapInfo.mode {
          
+            
+        case "redirect":
+            return ProcessingResult.redirect(url: "https://tiles.nakarte.me/ggc2000/10/615/702")
+
+            
         case "overlay":
-            return ProcessingResult.redirect(url: "https://tiles.nakarte.me/ggc2000/10/615/702")
-
-            
-        case "red":
-            return ProcessingResult.redirect(url: "https://tiles.nakarte.me/ggc2000/10/615/702")
-
-            
-        case "img":
             let filePatch = URL.init(string: "https://tiles.nakarte.me/eurasia25km/8/154/175")!
             //let filePatch = URL.init(string: "http://91.237.82.95:8088/pub/genshtab/250m/z11/0/x578/0/y304.jpg")!
             let image = imageProcessor.loadImage(filePatch: filePatch)
@@ -52,12 +49,12 @@ class IndependentController {
  
        
         default:
-            return ProcessingResult.error(description: "Unknown Map name")
+            return ProcessingResult.error(description: "Unknown mode name")
         }
         
         
         
-        return ProcessingResult.error(description: "Заглушка")
+        //return ProcessingResult.error(description: "Заглушка")
         
     }
     
