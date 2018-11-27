@@ -51,4 +51,4 @@ extension MapData: Content { }
 /// Allows `MapData` to be used as a dynamic parameter in route definitions.
 extension MapData: Parameter { }
 
-extension MapData: Codable { }
+//extension MapData: Codable { }
