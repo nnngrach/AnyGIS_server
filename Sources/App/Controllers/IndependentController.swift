@@ -40,8 +40,12 @@ class IndependentController {
 
             
         case "overlay":
-            let filePatch = URL.init(string: "https://tiles.nakarte.me/eurasia25km/8/154/175")!
-            //let filePatch = URL.init(string: "http://91.237.82.95:8088/pub/genshtab/250m/z11/0/x578/0/y304.jpg")!
+//            let filePatch = URL.init(string: "https://tiles.nakarte.me/eurasia25km/8/154/175")!
+//            let filePatch = URL.init(string: "https://tiles.nakarte.me/eurasia25km/8/154/175")!
+//            let filePatch = URL.init(string: "http://91.237.82.95:8088/pub/genshtab/250m/z11/0/x578/0/y304.jpg")!
+            
+            let filePatch = URL.init(string: "https://avatars.mds.yandex.net/get-pdb/812271/6b8cb846-29da-49c4-abca-3a210c4280ff/s1200")!
+            
             let image = imageProcessor.loadImage(filePatch: filePatch)
             let data = image.getValue().data!
             let extention = image.getValue().text
