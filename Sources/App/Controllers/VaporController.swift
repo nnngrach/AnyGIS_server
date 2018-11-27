@@ -75,6 +75,10 @@ final class VaporController {
 //        return "This function will cooming soon..."
 //    }
     
+    func list(_ request: Request) throws -> Future<[MapData]> {
+        return MapData.query(on: request).all()
+    }
+    
     
     
     

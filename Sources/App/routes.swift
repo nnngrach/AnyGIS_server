@@ -11,7 +11,7 @@ public func routes(_ router: Router) throws {
     
     
 //    вернуть таблицу с названием всех карт и их описанием
-//    router.get("list", use: vaporController.list)
+    router.get("list", use: vaporController.list)
     
 //    Вернуть изображение по ссылке с указанным значение прозрачности
 //    router.get("opacity", Double.parameter, String.parameter, use: controller.splitter)
