@@ -33,7 +33,6 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
 
     /// Configure migrations
     var migrations = MigrationConfig()
-//    migrations.add(model: Todo.self, database: .sqlite)
     migrations.add(model: MapData.self, database: .sqlite)
     services.register(migrations)
 

@@ -5,10 +5,12 @@
 //  Created by nnngrach on 26/11/2018.
 //
 
+import Vapor
 import Foundation
 
 class IndependentController {
     
+    let baseHandler = BaseHandler()
     let coordinateTransformer = CoordinateTransformer()
     let imageProcessor = ImageProcessor()
     
@@ -17,22 +19,22 @@ class IndependentController {
     
     
     
-    func findTile(_ mapName: String, _ xText: String, _ yText: String, _ zoom: Int, _ mapInfo: MapData) -> ProcessingResult {
+    func findTile(_ mapName: String, _ xText: String, _ yText: String, _ zoom: Int, _ mapObject: MapData) -> ProcessingResult {
         
-        // Если пользователь ввел координаты - преобразовать их в номера
+        // Если пользователь ввел координаты вместо номеров тайлов - надо преобразовать
+        guard let tileNumbers = try? coordinateTransformer.normalizeCoordinates(xText, yText, zoom)
+            else {return ProcessingResult.error(description: "Input values incorrect")}
         
-        do {
-            let tileNumbers = try coordinateTransformer.normalizeCoordinates(xText, yText, zoom)
-        } catch {
-            return ProcessingResult.error(description: "Input values incorrect")
-        }
+//        guard let mapInfo = try? baseHandler.getFirstWith(mapName: mapName, request)
+//            else {return ProcessingResult.error(description: "Fething map from database error")}
         
-        
+        let mapInfo = "overlay"
         
         
         // Запустить требуемый режим по имени
         //временный вариант для проверки работоспособности
-        switch mapInfo.mode {
+        switch mapInfo {
+//        switch mapInfo.mode {
          
             
         case "redirect":
@@ -55,14 +57,6 @@ class IndependentController {
         default:
             return ProcessingResult.error(description: "Unknown mode name")
         }
-        
-        
-        
-        //return ProcessingResult.error(description: "Заглушка")
-        
     }
-    
-    
-    
     
 }
