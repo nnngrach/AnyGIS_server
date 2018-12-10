@@ -18,10 +18,11 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     middlewares.use(ErrorMiddleware.self) // Catches errors and converts to HTTP response
     services.register(middlewares)
 
+    
     // Дописал!!
     let directoryConfig = DirectoryConfig.detect()
     services.register(directoryConfig)
-    
+    /*
     
     // Дописал!! Дополнение для сохранения файлов
     let driver = try S3Driver(
@@ -32,6 +33,8 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     )
     
     services.register(driver, as: NetworkDriver.self)
+    
+   */
     
     // Configure a SQLite database
     //let sqlite = try SQLiteDatabase(storage: .memory)
