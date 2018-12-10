@@ -6,7 +6,7 @@ import FluentSQLite
 /// Register your application's routes here.
 public func routes(_ router: Router) throws {
 
-
+/*
     
     let baseHandler = BaseHandler()
     let controller = IndependentController()
@@ -332,7 +332,7 @@ public func routes(_ router: Router) throws {
         return req.redirect(to: fileName)
     }
     
-    
+    */
     
     router.get("red") { req -> Response in
         
@@ -351,7 +351,52 @@ public func routes(_ router: Router) throws {
     
     
     
+    router.get("showImage") { req -> Future<Response> in
+        
+        
+        let data = try! req.client().get("https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/0/0/0")
+        return data
+        
+//        do {
+//            let data = try req.client().get("https://a.tile.opentopomap.org/1/0/0.png")
+////            let response: Response = req.makeResponse(data, as: MediaType.png)
+////            return response
+//            return data
+//        } catch {
+//            let errorResponce = HTTPResponse(status: .internalServerError)
+//            let response = req.makeResponse(http: errorResponce)
+//            return response.encode(for: Futurer)
+//        }
+    }
+    
+    
+    
 
 }
 
-
+//```swift
+//// router.swift
+//
+//import Foundation
+//import Vapor
+//import FluentSQLite
+//
+//
+//public func routes(_ router: Router) throws {
+//
+//    router.get("showImage") { req -> Response in
+//
+//        let url = URL(string: "https://a.tile.opentopomap.org/1/0/0.png")
+//
+//        do {
+//            let data = try Data(contentsOf: url!)
+//            let response: Response = req.makeResponse(data, as: MediaType.png)
+//            return response
+//        } catch {
+//            let errorResponce = HTTPResponse(status: .internalServerError)
+//            let response = req.makeResponse(http: errorResponce)
+//            return response
+//        }
+//    }
+//}
+//```
