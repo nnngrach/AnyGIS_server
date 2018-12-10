@@ -348,19 +348,114 @@ public func routes(_ router: Router) throws {
             return response
         }
     }
-
-//It's working! Thank you!
+    
+    
+//    router.get("showImage") { req -> Future<Response> in
 //
+//        do {
+//            let data = try req.client().get("https://a.tile.opentopomap.org/1/0/0.png")
+//            return data
+//        } catch {
+//            throw Abort(.badRequest, reason: "Image data reading error")
+//        }
+//    }
+    
+    
+    
+    
+    //        let directory = DirectoryConfig.detect()
+    //        let filePatch = URL(fileURLWithPath: directory.workDir)
+    //            .appendingPathComponent("Public", isDirectory: true)
+    //            .appendingPathComponent("myImage.png")
+
+
+// Thanks. I'll try to think of something. I have another question. I got the data from URL. Now I don't understand how to get to the it's content with the image data?  I need to process this image and return it to the user.
+
 //```swift
+    /*
     router.get("showImage") { req -> Future<Response> in
-        
         do {
-            let responceWithImageData = try req.client().get("https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/0/0/0")
-            return responceWithImageData
+            let futureResponce = try req.client().get("https://a.tile.opentopomap.org/1/0/0.png")
+            
+            let imageData = // Some magic transormatinos =)
+            
+            let transformedImageData = process(imageData)
+
+            let resultingResponse = req.makeResponse(transformedImageData, as: MediaType.png)
+            
+            return resultingResponse
+            
+        } catch {
+            // error handling
+        }
+    }
+    */
+//```
+    
+  
+    
+    // I tried that, but it didn't work.
+    
+    //```swift
+    
+    // Вариант по ответам с форума !!!
+    
+    router.get("showImage2") { req -> Future<Response> in
+        do {
+            let futureResponce = try req.client().get("https://a.tile.opentopomap.org/1/0/0.png")
+            
+            let futureData = futureResponce.flatMap { $0.http.body.consumeData(on: req) }
+            
+            let resultResponce = futureData.map(to: Response.self) { data in
+                
+                // some transformations with image data
+                let newImageData = data
+                let response = req.makeResponse(newImageData, as: MediaType.png)
+                return response
+            }
+            
+            return resultResponce
+
+            
         } catch {
             throw Abort(.badRequest, reason: "Image data reading error")
         }
     }
+            
+            
+    
+    
+    
+            
+    
+    
+    
+    
+ /*
+            let transformedImageFutureData = futureResponce.flatMap(to: Data.self) { responce in
+                do {
+                    let imageFutureData = try responce.content.decode(Data.self).map { data -> Data in
+                        print("All Image data transformations will be here")
+                        print("but this print don't works")
+                        return data
+                    }
+                    return imageFutureData
+                    
+                } catch {
+                    print("Again it don't work")
+                    throw Abort(.badRequest, reason: "Image data reading error")
+                }
+            }
+            
+            
+            return futureResponce
+            
+        } catch {
+            throw Abort(.badRequest, reason: "Image data reading error")
+        }
+ */
+//    }
+    
 //```
     
     
