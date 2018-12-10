@@ -268,13 +268,20 @@ public func routes(_ router: Router) throws {
 //        let filename = getDocumentsDirectory().appendingPathComponent("output.txt")
 //        let filename = URL(fileURLWithPath: "/Public/123.txt")
         
+        //let url = URL(fileURLWithPath: "https://a.tile.opentopomap.org/1/0/0.png")
+        let url = URL(string: "https://a.tile.opentopomap.org/1/0/0.png")
+        //let data = try req.client().get("https://tiles.nakarte.me/ggc2000/10/615/702")
+        let data = try? Data(contentsOf: url!)
+        
         let directory = DirectoryConfig.detect()
         let filename = URL(fileURLWithPath: directory.workDir)
             .appendingPathComponent("Public", isDirectory: true)
-            .appendingPathComponent("123.txt")
+            //.appendingPathComponent("123.txt")
+            .appendingPathComponent("321.png")
         
         do {
-            try str.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
+            //try str.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
+            try data?.write(to: filename)
         } catch {
             // failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
         }
@@ -300,6 +307,22 @@ public func routes(_ router: Router) throws {
         //return "Welcome to AnyGIS!"
         return filename.absoluteString
     }
+    
+    
+    router.get("red") { req -> Response in
+        
+        let directory = DirectoryConfig.detect().workDir
+        let patch = directory + "321.png"
+        
+//        let fileUrl = URL(fileURLWithPath: directory)
+//            .appendingPathComponent("Public", isDirectory: true)
+//            .appendingPathComponent("321.png")
+        
+        //let url = URL(string: "https://anygis.herokuapp.com/321.png")
+        return req.redirect(to: "321.png")
+    }
+    
+    
     
 
 }
