@@ -262,26 +262,26 @@ public func routes(_ router: Router) throws {
         return paths[0]
     }
     
-    router.get("test") { req -> String in
+    router.get("test") { req -> Response in
         
-        let str = "Super long string here"
+        let str = "Super long string here again"
 //        let filename = getDocumentsDirectory().appendingPathComponent("output.txt")
 //        let filename = URL(fileURLWithPath: "/Public/123.txt")
         
-        //let url = URL(fileURLWithPath: "https://a.tile.opentopomap.org/1/0/0.png")
-        let url = URL(string: "https://a.tile.opentopomap.org/1/0/0.png")
-        //let data = try req.client().get("https://tiles.nakarte.me/ggc2000/10/615/702")
-        let data = try? Data(contentsOf: url!)
+//        //let url = URL(fileURLWithPath: "https://a.tile.opentopomap.org/1/0/0.png")
+//        let url = URL(string: "https://a.tile.opentopomap.org/1/0/0.png")
+//        //let data = try req.client().get("https://tiles.nakarte.me/ggc2000/10/615/702")
+//        let data = try? Data(contentsOf: url!)
         
         let directory = DirectoryConfig.detect()
         let filename = URL(fileURLWithPath: directory.workDir)
             .appendingPathComponent("Public", isDirectory: true)
-            //.appendingPathComponent("123.txt")
-            .appendingPathComponent("321.png")
+            .appendingPathComponent("123.txt")
+//            .appendingPathComponent("321.png")
         
         do {
-            //try str.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
-            try data?.write(to: filename)
+            try str.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
+//            try data?.write(to: filename)
         } catch {
             // failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
         }
@@ -305,21 +305,48 @@ public func routes(_ router: Router) throws {
         
         */
         //return "Welcome to AnyGIS!"
-        return filename.absoluteString
+        //return filename.absoluteString
+        return req.redirect(to: "123.txt")
     }
+    
+    
+    
+    router.get("loadAndShowImage") { req -> Response in
+        
+        let url = URL(string: "https://a.tile.opentopomap.org/1/0/0.png")
+        let data = try? Data(contentsOf: url!)
+        
+        let fileName = "myImage.png"
+        let directory = DirectoryConfig.detect()
+        
+        let filePatch = URL(fileURLWithPath: directory.workDir)
+            .appendingPathComponent("Public", isDirectory: true)
+            .appendingPathComponent(fileName)
+        
+        do {
+            try data?.write(to: filePatch)
+        } catch {
+            // error handling
+        }
+        
+        return req.redirect(to: fileName)
+    }
+    
     
     
     router.get("red") { req -> Response in
         
-        let directory = DirectoryConfig.detect().workDir
-        let patch = directory + "321.png"
+        let url = URL(string: "https://a.tile.opentopomap.org/1/0/0.png")
         
-//        let fileUrl = URL(fileURLWithPath: directory)
-//            .appendingPathComponent("Public", isDirectory: true)
-//            .appendingPathComponent("321.png")
-        
-        //let url = URL(string: "https://anygis.herokuapp.com/321.png")
-        return req.redirect(to: "321.png")
+        do {
+            let data = try Data(contentsOf: url!)
+            let response: Response = req.makeResponse(data, as: MediaType.png)
+            return response
+        } catch {
+            let errorResponce = HTTPResponse(status: .internalServerError)
+            let response = req.makeResponse(http: errorResponce)
+            return response
+        }
     }
     
     
