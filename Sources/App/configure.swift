@@ -22,7 +22,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     // Дописал!!
     let directoryConfig = DirectoryConfig.detect()
     services.register(directoryConfig)
-    /*
+    /* 
     
     // Дописал!! Дополнение для сохранения файлов
     let driver = try S3Driver(
