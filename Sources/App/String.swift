@@ -6,5 +6,15 @@
 //
 
 import Foundation
+import Vapor
 
 extension String: Error {}
+
+
+/*
+extension DatabaseConnectable {
+    func findUser(named names: [String]) -> Future<MapData?> {
+        return MapData.query(on: self).filter(\.name, in names).first()
+    }
+}
+*/

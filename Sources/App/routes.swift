@@ -1,9 +1,12 @@
 import Foundation
 import Vapor
 import FluentSQLite
+import Storage
 
 /// Register your application's routes here.
 public func routes(_ router: Router) throws {
+
+
     
     let baseHandler = BaseHandler()
     let controller = IndependentController()
@@ -122,6 +125,29 @@ public func routes(_ router: Router) throws {
 
     
     
+    
+    
+    
+    // получаемОбъектКарты.flatMap { объектКарты in
+    //    switch объектКарты.mode {
+    //    case overlay:
+    //        получаемСписокИзВторойБазы.flatmap { список in
+    //            основнойАлгоритм(координаты, объектКарты, список1)
+    //        }
+    //    case mapSet:
+    //        получаемСписокИзВторойБазы.flatmap { список in
+    //            основнойАлгоритм(координаты, объектКарты, список2)
+    //        }
+    //    default:
+    //        основнойАлгоритм(координаты, объектКарты, список)
+    //
+    
+    
+    
+    
+    
+    
+    
     //v2
     router.get(String.parameter, String.parameter, String.parameter,Int.parameter) { request -> Future<Response> in
         
@@ -186,6 +212,96 @@ public func routes(_ router: Router) throws {
      return "You have requested route /cats/\(intParam)"
      }
      */
+    
+    
+    //=======================
+    
+  /*
+    router.get("img") { request -> Future<Response> in
+//        let responce = request.redirect(to: "img/0.png")
+//        let responce = request.redirect(to: "https://tiles.nakarte.me/ggc2000/10/615/702")
+        
+//        guard let data = try? request.client().get("https://tiles.nakarte.me/ggc2000/10/615/702") else {return request.response(http: HTTPResponse(status: .notFound))}
+        
+        let data = try request.client().get("https://tiles.nakarte.me/ggc2000/10/615/702")
+        
+       
+        let a = data.map(to: Response.self) { d in
+            
+            let res = HTTPResponse(status: .ok, body: d as! LosslessHTTPBodyRepresentable)
+            let responce = request.response(http: res)
+            return responce
+        }
+        
+        
+        
+        return a
+        
+        //let responce = request.makeResponse(data, as: MediaType.png)
+        //let responce = request.response(http: data)
+        
+//        let res = HTTPResponse(status: .ok, body: data as! LosslessHTTPBodyRepresentable)
+//        let responce = request.response(http: res)
+//        return responce
+    }
+ */
+    
+//    router.get("test", use: controller.uploadUser2)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+    
+    router.get("test") { req -> String in
+        
+        let str = "Super long string here"
+//        let filename = getDocumentsDirectory().appendingPathComponent("output.txt")
+//        let filename = URL(fileURLWithPath: "/Public/123.txt")
+        
+        let directory = DirectoryConfig.detect()
+        let filename = URL(fileURLWithPath: directory.workDir)
+            .appendingPathComponent("Public", isDirectory: true)
+            .appendingPathComponent("123.txt")
+        
+        do {
+            try str.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
+        } catch {
+            // failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
+        }
+        
+        
+        
+        /*
+        let data = try Storage.get(path: "https://tiles.nakarte.me/ggc2000/10/615/702", on: req)
+       
+        try Storage.upload(dataURI: "https://tiles.nakarte.me/ggc2000/10/615/702", on: req)
+
+        
+        let res = try req.client().get("http://vapor.codes")
+        
+        let bytes = data
+        try Storage.upload(
+            bytes: "qwe",
+            fileName: "profile.png",
+            on: req
+        )
+        
+        */
+        //return "Welcome to AnyGIS!"
+        return filename.absoluteString
+    }
+    
+
 }
 
 

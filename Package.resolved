@@ -110,6 +110,15 @@
         }
       },
       {
+        "package": "Storage",
+        "repositoryURL": "https://github.com/nodes-vapor/storage.git",
+        "state": {
+          "branch": null,
+          "revision": "e1cf3d352220eb93233383abb2cbe2cfbf4647b7",
+          "version": "1.0.0-beta.2"
+        }
+      },
+      {
         "package": "swift-nio",
         "repositoryURL": "https://github.com/apple/swift-nio.git",
         "state": {

@@ -1,5 +1,6 @@
 import FluentSQLite
 import Vapor
+import Storage
 
 /// Called before your application initializes.
 public func configure(_ config: inout Config, _ env: inout Environment, _ services: inout Services) throws {
@@ -13,13 +14,24 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
 
     /// Register middleware
     var middlewares = MiddlewareConfig() // Create _empty_ middleware config
-    /// middlewares.use(FileMiddleware.self) // Serves files from `Public/` directory
+    middlewares.use(FileMiddleware.self) // Serves files from `Public/` directory
     middlewares.use(ErrorMiddleware.self) // Catches errors and converts to HTTP response
     services.register(middlewares)
 
     // Дописал!!
     let directoryConfig = DirectoryConfig.detect()
     services.register(directoryConfig)
+    
+    
+    // Дописал!! Дополнение для сохранения файлов
+    let driver = try S3Driver(
+        bucket: "MyBucket",
+        accessKey: "key",
+        secretKey: "secret",
+        region: .usWest2
+    )
+    
+    services.register(driver, as: NetworkDriver.self)
     
     // Configure a SQLite database
     //let sqlite = try SQLiteDatabase(storage: .memory)

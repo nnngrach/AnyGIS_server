@@ -14,6 +14,18 @@ class BaseHandler {
         return MapData.query(on: request).all()
     }
     
+    /*
+    func listJSON2(_ request: Request) throws -> Future<[MapData]> {
+        let a = MapData.query(on: request).all()
+        a.do {user in
+            user[0].mode
+        }.catch { error in
+            throw error
+        }
+        return a
+    }
+ */
+    
     
     func list (_ request: Request) throws -> [MapData] {
         return try listJSON(request).wait()
