@@ -1,6 +1,7 @@
 import Foundation
 import Vapor
 import FluentSQLite
+//import UIKit
 //import Storage
 
 /// Register your application's routes here.
@@ -421,10 +422,47 @@ public func routes(_ router: Router) throws {
             throw Abort(.badRequest, reason: "Image data reading error")
         }
     }
+    
+    
+    struct CloudinaryPostMessage: Content {
+        var file: String
+        var public_id: String
+        var upload_preset: String
+    }
+    
+    
+    router.get("cloudinary") { request -> Response in
+                
+        let message = CloudinaryPostMessage(file: "https://a.tile.opentopomap.org/1/0/0.png", public_id: "321321", upload_preset: "guestPreset")
+        
+        let responce = try request.client().post("https://api.cloudinary.com/v1_1/nnngrach/image/upload") { loginReq in
+            // encode the loginRequest before sending
+            try loginReq.content.encode(message)
+        }
+        
+        print("==================")
+        print(responce)
+        
+        return request.redirect(to: "https://res.cloudinary.com/nnngrach/image/upload/321321")
+    }
+    
+    
             
             
     
-    
+//    func simpleBlurFilterExample(inputImage: UIImage) -> UIImage {
+//        // convert UIImage to CIImage
+//        let inputCIImage = CIImage(image: inputImage)!
+//
+//        // Create Blur CIFilter, and set the input image
+//        let blurFilter = CIFilter(name: "CIGaussianBlur")!
+//        blurFilter.setValue(inputCIImage, forKey: kCIInputImageKey)
+//        blurFilter.setValue(8, forKey: kCIInputRadiusKey)
+//
+//        // Get the filtered output image and return it
+//        let outputImage = blurFilter.outputImage!
+//        return UIImage(ciImage: outputImage)
+//    }
     
             
     
