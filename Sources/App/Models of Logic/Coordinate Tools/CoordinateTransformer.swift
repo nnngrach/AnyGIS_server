@@ -15,6 +15,7 @@ class CoordinateTransformer {
         case unknownError
     }
     
+    // MARK: Web Mercator transformations
     
     func normalizeCoordinates(_ xText: String, _ yText: String, _ zoom: Int) throws -> (x: Int, y: Int) {
         
@@ -53,4 +54,71 @@ class CoordinateTransformer {
         
         return (lat, lon)
     }
+    
+    
+    
+    
+    
+    // MARK: WGS-84 transformations
+    
+    
+    
+    
+    
+    
+    
+    // MARK: URL replacing functions
+    
+    func getX(from coordinates: [Int], serverName: String) -> String {
+        return "\(coordinates[0])"
+    }
+    
+    func getY(from coordinates: [Int], serverName: String) -> String {
+        return "\(coordinates[1])"
+    }
+    
+    func getZ(from coordinates: [Int], serverName: String) -> String {
+        return "\(coordinates[2])"
+    }
+    
+    
+    func getS(from coordinates: [Int], serverName: String) -> String {
+        if serverName == "wikimapia" {
+            let result = ((coordinates[0]%4) + (coordinates[1]%4)*4)
+            return "\(result)"
+        } else {
+            return String(serverName.randomElement()!)
+        }
+    }
+    
+    
+    
+    func getGoogleZ(from coordinates: [Int], serverName: String) -> String {
+        let result = 17 - coordinates[2]
+        return "\(result)"
+    }
+    
+    func getInvY(from coordinates: [Int], serverName: String) -> String {
+        let z = Double(coordinates[2])
+        let result = Int(pow(2.0, z)) - coordinates[1] - 1
+        return String(result)
+    }
+    
+    
+    
+    func getSasZ(from coordinates: [Int], serverName: String) -> String {
+        let result = 1 + coordinates[2]
+        return "\(result)"
+    }
+    
+    func getFolderX(from coordinates: [Int], serverName: String) -> String {
+        let result = Int(coordinates[0] / 1024)
+        return "\(result)"
+    }
+    
+    func getFolderY(from coordinates: [Int], serverName: String) -> String {
+        let result = Int(coordinates[1] / 1024)
+        return "\(result)"
+    }
+    
 }

@@ -19,14 +19,26 @@ class IndependentController {
     
     
     
-    func findTile(_ mapName: String, _ xText: String, _ yText: String, _ zoom: Int, _ mapObject: MapData) -> ProcessingResult {
+    func findTile(_ mapName: String, _ xText: String, _ yText: String, _ zoom: Int, _ mapObject: MapData) -> String? {
+
         
         // Если пользователь ввел координаты вместо номеров тайлов - надо преобразовать
         guard let tileNumbers = try? coordinateTransformer.normalizeCoordinates(xText, yText, zoom)
-            else {return ProcessingResult.error(description: "Input values incorrect")}
+            else {return nil}
         
 //        guard let mapInfo = try? baseHandler.getFirstWith(mapName: mapName, request)
 //            else {return ProcessingResult.error(description: "Fething map from database error")}
+        
+        
+        let generatedURL = transformURL(mapObject.backgroundUrl,
+                                        x: tileNumbers.x,
+                                        y: tileNumbers.y,
+                                        z: zoom,
+                                        serverName: mapObject.backgroundServerName)
+        
+        return generatedURL
+        
+        /*
         
         let mapInfo = "overlay"
         
@@ -57,12 +69,60 @@ class IndependentController {
         default:
             return ProcessingResult.error(description: "Unknown mode name")
         }
+ */
+    }
+    
+    
+    
+    func transformURL(_ url: String, x: Int, y: Int, z: Int, serverName: String) -> String {
+        var result = url
+        
+        
+        let coordinates = [x, y, z]
+        
+        result = replace("{x}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getX)
+        
+        result = replace("{y}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getY)
+        
+        result = replace("{z}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getZ)
+        
+        result = replace("{s}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getS)
+        
+        result = replace("{googleZ}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getGoogleZ)
+        
+        result = replace("{invY}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getInvY)
+        
+        result = replace("{sasZ}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getSasZ)
+        
+        result = replace("{folderX}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getFolderX)
+        
+        result = replace("{folderY}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getFolderY)
+        
+        return result
+    }
+    
+
+    
+    func replace(_ replacedText: String, in url: String, coordinates: [Int], serverNumber: String, with closure: @escaping ([Int], String) -> String) -> String {
+        
+        if url.contains(replacedText) {
+            let newText = closure(coordinates, serverNumber)
+            return url.replacingOccurrences(of: replacedText, with: newText)
+        } else {
+            return url
+        }
     }
     
     
     
     
-    
+//    func replace(url: String, x: Int, y: Int, z: Int) {
+//        var result = url
+//
+//        if url.contains("{x}") {
+//            result = result.replacingOccurrences(of: "{x}", with: "\(x)")
+//        }
+//    }
     
     
     

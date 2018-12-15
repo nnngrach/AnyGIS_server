@@ -27,9 +27,9 @@ class BaseHandler {
  */
     
     
-    func list (_ request: Request) throws -> [MapData] {
-        return try listJSON(request).wait()
-    }
+//    func list (_ request: Request) throws -> [MapData] {
+//        return try listJSON(request).wait()
+//    }
     
 //    func list (_ request: Request) throws -> [MapData] {
 //        let promise = request.eventLoop.newPromise(Void.self)
@@ -47,6 +47,16 @@ class BaseHandler {
 //
 //        return try listJSON(request).wait()
 //    }
+    
+    
+    func getBy (mapName: String, _ request: Request) throws -> Future<MapData>  {
+        return MapData.query(on: request)
+            .filter(\MapData.name == mapName)
+            .first()
+            .unwrap(or: Abort.init(
+                HTTPResponseStatus.custom(code: 501, reasonPhrase: "Uwarping MapData error")))
+    }
+    
 
     
     func getBy(objectId: Int, _ request: Request) throws -> Future<MapData> {
@@ -58,16 +68,18 @@ class BaseHandler {
     
 
     
-    func getFirstWith (mapName: String, _ request: Request) throws -> MapData {
-        return try MapData.query(on: request)
-            .filter(\MapData.name == mapName)
-            .first()
-            .unwrap(or: Abort.init(
-                HTTPResponseStatus.custom(code: 501, reasonPhrase: "Uwarping MapData error")))
-            .wait()
-    }
+//    func getFirstWith (mapName: String, _ request: Request) throws -> MapData {
+//        return try MapData.query(on: request)
+//            .filter(\MapData.name == mapName)
+//            .first()
+//            .unwrap(or: Abort.init(
+//                HTTPResponseStatus.custom(code: 501, reasonPhrase: "Uwarping MapData error")))
+//            .wait()
+//    }
     
     
+    
+
     
     
     
