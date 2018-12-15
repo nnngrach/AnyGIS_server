@@ -7,7 +7,9 @@ import FluentSQLite
 public func routes(_ router: Router) throws {
 
     let baseHandler = BaseHandler()
+    let imageProcessor = ImageProcessor()
     let controller = IndependentController()
+    
   
     
     // TODO: Возвращать не просто текст из переменной
@@ -19,6 +21,7 @@ public func routes(_ router: Router) throws {
     // TODO: Возвращать не JSON, а HTML - таблицу
     // вернуть таблицу с названием всех карт и их описанием
     router.get("list", use: baseHandler.listJSON)
+    router.get("list2", use: baseHandler.listOverlayJSON)
 
     
     
@@ -44,22 +47,69 @@ public func routes(_ router: Router) throws {
         
         let mapData = try baseHandler.getBy(mapName: mapName, request)
 
-        let responce = mapData.map(to: Response.self) { mapObject  in
+        let responce = mapData.flatMap(to: Response.self) { mapObject  in
             
                     var outputData: ProcessingResult
-                    
+            
+            
                     //свитч пока что не работает
                     switch mapObject.mode {
                     case "redirect":
-                        guard let newUrl = controller.findTile(mapName, xText, yText, zoom, mapObject) else { return makeErrorResponce("Unvarping URL Error", request) }
-                        return request.redirect(to: newUrl)
+                        guard let newUrl = controller.findTile(mapName, xText, yText, zoom, mapObject) else { return try makeErrorResponce("Unvarping URL Error", request).encode(for: request) }
+                        
+                        return try request.redirect(to: newUrl).encode(for: request)
+                        
+                        
                         
                     case "overlay":
-                        //получить из базы Overlay названия обоих слоев
-                        //сгенерировать ссылку на первый слой
-                        //сгенерировать ссылку на второй слой
-                        //return imageHandler.overlay(url1,url2)
-                        return request.redirect(to: "")
+                       
+                        let mapList = try baseHandler.getOverlayBy(setName: mapName, request)
+                        
+                        let responce = mapList.flatMap(to: Response.self) { mapListData  in
+                        
+                            let baseMapName = mapListData.baseName
+                            let overlayMapName = mapListData.overlayName
+                            
+                            let baseMapData = try baseHandler.getBy(mapName: baseMapName, request)
+                            let overlayMapData = try baseHandler.getBy(mapName: overlayMapName, request)
+                            
+                            
+                            //Synchronization...
+                            return baseMapData.flatMap(to: Response.self) { baseObject  in
+                                return overlayMapData.flatMap(to: Response.self) { overObject  in
+                        
+                                    
+                                    guard let baseUrl = controller.findTile(baseMapName, xText, yText, zoom, baseObject) else { return try makeErrorResponce("Unvarping URL Error", request).encode(for: request) }
+                                    
+                                    guard let overlayUrl = controller.findTile(overlayMapName, xText, yText, zoom, overObject) else { return try makeErrorResponce("Unvarping URL Error", request).encode(for: request) }
+                                    
+                                    
+                                    let baseLoadingResponce = try imageProcessor.upload(sourceUrl: baseUrl, request: request)
+                                    
+                                    let overlayLoadingResponce = try imageProcessor.upload(sourceUrl: overlayUrl, request: request)
+                                    
+                                    
+                                    // Synchronization...
+                                    let imageUrl = baseLoadingResponce.flatMap(to: Response.self) { res1 in
+                                        return overlayLoadingResponce.map(to: Response.self) { res2 in
+                                            
+                                            
+                                            let baseImgName = imageProcessor.makeName(sourceUrl: baseUrl)
+                                            let overlayImgName = imageProcessor.makeName(sourceUrl: overlayUrl)
+                                            
+                                            return request.redirect(to: "https://res.cloudinary.com/nnngrach/image/upload/l_\(overlayImgName),o_100/\(baseImgName)")
+                                        }
+                                    }
+                                    return imageUrl
+                                }
+                                //return res2
+                            }
+                          //return res1
+                        }
+                        return responce
+ 
+                        
+/*
                         
                     case "wgs84":
                         //получить координаты и смещение
@@ -87,9 +137,9 @@ public func routes(_ router: Router) throws {
                         // }
                         return request.redirect(to: "")
 
-                        
+*/
                     default:
-                        return makeErrorResponce("Unknown value MapMode in data base", request)
+                        return try makeErrorResponce("Unknown value MapMode in data base", request).encode(for: request)
                     }
             
                 }

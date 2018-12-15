@@ -14,6 +14,11 @@ class BaseHandler {
         return MapData.query(on: request).all()
     }
     
+    func listOverlayJSON(_ request: Request) throws -> Future<[OverlayMapList]> {
+        return OverlayMapList.query(on: request).all()
+    }
+    
+    
     /*
     func listJSON2(_ request: Request) throws -> Future<[MapData]> {
         let a = MapData.query(on: request).all()
@@ -79,6 +84,13 @@ class BaseHandler {
     
     
     
+    func getOverlayBy (setName: String, _ request: Request) throws -> Future<OverlayMapList>  {
+        return OverlayMapList.query(on: request)
+            .filter(\OverlayMapList.setName == setName)
+            .first()
+            .unwrap(or: Abort.init(
+                HTTPResponseStatus.custom(code: 501, reasonPhrase: "Uwarping OverlayMapList error")))
+    }
 
     
     
