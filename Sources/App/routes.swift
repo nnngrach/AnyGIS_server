@@ -7,7 +7,7 @@ import FluentSQLite
 /// Register your application's routes here.
 public func routes(_ router: Router) throws {
 
-/*
+
     
     let baseHandler = BaseHandler()
     let controller = IndependentController()
@@ -217,188 +217,11 @@ public func routes(_ router: Router) throws {
     
     //=======================
     
-  /*
-    router.get("img") { request -> Future<Response> in
-//        let responce = request.redirect(to: "img/0.png")
-//        let responce = request.redirect(to: "https://tiles.nakarte.me/ggc2000/10/615/702")
-        
-//        guard let data = try? request.client().get("https://tiles.nakarte.me/ggc2000/10/615/702") else {return request.response(http: HTTPResponse(status: .notFound))}
-        
-        let data = try request.client().get("https://tiles.nakarte.me/ggc2000/10/615/702")
-        
-       
-        let a = data.map(to: Response.self) { d in
-            
-            let res = HTTPResponse(status: .ok, body: d as! LosslessHTTPBodyRepresentable)
-            let responce = request.response(http: res)
-            return responce
-        }
-        
-        
-        
-        return a
-        
-        //let responce = request.makeResponse(data, as: MediaType.png)
-        //let responce = request.response(http: data)
-        
-//        let res = HTTPResponse(status: .ok, body: data as! LosslessHTTPBodyRepresentable)
-//        let responce = request.response(http: res)
-//        return responce
-    }
- */
-    
-//    router.get("test", use: controller.uploadUser2)
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[0]
-    }
-    
-    router.get("test") { req -> Response in
-        
-        let str = "Super long string here again"
-//        let filename = getDocumentsDirectory().appendingPathComponent("output.txt")
-//        let filename = URL(fileURLWithPath: "/Public/123.txt")
-        
-//        //let url = URL(fileURLWithPath: "https://a.tile.opentopomap.org/1/0/0.png")
-//        let url = URL(string: "https://a.tile.opentopomap.org/1/0/0.png")
-//        //let data = try req.client().get("https://tiles.nakarte.me/ggc2000/10/615/702")
-//        let data = try? Data(contentsOf: url!)
-        
-        let directory = DirectoryConfig.detect()
-        let filename = URL(fileURLWithPath: directory.workDir)
-            .appendingPathComponent("Public", isDirectory: true)
-            .appendingPathComponent("123.txt")
-//            .appendingPathComponent("321.png")
-        
-        do {
-            try str.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
-//            try data?.write(to: filename)
-        } catch {
-            // failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
-        }
-        
-        
-        
-        /*
-        let data = try Storage.get(path: "https://tiles.nakarte.me/ggc2000/10/615/702", on: req)
-       
-        try Storage.upload(dataURI: "https://tiles.nakarte.me/ggc2000/10/615/702", on: req)
+ 
 
-        
-        let res = try req.client().get("http://vapor.codes")
-        
-        let bytes = data
-        try Storage.upload(
-            bytes: "qwe",
-            fileName: "profile.png",
-            on: req
-        )
-        
-        */
-        //return "Welcome to AnyGIS!"
-        //return filename.absoluteString
-        return req.redirect(to: "123.txt")
-    }
-    
-    
-    
-    router.get("loadAndShowImage") { req -> Response in
-        
-        let url = URL(string: "https://a.tile.opentopomap.org/1/0/0.png")
-        let data = try? Data(contentsOf: url!)
-        
-        let fileName = "myImage.png"
-        let directory = DirectoryConfig.detect()
-        
-        let filePatch = URL(fileURLWithPath: directory.workDir)
-            .appendingPathComponent("Public", isDirectory: true)
-            .appendingPathComponent(fileName)
-        
-        do {
-            try data?.write(to: filePatch)
-        } catch {
-            // error handling
-        }
-        
-        return req.redirect(to: fileName)
-    }
-    
-    */
-    
-    router.get("red") { req -> Response in
-        
-        let url = URL(string: "https://a.tile.opentopomap.org/1/0/0.png")
-        
-        do {
-            let data = try Data(contentsOf: url!)
-            let response: Response = req.makeResponse(data, as: MediaType.png)
-            return response
-        } catch {
-            let errorResponce = HTTPResponse(status: .internalServerError)
-            let response = req.makeResponse(http: errorResponce)
-            return response
-        }
-    }
-    
-    
-//    router.get("showImage") { req -> Future<Response> in
-//
-//        do {
-//            let data = try req.client().get("https://a.tile.opentopomap.org/1/0/0.png")
-//            return data
-//        } catch {
-//            throw Abort(.badRequest, reason: "Image data reading error")
-//        }
-//    }
-    
-    
-    
-    
-    //        let directory = DirectoryConfig.detect()
-    //        let filePatch = URL(fileURLWithPath: directory.workDir)
-    //            .appendingPathComponent("Public", isDirectory: true)
-    //            .appendingPathComponent("myImage.png")
-
-
-// Thanks. I'll try to think of something. I have another question. I got the data from URL. Now I don't understand how to get to the it's content with the image data?  I need to process this image and return it to the user.
-
-//```swift
-    /*
-    router.get("showImage") { req -> Future<Response> in
-        do {
-            let futureResponce = try req.client().get("https://a.tile.opentopomap.org/1/0/0.png")
-            
-            let imageData = // Some magic transormatinos =)
-            
-            let transformedImageData = process(imageData)
-
-            let resultingResponse = req.makeResponse(transformedImageData, as: MediaType.png)
-            
-            return resultingResponse
-            
-        } catch {
-            // error handling
-        }
-    }
-    */
-//```
-    
-  
-    
-    // I tried that, but it didn't work.
-    
-    //```swift
-    
     // Вариант по ответам с форума !!!
     
     router.get("showImage2") { req -> Future<Response> in
@@ -424,105 +247,54 @@ public func routes(_ router: Router) throws {
     }
     
     
+    
+    
+    
+    
+    
     struct CloudinaryPostMessage: Content {
         var file: String
         var public_id: String
         var upload_preset: String
     }
     
-    
-    router.get("cloudinary") { request -> Response in
-                
-        let message = CloudinaryPostMessage(file: "https://a.tile.opentopomap.org/1/0/0.png", public_id: "321321", upload_preset: "guestPreset")
-        
-        let responce = try request.client().post("https://api.cloudinary.com/v1_1/nnngrach/image/upload") { loginReq in
-            // encode the loginRequest before sending
-            try loginReq.content.encode(message)
-        }
-        
-        print("==================")
-        print(responce)
-        
-        return request.redirect(to: "https://res.cloudinary.com/nnngrach/image/upload/321321")
+    struct CloudinaryImgUrl: Content {
+        var url: String
     }
     
     
+    router.get("uploadAndRedirect") { req -> Future<Response> in
+        
+        let name = "myImageName"
+        let host = "https://api.cloudinary.com/v1_1/nnngrach/image/upload"
+        
+        let message = CloudinaryPostMessage(file: "https://a.tile.opentopomap.org/3/0/0.png",
+                                            public_id: name,
+                                            upload_preset: "guestPreset")
+
+        
+        let futResponse = try req.client().post(host) { postReq in
+            try postReq.content.encode(message)
+        }
+        
+        let futureData = futResponse.flatMap { $0.http.body.consumeData(on: req) }
+       
+        
+        let redirectingRespocence = futResponse.flatMap(to: Response.self) { res in
+            let futContent = try res.content.decode(CloudinaryImgUrl.self)
             
-            
-    
-//    func simpleBlurFilterExample(inputImage: UIImage) -> UIImage {
-//        // convert UIImage to CIImage
-//        let inputCIImage = CIImage(image: inputImage)!
-//
-//        // Create Blur CIFilter, and set the input image
-//        let blurFilter = CIFilter(name: "CIGaussianBlur")!
-//        blurFilter.setValue(inputCIImage, forKey: kCIInputImageKey)
-//        blurFilter.setValue(8, forKey: kCIInputRadiusKey)
-//
-//        // Get the filtered output image and return it
-//        let outputImage = blurFilter.outputImage!
-//        return UIImage(ciImage: outputImage)
-//    }
-    
-            
-    
-    
-    
-    
- /*
-            let transformedImageFutureData = futureResponce.flatMap(to: Data.self) { responce in
-                do {
-                    let imageFutureData = try responce.content.decode(Data.self).map { data -> Data in
-                        print("All Image data transformations will be here")
-                        print("but this print don't works")
-                        return data
-                    }
-                    return imageFutureData
-                    
-                } catch {
-                    print("Again it don't work")
-                    throw Abort(.badRequest, reason: "Image data reading error")
-                }
+            let newResponce = futContent.map(to: Response.self) { content in
+                let loadedImageUrl = content.url
+                return req.redirect(to: loadedImageUrl)
             }
             
-            
-            return futureResponce
-            
-        } catch {
-            throw Abort(.badRequest, reason: "Image data reading error")
+            return newResponce
         }
- */
-//    }
+        
+        return redirectingRespocence
+    }
+   
     
-//```
     
-    
-
+ 
 }
-
-//```swift
-//// router.swift
-//
-//import Foundation
-//import Vapor
-//import FluentSQLite
-//
-//
-//public func routes(_ router: Router) throws {
-//
-//    router.get("showImage") { req -> Response in
-//
-//        let url = URL(string: "https://a.tile.opentopomap.org/1/0/0.png")
-//
-//        do {
-//            let data = try Data(contentsOf: url!)
-//            let response: Response = req.makeResponse(data, as: MediaType.png)
-//            return response
-//        } catch {
-//            let errorResponce = HTTPResponse(status: .internalServerError)
-//            let response = req.makeResponse(http: errorResponce)
-//            return response
-//        }
-//    }
-//}
-//```
