@@ -24,7 +24,8 @@ public func routes(_ router: Router) throws {
     router.get("list", use: baseHandler.listJSON)
     router.get("list2", use: baseHandler.listOverlayJSON)
 
-//    router.get("tetest", use: coordinateTransformer.tetest)
+    
+    
     
     
     //Запуск главного алгоритма - v2

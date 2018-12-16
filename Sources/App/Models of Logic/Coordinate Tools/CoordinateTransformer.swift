@@ -139,7 +139,8 @@ class CoordinateTransformer {
             let serverLetters = Array(serverName)
             
             //let randomNumber = universalRandom(max: serverLetters.count)
-            let randomNumber = 0
+            //let randomNumber = 0
+            let randomNumber = randomForHeroku(serverLetters.count)
             
             return String(serverLetters[randomNumber])
             
@@ -207,4 +208,11 @@ class CoordinateTransformer {
 //        #endif
 //    }
     
+    
+    func randomForHeroku(_ max: Int) -> Int {
+        let unixTime = Date().timeIntervalSince1970
+        let lastDigit = Int(String(String(unixTime).last!))!
+        let randomInRange = lastDigit % max
+        return randomInRange
+    }
 }
