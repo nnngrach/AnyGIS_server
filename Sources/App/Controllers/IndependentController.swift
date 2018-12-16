@@ -19,20 +19,19 @@ class IndependentController {
     
     
     
-    func findTile(_ mapName: String, _ xText: String, _ yText: String, _ zoom: Int, _ mapObject: MapData) -> String? {
+    func findTile(_ mapName: String, _ x: Int, _ y: Int, _ zoom: Int, _ mapObject: MapData) -> String? {
 
         
-        // Если пользователь ввел координаты вместо номеров тайлов - надо преобразовать
-        guard let tileNumbers = try? coordinateTransformer.normalizeCoordinates(xText, yText, zoom)
-            else {return nil}
+//        // Если пользователь ввел координаты вместо номеров тайлов - надо преобразовать
+//        guard let tileNumbers = try? coordinateTransformer.getTileNumbers(x, y, zoom)
+//            else {return nil}
         
-//        guard let mapInfo = try? baseHandler.getFirstWith(mapName: mapName, request)
-//            else {return ProcessingResult.error(description: "Fething map from database error")}
+
         
         
         let generatedURL = transformURL(mapObject.backgroundUrl,
-                                        x: tileNumbers.x,
-                                        y: tileNumbers.y,
+                                        x: x,
+                                        y: y,
                                         z: zoom,
                                         serverName: mapObject.backgroundServerName)
         
@@ -97,6 +96,10 @@ class IndependentController {
         result = replace("{folderX}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getFolderX)
         
         result = replace("{folderY}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getFolderY)
+        
+        result = replace("{yandexX}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getX)
+        
+        result = replace("{yandexY}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getY)
         
         return result
     }

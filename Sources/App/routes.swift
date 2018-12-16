@@ -9,6 +9,7 @@ public func routes(_ router: Router) throws {
     let baseHandler = BaseHandler()
     let imageProcessor = ImageProcessor()
     let controller = IndependentController()
+    let coordinateTransformer = CoordinateTransformer()
     
   
     
@@ -55,13 +56,18 @@ public func routes(_ router: Router) throws {
                     //свитч пока что не работает
                     switch mapObject.mode {
                     case "redirect":
-                        guard let newUrl = controller.findTile(mapName, xText, yText, zoom, mapObject) else { return try makeErrorResponce("Unvarping URL Error", request).encode(for: request) }
+                        
+                        let tileNumbers = try coordinateTransformer.getTileNumbers(xText, yText, zoom)
+                        
+                        guard let newUrl = controller.findTile(mapName, tileNumbers.x, tileNumbers.y, zoom, mapObject) else { return try makeErrorResponce("Unvarping URL Error", request).encode(for: request) }
                         
                         return try request.redirect(to: newUrl).encode(for: request)
                         
                         
                         
                     case "overlay":
+                        
+                        let tileNumbers = try coordinateTransformer.getTileNumbers(xText, yText, zoom)
                        
                         let mapList = try baseHandler.getOverlayBy(setName: mapName, request)
                         
@@ -79,14 +85,14 @@ public func routes(_ router: Router) throws {
                                 return overlayMapData.flatMap(to: Response.self) { overObject  in
                         
                                     
-                                    guard let baseUrl = controller.findTile(baseMapName, xText, yText, zoom, baseObject) else { return try makeErrorResponce("Unvarping URL Error", request).encode(for: request) }
+                                    guard let baseUrl = controller.findTile(baseMapName, tileNumbers.x, tileNumbers.y, zoom, baseObject) else { return try makeErrorResponce("Unvarping URL Error", request).encode(for: request) }
                                     
-                                    guard let overlayUrl = controller.findTile(overlayMapName, xText, yText, zoom, overObject) else { return try makeErrorResponce("Unvarping URL Error", request).encode(for: request) }
+                                    guard let overlayUrl = controller.findTile(overlayMapName, tileNumbers.x, tileNumbers.y, zoom, overObject) else { return try makeErrorResponce("Unvarping URL Error", request).encode(for: request) }
                                     
                                     
-                                    let baseLoadingResponce = try imageProcessor.upload(sourceUrl: baseUrl, request: request)
+                                    let baseLoadingResponce = try imageProcessor.upload(baseUrl, request)
                                     
-                                    let overlayLoadingResponce = try imageProcessor.upload(sourceUrl: overlayUrl, request: request)
+                                    let overlayLoadingResponce = try imageProcessor.upload(overlayUrl, request)
                                     
                                     
                                     // Synchronization...
@@ -94,8 +100,8 @@ public func routes(_ router: Router) throws {
                                         return overlayLoadingResponce.map(to: Response.self) { res2 in
                                             
                                             
-                                            let baseImgName = imageProcessor.makeName(sourceUrl: baseUrl)
-                                            let overlayImgName = imageProcessor.makeName(sourceUrl: overlayUrl)
+                                            let baseImgName = imageProcessor.makeName(baseUrl)
+                                            let overlayImgName = imageProcessor.makeName(overlayUrl)
                                             
                                             return request.redirect(to: "https://res.cloudinary.com/nnngrach/image/upload/l_\(overlayImgName),o_100/\(baseImgName)")
                                         }
@@ -109,14 +115,60 @@ public func routes(_ router: Router) throws {
                         return responce
  
                         
-/*
+
                         
                     case "wgs84":
-                        //получить координаты и смещение
-                        //получить массив из 4-х ссылок
-                        //return imageHandler.mooveWgs84([urls], [offsets]])
-                        return request.redirect(to: "")
                         
+                        let coordinates = try coordinateTransformer.getCoordinates(xText, yText, zoom)
+                        
+                        let tilePosition = coordinateTransformer.getWGS84Position(coordinates.lat_deg, coordinates.lon_deg, withZoom: zoom)
+                        
+                        // Finding 4 tiles to crop them in one
+                        // (to looks like a tile offset)
+                        guard let topLeftTileUrl = controller.findTile(mapName, tilePosition.x, tilePosition.y, zoom, mapObject) else { return try makeErrorResponce("Unvarping URL Error", request).encode(for: request) }
+                        
+                        guard let topRightTileUrl = controller.findTile(mapName, tilePosition.x + 1, tilePosition.y, zoom, mapObject) else { return try makeErrorResponce("Unvarping URL Error", request).encode(for: request) }
+                        
+                        guard let bottomRightTileUrl = controller.findTile(mapName, tilePosition.x + 1, tilePosition.y + 1, zoom, mapObject) else { return try makeErrorResponce("Unvarping URL Error", request).encode(for: request) }
+                        
+                        guard let bottomLeftTileUrl = controller.findTile(mapName, tilePosition.x, tilePosition.y + 1, zoom, mapObject) else { return try makeErrorResponce("Unvarping URL Error", request).encode(for: request) }
+                        
+                        
+                        let tlLoadingResponce = try imageProcessor.upload(topLeftTileUrl, request)
+                        
+                        let trLoadingResponce = try imageProcessor.upload(topRightTileUrl, request)
+                        
+                        let brLoadingResponce = try imageProcessor.upload(bottomRightTileUrl, request)
+                        
+                        let blLoadingResponce = try imageProcessor.upload(bottomLeftTileUrl, request)
+                        
+                        
+                        
+                        let tilesURL = [topLeftTileUrl, topRightTileUrl, bottomRightTileUrl, bottomLeftTileUrl]
+                        
+                        // Synchronization...
+                        return tlLoadingResponce.flatMap(to: Response.self) { _ in
+                            return trLoadingResponce.flatMap(to: Response.self) { _ in
+                                return brLoadingResponce.flatMap(to: Response.self) { _ in
+                                    return blLoadingResponce.flatMap(to: Response.self) { _ in
+                                        
+                                        //Body
+                                        
+                                        let processerImageUrl = imageProcessor.getUrlWithOffset(tilesURL, tilePosition.offsetX, tilePosition.offsetY)
+                                        
+                                        return try request.redirect(to: processerImageUrl).encode(for: request)
+                                    }
+                                }
+                            }
+                        }
+                        
+                        
+                       
+                        
+                        
+                        
+                        
+ /*
                     case "wgs84_overlay":
                         //получить координаты и смещение
                         //получить массив из 4-х ссылок

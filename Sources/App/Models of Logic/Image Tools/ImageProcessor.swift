@@ -24,8 +24,8 @@ class ImageProcessor {
     
     
     
-    func makeName(sourceUrl: String) -> String {
-        let range = sourceUrl.index(sourceUrl.startIndex, offsetBy: 30)..<sourceUrl.endIndex
+    func makeName(_ sourceUrl: String) -> String {
+        let range = sourceUrl.index(sourceUrl.startIndex, offsetBy: 15)..<sourceUrl.endIndex
         let removingChars = "~+?.,!@:;<>{}[/\\]#$%^&*=|`\'\""
         
         var filenameString = String(sourceUrl[range])
@@ -39,10 +39,10 @@ class ImageProcessor {
     
     
     
-    func upload(sourceUrl: String, request: Request) throws -> Future<Response> {
+    func upload(_ sourceUrl: String, _ request: Request) throws -> Future<Response> {
         
         let host = "https://api.cloudinary.com/v1_1/nnngrach/image/upload"
-        let name = makeName(sourceUrl: sourceUrl)
+        let name = makeName(sourceUrl)
         
         let message = CloudinaryPostMessage(file: sourceUrl,
                                             public_id: name,
@@ -58,7 +58,7 @@ class ImageProcessor {
     
     
     
-    func show (responce: Future<Response>, request: Request) throws -> Future<Response> {
+    func show (_ responce: Future<Response>, _ request: Request) throws -> Future<Response> {
         
         let redirectingRespocence = responce.flatMap(to: Response.self) { res in
             
@@ -79,7 +79,14 @@ class ImageProcessor {
     
    
     
-    
+    func getUrlWithOffset(_ urls: [String], _ offsetX: Int, _ offsetY: Int ) -> String {
+        let topLeft = makeName(urls[0])
+        let topRight = makeName(urls[1])
+        let bottomRight = makeName(urls[2])
+        let bottomLeft = makeName(urls[3])
+        
+        return "https://res.cloudinary.com/nnngrach/image/upload/l_\(topLeft),y_-256/l_\(topRight),x_256,y_-128/l_\(bottomRight),x_128,y_128/c_crop,g_north_west,w_256,h_256,x_\(offsetX),y_\(offsetY)/\(bottomLeft)"
+    }
     
     
     

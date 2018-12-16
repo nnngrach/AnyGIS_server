@@ -16,8 +16,9 @@ class CoordinateTransformer {
     }
     
     // MARK: Web Mercator transformations
+    // (formulas from OSM documentation)
     
-    func normalizeCoordinates(_ xText: String, _ yText: String, _ zoom: Int) throws -> (x: Int, y: Int) {
+    func getTileNumbers(_ xText: String, _ yText: String, _ zoom: Int) throws -> (x: Int, y: Int) {
         
         // If user find by lat/log (as double)
         if (xText.contains(".") || yText.contains(".")) {
@@ -34,6 +35,24 @@ class CoordinateTransformer {
             guard let xTile = Int(xText) else { throw TransformerError.inputValueIsNotINT}
             guard let yTile = Int(yText) else { throw TransformerError.inputValueIsNotINT}
             return (xTile, yTile)
+        }
+    }
+    
+    
+    func getCoordinates(_ xText: String, _ yText: String, _ zoom: Int) throws -> (lat_deg: Double, lon_deg: Double) {
+        
+        // If user find by lat/log (as double)
+        if (xText.contains(".") || yText.contains(".")) {
+            
+            guard let latitude = Double(xText) else { throw TransformerError.inputValueIsNotDOUBLE}
+            guard let longitude = Double(yText) else { throw TransformerError.inputValueIsNotDOUBLE}
+            return (latitude, longitude)
+            
+            // If user find directly by tile numbers (as int)
+        } else {
+            guard let xTile = Int(xText) else { throw TransformerError.inputValueIsNotINT}
+            guard let yTile = Int(yText) else { throw TransformerError.inputValueIsNotINT}
+            return tileNumberToCoordinates(tileX: xTile, tileY: yTile, mapZoom: zoom)
         }
     }
     
@@ -59,9 +78,37 @@ class CoordinateTransformer {
     
     
     
-    // MARK: WGS-84 transformations
+    // MARK: WGS-84 proection transformations
+    // (formula from Habr.ru)
     
-    
+    func getWGS84Position(_ latitude: Double, _ longitude: Double, withZoom zoom: Int) -> (x:Int, y:Int, offsetX:Int, offsetY:Int) {
+        
+        // Earth verticaд and horisontal radiuses
+        let radiusA = 6378137.0
+        let radiusB = 6356752.0
+        
+        // I really don't know what the names of these variables mean =(
+        
+        let e2 = latitude * Double.pi / 180
+        
+        let j2 = sqrt( pow(radiusA, 2.0) - pow(radiusB, 2.0)) / radiusA
+        
+        let m2 = log((1 + sin(e2)) / (1 - sin(e2))) / 2 - j2 * log((1 + j2 * sin(e2)) / (1 - j2 * sin(e2))) / 2
+        
+        let b2 = Double(1 << zoom)
+        
+        //Tile numbers in WGS-84 proection
+        let tileX = floor((longitude + 180) / 360 * b2)
+        let tileY = floor(b2 / 2 - m2 * b2 / 2 / Double.pi)
+        
+        //Offset in pixels of the coordinate of the
+        //left-top corner of the OSM tile
+        //from the left-top corner of the WGS-84 tile
+        let offsetX = floor(((longitude + 180) / 360 * b2 - tileX) * 256)
+        let offsetY = floor(((b2 / 2 - m2 * b2 / 2 / Double.pi) - tileY) * 256)
+        
+        return (Int(tileX), Int(tileY), Int(offsetX), Int(offsetY))
+    }
     
     
     
@@ -88,7 +135,9 @@ class CoordinateTransformer {
             return "\(result)"
         } else {
             let serverLetters = Array(serverName)
-            return String(serverLetters.randomElement()!)
+            let randomNumber = Int.random(in: 0..<serverLetters.count)
+            return String(serverLetters[randomNumber])
+//            return String(serverLetters.randomElement()!)
 //            return String(serverName.randomElement()!)
         }
     }
@@ -121,6 +170,15 @@ class CoordinateTransformer {
     func getFolderY(from coordinates: [Int], serverName: String) -> String {
         let result = Int(coordinates[1] / 1024)
         return "\(result)"
+    }
+    
+    
+    func getYandexX(from coordinates: [Int], serverName: String) -> String {
+        return "\(coordinates[0])"
+    }
+    
+    func getTandexY(from coordinates: [Int], serverName: String) -> String {
+        return "\(coordinates[1])"
     }
     
 }
