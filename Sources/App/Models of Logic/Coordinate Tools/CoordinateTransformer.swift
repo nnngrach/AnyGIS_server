@@ -6,7 +6,6 @@
 //
 
 import Foundation
-//import Vapor
 
 class CoordinateTransformer {
     
@@ -29,7 +28,6 @@ class CoordinateTransformer {
             
             return coordinatesToTileNumbers(latitude, longitude, withZoom: zoom)
             
-            //return [0, 0]
         
         // If user find directly by tile numbers (as int)
         } else {
@@ -135,20 +133,9 @@ class CoordinateTransformer {
             let result = ((coordinates[0]%4) + (coordinates[1]%4)*4)
             return "\(result)"
         } else {
-            
             let serverLetters = Array(serverName)
-            
-            //let randomNumber = universalRandom(max: serverLetters.count)
-            //let randomNumber = 0
             let randomNumber = randomForHeroku(serverLetters.count)
-            
             return String(serverLetters[randomNumber])
-            
-            //let randomNumber = Int(random() % (1 + 1))
-            //let randomNumber = Int(arc4random_uniform(UInt32(serverLetters.count)))
-            
-//            return String(serverLetters.randomElement()!)
-//            return String(serverName.randomElement()!)
         }
     }
     
@@ -192,23 +179,9 @@ class CoordinateTransformer {
     }
     
     
-//    func tetest(_ request: Request) throws -> String {
-//        let arr = ["a", "b", "c"]
-//        let randomNumber = universalRandom(max: arr.count)
-//        return arr[randomNumber]
-//    }
+
     
-    
-    
-//    func universalRandom(max: Int) -> Int {
-//        #if os(Linux)
-//        return Int(random() % (max + 1))
-//        #else
-//        return Int(arc4random_uniform(UInt32(max)))
-//        #endif
-//    }
-    
-    
+    // Heroku server dont't work with Swift arc4random functions
     func randomForHeroku(_ max: Int) -> Int {
         let unixTime = Date().timeIntervalSince1970
         let lastDigit = Int(String(String(unixTime).last!))!

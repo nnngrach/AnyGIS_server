@@ -12,23 +12,22 @@ public func routes(_ router: Router) throws {
     let coordinateTransformer = CoordinateTransformer()
     
   
-    
-    // TODO: Возвращать не просто текст из переменной
-    // (тем более, глобальной и публичной), а HTML страничку
+    // Welcome screen
+    // TODO: Make normal HTML page output
     router.get { req in
         return instructionText
     }
-
-    // TODO: Возвращать не JSON, а HTML - таблицу
-    // вернуть таблицу с названием всех карт и их описанием
+    
+    
+    // Map list table
+    // TODO: Make normal HTML page with table
     router.get("list", use: baseHandler.listJSON)
     router.get("list2", use: baseHandler.listOverlayJSON)
 
     
     
-    
-    
-    //Запуск главного алгоритма - v2
+    // Statring of the main algorithm
+    // TODO: make this shorter!!!
     
     router.get(String.parameter, String.parameter, String.parameter,Int.parameter) { request -> Future<Response> in
         
@@ -36,14 +35,7 @@ public func routes(_ router: Router) throws {
         let xText = try request.parameters.next(String.self)
         let yText = try request.parameters.next(String.self)
         let zoom = try request.parameters.next(Int.self)
-        
-        
-        
-//        let responce = MapData.query(on: request)
-//            .filter(\MapData.name == mapName)
-//            .first()
-//            .unwrap(or: Abort.init(
-//                HTTPResponseStatus.custom(code: 501, reasonPhrase: "Uwarping MapData error"))).map(to: Response.self) { mapObject  in
+    
         
         
         
@@ -51,18 +43,18 @@ public func routes(_ router: Router) throws {
 
         let responce = mapData.flatMap(to: Response.self) { mapObject  in
             
-                    var outputData: ProcessingResult
             
             
-                    //свитч пока что не работает
+            
                     switch mapObject.mode {
                     case "redirect":
                         
                         let tileNumbers = try coordinateTransformer.getTileNumbers(xText, yText, zoom)
                         
-                        guard let newUrl = controller.findTile(mapName, tileNumbers.x, tileNumbers.y, zoom, mapObject) else { return try makeErrorResponce("Unvarping URL Error", request).encode(for: request) }
+                        let newUrl = controller.findTile(tileNumbers.x, tileNumbers.y, zoom, mapObject)
                         
                         return try request.redirect(to: newUrl).encode(for: request)
+                        
                         
                         
                         
@@ -85,10 +77,9 @@ public func routes(_ router: Router) throws {
                             return baseMapData.flatMap(to: Response.self) { baseObject  in
                                 return overlayMapData.flatMap(to: Response.self) { overObject  in
                         
+                                    let baseUrl = controller.findTile(tileNumbers.x, tileNumbers.y, zoom, baseObject)
                                     
-                                    guard let baseUrl = controller.findTile(baseMapName, tileNumbers.x, tileNumbers.y, zoom, baseObject) else { return try makeErrorResponce("Unvarping URL Error", request).encode(for: request) }
-                                    
-                                    guard let overlayUrl = controller.findTile(overlayMapName, tileNumbers.x, tileNumbers.y, zoom, overObject) else { return try makeErrorResponce("Unvarping URL Error", request).encode(for: request) }
+                                    let overlayUrl = controller.findTile(tileNumbers.x, tileNumbers.y, zoom, overObject)
                                     
                                     
                                     let baseLoadingResponce = try imageProcessor.upload(baseUrl, request)
@@ -109,12 +100,12 @@ public func routes(_ router: Router) throws {
                                     }
                                     return imageUrl
                                 }
-                                //return res2
                             }
-                          //return res1
                         }
                         return responce
  
+                        
+                        
                         
 
                         
@@ -124,15 +115,18 @@ public func routes(_ router: Router) throws {
                         
                         let tilePosition = coordinateTransformer.getWGS84Position(coordinates.lat_deg, coordinates.lon_deg, withZoom: zoom)
                         
+                        
                         // Finding 4 tiles to crop them in one
                         // (to looks like a tile offset)
-                        guard let topLeftTileUrl = controller.findTile(mapName, tilePosition.x, tilePosition.y, zoom, mapObject) else { return try makeErrorResponce("Unvarping URL Error", request).encode(for: request) }
                         
-                        guard let topRightTileUrl = controller.findTile(mapName, tilePosition.x + 1, tilePosition.y, zoom, mapObject) else { return try makeErrorResponce("Unvarping URL Error", request).encode(for: request) }
+                        let topLeftTileUrl = controller.findTile(tilePosition.x, tilePosition.y, zoom, mapObject)
                         
-                        guard let bottomRightTileUrl = controller.findTile(mapName, tilePosition.x + 1, tilePosition.y + 1, zoom, mapObject) else { return try makeErrorResponce("Unvarping URL Error", request).encode(for: request) }
+                        let topRightTileUrl = controller.findTile(tilePosition.x + 1, tilePosition.y, zoom, mapObject)
                         
-                        guard let bottomLeftTileUrl = controller.findTile(mapName, tilePosition.x, tilePosition.y + 1, zoom, mapObject) else { return try makeErrorResponce("Unvarping URL Error", request).encode(for: request) }
+                        let bottomRightTileUrl = controller.findTile(tilePosition.x + 1, tilePosition.y + 1, zoom, mapObject)
+                        
+                        let bottomLeftTileUrl = controller.findTile(tilePosition.x, tilePosition.y + 1, zoom, mapObject)
+                        
                         
                         
                         let tlLoadingResponce = try imageProcessor.upload(topLeftTileUrl, request)
@@ -169,6 +163,7 @@ public func routes(_ router: Router) throws {
                         
                         
                         
+                        
  /*
                     case "wgs84_overlay":
                         //получить координаты и смещение
@@ -177,6 +172,9 @@ public func routes(_ router: Router) throws {
                         //return imageHandler.mooveWgs84([urls1], [urls2], [offsets]])
                         return request.redirect(to: "")
                         
+                         
+                         
+                         
                     case "mapSet":
                         //получить из базы отсортированный массив карт для текущего масшаба
                         //если карт больше, чем 1, то
@@ -210,7 +208,10 @@ public func routes(_ router: Router) throws {
     
     
     
-    //========================================
+    //===========================================================
+    // TODO: Перенести по другим классам и отрефакторить
+    
+    
     // Работа с сервисом Cloudinary
     // Для загрузки и обработки картинок на лету
     
