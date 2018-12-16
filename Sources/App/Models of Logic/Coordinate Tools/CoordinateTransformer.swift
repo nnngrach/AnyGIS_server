@@ -135,7 +135,7 @@ class CoordinateTransformer {
             return "\(result)"
         } else {
             let serverLetters = Array(serverName)
-            let randomNumber = Int.random(in: 0..<serverLetters.count)
+            let randomNumber = Int(arc4random_uniform(UInt32(serverLetters.count)))
             return String(serverLetters[randomNumber])
 //            return String(serverLetters.randomElement()!)
 //            return String(serverName.randomElement()!)
