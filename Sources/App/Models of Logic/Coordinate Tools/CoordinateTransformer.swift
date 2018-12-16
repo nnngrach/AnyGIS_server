@@ -87,7 +87,9 @@ class CoordinateTransformer {
             let result = ((coordinates[0]%4) + (coordinates[1]%4)*4)
             return "\(result)"
         } else {
-            return String(serverName.randomElement()!)
+            let serverLetters = Array(serverName)
+            return String(serverLetters.randomElement()!)
+//            return String(serverName.randomElement()!)
         }
     }
     
