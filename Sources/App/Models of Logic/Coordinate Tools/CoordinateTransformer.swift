@@ -134,8 +134,10 @@ class CoordinateTransformer {
             let result = ((coordinates[0]%4) + (coordinates[1]%4)*4)
             return "\(result)"
         } else {
+            
             let serverLetters = Array(serverName)
-            let randomNumber = Int(arc4random() % (UInt32(serverLetters.count))) // 0...4
+            let randomNumber = 0
+            //let randomNumber = Int(arc4random() % (UInt32(serverLetters.count))) // 0...4
             //let randomNumber = Int(arc4random_uniform(UInt32(serverLetters.count)))
             return String(serverLetters[randomNumber])
 //            return String(serverLetters.randomElement()!)
