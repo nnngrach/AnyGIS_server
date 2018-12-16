@@ -6,6 +6,7 @@
 //
 
 import Foundation
+//import Vapor
 
 class CoordinateTransformer {
     
@@ -136,10 +137,14 @@ class CoordinateTransformer {
         } else {
             
             let serverLetters = Array(serverName)
-            let randomNumber = 0
-            //let randomNumber = Int(arc4random() % (UInt32(serverLetters.count))) // 0...4
-            //let randomNumber = Int(arc4random_uniform(UInt32(serverLetters.count)))
+            
+            let randomNumber = universalRandom(max: serverLetters.count)
+            
             return String(serverLetters[randomNumber])
+            
+            //let randomNumber = Int(random() % (1 + 1))
+            //let randomNumber = Int(arc4random_uniform(UInt32(serverLetters.count)))
+            
 //            return String(serverLetters.randomElement()!)
 //            return String(serverName.randomElement()!)
         }
@@ -182,6 +187,21 @@ class CoordinateTransformer {
     
     func getTandexY(from coordinates: [Int], serverName: String) -> String {
         return "\(coordinates[1])"
+    }
+    
+    
+//    func tetest(_ request: Request) throws -> String {
+//        let arr = ["a", "b", "c"]
+//        let randomNumber = universalRandom(max: arr.count)
+//        return arr[randomNumber]
+//    }
+    
+    func universalRandom(max: Int) -> Int {
+        #if os(Linux)
+        return Int(random() % (max + 1))
+        #else
+        return Int(arc4random_uniform(UInt32(max)))
+        #endif
     }
     
 }
