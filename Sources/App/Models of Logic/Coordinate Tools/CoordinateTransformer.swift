@@ -138,7 +138,8 @@ class CoordinateTransformer {
             
             let serverLetters = Array(serverName)
             
-            let randomNumber = universalRandom(max: serverLetters.count)
+            //let randomNumber = universalRandom(max: serverLetters.count)
+            let randomNumber = 0
             
             return String(serverLetters[randomNumber])
             
@@ -196,12 +197,14 @@ class CoordinateTransformer {
 //        return arr[randomNumber]
 //    }
     
-    func universalRandom(max: Int) -> Int {
-        #if os(Linux)
-        return Int(random() % (max + 1))
-        #else
-        return Int(arc4random_uniform(UInt32(max)))
-        #endif
-    }
+    
+    
+//    func universalRandom(max: Int) -> Int {
+//        #if os(Linux)
+//        return Int(random() % (max + 1))
+//        #else
+//        return Int(arc4random_uniform(UInt32(max)))
+//        #endif
+//    }
     
 }
