@@ -22,7 +22,7 @@ public func routes(_ router: Router) throws {
     // Map list table
     // TODO: Make normal HTML page with table
     router.get("list", use: baseHandler.listJSON)
-    router.get("list2", use: baseHandler.listOverlayJSON)
+    //router.get("list2", use: baseHandler.listOverlayJSON)
 
     
     
@@ -38,20 +38,17 @@ public func routes(_ router: Router) throws {
     
         
         
-        
         let mapData = try baseHandler.getBy(mapName: mapName, request)
 
+        
         let responce = mapData.flatMap(to: Response.self) { mapObject  in
-            
-            
-            
             
                     switch mapObject.mode {
                     case "redirect":
                         
                         let tileNumbers = try coordinateTransformer.getTileNumbers(xText, yText, zoom)
                         
-                        let newUrl = controller.findTile(tileNumbers.x, tileNumbers.y, zoom, mapObject)
+                        let newUrl = controller.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject)
                         
                         return try request.redirect(to: newUrl).encode(for: request)
                         
@@ -77,9 +74,9 @@ public func routes(_ router: Router) throws {
                             return baseMapData.flatMap(to: Response.self) { baseObject  in
                                 return overlayMapData.flatMap(to: Response.self) { overObject  in
                         
-                                    let baseUrl = controller.findTile(tileNumbers.x, tileNumbers.y, zoom, baseObject)
+                                    let baseUrl = controller.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, baseObject)
                                     
-                                    let overlayUrl = controller.findTile(tileNumbers.x, tileNumbers.y, zoom, overObject)
+                                    let overlayUrl = controller.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, overObject)
                                     
                                     
                                     let baseLoadingResponce = try imageProcessor.upload(baseUrl, request)
@@ -119,13 +116,13 @@ public func routes(_ router: Router) throws {
                         // Finding 4 tiles to crop them in one
                         // (to looks like a tile offset)
                         
-                        let topLeftTileUrl = controller.findTile(tilePosition.x, tilePosition.y, zoom, mapObject)
+                        let topLeftTileUrl = controller.calculateTileURL(tilePosition.x, tilePosition.y, zoom, mapObject)
                         
-                        let topRightTileUrl = controller.findTile(tilePosition.x + 1, tilePosition.y, zoom, mapObject)
+                        let topRightTileUrl = controller.calculateTileURL(tilePosition.x + 1, tilePosition.y, zoom, mapObject)
                         
-                        let bottomRightTileUrl = controller.findTile(tilePosition.x + 1, tilePosition.y + 1, zoom, mapObject)
+                        let bottomRightTileUrl = controller.calculateTileURL(tilePosition.x + 1, tilePosition.y + 1, zoom, mapObject)
                         
-                        let bottomLeftTileUrl = controller.findTile(tilePosition.x, tilePosition.y + 1, zoom, mapObject)
+                        let bottomLeftTileUrl = controller.calculateTileURL(tilePosition.x, tilePosition.y + 1, zoom, mapObject)
                         
                         
                         
@@ -227,6 +224,10 @@ public func routes(_ router: Router) throws {
     }
     
     
+    
+   
+    /*
+    
     router.get("uploadAndRedirect") { req -> Future<Response> in
         
         let name = "myImageName"
@@ -257,7 +258,7 @@ public func routes(_ router: Router) throws {
         
         return redirectingRespocence
     }
-    
+    */
     
     
     
