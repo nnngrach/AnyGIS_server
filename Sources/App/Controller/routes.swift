@@ -419,7 +419,9 @@ public func routes(_ router: Router) throws {
     
     
     
-    
+    router.get("hello") { req -> Future<View> in
+        return try req.view().render("home")
+    }
  
    
     
