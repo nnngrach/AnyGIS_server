@@ -19,36 +19,22 @@ class IndependentController {
         
         var result = mapObject.backgroundUrl
         let serverName = mapObject.backgroundServerName
-        
         let coordinates = [x, y, z]
         
-        result = replace("{x}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getX)
         
-        result = replace("{y}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getY)
+        for i in 0 ..< coordinateTransformer.urlPlaceholders.count {
+            result = replace(coordinateTransformer.urlPlaceholders[i],
+                             in: result,
+                             coordinates: coordinates,
+                             serverNumber: serverName,
+                             with: coordinateTransformer.urlTransformers[i](coordinateTransformer))
+        }
         
-        result = replace("{z}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getZ)
-        
-        result = replace("{s}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getS)
-        
-        result = replace("{googleZ}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getGoogleZ)
-        
-        result = replace("{invY}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getInvY)
-        
-        result = replace("{sasZ}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getSasZ)
-        
-        result = replace("{folderX}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getFolderX)
-        
-        result = replace("{folderY}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getFolderY)
-        
-        result = replace("{yandexX}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getX)
-        
-        result = replace("{yandexY}", in: result, coordinates: coordinates, serverNumber: serverName, with: coordinateTransformer.getY)
         
         return result
     }
     
 
-    
     
     
     func replace(_ replacedText: String, in url: String, coordinates: [Int], serverNumber: String, with closure: @escaping ([Int], String) -> String) -> String {

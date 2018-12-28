@@ -15,8 +15,9 @@ class CoordinateTransformer {
         case unknownError
     }
     
+    
     // MARK: Web Mercator transformations
-    // (formulas from OSM documentation)
+    // https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
     
     func getTileNumbers(_ xText: String, _ yText: String, _ zoom: Int) throws -> (x: Int, y: Int) {
         
@@ -36,6 +37,7 @@ class CoordinateTransformer {
             return (xTile, yTile)
         }
     }
+    
     
     
     func getCoordinates(_ xText: String, _ yText: String, _ zoom: Int) throws -> (lat_deg: Double, lon_deg: Double) {
@@ -78,7 +80,7 @@ class CoordinateTransformer {
     
     
     // MARK: WGS-84 proection transformations
-    // (formula from Habr.ru)
+    // https://habr.com/post/151103/
     
     func getWGS84Position(_ latitude: Double, _ longitude: Double, withZoom zoom: Int) -> (x:Int, y:Int, offsetX:Int, offsetY:Int) {
         
@@ -112,80 +114,115 @@ class CoordinateTransformer {
     
     
     
-    
-    // MARK: URL replacing functions
-    
-    func getX(from coordinates: [Int], serverName: String) -> String {
-        return "\(coordinates[0])"
-    }
-    
-    func getY(from coordinates: [Int], serverName: String) -> String {
-        return "\(coordinates[1])"
-    }
-    
-    func getZ(from coordinates: [Int], serverName: String) -> String {
-        return "\(coordinates[2])"
-    }
-    
-    
-    func getS(from coordinates: [Int], serverName: String) -> String {
-        if serverName == "wikimapia" {
-            let result = ((coordinates[0]%4) + (coordinates[1]%4)*4)
-            return "\(result)"
-        } else {
-            let serverLetters = Array(serverName)
-            let randomNumber = randomForHeroku(serverLetters.count)
-            return String(serverLetters[randomNumber])
-        }
-    }
-    
-    
-    
-    func getGoogleZ(from coordinates: [Int], serverName: String) -> String {
-        let result = 17 - coordinates[2]
-        return "\(result)"
-    }
-    
-    func getInvY(from coordinates: [Int], serverName: String) -> String {
-        let z = Double(coordinates[2])
-        let result = Int(pow(2.0, z)) - coordinates[1] - 1
-        return String(result)
-    }
-    
-    
-    
-    func getSasZ(from coordinates: [Int], serverName: String) -> String {
-        let result = 1 + coordinates[2]
-        return "\(result)"
-    }
-    
-    func getFolderX(from coordinates: [Int], serverName: String) -> String {
-        let result = Int(coordinates[0] / 1024)
-        return "\(result)"
-    }
-    
-    func getFolderY(from coordinates: [Int], serverName: String) -> String {
-        let result = Int(coordinates[1] / 1024)
-        return "\(result)"
-    }
-    
-    
-    func getYandexX(from coordinates: [Int], serverName: String) -> String {
-        return "\(coordinates[0])"
-    }
-    
-    func getTandexY(from coordinates: [Int], serverName: String) -> String {
-        return "\(coordinates[1])"
-    }
-    
-    
-
-    
     // Heroku server dont't work with Swift arc4random functions
+    
     func randomForHeroku(_ max: Int) -> Int {
         let unixTime = Date().timeIntervalSince1970
         let lastDigit = Int(String(String(unixTime).last!))!
         let randomInRange = lastDigit % max
         return randomInRange
     }
+    
+    
+    
+    
+    // MARK: URL replacing functions
+  
+    let getX: ([Int], String, CoordinateTransformer) -> String = {
+        coordinates, serverName, transformer in
+        
+        return "\(coordinates[0])"
+    }
+    
+    
+    let getY: ([Int], String, CoordinateTransformer) -> String = {
+        coordinates, serverName, transformer in
+        
+        return "\(coordinates[1])"
+    }
+    
+    
+    let getZ: ([Int], String, CoordinateTransformer) -> String = {
+        coordinates, serverName, transformer in
+        
+        return "\(coordinates[2])"
+    }
+    
+    
+    let getS: ([Int], String, CoordinateTransformer) -> String = {
+        coordinates, serverName, transformer in
+        
+        if serverName == "wikimapia" {
+            let result = ((coordinates[0]%4) + (coordinates[1]%4)*4)
+            return "\(result)"
+        } else {
+            let serverLetters = Array(serverName)
+            let randomNumber = transformer.randomForHeroku(serverLetters.count)
+            return String(serverLetters[randomNumber])
+        }
+    }
+    
+    
+    let getGoogleZ: ([Int], String, CoordinateTransformer) -> String = {
+        coordinates, serverName, transformer in
+        
+        let result = 17 - coordinates[2]
+        return "\(result)"
+    }
+    
+    
+    let getInvY: ([Int], String, CoordinateTransformer) -> String = {
+        coordinates, serverName, transformer in
+        
+        let z = Double(coordinates[2])
+        let result = Int(pow(2.0, z)) - coordinates[1] - 1
+        return String(result)
+    }
+    
+    
+    let getSasZ: ([Int], String, CoordinateTransformer) -> String = {
+        coordinates, serverName, transformer in
+        
+        let result = 1 + coordinates[2]
+        return "\(result)"
+    }
+    
+    
+    let getFolderX: ([Int], String, CoordinateTransformer) -> String = {
+        coordinates, serverName, transformer in
+        
+        let result = Int(coordinates[0] / 1024)
+        return "\(result)"
+    }
+    
+        
+    let getFolderY: ([Int], String, CoordinateTransformer) -> String = {
+        coordinates, serverName, transformer in
+        
+        let result = Int(coordinates[1] / 1024)
+        return "\(result)"
+    }
+    
+        
+    let getYandexX: ([Int], String, CoordinateTransformer) -> String = {
+        coordinates, serverName, transformer in
+        
+        return "\(coordinates[0])"
+    }
+    
+        
+    let getYandexY: ([Int], String, CoordinateTransformer) -> String = {
+        coordinates, serverName, transformer in
+        
+        return "\(coordinates[1])"
+    }
+    
+    
+    
+    
+    // Two arrays for quick and short iterating of all this functions
+    
+    let urlPlaceholders = ["{x}", "{y}", "{z}", "{s}", "{googleZ}", "{invY}", "{sasZ}", "{folderX}", "{folderY}", "{yandexX}", "{yandexY}"]
+   
+    let urlTransformers = [getX, getY, getZ, getS, getGoogleZ, getInvY, getSasZ, getFolderX, getFolderY, getYandexX, getYandexY]
 }
