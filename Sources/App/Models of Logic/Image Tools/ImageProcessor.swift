@@ -10,7 +10,10 @@ import Vapor
 class ImageProcessor {
     
     
+    //MARK: Generate filename
+    
     func makeName(_ sourceUrl: String) -> String {
+        
         let range = sourceUrl.index(sourceUrl.startIndex, offsetBy: 15)..<sourceUrl.endIndex
         let removingChars = "~+?.,!@:;<>{}[/\\]#$%^&*=|`\'\""
         
@@ -25,6 +28,7 @@ class ImageProcessor {
     
     
     
+    //MARK: Uploading image to Cloudinary server
     
     func upload(_ sourceUrl: String, _ request: Request) throws -> Future<Response> {
         
@@ -64,7 +68,9 @@ class ImageProcessor {
     
     
     
-    func synchronizeTwoResponces(_ loadingResponces: [EventLoopFuture<Response>],
+    //MARK: Synchronizing Responces
+    
+    func syncTwo(_ loadingResponces: [EventLoopFuture<Response>],
                                   _ req: Request,
                                   _ closure: @escaping (Request) -> (EventLoopFuture<Response>)) -> EventLoopFuture<Response> {
         
@@ -79,8 +85,7 @@ class ImageProcessor {
     
     
     
-    
-    func synchronizeFourResponces(_ loadingResponces: [EventLoopFuture<Response>],
+    func syncFour(_ loadingResponces: [EventLoopFuture<Response>],
                                   _ req: Request,
                                   _ closure: @escaping (Request) -> (EventLoopFuture<Response>)) -> EventLoopFuture<Response> {
         
@@ -100,24 +105,28 @@ class ImageProcessor {
     
     
     
-    func show (_ responce: Future<Response>, _ request: Request) throws -> Future<Response> {
-        
-        let redirectingRespocence = responce.flatMap(to: Response.self) { res in
-            
-            let futContent = try res.content.decode(CloudinaryImgUrl.self)
-            
-            let newResponce = futContent.map(to: Response.self) { content in
-                let loadedImageUrl = content.url
-                return request.redirect(to: loadedImageUrl)
-            }
-            
-            return newResponce
-        }
-        
-        return redirectingRespocence
-    }
+    // ?
+//    func show (_ responce: Future<Response>, _ request: Request) throws -> Future<Response> {
+//        
+//        let redirectingRespocence = responce.flatMap(to: Response.self) { res in
+//            
+//            let futContent = try res.content.decode(CloudinaryImgUrl.self)
+//            
+//            let newResponce = futContent.map(to: Response.self) { content in
+//                let loadedImageUrl = content.url
+//                return request.redirect(to: loadedImageUrl)
+//            }
+//            
+//            return newResponce
+//        }
+//        
+//        return redirectingRespocence
+//    }
     
     
+    
+    
+    //MARK: Generating URL to Cloudinary image
     
     func getUrlOverlay(_ baseUrl: String, _ overlayUrl: String) -> String {
         let baseImgName = makeName(baseUrl)

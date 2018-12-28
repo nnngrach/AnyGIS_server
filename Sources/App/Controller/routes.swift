@@ -37,7 +37,6 @@ public func routes(_ router: Router) throws {
         let zoom = try request.parameters.next(Int.self)
     
         
-        
         let mapData = try baseHandler.getBy(mapName: mapName, request)
 
         
@@ -61,11 +60,11 @@ public func routes(_ router: Router) throws {
                
                 let mapList = try baseHandler.getOverlayBy(setName: mapName, request)
                 
+                
                 let responce = mapList.flatMap(to: Response.self) { mapListData  in
                 
                     let baseMapName = mapListData.baseName
                     let overlayMapName = mapListData.overlayName
-                    
                     let baseMapData = try baseHandler.getBy(mapName: baseMapName, request)
                     let overlayMapData = try baseHandler.getBy(mapName: overlayMapName, request)
                     
@@ -78,23 +77,13 @@ public func routes(_ router: Router) throws {
                             
                             let overlayUrl = controller.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, overObject)
                             
+                            let loadingResponces = try imageProcessor.uploadTwoTiles([baseUrl, overlayUrl], request)
                             
-                            let baseLoadingResponce = try imageProcessor.upload(baseUrl, request)
-                            
-                            let overlayLoadingResponce = try imageProcessor.upload(overlayUrl, request)
-                            
-                            
-                            // Synchronization...
-                            let imageUrl = baseLoadingResponce.flatMap(to: Response.self) { res1 in
-                                return overlayLoadingResponce.map(to: Response.self) { res2 in
-                                    
-                                    
-                                    let newUrl = imageProcessor.getUrlOverlay(baseUrl, overlayUrl)
-                                    
-                                    return request.redirect(to: newUrl)
-                                }
+                            return imageProcessor.syncTwo(loadingResponces, request) { res in
+                                
+                                let newUrl = imageProcessor.getUrlOverlay(baseUrl, overlayUrl)
+                                return try! request.redirect(to: newUrl).encode(for: request)
                             }
-                            return imageUrl
                         }
                     }
                 }
@@ -119,7 +108,7 @@ public func routes(_ router: Router) throws {
                 
                 
                 
-                return imageProcessor.synchronizeFourResponces(loadingResponces, request) { res in
+                return imageProcessor.syncFour(loadingResponces, request) { res in
                     
                     let processedImageUrl = imageProcessor.getUrlWithOffset(fourTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY)
                     
@@ -130,37 +119,59 @@ public func routes(_ router: Router) throws {
         
         
         
-                /*
 
             case "wgs84_overlay":
-                 let coordinates = try coordinateTransformer.getCoordinates(xText, yText, zoom)
-         
-                 let tilePosition = coordinateTransformer.getWGS84Position(coordinates.lat_deg, coordinates.lon_deg, withZoom: zoom)
-         
-         
-         
-                 let fourTilesAroundUrls = controller.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, mapObject)
-         
-         
-         
-                 let loadingResponces = try imageProcessor.uploadFourTiles(fourTilesAroundUrls, request)
-         
-         
-         
-                 return imageProcessor.synchronizeFourResponces(loadingResponces, request) { res1 in
-         
-                    return imageProcessor.synchronizeFourResponces(loadingResponces, request) { res2 in
-         
-                        let processerImageUrl = imageProcessor.getUrlWithOffset(fourTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY)
-         
-                        return try! request.redirect(to: processerImageUrl).encode(for: request)
-         
+
+                let coordinates = try coordinateTransformer.getCoordinates(xText, yText, zoom)
+                
+                let tilePosition = coordinateTransformer.getWGS84Position(coordinates.lat_deg, coordinates.lon_deg, withZoom: zoom)
+                
+                let mapList = try baseHandler.getOverlayBy(setName: mapName, request)
+                
+                
+                let responce = mapList.flatMap(to: Response.self) { mapListData  in
+                    
+                    let baseMapName = mapListData.baseName
+                    let overlayMapName = mapListData.overlayName
+                    let baseMapData = try baseHandler.getBy(mapName: baseMapName, request)
+                    let overlayMapData = try baseHandler.getBy(mapName: overlayMapName, request)
+                    
+                    
+                    //Synchronization...
+                    return baseMapData.flatMap(to: Response.self) { baseObject  in
+                        return overlayMapData.flatMap(to: Response.self) { overObject  in
+                            
+                            let fourTilesAroundUrls = controller.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, baseObject)
+                            
+                            let fourOverTilesAroundUrls = controller.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, overObject)
+                            
+                            
+                            let loadingResponces = try imageProcessor.uploadFourTiles(fourTilesAroundUrls, request)
+                            
+                            let loadingOverResponces = try imageProcessor.uploadFourTiles(fourOverTilesAroundUrls, request)
+                            
+                            
+                            return imageProcessor.syncFour(loadingResponces, request) { res1 in
+                                return imageProcessor.syncFour(loadingOverResponces, request) { res2 in
+                                    
+                                    let processedImageUrl = imageProcessor.getUrlWithOffsetAndOverlay(fourTilesAroundUrls, fourOverTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY)
+                                    
+                                    return try! request.redirect(to: processedImageUrl).encode(for: request)
+                                }
+                            }
+                        }
                     }
                 }
-
+                return responce
+                
+                
+                
+                
+                
+                
+           
          
-         
-                */
+                
         
         
         
