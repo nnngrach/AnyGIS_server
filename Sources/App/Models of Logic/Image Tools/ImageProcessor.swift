@@ -14,7 +14,16 @@ class ImageProcessor {
     
     func makeName(_ sourceUrl: String) -> String {
         
-        let range = sourceUrl.index(sourceUrl.startIndex, offsetBy: 15)..<sourceUrl.endIndex
+        var range: Range<String.Index>
+        
+        if sourceUrl.count >= 15 {
+            range = sourceUrl.index(sourceUrl.startIndex, offsetBy: 15)..<sourceUrl.endIndex
+        } else {
+            range = sourceUrl.startIndex..<sourceUrl.endIndex
+        }
+        
+        //let range = sourceUrl.index(sourceUrl.startIndex, offsetBy: 15)..<sourceUrl.endIndex
+        
         let removingChars = "~+?.,!@:;<>{}[/\\]#$%^&*=|`\'\""
         
         var filenameString = String(sourceUrl[range])
@@ -161,9 +170,14 @@ class ImageProcessor {
         return "https://res.cloudinary.com/nnngrach/image/upload/l_\(topLeft),y_-256/l_\(topRight),x_256,y_-128/l_\(bottomRight),x_128,y_128/l_\(overTopLeft),x_-128,y_-128/l_\(overTopRight),x_128,y_-128/l_\(overBottomLeft),x_-128,y_128/l_\(overBottomRight),x_128,y_128/c_crop,g_north_west,w_256,h_256,x_\(offsetX),y_\(offsetY)/\(bottomLeft)"
     }
 
+   
     
-    
-    
+  /*
+    func getUrlWithOpacity(_ url: String, _ opacity: Int) -> String {
+        //return "https://res.cloudinary.com/nnngrach/image/fetch/o_\(opacity)/\(url)"
+        return "https://res.cloudinary.com/nnngrach/image/o_\(opacity)/\(url)"
+    }
+  */
     
     
     

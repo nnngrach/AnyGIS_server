@@ -25,6 +25,11 @@ public func routes(_ router: Router) throws {
     //router.get("list2", use: baseHandler.listOverlayJSON)
 
     
+
+
+
+
+
     
     // Statring of the main algorithm
     // TODO: make this shorter!!!
@@ -191,8 +196,12 @@ public func routes(_ router: Router) throws {
                 return request.redirect(to: "")
          
          
+                 
             case "traffik":
                 break
+                 
+            case "custom":
+                 break
 
 */
             default:
@@ -214,29 +223,44 @@ public func routes(_ router: Router) throws {
     
     
     
-    //===========================================================
-    // TODO: Перенести по другим классам и отрефакторить
+
     
     
-    // Работа с сервисом Cloudinary
-    // Для загрузки и обработки картинок на лету
+    
+    /*
+     router.get("opacity", Int.parameter, String.parameter) { request -> Future<Response> in
+     
+     let opacity = try request.parameters.next(Int.self)
+     let url = try request.parameters.next(String.self)
+     print(opacity)
+     print(url)
+     
+     //        guard (0...100).contains(opacity) else {
+     //            return try makeErrorResponce("Opacity must be in 0...100", request).encode(for: request)
+     //        }
+     
+     
+     let res = try imageProcessor.upload(url, request)
+     
+     let responce = res.flatMap(to: Response.self) { q  in
+     let name = imageProcessor.makeName(url)
+     let newUrl = imageProcessor.getUrlWithOpacity(name, opacity)
+     return try! request.redirect(to: newUrl).encode(for: request)
+     }
+     
+     
+     return responce
+     }
+     */
     
     
-    struct CloudinaryPostMessage: Content {
-        var file: String
-        var public_id: String
-        var upload_preset: String
-    }
     
-    struct CloudinaryImgUrl: Content {
-        var url: String
-    }
     
     
     
    
-    /*
     
+  /*
     router.get("uploadAndRedirect") { req -> Future<Response> in
         
         let name = "myImageName"
@@ -267,7 +291,11 @@ public func routes(_ router: Router) throws {
         
         return redirectingRespocence
     }
-    */
+   */
+    
+    
+    
+  
     
     
     
