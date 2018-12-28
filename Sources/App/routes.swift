@@ -89,10 +89,9 @@ public func routes(_ router: Router) throws {
                                         return overlayLoadingResponce.map(to: Response.self) { res2 in
                                             
                                             
-                                            let baseImgName = imageProcessor.makeName(baseUrl)
-                                            let overlayImgName = imageProcessor.makeName(overlayUrl)
+                                            let newUrl = imageProcessor.getUrlOverlay(baseUrl, overlayUrl)
                                             
-                                            return request.redirect(to: "https://res.cloudinary.com/nnngrach/image/upload/l_\(overlayImgName),o_100/\(baseImgName)")
+                                            return request.redirect(to: newUrl)
                                         }
                                     }
                                     return imageUrl

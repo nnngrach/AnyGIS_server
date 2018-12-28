@@ -77,7 +77,13 @@ class ImageProcessor {
     
     
     
-   
+    func getUrlOverlay(_ baseUrl: String, _ overlayUrl: String) -> String {
+        let baseImgName = makeName(baseUrl)
+        let overlayImgName = makeName(overlayUrl)
+
+        return "https://res.cloudinary.com/nnngrach/image/upload/l_\(overlayImgName),o_100/\(baseImgName)"
+    }
+    
     
     func getUrlWithOffset(_ urls: [String], _ offsetX: Int, _ offsetY: Int ) -> String {
         let topLeft = makeName(urls[0])
@@ -89,6 +95,21 @@ class ImageProcessor {
     }
     
     
+    
+    func getUrlWithOffsetAndOverlay(_ urls: [String], _ overlayUrls: [String], _ offsetX: Int, _ offsetY: Int ) -> String {
+        let topLeft = makeName(urls[0])
+        let topRight = makeName(urls[1])
+        let bottomRight = makeName(urls[2])
+        let bottomLeft = makeName(urls[3])
+        
+        let overTopLeft = makeName(overlayUrls[0])
+        let overTopRight = makeName(overlayUrls[1])
+        let overBottomRight = makeName(overlayUrls[2])
+        let overBottomLeft = makeName(overlayUrls[3])
+        
+        return "https://res.cloudinary.com/nnngrach/image/upload/l_\(topLeft),y_-256/l_\(topRight),x_256,y_-128/l_\(bottomRight),x_128,y_128/l_\(overTopLeft),x_-128,y_-128/l_\(overTopRight),x_128,y_-128/l_\(overBottomLeft),x_-128,y_128/l_\(overBottomRight),x_128,y_128/c_crop,g_north_west,w_256,h_256,x_\(offsetX),y_\(offsetY)/\(bottomLeft)"
+    }
+
     
     
     

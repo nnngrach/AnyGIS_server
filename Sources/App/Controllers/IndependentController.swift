@@ -8,6 +8,8 @@
 import Vapor
 import Foundation
 
+//TODO: Find more relevant name
+
 class IndependentController {
     
     let urlTransformer = UrlTransformer()
