@@ -7,21 +7,7 @@
 
 import Vapor
 
-
-
 class ImageProcessor {
-    
-    
-    struct CloudinaryPostMessage: Content {
-        var file: String
-        var public_id: String
-        var upload_preset: String
-    }
-    
-    struct CloudinaryImgUrl: Content {
-        var url: String
-    }
-    
     
     
     func makeName(_ sourceUrl: String) -> String {
@@ -39,6 +25,7 @@ class ImageProcessor {
     
     
     
+    
     func upload(_ sourceUrl: String, _ request: Request) throws -> Future<Response> {
         
         let host = "https://api.cloudinary.com/v1_1/nnngrach/image/upload"
@@ -53,6 +40,61 @@ class ImageProcessor {
         }
         
         return postResponse
+    }
+    
+    
+    func uploadTwoTiles(_ sourceUrls: [String], _ request: Request) throws -> [Future<Response>] {
+        
+        let baseResponce = try upload(sourceUrls[0], request)
+        let overlayResponce = try upload(sourceUrls[1], request)
+        
+        return [baseResponce, overlayResponce]
+    }
+    
+    
+    func uploadFourTiles(_ sourceUrls: [String], _ request: Request) throws -> [Future<Response>] {
+
+        let tlLoadingResponce = try upload(sourceUrls[0], request)
+        let trLoadingResponce = try upload(sourceUrls[1], request)
+        let brLoadingResponce = try upload(sourceUrls[2], request)
+        let blLoadingResponce = try upload(sourceUrls[3], request)
+        
+        return [tlLoadingResponce, trLoadingResponce, brLoadingResponce, blLoadingResponce]
+    }
+    
+    
+    
+    func synchronizeTwoResponces(_ loadingResponces: [EventLoopFuture<Response>],
+                                  _ req: Request,
+                                  _ closure: @escaping (Request) -> (EventLoopFuture<Response>)) -> EventLoopFuture<Response> {
+        
+        return loadingResponces[0].flatMap(to: Response.self) { _ in
+            return loadingResponces[1].flatMap(to: Response.self) { _ in
+                //Body
+                return closure(req)
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    func synchronizeFourResponces(_ loadingResponces: [EventLoopFuture<Response>],
+                                  _ req: Request,
+                                  _ closure: @escaping (Request) -> (EventLoopFuture<Response>)) -> EventLoopFuture<Response> {
+        
+        return loadingResponces[0].flatMap(to: Response.self) { _ in
+            return loadingResponces[1].flatMap(to: Response.self) { _ in
+                return loadingResponces[2].flatMap(to: Response.self) { _ in
+                    return loadingResponces[3].flatMap(to: Response.self) { _ in
+                        
+                        //Body
+                        return closure(req)
+                    }
+                }
+            }
+        }
     }
     
     
