@@ -11,29 +11,23 @@ public func routes(_ router: Router) throws {
     let controller = TilePatchCreator()
     let coordinateTransformer = CoordinateTransformer()
     
-  
+    
     // Welcome screen
-    // TODO: Make normal HTML page output
-    router.get { req in
-        return instructionText
+    router.get { req -> Future<View> in
+        return try req.view().render("home")
     }
     
     
-    // Map list table
-    // TODO: Make normal HTML page with table
-    router.get("list", use: baseHandler.listJSON)
-    //router.get("list2", use: baseHandler.listOverlayJSON)
-
+    // Show table with all maps
+    router.get("list") { req -> Future<View> in
+        let allMaps = MapData.query(on: req).all()
+        return try req.view().render("table", ["mapsBase": allMaps])
+    }
     
-
-
-
 
 
     
     // Statring of the main algorithm
-    // TODO: make this shorter!!!
-    
     router.get(String.parameter, String.parameter, String.parameter,Int.parameter) { request -> Future<Response> in
         
         let mapName = try request.parameters.next(String.self)
@@ -418,10 +412,6 @@ public func routes(_ router: Router) throws {
     
     
     
-    
-    router.get("hello") { req -> Future<View> in
-        return try req.view().render("home")
-    }
  
    
     

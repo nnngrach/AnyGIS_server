@@ -1,0 +1,22 @@
+<html>
+<body>
+        
+    <H1>AnyGIS maps list</H1><br>
+    
+    <table border=1>
+        <tr><td>iD</td><td>API map name</td><td>Description</td><td>Zoom max</td></tr></tr>
+        
+        #for(map in mapsBase) {
+        #//<tr><td>#(map.id)</td><td>#(map.name)</td><td>#(map.description)</td><td>#(map.zoomMax)</td></tr>
+            
+            <tr><td>#(map.id)</td>
+                <td><a href= #("https://anygis.herokuapp.com/#(map.name)/158/93/8")>#(map.name)</a></td>
+                <td>#(map.description)</td>
+                <td>#(map.zoomMax)</td></tr>
+        }
+        
+    </table>
+        
+</body>
+</html>
+
