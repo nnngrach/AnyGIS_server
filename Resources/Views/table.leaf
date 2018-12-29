@@ -10,7 +10,7 @@
         #//<tr><td>#(map.id)</td><td>#(map.name)</td><td>#(map.description)</td><td>#(map.zoomMax)</td></tr>
             
             <tr><td>#(map.id)</td>
-                <td><a href= #("https://anygis.herokuapp.com/#(map.name)/158/93/8")>#(map.name)</a></td>
+                <td><a href= #("/#(map.name)/158/93/8")>#(map.name)</a></td>
                 <td>#(map.description)</td>
                 <td>#(map.zoomMax)</td></tr>
         }
