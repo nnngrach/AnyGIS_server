@@ -157,8 +157,15 @@ class TilePatchCreator {
         return "\(coordinates[1])"
     }
     
+    let getYandexTimestamp: ([Int], String, TilePatchCreator) -> String = {
+        coordinates, serverName, transformer in
+        
+        let timeInterval = Int( NSDate().timeIntervalSince1970 )
+        return "\(timeInterval)"
+    }
     
-    //TODO: timestamp
+    
+    
     
     
     
@@ -167,9 +174,9 @@ class TilePatchCreator {
     
     // Two arrays for quick and short iterating of all this functions
     
-    let urlPlaceholders = ["{x}", "{y}", "{z}", "{s}", "{googleZ}", "{invY}", "{sasZ}", "{folderX}", "{folderY}", "{yandexX}", "{yandexY}"]
+    let urlPlaceholders = ["{x}", "{y}", "{z}", "{s}", "{googleZ}", "{invY}", "{sasZ}", "{folderX}", "{folderY}", "{yandexX}", "{yandexY}", "{timeStamp}"]
     
-    lazy var urlTransformers = [getX, getY, getZ, getS, getGoogleZ, getInvY, getSasZ, getFolderX, getFolderY, getYandexX, getYandexY]
+    lazy var urlTransformers = [getX, getY, getZ, getS, getGoogleZ, getInvY, getSasZ, getFolderX, getFolderY, getYandexX, getYandexY, getYandexTimestamp]
     
 
     

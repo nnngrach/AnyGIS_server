@@ -15,14 +15,19 @@ class ImageProcessor {
     func makeName(_ sourceUrl: String) -> String {
         
         var range: Range<String.Index>
+        let yandexNarodMapUrlLenght = 580
+        let serverPartOffset = 13
         
-        if sourceUrl.count >= 15 {
-            range = sourceUrl.index(sourceUrl.startIndex, offsetBy: 15)..<sourceUrl.endIndex
+        if sourceUrl.count >= yandexNarodMapUrlLenght {
+            range = sourceUrl.index(sourceUrl.startIndex, offsetBy: yandexNarodMapUrlLenght)..<sourceUrl.endIndex
+            
+        } else if sourceUrl.count >= serverPartOffset {
+            range = sourceUrl.index(sourceUrl.startIndex, offsetBy: serverPartOffset)..<sourceUrl.endIndex
+            
         } else {
             range = sourceUrl.startIndex..<sourceUrl.endIndex
         }
         
-        //let range = sourceUrl.index(sourceUrl.startIndex, offsetBy: 15)..<sourceUrl.endIndex
         
         let removingChars = "~+?.,!@:;<>{}[/\\]#$%^&*=|`\'\""
         
@@ -32,6 +37,7 @@ class ImageProcessor {
             filenameString = filenameString.replacingOccurrences(of: String(char), with: "")
         }
         
+        //print(filenameString)
         return filenameString
     }
     

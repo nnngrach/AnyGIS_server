@@ -20,6 +20,7 @@ public func routes(_ router: Router) throws {
     
     // Show table with all maps
     router.get("list") { req -> Future<View> in
+        //let allMaps = MapData.query(on: req).all()
         let allMaps = MapData.query(on: req).all()
         return try req.view().render("table", ["mapsBase": allMaps])
     }
