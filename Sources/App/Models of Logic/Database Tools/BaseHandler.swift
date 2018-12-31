@@ -58,13 +58,11 @@ class BaseHandler {
     }
     
     
-    public func getPriorityListBy (setName: String, _ request: Request) throws -> Future<[PriorityMapsList]>  {
+    public func getPriorityListBy (setName: String, zoom: Int, _ request: Request) throws -> Future<[PriorityMapsList]>  {
         return PriorityMapsList.query(on: request)
             .filter(\.setName == setName)
-//            .first()
+            .filter(\.zoom == zoom)
             .all()
-//            .unwrap(or: Abort.init(
-//                HTTPResponseStatus.custom(code: 501, reasonPhrase: "Uwarping OverlayMapList error")))
     }
 
     

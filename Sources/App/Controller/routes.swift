@@ -38,6 +38,7 @@ public func routes(_ router: Router) throws {
     
 
 
+
     
     // Statring of the main algorithm
     router.get(String.parameter, String.parameter, String.parameter,Int.parameter) { request -> Future<Response> in
@@ -181,49 +182,30 @@ public func routes(_ router: Router) throws {
                 
 
             case "mapSet":
-                //получить из базы отсортированный массив карт для текущего масшаба
-                //если карт больше, чем 1, то
                 
-                let newUrl = "https://a.tile.openstreetmap.org/10/594/297.png"
+                let tileNumbers = try coordinateTransformer.getTileNumbers(xText, yText, zoom)
                 
-                let arr = ["https://a.tile.openstreetmap.org/0/594/297.png",
-                           "https://a.tile.openstreetmap.org/1/594/297.png",
-                           "https://a.tile.openstreetmap.org/10/594/297.png"]
-                //let newUrl = "https://a.tile.openstreetmap.org/1/594/297.png"
+                let mapList = try baseHandler.getPriorityListBy(setName: mapName, zoom: zoom, request)
                 
-//                let response = try request.client().get(newUrl)
-//
-//                let code = response.map(to: Bool.self) { res in
-//                    let code = res.http.status.code
-//                    return code == 404 ? false : true
-//                }
-                
-                /*
-                checkTileExist2(url: "https://a.tile.openstreetmap.org/10/594/297.png", request: request)
-                
-                for url in arr {
-                    let b = try checkTileExist2(url: "https://a.tile.openstreetmap.org/10/594/297.png", request: request)
+                let responce = mapList.flatMap(to: Response.self) { mapSetData  in
                     
-                    let c = b.map { d in
-                        if !d {
-                            
-                        } else {
-                            
-                        }
+                    guard mapSetData.count != 0 else { return try makeErrorResponce("MapSetCount = 0", request).encode(for: request)}
+                    
+                    //FIXME: Redirect to default map
+                    guard mapSetData.count != 1 else { return try makeErrorResponce("MapSetCount = 1", request).encode(for: request)}
+                    
+                    
+                    let firstExistingUrl = try checkTileExist(maps: mapSetData, index: 0, x: tileNumbers.x, y: tileNumbers.y, z: zoom, request: request)
+                    
+                    return firstExistingUrl.flatMap(to: Response.self) {a in
+                        return try! request.redirect(to: a).encode(for: request)
                     }
+    
                 }
-                */
+                return responce
                 
-                
-                
-                return try request.redirect(to: newUrl).encode(for: request)
-         
-                
-                
+            
 
-                
-                
-                
                 
                 
 
@@ -255,29 +237,70 @@ public func routes(_ router: Router) throws {
     
     
     
+    func checkTileExist(maps: [PriorityMapsList], index: Int, x: Int, y: Int, z: Int, request: Request) throws -> Future<String> {
+//        print(maps.count)
+        
+        let currentMapName = maps[index].mapName
+        
+        let baseMapData = try baseHandler.getBy(mapName: currentMapName, request)
+        
+        
+        let existingUrl = baseMapData.flatMap(to: String.self) { baseObject  in
+            
+            let currentMapUrl = controller.calculateTileURL(x, y, z, baseObject)
+            
+            let response = try! request.client().get(currentMapUrl)
+            
+            
+            return response.flatMap(to: String.self) { res -> Future<String> in
+                
+                if res.http.status.code != 404 {
+                    print("win ", currentMapUrl)
+                    return request.future(currentMapUrl)
+                    
+                } else if index+1 < maps.count  {
+                    print("loose ", currentMapUrl)
+                    let nextIndex = index + 1
+                    let futureString = try checkTileExist(maps: maps, index: nextIndex, x: x, y: y, z: z, request: request)
+                    return futureString
+                    
+                } else {
+                    print("last ", currentMapUrl)
+                    return request.future("default")
+                }
+            }
+        }
+        return existingUrl
+    }
+    
+    
+    
+    
+    
+    
     //let sortedMaps = db.fetch()
     
-    func checkTileExist(urls: [String], index: Int, request: Request) -> Future<String> {
-        
-        let currentUrl = urls[index]
-        let response = try! request.client().get(currentUrl)
-        let result = response.flatMap(to: String.self) { res -> Future<String> in
-            
-            if res.http.status.code != 404 {
-                return request.future(currentUrl)
-            
-            } else if index+1 < urls.count  {
-                let futureString = checkTileExist(urls: urls, index: index + 1, request: request)
-                return futureString
-            
-            } else {
-                return request.future("default")
-            }
-            
-        }
-        
-        return result
-    }
+//    func checkTileExist(urls: [String], index: Int, request: Request) -> Future<String> {
+//
+//        let currentUrl = urls[index]
+//        let response = try! request.client().get(currentUrl)
+//        let result = response.flatMap(to: String.self) { res -> Future<String> in
+//
+//            if res.http.status.code != 404 {
+//                return request.future(currentUrl)
+//
+//            } else if index+1 < urls.count  {
+//                let futureString = checkTileExist(urls: urls, index: index + 1, request: request)
+//                return futureString
+//
+//            } else {
+//                return request.future("default")
+//            }
+//
+//        }
+//
+//        return result
+//    }
     
 
     
