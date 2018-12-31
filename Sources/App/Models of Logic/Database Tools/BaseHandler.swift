@@ -22,6 +22,14 @@ class BaseHandler {
             .all()
     }
     
+    public func fetchPriorityMapsList(_ request: Request) -> Future<[PriorityMapsList]> {
+        return PriorityMapsList.query(on: request)
+            .sort(\.setName)
+            .sort(\.zoom)
+            .sort(\.priority)
+            .all()
+    }
+    
     
     public func getBy (mapName: String, _ request: Request) throws -> Future<MapsList>  {
         return MapsList.query(on: request)
@@ -47,6 +55,16 @@ class BaseHandler {
             .first()
             .unwrap(or: Abort.init(
                 HTTPResponseStatus.custom(code: 501, reasonPhrase: "Uwarping OverlayMapList error")))
+    }
+    
+    
+    public func getPriorityListBy (setName: String, _ request: Request) throws -> Future<[PriorityMapsList]>  {
+        return PriorityMapsList.query(on: request)
+            .filter(\.setName == setName)
+//            .first()
+            .all()
+//            .unwrap(or: Abort.init(
+//                HTTPResponseStatus.custom(code: 501, reasonPhrase: "Uwarping OverlayMapList error")))
     }
 
     

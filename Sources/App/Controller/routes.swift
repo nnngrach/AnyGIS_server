@@ -30,6 +30,12 @@ public func routes(_ router: Router) throws {
         return try req.view().render("tableOverlay", ["databaseMaps": databaseMaps])
     }
     
+    
+    router.get("priority_list") { req -> Future<View> in
+        let databaseMaps = baseHandler.fetchPriorityMapsList(req)
+        return try req.view().render("tablePriority", ["databaseMaps": databaseMaps])
+    }
+    
 
 
     
@@ -171,6 +177,7 @@ public func routes(_ router: Router) throws {
                 
                 
                 
+            
                 
 
             case "mapSet":
@@ -233,13 +240,18 @@ public func routes(_ router: Router) throws {
     
     
     
+    
     func makeErrorResponce (_ description: String, _ req: Request) -> Response {
         return req.response(http: HTTPResponse(status: .custom(code: 501, reasonPhrase: description), body: ""))
     }
     
+ 
     
     
     
+    
+    
+   // ===========================================
     
     
     

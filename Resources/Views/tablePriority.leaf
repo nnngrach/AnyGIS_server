@@ -1,0 +1,29 @@
+<html>
+<body>
+
+<H1>AnyGIS maps complects</H1><br>
+
+<table border=1>
+    <colgroup>
+    <col span="1" style="background:Khaki">
+    </colgroup>
+
+    <tr>
+        <th>API name</th>
+        <th>Zoom level</th>
+        <th>Priority</th>
+        <th>Map name</th>
+    </tr>
+
+    #for(map in databaseMaps) {
+        <tr>
+            <td>#(map.setName)</td>
+            <td>#(map.zoom)</td>
+            <td>#(map.priority)</td>
+            <td>#(map.mapName)</td>
+        </tr>
+    }
+</table>
+
+</body>
+</html>
