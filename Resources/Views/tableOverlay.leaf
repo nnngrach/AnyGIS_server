@@ -1,0 +1,30 @@
+<html>
+<body>
+
+<H1>AnyGIS maps with overlay</H1><br>
+
+<table border=1>
+    <colgroup>
+        <col span="1" style="background:Khaki">
+        
+    </colgroup>
+    
+    <tr>
+        <th>API name</th>
+        <th>Base layer</th>
+        <th>Overlay layer</th>
+    </tr>
+
+    #for(map in databaseMaps) {
+        <tr>
+            <td>#(map.setName)</td>
+            <td>#(map.baseName)</td>
+            <td>#(map.overlayName)</td>
+        </tr>
+    }
+</table>
+
+</body>
+</html>
+
+

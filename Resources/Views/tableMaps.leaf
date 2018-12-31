@@ -1,0 +1,29 @@
+<html>
+<body>
+        
+    <H1>AnyGIS maps list</H1><br>
+    
+    <table border=1>
+        <colgroup>
+            <col span="1" style="background:Khaki">
+        </colgroup>
+        
+        <tr>
+            <th>API name</th>
+            <th>Description</th>
+            <th>Max zoom level</th>
+        </tr>
+        
+        
+        #for(map in databaseMaps) {
+            <tr>
+                <td><a href= #("/#(map.name)/158/93/8")>#(map.name)</a></td>
+                <td>#(map.description)</td>
+                <td>#(map.zoomMax)</td>
+            </tr>
+        }
+    </table>
+        
+</body>
+</html>
+

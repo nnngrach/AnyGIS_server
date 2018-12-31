@@ -20,9 +20,14 @@ public func routes(_ router: Router) throws {
     
     // Show table with all maps
     router.get("list") { req -> Future<View> in
-        //let allMaps = MapData.query(on: req).all()
-        let allMaps = MapData.query(on: req).all()
-        return try req.view().render("table", ["mapsBase": allMaps])
+        let databaseMaps = MapData.query(on: req).sort(\.name, .ascending).all()
+        return try req.view().render("tableMaps", ["databaseMaps": databaseMaps])
+    }
+    
+    
+    router.get("overlay_list") { req -> Future<View> in
+        let databaseMaps = OverlayMapList.query(on: req).sort(\.setName).all()
+        return try req.view().render("tableOverlay", ["databaseMaps": databaseMaps])
     }
     
 
