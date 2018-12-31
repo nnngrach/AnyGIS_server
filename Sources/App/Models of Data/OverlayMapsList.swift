@@ -2,9 +2,7 @@ import FluentSQLite
 import Vapor
 
 
-
-//SQLiteModel
-final class OverlayMapList: SQLiteModel {
+final class OverlayMapsList: SQLiteModel {
     
     var id: Int?
     var setName: String
@@ -20,12 +18,10 @@ final class OverlayMapList: SQLiteModel {
 
 
 /// Allows `OverlayMapList` to be used as a dynamic migration.
-extension OverlayMapList: Migration { }
+extension OverlayMapsList: Migration { }
 
 /// Allows `OverlayMapList` to be encoded to and decoded from HTTP messages.
-extension OverlayMapList: Content { }
+extension OverlayMapsList: Content { }
 
 /// Allows `OverlayMapList` to be used as a dynamic parameter in route definitions.
-extension OverlayMapList: Parameter { }
-
-//extension OverlayMapList: Codable { }
+extension OverlayMapsList: Parameter { }

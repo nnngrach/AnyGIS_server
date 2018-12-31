@@ -4,7 +4,7 @@ import Vapor
 
 
 //SQLiteModel
-final class PriorityMapList: SQLiteModel {
+final class PriorityMapsList: SQLiteModel {
     
     var id: Int?
     var setName: String
@@ -22,12 +22,10 @@ final class PriorityMapList: SQLiteModel {
 
 
 /// Allows `PriorityMapList` to be used as a dynamic migration.
-extension PriorityMapList: Migration { }
+extension PriorityMapsList: Migration { }
 
 /// Allows `PriorityMapList` to be encoded to and decoded from HTTP messages.
-extension PriorityMapList: Content { }
+extension PriorityMapsList: Content { }
 
 /// Allows `PriorityMapList` to be used as a dynamic parameter in route definitions.
-extension PriorityMapList: Parameter { }
-
-//extension PriorityMapList: Codable { }
+extension PriorityMapsList: Parameter { }

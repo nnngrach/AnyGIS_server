@@ -12,7 +12,7 @@ class ImageProcessor {
     
     //MARK: Generate filename
     
-    func makeName(_ sourceUrl: String) -> String {
+    private func makeName(_ sourceUrl: String) -> String {
         
         var range: Range<String.Index>
         let yandexNarodMapUrlLenght = 580
@@ -45,7 +45,7 @@ class ImageProcessor {
     
     //MARK: Uploading image to Cloudinary server
     
-    func upload(_ sourceUrl: String, _ request: Request) throws -> Future<Response> {
+    private func upload(_ sourceUrl: String, _ request: Request) throws -> Future<Response> {
         
         let host = "https://api.cloudinary.com/v1_1/nnngrach/image/upload"
         let name = makeName(sourceUrl)
@@ -62,7 +62,7 @@ class ImageProcessor {
     }
     
     
-    func uploadTwoTiles(_ sourceUrls: [String], _ request: Request) throws -> [Future<Response>] {
+    public func uploadTwoTiles(_ sourceUrls: [String], _ request: Request) throws -> [Future<Response>] {
         
         let baseResponce = try upload(sourceUrls[0], request)
         let overlayResponce = try upload(sourceUrls[1], request)
@@ -71,7 +71,7 @@ class ImageProcessor {
     }
     
     
-    func uploadFourTiles(_ sourceUrls: [String], _ request: Request) throws -> [Future<Response>] {
+    public func uploadFourTiles(_ sourceUrls: [String], _ request: Request) throws -> [Future<Response>] {
 
         let tlLoadingResponce = try upload(sourceUrls[0], request)
         let trLoadingResponce = try upload(sourceUrls[1], request)
@@ -85,7 +85,7 @@ class ImageProcessor {
     
     //MARK: Synchronizing Responces
     
-    func syncTwo(_ loadingResponces: [EventLoopFuture<Response>],
+    public func syncTwo(_ loadingResponces: [EventLoopFuture<Response>],
                                   _ req: Request,
                                   _ closure: @escaping (Request) -> (EventLoopFuture<Response>)) -> EventLoopFuture<Response> {
         
@@ -100,7 +100,7 @@ class ImageProcessor {
     
     
     
-    func syncFour(_ loadingResponces: [EventLoopFuture<Response>],
+    public func syncFour(_ loadingResponces: [EventLoopFuture<Response>],
                                   _ req: Request,
                                   _ closure: @escaping (Request) -> (EventLoopFuture<Response>)) -> EventLoopFuture<Response> {
         
@@ -143,7 +143,7 @@ class ImageProcessor {
     
     //MARK: Generating URL to Cloudinary image
     
-    func getUrlOverlay(_ baseUrl: String, _ overlayUrl: String) -> String {
+    public func getUrlOverlay(_ baseUrl: String, _ overlayUrl: String) -> String {
         let baseImgName = makeName(baseUrl)
         let overlayImgName = makeName(overlayUrl)
 
@@ -151,7 +151,7 @@ class ImageProcessor {
     }
     
     
-    func getUrlWithOffset(_ urls: [String], _ offsetX: Int, _ offsetY: Int ) -> String {
+    public func getUrlWithOffset(_ urls: [String], _ offsetX: Int, _ offsetY: Int ) -> String {
         let topLeft = makeName(urls[0])
         let topRight = makeName(urls[1])
         let bottomRight = makeName(urls[2])
@@ -162,7 +162,7 @@ class ImageProcessor {
     
     
     
-    func getUrlWithOffsetAndOverlay(_ urls: [String], _ overlayUrls: [String], _ offsetX: Int, _ offsetY: Int ) -> String {
+    public func getUrlWithOffsetAndOverlay(_ urls: [String], _ overlayUrls: [String], _ offsetX: Int, _ offsetY: Int ) -> String {
         let topLeft = makeName(urls[0])
         let topRight = makeName(urls[1])
         let bottomRight = makeName(urls[2])

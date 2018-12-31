@@ -18,15 +18,15 @@ public func routes(_ router: Router) throws {
     }
     
     
-    // Show table with all maps
+    // Show html table with all maps
     router.get("list") { req -> Future<View> in
-        let databaseMaps = MapData.query(on: req).sort(\.name, .ascending).all()
+        let databaseMaps = baseHandler.fetchAllMapsList(req)
         return try req.view().render("tableMaps", ["databaseMaps": databaseMaps])
     }
     
     
     router.get("overlay_list") { req -> Future<View> in
-        let databaseMaps = OverlayMapList.query(on: req).sort(\.setName).all()
+        let databaseMaps = baseHandler.fetchOverlayMapsList(req)
         return try req.view().render("tableOverlay", ["databaseMaps": databaseMaps])
     }
     

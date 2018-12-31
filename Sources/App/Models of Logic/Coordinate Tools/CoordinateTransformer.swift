@@ -9,17 +9,10 @@ import Foundation
 
 class CoordinateTransformer {
     
-    enum TransformerError: Error {
-        case inputValueIsNotINT
-        case inputValueIsNotDOUBLE
-        case unknownError
-    }
-    
-    
     // MARK: Web Mercator transformations
     // https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
     
-    func getTileNumbers(_ xText: String, _ yText: String, _ zoom: Int) throws -> (x: Int, y: Int) {
+    public func getTileNumbers(_ xText: String, _ yText: String, _ zoom: Int) throws -> (x: Int, y: Int) {
         
         // If user find by lat/log (as double)
         if (xText.contains(".") || yText.contains(".")) {
@@ -40,7 +33,7 @@ class CoordinateTransformer {
     
     
     
-    func getCoordinates(_ xText: String, _ yText: String, _ zoom: Int) throws -> (lat_deg: Double, lon_deg: Double) {
+    public func getCoordinates(_ xText: String, _ yText: String, _ zoom: Int) throws -> (lat_deg: Double, lon_deg: Double) {
         
         // If user find by lat/log (as double)
         if (xText.contains(".") || yText.contains(".")) {
@@ -59,7 +52,7 @@ class CoordinateTransformer {
     
     
     
-    func coordinatesToTileNumbers(_ latitude: Double, _ longitude: Double, withZoom zoom: Int) -> (x: Int, y: Int) {
+    private func coordinatesToTileNumbers(_ latitude: Double, _ longitude: Double, withZoom zoom: Int) -> (x: Int, y: Int) {
         let tileX = Int(floor((longitude + 180) / 360.0 * pow(2.0, Double(zoom))))
         let tileY = Int(floor((1 - log( tan( latitude * Double.pi / 180.0 ) + 1 / cos( latitude * Double.pi / 180.0 )) / Double.pi ) / 2 * pow(2.0, Double(zoom))))
         
@@ -67,7 +60,7 @@ class CoordinateTransformer {
     }
     
     
-    func tileNumberToCoordinates(tileX : Int, tileY : Int, mapZoom: Int) -> (lat_deg : Double, lon_deg : Double) {
+    private func tileNumberToCoordinates(tileX : Int, tileY : Int, mapZoom: Int) -> (lat_deg : Double, lon_deg : Double) {
         let n : Double = pow(2.0, Double(mapZoom))
         let lon = (Double(tileX) / n) * 360.0 - 180.0
         let lat = atan( sinh (.pi - (Double(tileY) / n) * 2 * Double.pi)) * (180.0 / .pi)
@@ -82,7 +75,7 @@ class CoordinateTransformer {
     // MARK: WGS-84 proection transformations
     // https://habr.com/post/151103/
     
-    func getWGS84Position(_ latitude: Double, _ longitude: Double, withZoom zoom: Int) -> (x:Int, y:Int, offsetX:Int, offsetY:Int) {
+    public func getWGS84Position(_ latitude: Double, _ longitude: Double, withZoom zoom: Int) -> (x:Int, y:Int, offsetX:Int, offsetY:Int) {
         
         // Earth verticaд and horisontal radiuses
         let radiusA = 6378137.0
