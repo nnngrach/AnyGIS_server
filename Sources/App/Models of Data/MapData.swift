@@ -19,8 +19,6 @@ final class MapData: SQLiteModel {
     
     var backgroundUrl: String
     var backgroundServerName: String
-    var overlayUrl: String
-    var overlayServerName: String
     
     var zoomMin: Int
     var zoomMax: Int
@@ -28,13 +26,11 @@ final class MapData: SQLiteModel {
     var description: String
 
     
-    init(id: Int? = nil, name: String, mode: String, backgroundUrl: String, backgroundServerName: String, overlayUrl: String, overlayServerName: String, zoomMin: Int, zoomMax: Int, description: String) {
+    init(id: Int? = nil, name: String, mode: String, backgroundUrl: String, backgroundServerName: String, zoomMin: Int, zoomMax: Int, description: String) {
         self.name = name
         self.mode = mode
         self.backgroundUrl = backgroundUrl
         self.backgroundServerName = backgroundServerName
-        self.overlayUrl = overlayUrl
-        self.overlayServerName = overlayServerName
         self.zoomMin = zoomMin
         self.zoomMax = zoomMax
         self.description = description
