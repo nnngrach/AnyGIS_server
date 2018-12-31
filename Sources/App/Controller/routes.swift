@@ -172,43 +172,59 @@ public func routes(_ router: Router) throws {
                 
                 
                 
-                
-                
-           
-         
-                
-        
-        
-        
-        
-/*
+
             case "mapSet":
                 //получить из базы отсортированный массив карт для текущего масшаба
                 //если карт больше, чем 1, то
+                
+                let newUrl = "https://a.tile.openstreetmap.org/10/594/297.png"
+                
+                let arr = ["https://a.tile.openstreetmap.org/0/594/297.png",
+                           "https://a.tile.openstreetmap.org/1/594/297.png",
+                           "https://a.tile.openstreetmap.org/10/594/297.png"]
+                //let newUrl = "https://a.tile.openstreetmap.org/1/594/297.png"
+                
+//                let response = try request.client().get(newUrl)
+//
+//                let code = response.map(to: Bool.self) { res in
+//                    let code = res.http.status.code
+//                    return code == 404 ? false : true
+//                }
+                
+                /*
+                checkTileExist2(url: "https://a.tile.openstreetmap.org/10/594/297.png", request: request)
+                
+                for url in arr {
+                    let b = try checkTileExist2(url: "https://a.tile.openstreetmap.org/10/594/297.png", request: request)
+                    
+                    let c = b.map { d in
+                        if !d {
+                            
+                        } else {
+                            
+                        }
+                    }
+                }
+                */
+                
+                
+                
+                return try request.redirect(to: newUrl).encode(for: request)
          
-                // for map in maps {
-                //   baseHandler.find(map) { mapData in
-                //      let url = process(xyz,mapData)
-                //      let finished = checkTileExisting(url)
-                //      if finished {return redirect(url)}
-                //      }
-                // }
-                return request.redirect(to: "")
-         
-         
-                 
-            case "traffik":
-                break
-                 
-            case "custom":
-                 break
+                
+                
 
-*/
+                
+                
+                
+                
+                
+
             default:
                 return try makeErrorResponce("Unknown value MapMode in data base", request).encode(for: request)
             }
         
-                }
+        }
         
         return responce
         
@@ -223,8 +239,81 @@ public func routes(_ router: Router) throws {
     
     
     
+    
+    
+    
+    
+    //let sortedMaps = db.fetch()
+    
+    func checkTileExist(urls: [String], index: Int, request: Request) -> Future<String> {
+        
+        let currentUrl = urls[index]
+        let response = try! request.client().get(currentUrl)
+        let result = response.flatMap(to: String.self) { res -> Future<String> in
+            
+            if res.http.status.code != 404 {
+                return request.future(currentUrl)
+            
+            } else if index+1 < urls.count  {
+                let futureString = checkTileExist(urls: urls, index: index + 1, request: request)
+                return futureString
+            
+            } else {
+                return request.future("default")
+            }
+            
+        }
+        
+        return result
+    }
+    
 
     
+    
+
+    
+    
+
+ 
+    
+    /*
+    // ответ с форума
+    func test2(req: Request) {
+        let fileExists = HTTPClient.connect(hostname: "domain.com", on: req).flatMap { (client) -> Future<Bool> in
+            let request = HTTPRequest(method: .HEAD, url: "/image.png")
+            return client.send(request).map({ (response) in
+                return response.status.code == 200
+            })
+        }
+    }
+    
+    func test3(host: String, url: String, req: Request) -> Future<Bool> {
+        print("test3")
+        let fileExists = HTTPClient.connect(hostname: host, on: req).flatMap { (client) -> Future<Bool> in
+            print(client)
+            print("q")
+            
+            let request = HTTPRequest(method: .HEAD, url: url)
+            print(request)
+            print("2")
+            
+            return client.send(request).map({ (response) in
+                print("e")
+                print(response)
+                print(response.status.code)
+                return response.status.code == 200
+            })
+        }
+        print("r")
+        return fileExists
+    }
+ 
+ */
+ 
+ 
+ 
+ 
+ 
     
     
     /*
