@@ -97,8 +97,19 @@ class TilePatchCreator {
             let result = ((coordinates[0]%4) + (coordinates[1]%4)*4)
             return "\(result)"
             
-        case "sasPlanet":
-            let mirrors = ["http://91.237.82.95:8088", "https://maps.melda.ru"]
+        case "sasPlanetOnly":
+            return "http://91.237.82.95:8088/"
+            
+        case "sasAndMelda":
+            let mirrors = ["http://91.237.82.95:8088",
+                            "https://maps.melda.ru"]
+            let randomNumber = transformer.randomForHeroku(mirrors.count)
+            return mirrors[randomNumber]
+            
+        case "sasGenshtab":
+            let mirrors = ["http://91.237.82.95:8088",
+                           "https://maps.melda.ru",
+                           "http://t.caucasia.ru:80/"]
             let randomNumber = transformer.randomForHeroku(mirrors.count)
             return mirrors[randomNumber]
             

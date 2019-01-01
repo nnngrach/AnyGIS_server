@@ -55,6 +55,9 @@ public func routes(_ router: Router) throws {
         
         let responce = mapData.flatMap(to: Response.self) { mapObject  in
             
+            guard zoom <= mapObject.zoomMax else {return notFoundResponce(request)}
+            guard zoom >= mapObject.zoomMin else {return notFoundResponce(request)}
+            
             switch mapObject.mode {
             case "redirect":
                 
