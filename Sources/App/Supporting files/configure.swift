@@ -56,6 +56,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     migrations.add(model: MapsList.self, database: .sqlite)
     migrations.add(model: OverlayMapsList.self, database: .sqlite)
     migrations.add(model: PriorityMapsList.self, database: .sqlite)
+    migrations.add(model: MirrorsMapsList.self, database: .sqlite)
     services.register(migrations)
 
 }

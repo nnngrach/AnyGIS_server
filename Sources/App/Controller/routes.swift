@@ -184,6 +184,32 @@ public func routes(_ router: Router) throws {
                 
             
                 
+                
+            case "checkAllMirrors":
+                let tileNumbers = try coordinateTransformer.getTileNumbers(xText, yText, zoom)
+                
+                let mapList = try baseHandler.getMirrorsListBy(setName: mapName, request)
+                
+                let responce = mapList.flatMap(to: Response.self) { mapSetData  in
+                    
+                    
+                    
+                    guard mapSetData.count != 0 else {return notFoundResponce(request)}
+                    
+                    let startIndex = 0
+                    let firstExistingUrl = try checkMirrorExist(mapSetData, startIndex, tileNumbers.x, tileNumbers.y, zoom, request)
+                    
+                    return firstExistingUrl.flatMap(to: Response.self) {url in
+                        guard url != "notFound" else {return notFoundResponce(request)}
+                        return redirect(to: url, with: request)
+                    }
+                }
+                return responce
+ 
+
+                
+                
+                
 
             case "mapSet":
                 
@@ -267,6 +293,40 @@ public func routes(_ router: Router) throws {
                 } else if index+1 < maps.count  {
                     let nextIndex = index + 1
                     let recursiveFoundedUrl = try checkTileExist(maps, nextIndex, x, y, z, request)
+                    return recursiveFoundedUrl
+                    
+                } else {
+                    return request.future("notFound")
+                }
+            }
+        }
+        return existingUrl
+    }
+    
+    
+    
+    
+    func checkMirrorExist(_ maps: [MirrorsMapsList], _ index: Int, _ x: Int, _ y: Int, _ z: Int, _ request: Request) throws -> Future<String> {
+        
+        let currentMapName = maps[index].url
+        
+        let baseMapData = try baseHandler.getBy(mapName: currentMapName, request)
+        
+        
+        let existingUrl = baseMapData.flatMap(to: String.self) { baseObject  in
+            
+            let currentMapUrl = controller.calculateTileURL(x, y, z, baseObject)
+            
+            let response = try! request.client().get(currentMapUrl)
+            
+            return response.flatMap(to: String.self) { res -> Future<String> in
+                
+                if res.http.status.code != 404 {
+                    return request.future(currentMapUrl)
+                    
+                } else if index+1 < maps.count  {
+                    let nextIndex = index + 1
+                    let recursiveFoundedUrl = try checkMirrorExist(maps, nextIndex, x, y, z, request)
                     return recursiveFoundedUrl
                     
                 } else {

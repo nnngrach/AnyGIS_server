@@ -66,6 +66,14 @@ class BaseHandler {
             .sort(\.priority)
             .all()
     }
-
     
+    
+    public func getMirrorsListBy (setName: String, _ request: Request) throws -> Future<[MirrorsMapsList]>  {
+        
+        return MirrorsMapsList.query(on: request)
+            .filter(\.setName == setName)
+            .all()
+    }
+    
+ 
 }
