@@ -17,7 +17,8 @@
         
         #for(map in databaseMaps) {
             <tr>
-                <td><a href= #("/#(map.name)/158/93/8")>#(map.name)</a></td>
+                #//<td><a href= #("/#(map.name)/158/93/8")>#(map.name)</a></td>
+                <td><a href= #("/#(map.name)/619/320/10")>#(map.name)</a></td>
                 <td>#(map.description)</td>
                 <td>#(map.zoomMax)</td>
             </tr>

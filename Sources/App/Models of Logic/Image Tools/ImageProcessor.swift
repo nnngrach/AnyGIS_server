@@ -235,7 +235,7 @@ class ImageProcessor {
     
     
 //    func chechWhite(url: String) {
-////        let img = CGImage(
+////        let img = CGImage(windowListFromArrayScreenBounds: CGRect(x: 0, y: 0, width: 0, height: 0), windowArray: CFArray(), imageOption: <#T##CGWindowImageOption#>)
 //        //let img = NSImage(byReferencing: URL(fileURLWithPath: url))
 ////        let rgbImg =
 //    }

@@ -40,8 +40,9 @@
     
     <H4>To get full list of maps sources follow this:</H4>
     <p><a href="/list">https://anygis.herokuapp.com/list</a></p>
-    <p><a href="/overlay_list">https://anygis.herokuapp.com/overlay_list</a></p><br>
-    
+    <p><a href="/overlay_list">https://anygis.herokuapp.com/overlay_list</a></p>
+    <p><a href="/priority_list">https://anygis.herokuapp.com/priority_list</a></p>
+    <br>
     
     
     <p>(nnngrach@gmail.com)</p>

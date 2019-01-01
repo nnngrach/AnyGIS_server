@@ -190,16 +190,21 @@ public func routes(_ router: Router) throws {
                 
                 let responce = mapList.flatMap(to: Response.self) { mapSetData  in
                     
-                    guard mapSetData.count != 0 else { return try makeErrorResponce("MapSetCount = 0", request).encode(for: request)}
+                    print(mapSetData.count)
+                    
+                    guard mapSetData.count != 0 else {
+                        return try makeErrorResponce("MapSetCount = 0", request)
+                            .encode(for: request)
+                    }
                     
                     //FIXME: Redirect to default map
-                    guard mapSetData.count != 1 else { return try makeErrorResponce("MapSetCount = 1", request).encode(for: request)}
+//                    guard mapSetData.count != 1 else { return try makeErrorResponce("MapSetCount = 1", request).encode(for: request)}
                     
                     
                     let firstExistingUrl = try checkTileExist(maps: mapSetData, index: 0, x: tileNumbers.x, y: tileNumbers.y, z: zoom, request: request)
                     
-                    return firstExistingUrl.flatMap(to: Response.self) {a in
-                        return try! request.redirect(to: a).encode(for: request)
+                    return firstExistingUrl.flatMap(to: Response.self) {url in
+                        return try! request.redirect(to: url).encode(for: request)
                     }
     
                 }
@@ -239,7 +244,6 @@ public func routes(_ router: Router) throws {
     
     
     func checkTileExist(maps: [PriorityMapsList], index: Int, x: Int, y: Int, z: Int, request: Request) throws -> Future<String> {
-//        print(maps.count)
         
         let currentMapName = maps[index].mapName
         
@@ -252,21 +256,20 @@ public func routes(_ router: Router) throws {
             
             let response = try! request.client().get(currentMapUrl)
             
-            
             return response.flatMap(to: String.self) { res -> Future<String> in
                 
                 if res.http.status.code != 404 {
-                    print("win ", currentMapUrl)
+//                    print("win ", currentMapUrl)
                     return request.future(currentMapUrl)
                     
                 } else if index+1 < maps.count  {
-                    print("loose ", currentMapUrl)
+//                    print("loose ", currentMapUrl)
                     let nextIndex = index + 1
                     let futureString = try checkTileExist(maps: maps, index: nextIndex, x: x, y: y, z: z, request: request)
                     return futureString
                     
                 } else {
-                    print("last ", currentMapUrl)
+//                    print("last ", currentMapUrl)
                     return request.future("default")
                 }
             }
