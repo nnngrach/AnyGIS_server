@@ -63,7 +63,7 @@ public func routes(_ router: Router) throws {
                 
                 let tileNumbers = try coordinateTransformer.getTileNumbers(xText, yText, zoom)
                 
-                let newUrl = controller.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject)
+                let newUrl = controller.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
 
                 return redirect(to: newUrl, with: request)
                 
@@ -89,9 +89,9 @@ public func routes(_ router: Router) throws {
                     return baseMapData.flatMap(to: Response.self) { baseObject  in
                         return overlayMapData.flatMap(to: Response.self) { overObject  in
                 
-                            let baseUrl = controller.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, baseObject)
+                            let baseUrl = controller.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, baseObject.backgroundUrl, baseObject.backgroundServerName)
                             
-                            let overlayUrl = controller.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, overObject)
+                            let overlayUrl = controller.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, overObject.backgroundUrl, overObject.backgroundServerName)
                             
                             let loadingResponces = try imageProcessor.uploadTwoTiles([baseUrl, overlayUrl], request)
                             
@@ -118,7 +118,7 @@ public func routes(_ router: Router) throws {
                 
                 
                 
-                let fourTilesAroundUrls = controller.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, mapObject)
+                let fourTilesAroundUrls = controller.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
                 
                 let loadingResponces = try imageProcessor.uploadFourTiles(fourTilesAroundUrls, request)
                 
@@ -157,9 +157,9 @@ public func routes(_ router: Router) throws {
                     return baseMapData.flatMap(to: Response.self) { baseObject  in
                         return overlayMapData.flatMap(to: Response.self) { overObject  in
                             
-                            let fourTilesAroundUrls = controller.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, baseObject)
+                            let fourTilesAroundUrls = controller.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, baseObject.backgroundUrl, baseObject.backgroundServerName)
                             
-                            let fourOverTilesAroundUrls = controller.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, overObject)
+                            let fourOverTilesAroundUrls = controller.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, overObject.backgroundUrl, overObject.backgroundServerName)
                             
                             
                             let loadingResponces = try imageProcessor.uploadFourTiles(fourTilesAroundUrls, request)
@@ -186,13 +186,14 @@ public func routes(_ router: Router) throws {
                 
                 
             case "checkAllMirrors":
+                
                 let tileNumbers = try coordinateTransformer.getTileNumbers(xText, yText, zoom)
                 
                 let mapList = try baseHandler.getMirrorsListBy(setName: mapName, request)
                 
                 let responce = mapList.flatMap(to: Response.self) { mapSetData  in
                     
-                    
+                    let shufled = mapSetData.shuffled()
                     
                     guard mapSetData.count != 0 else {return notFoundResponce(request)}
                     
@@ -279,9 +280,9 @@ public func routes(_ router: Router) throws {
         let baseMapData = try baseHandler.getBy(mapName: currentMapName, request)
         
         
-        let existingUrl = baseMapData.flatMap(to: String.self) { baseObject  in
+        let existingUrl = baseMapData.flatMap(to: String.self) { mapObject  in
             
-            let currentMapUrl = controller.calculateTileURL(x, y, z, baseObject)
+            let currentMapUrl = controller.calculateTileURL(x, y, z, mapObject.backgroundUrl, mapObject.backgroundServerName)
             
             let response = try! request.client().get(currentMapUrl)
             
@@ -308,33 +309,27 @@ public func routes(_ router: Router) throws {
     
     func checkMirrorExist(_ maps: [MirrorsMapsList], _ index: Int, _ x: Int, _ y: Int, _ z: Int, _ request: Request) throws -> Future<String> {
         
-        let currentMapName = maps[index].url
+        let currentTemplateUrl = maps[index].url
+        let currentResultUrl = controller.calculateTileURL(x, y, z, currentTemplateUrl, "")
+        let response = try! request.client().get(currentResultUrl)
         
-        let baseMapData = try baseHandler.getBy(mapName: currentMapName, request)
-        
-        
-        let existingUrl = baseMapData.flatMap(to: String.self) { baseObject  in
+        return response.flatMap(to: String.self) { res -> Future<String> in
             
-            let currentMapUrl = controller.calculateTileURL(x, y, z, baseObject)
-            
-            let response = try! request.client().get(currentMapUrl)
-            
-            return response.flatMap(to: String.self) { res -> Future<String> in
+            if res.http.status.code != 404 {
+                print("result " + currentResultUrl)
+                return request.future(currentResultUrl)
                 
-                if res.http.status.code != 404 {
-                    return request.future(currentMapUrl)
-                    
-                } else if index+1 < maps.count  {
-                    let nextIndex = index + 1
-                    let recursiveFoundedUrl = try checkMirrorExist(maps, nextIndex, x, y, z, request)
-                    return recursiveFoundedUrl
-                    
-                } else {
-                    return request.future("notFound")
-                }
+            } else if index+1 < maps.count  {
+                print("next " + currentResultUrl)
+                let nextIndex = index + 1
+                let recursiveFoundedUrl = try checkMirrorExist(maps, nextIndex, x, y, z, request)
+                return recursiveFoundedUrl
+                
+            } else {
+                print("finish " + currentResultUrl)
+                return request.future("notFound")
             }
         }
-        return existingUrl
     }
     
     

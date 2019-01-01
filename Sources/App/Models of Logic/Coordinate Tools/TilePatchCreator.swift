@@ -11,10 +11,9 @@ import Vapor
 class TilePatchCreator {
     
     
-    public func calculateTileURL(_ x: Int, _ y: Int, _ z: Int, _ mapObject: MapsList) -> String {
+    public func calculateTileURL(_ x: Int, _ y: Int, _ z: Int, _ url:String, _ serverName:String) -> String {
         
-        var result = mapObject.backgroundUrl
-        let serverName = mapObject.backgroundServerName
+        var result = url
         let coordinates = [x, y, z]
         
         for i in 0 ..< urlPlaceholders.count {
@@ -35,11 +34,11 @@ class TilePatchCreator {
     
     
     
-    public func calculateFourTilesUrls (_ x: Int, _ y: Int, _ z: Int, _ mapObject: MapsList) -> [String] {
-        let topLeftTileUrl = calculateTileURL(x, y, z, mapObject)
-        let topRightTileUrl = calculateTileURL(x+1, y, z, mapObject)
-        let bottomRightTileUrl = calculateTileURL(x+1, y+1, z, mapObject)
-        let bottomLeftTileUrl = calculateTileURL(x, y+1, z, mapObject)
+    public func calculateFourTilesUrls (_ x: Int, _ y: Int, _ z: Int, _ url:String, _ serverName:String) -> [String] {
+        let topLeftTileUrl = calculateTileURL(x, y, z, url, serverName)
+        let topRightTileUrl = calculateTileURL(x+1, y, z, url, serverName)
+        let bottomRightTileUrl = calculateTileURL(x+1, y+1, z, url, serverName)
+        let bottomLeftTileUrl = calculateTileURL(x, y+1, z, url, serverName)
         
         return [topLeftTileUrl, topRightTileUrl, bottomRightTileUrl, bottomLeftTileUrl]
     }
