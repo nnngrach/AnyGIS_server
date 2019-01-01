@@ -62,7 +62,7 @@ class BaseHandler {
         return PriorityMapsList.query(on: request)
             .filter(\.setName == setName)
             .filter(\.zoomMin <= zoom)
-            .filter(\.zoomMin >= zoom)
+            .filter(\.zoomMax >= zoom)
             .sort(\.priority)
             .all()
     }
