@@ -6,6 +6,8 @@
 //
 
 import Vapor
+import AppKit
+import CoreImage
 
 class ImageProcessor {
     
@@ -227,5 +229,17 @@ class ImageProcessor {
     }
  
  */
+    
+    
+    
+    
+    
+    
+    
+    func chechWhite(url: String) {
+        let img = NSImage(byReferencing: URL(fileURLWithPath: url))
+//        let rgbImg = 
+    }
+    
     
 }
