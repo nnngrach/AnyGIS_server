@@ -61,8 +61,8 @@ public func routes(_ router: Router) throws {
                 let tileNumbers = try coordinateTransformer.getTileNumbers(xText, yText, zoom)
                 
                 let newUrl = controller.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject)
-                
-                return try request.redirect(to: newUrl).encode(for: request)
+
+                return redirect(to: newUrl, with: request)
                 
                 
                             
@@ -95,7 +95,7 @@ public func routes(_ router: Router) throws {
                             return imageProcessor.syncTwo(loadingResponces, request) { res in
                                 
                                 let newUrl = imageProcessor.getUrlOverlay(baseUrl, overlayUrl)
-                                return try! request.redirect(to: newUrl).encode(for: request)
+                                return redirect(to: newUrl, with: request)
                             }
                         }
                     }
@@ -125,7 +125,7 @@ public func routes(_ router: Router) throws {
                     
                     let processedImageUrl = imageProcessor.getUrlWithOffset(fourTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY)
                     
-                    return try! request.redirect(to: processedImageUrl).encode(for: request)
+                    return redirect(to: processedImageUrl, with: request)
                 }
                 
                 
@@ -169,7 +169,7 @@ public func routes(_ router: Router) throws {
                                     
                                     let processedImageUrl = imageProcessor.getUrlWithOffsetAndOverlay(fourTilesAroundUrls, fourOverTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY)
                                     
-                                    return try! request.redirect(to: processedImageUrl).encode(for: request)
+                                    return redirect(to: processedImageUrl, with: request)
                                 }
                             }
                         }
@@ -190,24 +190,14 @@ public func routes(_ router: Router) throws {
                 
                 let responce = mapList.flatMap(to: Response.self) { mapSetData  in
                     
-                    guard mapSetData.count != 0 else {
-                        return try makeErrorResponce("MapSetCount = 0", request)
-                            .encode(for: request)
-                    }
+                    guard mapSetData.count != 0 else {return notFoundResponce(request)}
                     
-//                    FIXME: Redirect to default map
-//                    guard mapSetData.count != 1 else { return try makeErrorResponce("MapSetCount = 1", request).encode(for: request)}
-                    
-                    
-                    let firstExistingUrl = try checkTileExist(maps: mapSetData, index: 0, x: tileNumbers.x, y: tileNumbers.y, z: zoom, request: request)
+                    let startIndex = 0
+                    let firstExistingUrl = try checkTileExist(mapSetData, startIndex, tileNumbers.x, tileNumbers.y, zoom, request)
                     
                     return firstExistingUrl.flatMap(to: Response.self) {url in
-                        guard url != "notFound" else {
-                            return try makeErrorResponce("Tiles not found", request)
-                                .encode(for: request)
-                        }
-                        
-                        return try! request.redirect(to: url).encode(for: request)
+                        guard url != "notFound" else {return notFoundResponce(request)}
+                        return redirect(to: url, with: request)
                     }
     
                 }
@@ -219,7 +209,7 @@ public func routes(_ router: Router) throws {
                 
 
             default:
-                return try makeErrorResponce("Unknown value MapMode in data base", request).encode(for: request)
+                return errorResponce("Unknown value MapMode in data base", request)
             }
         
         }
@@ -232,21 +222,28 @@ public func routes(_ router: Router) throws {
     
     
     
-    func makeErrorResponce (_ description: String, _ req: Request) -> Response {
-        return req.response(http: HTTPResponse(status: .custom(code: 501, reasonPhrase: description), body: ""))
+    
+    func errorResponce (_ description: String, _ req: Request) -> Future<Response> {
+        return try! req.response(http: HTTPResponse(status: .custom(code: 501, reasonPhrase: description), body: "")).encode(for: req)
     }
+    
+    
+    func notFoundResponce (_ req: Request) -> Future<Response> {
+        return try! req.response(http: HTTPResponse(status: .notFound, body: "")).encode(for: req)
+    }
+    
+    
+    func redirect(to url: String, with req: Request) -> Future<Response>  {
+        return try! req.redirect(to: url).encode(for: req)
+    }
+
     
  
     
     
     
     
-    
-   // ===========================================
-    
-    
-    
-    func checkTileExist(maps: [PriorityMapsList], index: Int, x: Int, y: Int, z: Int, request: Request) throws -> Future<String> {
+    func checkTileExist(_ maps: [PriorityMapsList], _ index: Int, _ x: Int, _ y: Int, _ z: Int, _ request: Request) throws -> Future<String> {
         
         let currentMapName = maps[index].mapName
         
@@ -262,17 +259,14 @@ public func routes(_ router: Router) throws {
             return response.flatMap(to: String.self) { res -> Future<String> in
                 
                 if res.http.status.code != 404 {
-//                    print("win ", currentMapUrl)
                     return request.future(currentMapUrl)
                     
                 } else if index+1 < maps.count  {
-//                    print("loose ", currentMapUrl)
                     let nextIndex = index + 1
-                    let futureString = try checkTileExist(maps: maps, index: nextIndex, x: x, y: y, z: z, request: request)
-                    return futureString
+                    let recursiveFoundedUrl = try checkTileExist(maps, nextIndex, x, y, z, request)
+                    return recursiveFoundedUrl
                     
                 } else {
-//                    print("last ", currentMapUrl)
                     return request.future("notFound")
                 }
             }
@@ -283,6 +277,9 @@ public func routes(_ router: Router) throws {
     
     
     
+    
+    
+    // ===========================================
     
     
     //let sortedMaps = db.fetch()
