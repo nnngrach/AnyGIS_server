@@ -8,13 +8,15 @@ final class PriorityMapsList: SQLiteModel {
     
     var id: Int?
     var setName: String
-    var zoom: Int
+    var zoomMin: Int
+    var zoomMax: Int
     var priority: Int
     var mapName: String
     
-    init(id: Int? = nil, setName: String, zoom: Int, priority: Int, mapName: String) {
+    init(id: Int? = nil, setName: String, zoomMin: Int, zoomMax: Int, priority: Int, mapName: String) {
         self.setName = setName
-        self.zoom = zoom
+        self.zoomMin = zoomMin
+        self.zoomMax = zoomMax
         self.priority = priority
         self.mapName = mapName
     }

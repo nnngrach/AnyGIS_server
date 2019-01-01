@@ -10,7 +10,8 @@
 
     <tr>
         <th>API name</th>
-        <th>Zoom level</th>
+        <th>Zoom min</th>
+        <th>Zoom max</th>
         <th>Priority</th>
         <th>Map name</th>
     </tr>
@@ -18,7 +19,8 @@
     #for(map in databaseMaps) {
         <tr>
             <td>#(map.setName)</td>
-            <td>#(map.zoom)</td>
+            <td>#(map.zoomMin)</td>
+            <td>#(map.zoomMax)</td>
             <td>#(map.priority)</td>
             <td>#(map.mapName)</td>
         </tr>

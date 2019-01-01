@@ -25,7 +25,7 @@ class BaseHandler {
     public func fetchPriorityMapsList(_ request: Request) -> Future<[PriorityMapsList]> {
         return PriorityMapsList.query(on: request)
             .sort(\.setName)
-            .sort(\.zoom)
+            .sort(\.zoomMin)
             .sort(\.priority)
             .all()
     }
@@ -61,7 +61,8 @@ class BaseHandler {
     public func getPriorityListBy (setName: String, zoom: Int, _ request: Request) throws -> Future<[PriorityMapsList]>  {
         return PriorityMapsList.query(on: request)
             .filter(\.setName == setName)
-            .filter(\.zoom == zoom)
+            .filter(\.zoomMin <= zoom)
+            .filter(\.zoomMin >= zoom)
             .sort(\.priority)
             .all()
     }

@@ -190,20 +190,23 @@ public func routes(_ router: Router) throws {
                 
                 let responce = mapList.flatMap(to: Response.self) { mapSetData  in
                     
-                    print(mapSetData.count)
-                    
                     guard mapSetData.count != 0 else {
                         return try makeErrorResponce("MapSetCount = 0", request)
                             .encode(for: request)
                     }
                     
-                    //FIXME: Redirect to default map
+//                    FIXME: Redirect to default map
 //                    guard mapSetData.count != 1 else { return try makeErrorResponce("MapSetCount = 1", request).encode(for: request)}
                     
                     
                     let firstExistingUrl = try checkTileExist(maps: mapSetData, index: 0, x: tileNumbers.x, y: tileNumbers.y, z: zoom, request: request)
                     
                     return firstExistingUrl.flatMap(to: Response.self) {url in
+                        guard url != "notFound" else {
+                            return try makeErrorResponce("Tiles not found", request)
+                                .encode(for: request)
+                        }
+                        
                         return try! request.redirect(to: url).encode(for: request)
                     }
     
@@ -270,7 +273,7 @@ public func routes(_ router: Router) throws {
                     
                 } else {
 //                    print("last ", currentMapUrl)
-                    return request.future("default")
+                    return request.future("notFound")
                 }
             }
         }
