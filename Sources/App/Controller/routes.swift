@@ -193,12 +193,14 @@ public func routes(_ router: Router) throws {
                 
                 let responce = mapList.flatMap(to: Response.self) { mapSetData  in
                     
-                    let shufled = mapSetData.shuffled()
-                    
                     guard mapSetData.count != 0 else {return notFoundResponce(request)}
                     
                     let startIndex = 0
-                    let firstExistingUrl = try checkMirrorExist(mapSetData, startIndex, tileNumbers.x, tileNumbers.y, zoom, request)
+                    //let urls = mapSetData.map {$0.url}
+                    let urls = ["a", "b", "c"]
+                    let shufledUrls = herokuShuffled(array: urls)
+                    print(shufledUrls)
+                    let firstExistingUrl = try checkMirrorExist(shufledUrls, startIndex, tileNumbers.x, tileNumbers.y, zoom, request)
                     
                     return firstExistingUrl.flatMap(to: Response.self) {url in
                         guard url != "notFound" else {return notFoundResponce(request)}
@@ -282,6 +284,8 @@ public func routes(_ router: Router) throws {
         
         let existingUrl = baseMapData.flatMap(to: String.self) { mapObject  in
             
+            //check2 - сократить!
+            
             let currentMapUrl = controller.calculateTileURL(x, y, z, mapObject.backgroundUrl, mapObject.backgroundServerName)
             
             let response = try! request.client().get(currentMapUrl)
@@ -307,9 +311,9 @@ public func routes(_ router: Router) throws {
     
     
     
-    func checkMirrorExist(_ maps: [MirrorsMapsList], _ index: Int, _ x: Int, _ y: Int, _ z: Int, _ request: Request) throws -> Future<String> {
+    func checkMirrorExist(_ urls: [String], _ index: Int, _ x: Int, _ y: Int, _ z: Int, _ request: Request) throws -> Future<String> {
         
-        let currentTemplateUrl = maps[index].url
+        let currentTemplateUrl = urls[index]
         let currentResultUrl = controller.calculateTileURL(x, y, z, currentTemplateUrl, "")
         let response = try! request.client().get(currentResultUrl)
         
@@ -319,10 +323,10 @@ public func routes(_ router: Router) throws {
                 print("result " + currentResultUrl)
                 return request.future(currentResultUrl)
                 
-            } else if index+1 < maps.count  {
+            } else if index+1 < urls.count  {
                 print("next " + currentResultUrl)
                 let nextIndex = index + 1
-                let recursiveFoundedUrl = try checkMirrorExist(maps, nextIndex, x, y, z, request)
+                let recursiveFoundedUrl = try checkMirrorExist(urls, nextIndex, x, y, z, request)
                 return recursiveFoundedUrl
                 
             } else {
@@ -331,6 +335,9 @@ public func routes(_ router: Router) throws {
             }
         }
     }
+    
+    
+    
     
     
     

@@ -21,7 +21,7 @@ class TilePatchCreator {
             let transformerClosure = urlTransformers[i]
             
             if result.contains(replacedText) {
-                let newText = transformerClosure(coordinates, serverName, self)
+                let newText = transformerClosure(coordinates, serverName)
                 result = result.replacingOccurrences(of: replacedText, with: newText)
                 
             } else {
@@ -50,12 +50,12 @@ class TilePatchCreator {
     // Heroku server doesn't works with Swift's standart arc4random functions.
     // So this is my silple realisation of it.
     
-    private func randomForHeroku(_ max: Int) -> Int {
-        let unixTime = Date().timeIntervalSince1970
-        let lastDigit = Int(String(String(unixTime).last!))!
-        let randomInRange = lastDigit % max
-        return randomInRange
-    }
+//    private func randomForHeroku(_ max: Int) -> Int {
+//        let unixTime = Date().timeIntervalSince1970
+//        let lastDigit = Int(String(String(unixTime).last!))!
+//        let randomInRange = lastDigit % max
+//        return randomInRange
+//    }
     
     
     
@@ -67,29 +67,29 @@ class TilePatchCreator {
     // (I can't call any functions of this class from closures)
     // ("self" does't works. So i using dependency injection)
     
-    private let getX: ([Int], String, TilePatchCreator) -> String = {
-        coordinates, serverName, transformer in
+    private let getX: ([Int], String) -> String = {
+        coordinates, serverName in
         
         return "\(coordinates[0])"
     }
     
     
-    private let getY: ([Int], String, TilePatchCreator) -> String = {
-        coordinates, serverName, transformer in
+    private let getY: ([Int], String) -> String = {
+        coordinates, serverName in
         
         return "\(coordinates[1])"
     }
     
     
-    private let getZ: ([Int], String, TilePatchCreator) -> String = {
-        coordinates, serverName, transformer in
+    private let getZ: ([Int], String) -> String = {
+        coordinates, serverName in
         
         return "\(coordinates[2])"
     }
     
     
-    private let getS: ([Int], String, TilePatchCreator) -> String = {
-        coordinates, serverName, transformer in
+    private let getS: ([Int], String) -> String = {
+        coordinates, serverName in
         
         switch serverName {
         case "wikimapia":
@@ -102,34 +102,34 @@ class TilePatchCreator {
         case "sasAndMelda":
             let mirrors = ["http://91.237.82.95:8088",
                             "https://maps.melda.ru"]
-            let randomNumber = transformer.randomForHeroku(mirrors.count)
+            let randomNumber = selectOneForHeroku(mirrors.count)
             return mirrors[randomNumber]
             
         case "sasGenshtab":
             let mirrors = ["http://91.237.82.95:8088",
                            "https://maps.melda.ru",
                            "http://t.caucasia.ru:80/"]
-            let randomNumber = transformer.randomForHeroku(mirrors.count)
+            let randomNumber = selectOneForHeroku(mirrors.count)
             return mirrors[randomNumber]
             
         default:
             let serverLetters = Array(serverName)
-            let randomNumber = transformer.randomForHeroku(serverLetters.count)
+            let randomNumber = selectOneForHeroku(serverLetters.count)
             return String(serverLetters[randomNumber])
         }
     }
     
     
-    private let getGoogleZ: ([Int], String, TilePatchCreator) -> String = {
-        coordinates, serverName, transformer in
+    private let getGoogleZ: ([Int], String) -> String = {
+        coordinates, serverName in
         
         let result = 17 - coordinates[2]
         return "\(result)"
     }
     
     
-    private let getInvY: ([Int], String, TilePatchCreator) -> String = {
-        coordinates, serverName, transformer in
+    private let getInvY: ([Int], String) -> String = {
+        coordinates, serverName in
         
         let z = Double(coordinates[2])
         let result = Int(pow(2.0, z)) - coordinates[1] - 1
@@ -137,53 +137,53 @@ class TilePatchCreator {
     }
     
     
-    private let getSasZ: ([Int], String, TilePatchCreator) -> String = {
-        coordinates, serverName, transformer in
+    private let getSasZ: ([Int], String) -> String = {
+        coordinates, serverName in
         
         let result = 1 + coordinates[2]
         return "\(result)"
     }
     
     
-    private let getFolderX: ([Int], String, TilePatchCreator) -> String = {
-        coordinates, serverName, transformer in
+    private let getFolderX: ([Int], String) -> String = {
+        coordinates, serverName in
         
         let result = Int(coordinates[0] / 1024)
         return "\(result)"
     }
     
     
-    private let getFolderY: ([Int], String, TilePatchCreator) -> String = {
-        coordinates, serverName, transformer in
+    private let getFolderY: ([Int], String) -> String = {
+        coordinates, serverName in
         
         let result = Int(coordinates[1] / 1024)
         return "\(result)"
     }
     
     
-    private let getYandexX: ([Int], String, TilePatchCreator) -> String = {
-        coordinates, serverName, transformer in
+    private let getYandexX: ([Int], String) -> String = {
+        coordinates, serverName in
         
         return "\(coordinates[0])"
     }
     
     
-    private let getYandexY: ([Int], String, TilePatchCreator) -> String = {
-        coordinates, serverName, transformer in
+    private let getYandexY: ([Int], String) -> String = {
+        coordinates, serverName in
         
         return "\(coordinates[1])"
     }
     
-    private let getYandexTimestamp: ([Int], String, TilePatchCreator) -> String = {
-        coordinates, serverName, transformer in
+    private let getYandexTimestamp: ([Int], String) -> String = {
+        coordinates, serverName in
         
         let timeInterval = Int( NSDate().timeIntervalSince1970 )
         return "\(timeInterval)"
     }
     
     
-    private let getMapboxMapniklayer: ([Int], String, TilePatchCreator) -> String = {
-        coordinates, serverName, transformer in
+    private let getMapboxMapniklayer: ([Int], String) -> String = {
+        coordinates, serverName in
         
         let firstParts = [
             "https://api.mapbox.com/styles/v1/nnngrach/cjot3z99v0i5e2rqg319j4dxg/tiles/256/",
@@ -197,7 +197,7 @@ class TilePatchCreator {
             "@2x?access_token=pk.eyJ1Ijoibm5uZ3JhY2gzIiwiYSI6ImNqb3Q1d3J4YzB2NXQzcWtmZjZ5ZjdzNmEifQ.JfDmgQvzdsfSKHqaH-KSow",
             "@2x?access_token=pk.eyJ1Ijoibm5uZ3JhY2g0IiwiYSI6ImNqb3Q2YTA2eDB2N2Eza285bndzbWxtbzEifQ.5oZcsK5zbp5mXCfCT-f_XQ"]
         
-        let randomNumber = transformer.randomForHeroku(firstParts.count)
+        let randomNumber = selectOneForHeroku(firstParts.count)
         
         return firstParts[randomNumber] + "{z}/{x}/{y}" + secondParts[randomNumber]
     }
