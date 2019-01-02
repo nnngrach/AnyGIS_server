@@ -347,25 +347,36 @@ public func routes(_ router: Router) throws {
     
     
     
-    
+    // Get index of first working URL
     router.get("test") { req -> Future<String> in
-
+        
         let urlA = "maps.melda.ru"
         let urlB = "91.237.82.95" // no 91.237.82.95:8088 !
         let urlC = "t.caucasia.ru"
         let secondPartUrlAB = "/pub/genshtab/20km/z9/0/x154/0/y79.jpg"
         let secondPartUrlC = "20km/z9/0/x154/0/y79.jpg"
-        
+    
         let arr1 = [urlB, urlC]
         let arr2 = [secondPartUrlAB, secondPartUrlC]
-
-        let index = testCheckUrlStatus2(host: arr1, url: arr2, index: 0, req: req)
         
-        let textIndex = index.flatMap(to: String.self) { i in
-            guard let result = i else {return req.future("all not found")}
-            return req.future(String(result))
+        let mapName = "Sas_Genshtab_10000"
+        let allMirrors = try baseHandler.getMirrorsListBy(setName: mapName, req)
+        
+        let result = allMirrors.flatMap(to: String.self) { mirrors in
+            
+            let hosts = mirrors.map {$0.host}
+            let patchs = mirrors.map {$0.patch}
+            let index = testCheckUrlStatus2(host: hosts, url: patchs, index: 0, req: req)
+            
+            let textIndex = index.flatMap(to: String.self) { i in
+                guard let result = i else {return req.future("all not found")}
+                return req.future(String(result))
+            }
+            
+            return textIndex
         }
-        return textIndex
+        
+        return result
     }
     
     
