@@ -19,21 +19,20 @@ public func randomForHeroku() -> Double {
 
 
 
-public func selectOneForHeroku(_ count: Int) -> Int {
-    return (Int(Double(count) * randomForHeroku()))
+public func randomNubmerForHeroku(_ maxNumber: Int) -> Int {
+    return (Int(Double(maxNumber) * randomForHeroku()))
 }
 
 
 
-func herokuShuffled(array: [String]) -> [String] {
+func shuffledForHeroku(array: [String]) -> [String] {
     guard array.count != 0 else {return array}
     let count = array.count
     var result = array
     
     for i in 0 ..< (count - 1) {
-        let newIndex = selectOneForHeroku(count)
-        print(newIndex)
-        guard newIndex == 1 else {continue}
+        let newIndex = randomNubmerForHeroku(count)
+        guard newIndex > i else {continue}
         result.swapAt(i, newIndex)
     }
     

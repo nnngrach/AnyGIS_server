@@ -102,19 +102,19 @@ class TilePatchCreator {
         case "sasAndMelda":
             let mirrors = ["http://91.237.82.95:8088",
                             "https://maps.melda.ru"]
-            let randomNumber = selectOneForHeroku(mirrors.count)
+            let randomNumber = randomNubmerForHeroku(mirrors.count)
             return mirrors[randomNumber]
             
         case "sasGenshtab":
             let mirrors = ["http://91.237.82.95:8088",
                            "https://maps.melda.ru",
                            "http://t.caucasia.ru:80/"]
-            let randomNumber = selectOneForHeroku(mirrors.count)
+            let randomNumber = randomNubmerForHeroku(mirrors.count)
             return mirrors[randomNumber]
             
         default:
             let serverLetters = Array(serverName)
-            let randomNumber = selectOneForHeroku(serverLetters.count)
+            let randomNumber = randomNubmerForHeroku(serverLetters.count)
             return String(serverLetters[randomNumber])
         }
     }
@@ -197,7 +197,7 @@ class TilePatchCreator {
             "@2x?access_token=pk.eyJ1Ijoibm5uZ3JhY2gzIiwiYSI6ImNqb3Q1d3J4YzB2NXQzcWtmZjZ5ZjdzNmEifQ.JfDmgQvzdsfSKHqaH-KSow",
             "@2x?access_token=pk.eyJ1Ijoibm5uZ3JhY2g0IiwiYSI6ImNqb3Q2YTA2eDB2N2Eza285bndzbWxtbzEifQ.5oZcsK5zbp5mXCfCT-f_XQ"]
         
-        let randomNumber = selectOneForHeroku(firstParts.count)
+        let randomNumber = randomNubmerForHeroku(firstParts.count)
         
         return firstParts[randomNumber] + "{z}/{x}/{y}" + secondParts[randomNumber]
     }

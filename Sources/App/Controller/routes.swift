@@ -198,7 +198,7 @@ public func routes(_ router: Router) throws {
                     let startIndex = 0
                     //let urls = mapSetData.map {$0.url}
                     let urls = ["a", "b", "c"]
-                    let shufledUrls = herokuShuffled(array: urls)
+                    let shufledUrls = shuffledForHeroku(array: urls)
                     print(shufledUrls)
                     let firstExistingUrl = try checkMirrorExist(shufledUrls, startIndex, tileNumbers.x, tileNumbers.y, zoom, request)
                     
@@ -339,6 +339,13 @@ public func routes(_ router: Router) throws {
     
     
     
+//    router.get("test") { req -> String in
+//        let herokuNumber = randomNubmerForHeroku(3)
+//        var arr = ["A", "B", "C"]
+//        let shuffled = shuffledForHeroku(array: arr)
+//
+//        return "\(herokuNumber)  \(shuffled)"
+//    }
     
     
     
