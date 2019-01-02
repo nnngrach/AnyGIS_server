@@ -196,8 +196,7 @@ public func routes(_ router: Router) throws {
                     guard mapSetData.count != 0 else {return notFoundResponce(request)}
                     
                     let startIndex = 0
-                    //let urls = mapSetData.map {$0.url}
-                    let urls = ["a", "b", "c"]
+                    let urls = mapSetData.map {$0.url}
                     let shufledUrls = shuffledForHeroku(array: urls)
                     print(shufledUrls)
                     let firstExistingUrl = try checkMirrorExist(shufledUrls, startIndex, tileNumbers.x, tileNumbers.y, zoom, request)
@@ -313,22 +312,32 @@ public func routes(_ router: Router) throws {
     
     func checkMirrorExist(_ urls: [String], _ index: Int, _ x: Int, _ y: Int, _ z: Int, _ request: Request) throws -> Future<String> {
         
+        print("urls ", urls)
         let currentTemplateUrl = urls[index]
+        print("currentTemplateUrl ", currentTemplateUrl)
         let currentResultUrl = controller.calculateTileURL(x, y, z, currentTemplateUrl, "")
-        let response = try! request.client().get(currentResultUrl)
+        print("currentResultUrl ", currentResultUrl)
+        let response = try request.client().get(currentResultUrl)
         
         return response.flatMap(to: String.self) { res -> Future<String> in
-            
+
+            print("res")
+            print(res)
+            print("+++++")
+
+            print("code: ", res.http.status.code)
+
             if res.http.status.code != 404 {
                 print("result " + currentResultUrl)
+                print("=================")
                 return request.future(currentResultUrl)
-                
+
             } else if index+1 < urls.count  {
                 print("next " + currentResultUrl)
                 let nextIndex = index + 1
                 let recursiveFoundedUrl = try checkMirrorExist(urls, nextIndex, x, y, z, request)
                 return recursiveFoundedUrl
-                
+
             } else {
                 print("finish " + currentResultUrl)
                 return request.future("notFound")
@@ -339,19 +348,66 @@ public func routes(_ router: Router) throws {
     
     
     
-//    router.get("test") { req -> String in
-//        let herokuNumber = randomNubmerForHeroku(3)
-//        var arr = ["A", "B", "C"]
-//        let shuffled = shuffledForHeroku(array: arr)
-//
-//        return "\(herokuNumber)  \(shuffled)"
-//    }
+    router.get("test") { req -> Future<String> in
+
+        let urlA = "maps.melda.ru"
+        let urlB = "91.237.82.95" // no 91.237.82.95:8088 !
+        let urlC = "t.caucasia.ru"
+        let secondPartUrlAB = "/pub/genshtab/20km/z9/0/x154/0/y79.jpg"
+        let secondPartUrlC = "20km/z9/0/x154/0/y79.jpg"
+        
+        let arr1 = [urlB, urlC]
+        let arr2 = [secondPartUrlAB, secondPartUrlC]
+
+        let index = testCheckUrlStatus2(host: arr1, url: arr2, index: 0, req: req)
+        
+        let textIndex = index.flatMap(to: String.self) { i in
+            guard let result = i else {return req.future("all not found")}
+            return req.future(String(result))
+        }
+        return textIndex
+    }
     
     
     
     
     
     // ===========================================
+    
+    func testCheckUrlStatus(host: String, url: String, req: Request) -> Future<Bool> {
+        return HTTPClient.connect(hostname: host, on: req)
+            .flatMap { (client) -> Future<Bool> in
+                
+                let request = HTTPRequest(method: .HEAD, url: url)
+                
+                return client.send(request).map({ (response) -> Bool in
+                    return response.status.code != 404
+                })
+        }
+    }
+    
+    
+    func testCheckUrlStatus2(host: [String], url: [String], index: Int, req: Request) -> Future<Int?> {
+        
+        return HTTPClient.connect(hostname: host[index], on: req)
+            .flatMap { (client) -> Future<Int?> in
+                
+                let request = HTTPRequest(method: .HEAD, url: url[index])
+                
+                return client.send(request).flatMap({ (response) -> Future<Int?> in
+                    
+                    if response.status.code != 404 {
+                        return req.future(index)
+                        
+                    } else if (index + 1) < host.count {
+                        return testCheckUrlStatus2(host: host, url: url, index: index+1, req: req)
+                        
+                    } else {
+                        return req.future(nil)
+                    }
+                })
+        }
+    }
     
     
     //let sortedMaps = db.fetch()
