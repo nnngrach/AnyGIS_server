@@ -211,12 +211,12 @@ public func routes(_ router: Router) throws {
                     var checkedIndex : EventLoopFuture<Int?>
                     let firstCheckingIndex = shuffledOrder[0] ?? 0
                     
+                    
                     if hosts[firstCheckingIndex] == "dont't need to check" {
                         checkedIndex = request.future(firstCheckingIndex)
                     } else {
                         checkedIndex = checkUrlStatus(index: 0, hosts, ports, patchs, tileNumbers.x, tileNumbers.y, zoom, shuffledOrder, req: request)
                     }
-                    
                     
                     
                     let res = checkedIndex.flatMap(to: Response.self) { i in
@@ -342,7 +342,8 @@ public func routes(_ router: Router) throws {
         if ports[shuffledIndex] == "any" {
             connection = HTTPClient.connect(hostname: hosts[shuffledIndex], on: req)
         } else {
-            connection = HTTPClient.connect(hostname: hosts[shuffledIndex], port: 8088, connectTimeout: .milliseconds(100), on: req)
+            let portNumber = Int(ports[shuffledIndex]) ?? 8088
+            connection = HTTPClient.connect(hostname: hosts[shuffledIndex], port: portNumber, connectTimeout: .milliseconds(100), on: req)
         }
         
         
