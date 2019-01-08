@@ -15,6 +15,12 @@ class BaseHandler {
             .all()
     }
     
+    public func fetchMirrorsMapsList(_ request: Request) -> Future<[MirrorsMapsList]> {
+        return MirrorsMapsList.query(on: request)
+            .sort(\.setName)
+            .all()
+    }
+    
     
     public func fetchOverlayMapsList(_ request: Request) -> Future<[OverlayMapsList]> {
         return OverlayMapsList.query(on: request)

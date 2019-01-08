@@ -1,0 +1,25 @@
+<html>
+    <body>
+        
+        <H1>AnyGIS maps mirrors</H1><br>
+        
+        <table border=1>
+            <colgroup>
+                <col span="1" style="background:Khaki">
+                    </colgroup>
+            
+            <tr>
+                <th>API name</th>
+                <th>Url</th>
+            </tr>
+            
+            #for(map in databaseMaps) {
+            <tr>
+                <td>#(map.setName)</td>
+                <td>#(map.url)</td>
+            </tr>
+            }
+        </table>
+        
+    </body>
+</html>

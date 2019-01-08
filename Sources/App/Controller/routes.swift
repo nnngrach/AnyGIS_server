@@ -25,6 +25,11 @@ public func routes(_ router: Router) throws {
         return try req.view().render("tableMaps", ["databaseMaps": databaseMaps])
     }
     
+    router.get("mirrors_list") { req -> Future<View> in
+        let databaseMaps = baseHandler.fetchMirrorsMapsList(req)
+        return try req.view().render("tableMirrors", ["databaseMaps": databaseMaps])
+    }
+    
     
     router.get("overlay_list") { req -> Future<View> in
         let databaseMaps = baseHandler.fetchOverlayMapsList(req)
@@ -328,109 +333,6 @@ public func routes(_ router: Router) throws {
     
     
     
-    func checkMirrorExist(_ urls: [String], _ index: Int, _ x: Int, _ y: Int, _ z: Int, _ request: Request) throws -> Future<String> {
-        
-        print("urls ", urls)
-        let currentTemplateUrl = urls[index]
-        print("currentTemplateUrl ", currentTemplateUrl)
-        let currentResultUrl = controller.calculateTileURL(x, y, z, currentTemplateUrl, "")
-        print("currentResultUrl ", currentResultUrl)
-        let response = try request.client().get(currentResultUrl)
-        
-        return response.flatMap(to: String.self) { res -> Future<String> in
-
-            print("res")
-            print(res)
-            print("+++++")
-
-            print("code: ", res.http.status.code)
-
-            if res.http.status.code != 404 {
-                print("result " + currentResultUrl)
-                print("=================")
-                return request.future(currentResultUrl)
-
-            } else if index+1 < urls.count  {
-                print("next " + currentResultUrl)
-                let nextIndex = index + 1
-                let recursiveFoundedUrl = try checkMirrorExist(urls, nextIndex, x, y, z, request)
-                return recursiveFoundedUrl
-
-            } else {
-                print("finish " + currentResultUrl)
-                return request.future("notFound")
-            }
-        }
-    }
-    
-    
-    
-    // Get index of first working URL
-    // TODO: make working function and move it to main function
-    router.get("test") { req -> Future<String> in
-        
-        let urlA = "maps.melda.ru"
-        let urlB = "91.237.82.95" // no 91.237.82.95:8088 !
-        let urlC = "t.caucasia.ru"
-        let secondPartUrlAB = "/pub/genshtab/20km/z9/0/x154/0/y79.jpg"
-        let secondPartUrlC = "20km/z9/0/x154/0/y79.jpg"
-        
-        //91.237.82.95 /pub/genshtab/10km/z9/0/x154/0/y79.jpg
-    
-        let arr1 = [urlB, urlC]
-        let arr2 = [secondPartUrlAB, secondPartUrlC]
-        let arr3 = [urlB]
-        let arr4 = [secondPartUrlAB]
-        
-        let mapName = "Locals_Genshtab_10000"
-        let allMirrors = try baseHandler.getMirrorsListBy(setName: mapName, req)
-        
-        let result = allMirrors.flatMap(to: String.self) { mirrors in
-            
-            //let hosts = mirrors.map {$0.host}
-            //let patchs = mirrors.map {$0.patch}
-            
-//            let hosts = ["91.237.82.95"]
-//            let hosts = ["maps.melda.ru"]
-            let hosts = ["api.mapbox.com"]
-//            let patchs = ["/pub/genshtab/10km/z9/0/x158/0/y93.jpg"]
-            let patchs = ["/styles/v1/nnngrach/cjot3z99v0i5e2rqg319j4dxg/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoibm5uZ3JhY2giLCJhIjoiY2pvc3lwcDhwMHQwMzNxbGh5cmIzMzR5ayJ9.uW0dUw6sZCBcrL0cg0JgLA"]
-//            let port = ["8080"]
-            let port = ["any"]
-            
-            let index = checkUrlStatus(index: 0, hosts, port, patchs, 0, 0, 0, [0:0], req: req)
-            
-            let textIndex = index.flatMap(to: String.self) { i in
-                guard let result = i else {return req.future("all not found")}
-                return req.future(String(result))
-            }
-            
-            return textIndex
-        }
-        
-        return result
-    }
-    
-    
-    
-    router.get("test2") { req -> Future<String> in
-        let allMirrors = try baseHandler.getMirrorsListBy(setName: "Locals_Genshtab_20000", req)
-        
-        let result = allMirrors.map(to: String?.self) { mirrors in
-            let patch = mirrors.map {$0.patch} [0]
-            print(patch)
-            return patch
-        }
-        return result ?? "myNil"
-    }
-    
-    
-    
-    
-    
-    // ===========================================
-    
-    
     func checkUrlStatus(index: Int, _ hosts: [String], _ ports: [String], _ patchs: [String], _ x: Int, _ y: Int, _ z: Int, _ order: [Int:Int], req: Request) -> Future<Int?> {
         
         guard let shuffledIndex = order[index] else {return req.future(nil)}
@@ -474,7 +376,7 @@ public func routes(_ router: Router) throws {
 
     
     
-
+//=======================
     
     
 
