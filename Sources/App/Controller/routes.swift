@@ -191,20 +191,38 @@ public func routes(_ router: Router) throws {
                 
                 let mapList = try baseHandler.getMirrorsListBy(setName: mapName, request)
                 
-                let responce = mapList.flatMap(to: Response.self) { mapSetData  in
+                let responce = mapList.flatMap(to: Response.self) { mapListData  in
                     
-                    guard mapSetData.count != 0 else {return notFoundResponce(request)}
+                    guard mapListData.count != 0 else {return notFoundResponce(request)}
                     
                     let startIndex = 0
-                    let urls = mapSetData.map {$0.url}
-                    let shufledUrls = shuffledForHeroku(array: urls)
-                    print(shufledUrls)
-                    let firstExistingUrl = try checkMirrorExist(shufledUrls, startIndex, tileNumbers.x, tileNumbers.y, zoom, request)
+                    let shuffledOrder = makeShuffledOrder(maxNumber: mapListData.count)
                     
-                    return firstExistingUrl.flatMap(to: Response.self) {url in
-                        guard url != "notFound" else {return notFoundResponce(request)}
-                        return redirect(to: url, with: request)
+                    let urls = mapListData.map {$0.url}
+                    let hosts = mapListData.map {$0.host}
+                    let patchs = mapListData.map {$0.patch}
+                    let ports = mapListData.map {$0.port}
+                    
+                    var checkedIndex : EventLoopFuture<Int?>
+                    let firstCheckingIndex = shuffledOrder[0] ?? 0
+                    
+                    if hosts[firstCheckingIndex] == "dont't need to check" {
+                        checkedIndex = request.future(firstCheckingIndex)
+                    } else {
+                        checkedIndex = checkUrlStatus(index: 0, hosts, ports, patchs, tileNumbers.x, tileNumbers.y, zoom, shuffledOrder, req: request)
                     }
+                    
+                    
+                    
+                    let res = checkedIndex.flatMap(to: Response.self) { i in
+                        guard let index = i else {return notFoundResponce(request)}
+                        
+                        let checkedUrl = urls[index] //Shuffled?
+                        let currentMapUrl = controller.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, checkedUrl, "")
+                        return redirect(to: currentMapUrl, with: request)
+                    }
+                    
+                    return res
                 }
                 return responce
  
@@ -348,6 +366,7 @@ public func routes(_ router: Router) throws {
     
     
     // Get index of first working URL
+    // TODO: make working function and move it to main function
     router.get("test") { req -> Future<String> in
         
         let urlA = "maps.melda.ru"
@@ -355,18 +374,31 @@ public func routes(_ router: Router) throws {
         let urlC = "t.caucasia.ru"
         let secondPartUrlAB = "/pub/genshtab/20km/z9/0/x154/0/y79.jpg"
         let secondPartUrlC = "20km/z9/0/x154/0/y79.jpg"
+        
+        //91.237.82.95 /pub/genshtab/10km/z9/0/x154/0/y79.jpg
     
         let arr1 = [urlB, urlC]
         let arr2 = [secondPartUrlAB, secondPartUrlC]
+        let arr3 = [urlB]
+        let arr4 = [secondPartUrlAB]
         
-        let mapName = "Sas_Genshtab_10000"
+        let mapName = "Locals_Genshtab_10000"
         let allMirrors = try baseHandler.getMirrorsListBy(setName: mapName, req)
         
         let result = allMirrors.flatMap(to: String.self) { mirrors in
             
-            let hosts = mirrors.map {$0.host}
-            let patchs = mirrors.map {$0.patch}
-            let index = testCheckUrlStatus2(host: hosts, url: patchs, index: 0, req: req)
+            //let hosts = mirrors.map {$0.host}
+            //let patchs = mirrors.map {$0.patch}
+            
+//            let hosts = ["91.237.82.95"]
+//            let hosts = ["maps.melda.ru"]
+            let hosts = ["api.mapbox.com"]
+//            let patchs = ["/pub/genshtab/10km/z9/0/x158/0/y93.jpg"]
+            let patchs = ["/styles/v1/nnngrach/cjot3z99v0i5e2rqg319j4dxg/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoibm5uZ3JhY2giLCJhIjoiY2pvc3lwcDhwMHQwMzNxbGh5cmIzMzR5ayJ9.uW0dUw6sZCBcrL0cg0JgLA"]
+//            let port = ["8080"]
+            let port = ["any"]
+            
+            let index = checkUrlStatus(index: 0, hosts, port, patchs, 0, 0, 0, [0:0], req: req)
             
             let textIndex = index.flatMap(to: String.self) { i in
                 guard let result = i else {return req.future("all not found")}
@@ -381,39 +413,55 @@ public func routes(_ router: Router) throws {
     
     
     
+    router.get("test2") { req -> Future<String> in
+        let allMirrors = try baseHandler.getMirrorsListBy(setName: "Locals_Genshtab_20000", req)
+        
+        let result = allMirrors.map(to: String?.self) { mirrors in
+            let patch = mirrors.map {$0.patch} [0]
+            print(patch)
+            return patch
+        }
+        return result ?? "myNil"
+    }
+    
+    
+    
     
     
     // ===========================================
     
-    func testCheckUrlStatus(host: String, url: String, req: Request) -> Future<Bool> {
-        return HTTPClient.connect(hostname: host, on: req)
-            .flatMap { (client) -> Future<Bool> in
-                
-                let request = HTTPRequest(method: .HEAD, url: url)
-                
-                return client.send(request).map({ (response) -> Bool in
-                    return response.status.code != 404
-                })
-        }
-    }
     
-    
-    func testCheckUrlStatus2(host: [String], url: [String], index: Int, req: Request) -> Future<Int?> {
+    func checkUrlStatus(index: Int, _ hosts: [String], _ ports: [String], _ patchs: [String], _ x: Int, _ y: Int, _ z: Int, _ order: [Int:Int], req: Request) -> Future<Int?> {
         
-        return HTTPClient.connect(hostname: host[index], on: req)
-            .flatMap { (client) -> Future<Int?> in
+        guard let shuffledIndex = order[index] else {return req.future(nil)}
+        
+        var connection: EventLoopFuture<HTTPClient>
+        
+        if ports[shuffledIndex] == "any" {
+            connection = HTTPClient.connect(hostname: hosts[shuffledIndex], on: req)
+        } else {
+            connection = HTTPClient.connect(hostname: hosts[shuffledIndex], port: 8088, connectTimeout: .milliseconds(100), on: req)
+        }
+        
+        
+        return connection.flatMap { (client) -> Future<Int?> in
                 
-                let request = HTTPRequest(method: .HEAD, url: url[index])
+                let currentUrl = controller.calculateTileURL(x, y, z, patchs[shuffledIndex], "")
+                
+                let request = HTTPRequest(method: .HEAD, url: currentUrl)
                 
                 return client.send(request).flatMap({ (response) -> Future<Int?> in
                     
                     if response.status.code != 404 {
-                        return req.future(index)
+                        print ("good ", hosts[shuffledIndex], currentUrl)
+                        return req.future(shuffledIndex)
                         
-                    } else if (index + 1) < host.count {
-                        return testCheckUrlStatus2(host: host, url: url, index: index+1, req: req)
+                    } else if (index + 1) < hosts.count {
+                        print ("bad ", hosts[shuffledIndex], currentUrl)
+                        return checkUrlStatus(index: index+1, hosts, ports, patchs, x, y, z, order, req: req)
                         
                     } else {
+                        print("stop")
                         return req.future(nil)
                     }
                 })
@@ -421,29 +469,7 @@ public func routes(_ router: Router) throws {
     }
     
     
-    //let sortedMaps = db.fetch()
-    
-//    func checkTileExist(urls: [String], index: Int, request: Request) -> Future<String> {
-//
-//        let currentUrl = urls[index]
-//        let response = try! request.client().get(currentUrl)
-//        let result = response.flatMap(to: String.self) { res -> Future<String> in
-//
-//            if res.http.status.code != 404 {
-//                return request.future(currentUrl)
-//
-//            } else if index+1 < urls.count  {
-//                let futureString = checkTileExist(urls: urls, index: index + 1, request: request)
-//                return futureString
-//
-//            } else {
-//                return request.future("default")
-//            }
-//
-//        }
-//
-//        return result
-//    }
+
     
 
     

@@ -10,12 +10,14 @@ final class MirrorsMapsList: SQLiteModel {
     var setName: String
     var url: String
     var host: String
+    var port: String
     var patch: String
     
-    init(id: Int? = nil, setName: String, url: String, host: String, patch: String) {
+    init(id: Int? = nil, setName: String, url: String, host: String, port: String,patch: String) {
         self.setName = setName
         self.url = url
         self.host = host
+        self.port = port
         self.patch = patch
     }
 }
