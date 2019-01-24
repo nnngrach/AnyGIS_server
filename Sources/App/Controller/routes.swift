@@ -13,6 +13,8 @@ public func routes(_ router: Router) throws {
     let coordinateTransformer = CoordinateTransformer()
     
     
+    // MARK: Html pages
+    
     // Show welcome "index" page.
     // Here I'm using "Leaf" Html-page generator.
     // Patch:  ...\Resources\Views\*.leaf
@@ -49,7 +51,8 @@ public func routes(_ router: Router) throws {
 
 
     
-    //MARK: Statring of the main algorithm
+    // MARK: Statring of the main algorithm
+    
     router.get(String.parameter, String.parameter, String.parameter,Int.parameter) { request -> Future<Response> in
         
         // Extracting values from URL parameters
@@ -214,23 +217,23 @@ public func routes(_ router: Router) throws {
                 let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
                 
                 // Load info for every mirrors from data base in Future format
-                let mapList = try sqlHandler.getMirrorsListBy(setName: mapName, request)
+                let mirrorsList = try sqlHandler.getMirrorsListBy(setName: mapName, request)
                 
                 // Synchronization Futrure to data object.
-                let redirectingResponce = mapList.flatMap(to: Response.self) { mapListData  in
+                let redirectingResponce = mirrorsList.flatMap(to: Response.self) { mirrorsListData  in
                     
-                    guard mapListData.count != 0 else {return notFoundResponce(request)}
+                    guard mirrorsListData.count != 0 else {return notFoundResponce(request)}
                     
-                    let urls = mapListData.map {$0.url}
-                    let hosts = mapListData.map {$0.host}
-                    let patchs = mapListData.map {$0.patch}
-                    let ports = mapListData.map {$0.port}
+                    let urls = mirrorsListData.map {$0.url}
+                    let hosts = mirrorsListData.map {$0.host}
+                    let patchs = mirrorsListData.map {$0.patch}
+                    let ports = mirrorsListData.map {$0.port}
                     
                     // Custom random iterating of array
                     let startIndex = 0
-                    var firstFoundesFileIndex : EventLoopFuture<Int?>
-                    let shuffledOrder = makeShuffledOrder(maxNumber: mapListData.count)
+                    let shuffledOrder = makeShuffledOrder(maxNumber: mirrorsListData.count)
                     let firstCheckingIndex = shuffledOrder[startIndex] ?? 0
+                    var firstFoundesFileIndex : EventLoopFuture<Int?>
 
                     
                     // File checker
@@ -264,22 +267,26 @@ public func routes(_ router: Router) throws {
                 
                 let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
                 
-                let mapList = try sqlHandler.getPriorityListBy(setName: mapName, zoom: zoom, request)
+                // Load info for every layers from data base in Future format
+                let layersList = try sqlHandler.getPriorityListBy(setName: mapName, zoom: zoom, request)
                 
-                let responce = mapList.flatMap(to: Response.self) { mapSetData  in
+                // Synchronization Futrure to data object.
+                let redirectingResponce = layersList.flatMap(to: Response.self) { layersListData  in
                     
-                    guard mapSetData.count != 0 else {return notFoundResponce(request)}
+                    guard layersListData.count != 0 else {return notFoundResponce(request)}
                     
+                    // Start checking of file existing for all layers URLs
                     let startIndex = 0
-                    let firstExistingUrl = try checkTileExist(mapSetData, startIndex, tileNumbers.x, tileNumbers.y, zoom, request)
+                    let firstExistingUrl = try checkTileExist(layersListData, startIndex, tileNumbers.x, tileNumbers.y, zoom, request)
                     
+                    // Redirect to URL for first founded file
                     return firstExistingUrl.flatMap(to: Response.self) {url in
                         guard url != "notFound" else {return notFoundResponce(request)}
                         return redirect(to: url, with: request)
                     }
     
                 }
-                return responce
+                return redirectingResponce
                 
             
 
@@ -300,6 +307,7 @@ public func routes(_ router: Router) throws {
     
     
     
+    // MARK: Html functions
     
     func errorResponce (_ description: String, _ req: Request) -> Future<Response> {
         return try! req.response(http: HTTPResponse(status: .custom(code: 501, reasonPhrase: description), body: "")).encode(for: req)
@@ -319,7 +327,7 @@ public func routes(_ router: Router) throws {
  
     
     
-    
+    // MARK: File existing checker by URL
     
     func checkTileExist(_ maps: [PriorityMapsList], _ index: Int, _ x: Int, _ y: Int, _ z: Int, _ request: Request) throws -> Future<String> {
         
