@@ -7,7 +7,7 @@
 import Vapor
 import FluentSQLite
 
-class BaseHandler {
+class SQLHandler {
     
     public func fetchAllMapsList(_ request: Request) -> Future<[MapsList]> {
         return MapsList.query(on: request)

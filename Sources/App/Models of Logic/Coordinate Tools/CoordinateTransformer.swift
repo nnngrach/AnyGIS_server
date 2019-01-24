@@ -12,7 +12,7 @@ class CoordinateTransformer {
     // MARK: Web Mercator transformations
     // https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
     
-    public func getTileNumbers(_ xText: String, _ yText: String, _ zoom: Int) throws -> (x: Int, y: Int) {
+    public func calculateTileNumbers(_ xText: String, _ yText: String, _ zoom: Int) throws -> (x: Int, y: Int) {
         
         // If user find by lat/log (as double)
         if (xText.contains(".") || yText.contains(".")) {

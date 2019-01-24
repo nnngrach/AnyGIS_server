@@ -8,7 +8,7 @@
 import Vapor
 
 
-class TilePatchCreator {
+class URLPatchCreator {
     
     
     public func calculateTileURL(_ x: Int, _ y: Int, _ z: Int, _ url:String, _ serverName:String) -> String {
