@@ -124,6 +124,7 @@ public func routes(_ router: Router) throws {
                         }
                     }
                 }
+                
                 return redirectingResponce
 
                 
@@ -205,6 +206,7 @@ public func routes(_ router: Router) throws {
                         }
                     }
                 }
+                
                 return redirectingResponce
                 
                 
@@ -233,22 +235,22 @@ public func routes(_ router: Router) throws {
                     let startIndex = 0
                     let shuffledOrder = makeShuffledOrder(maxNumber: mirrorsListData.count)
                     let firstCheckingIndex = shuffledOrder[startIndex] ?? 0
-                    var firstFoundesFileIndex : EventLoopFuture<Int?>
+                    var firstFoundedFileIndex : EventLoopFuture<Int?>
 
                     
                     // File checker
                     if hosts[firstCheckingIndex] == "dont't need to check" {
                         // Global maps. Dont't need to check it
-                        firstFoundesFileIndex = request.future(firstCheckingIndex)
+                        firstFoundedFileIndex = request.future(firstCheckingIndex)
                         
                     } else {
                         // Local maps. Start checking of file existing for all mirrors URLs
-                        firstFoundesFileIndex = checkUrlStatus(index: startIndex, hosts, ports, patchs, tileNumbers.x, tileNumbers.y, zoom, shuffledOrder, req: request)
+                        firstFoundedFileIndex = checkUrlStatus(index: startIndex, hosts, ports, patchs, tileNumbers.x, tileNumbers.y, zoom, shuffledOrder, req: request)
                     }
                     
                     
                     // Generate URL for founded file and redirect to it
-                    return firstFoundesFileIndex.flatMap(to: Response.self) { i in
+                    return firstFoundedFileIndex.flatMap(to: Response.self) { i in
                         guard let index = i else {return notFoundResponce(request)}
                         
                         let checkedUrl = urls[index] //Shuffled?
@@ -256,6 +258,7 @@ public func routes(_ router: Router) throws {
                         return redirect(to: currentMapUrl, with: request)
                     }
                 }
+                
                 return redirectingResponce
  
 
@@ -288,7 +291,20 @@ public func routes(_ router: Router) throws {
                 }
                 return redirectingResponce
                 
+                
             
+/*
+           case "mapset"
+                 
+                 let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
+                 
+                 let layersList = try sqlHandler.getPriorityListBy(setName: mapName, zoom: zoom, request)
+                 
+                 syncronise { layerListData in
+                 
+                     load 
+                 }
+*/
 
                 
                 
@@ -329,6 +345,60 @@ public func routes(_ router: Router) throws {
     
     // MARK: File existing checker by URL
     
+
+    // Mirrors mode recursive checker
+    
+    func checkUrlStatus(index: Int, _ hosts: [String], _ ports: [String], _ patchs: [String], _ x: Int, _ y: Int, _ z: Int, _ order: [Int:Int], req: Request) -> Future<Int?> {
+        
+        guard let currentShuffledIndex = order[index] else {return req.future(nil)}
+        
+        var connection: EventLoopFuture<HTTPClient>
+        
+        
+        // Connect to Host URL with correct port
+        if ports[currentShuffledIndex] == "any" {
+            connection = HTTPClient.connect(hostname: hosts[currentShuffledIndex], on: req)
+        } else {
+            let portNumber = Int(ports[currentShuffledIndex]) ?? 8088
+            connection = HTTPClient.connect(hostname: hosts[currentShuffledIndex], port: portNumber, connectTimeout: .milliseconds(100), on: req)
+        }
+        
+        // Synchronization: Waiting, while coonection will be started
+        let firstFoundedFileIndex = connection.flatMap { (client) -> Future<Int?> in
+            
+            // Generate URL and make Request for it
+            let currentUrl = urlPatchCreator.calculateTileURL(x, y, z, patchs[currentShuffledIndex], "")
+            
+            let request = HTTPRequest(method: .HEAD, url: currentUrl)
+            
+            
+            // Send Request and check HTML status code
+            // Return index of founded file if success.
+            return client.send(request).flatMap({ (response) -> Future<Int?> in
+                
+                if response.status.code != 404 {
+                    //print ("Success: File founded! ", hosts[shuffledIndex], currentUrl)
+                    return req.future(currentShuffledIndex)
+                    
+                } else if (index + 1) < hosts.count {
+                    //print ("Recursive find for next index: ", hosts[shuffledIndex], currentUrl)
+                    return checkUrlStatus(index: index+1, hosts, ports, patchs, x, y, z, order, req: req)
+                    
+                } else {
+                    //print("Fail: All URLs checked and file not founded.")
+                    return req.future(nil)
+                }
+            })
+        }
+        
+        return firstFoundedFileIndex
+    }
+    
+    
+
+    
+    // Combo mode checker
+    
     func checkTileExist(_ maps: [PriorityMapsList], _ index: Int, _ x: Int, _ y: Int, _ z: Int, _ request: Request) throws -> Future<String> {
         
         let currentMapName = maps[index].mapName
@@ -362,51 +432,6 @@ public func routes(_ router: Router) throws {
         return existingUrl
     }
     
-    
-    
-    
-    func checkUrlStatus(index: Int, _ hosts: [String], _ ports: [String], _ patchs: [String], _ x: Int, _ y: Int, _ z: Int, _ order: [Int:Int], req: Request) -> Future<Int?> {
-        
-        guard let shuffledIndex = order[index] else {return req.future(nil)}
-        
-        var connection: EventLoopFuture<HTTPClient>
-        
-        if ports[shuffledIndex] == "any" {
-            connection = HTTPClient.connect(hostname: hosts[shuffledIndex], on: req)
-        } else {
-            let portNumber = Int(ports[shuffledIndex]) ?? 8088
-            connection = HTTPClient.connect(hostname: hosts[shuffledIndex], port: portNumber, connectTimeout: .milliseconds(100), on: req)
-        }
-        
-        
-        return connection.flatMap { (client) -> Future<Int?> in
-                
-                let currentUrl = urlPatchCreator.calculateTileURL(x, y, z, patchs[shuffledIndex], "")
-                
-                let request = HTTPRequest(method: .HEAD, url: currentUrl)
-                
-                return client.send(request).flatMap({ (response) -> Future<Int?> in
-                    
-                    if response.status.code != 404 {
-                        //print ("good ", hosts[shuffledIndex], currentUrl)
-                        return req.future(shuffledIndex)
-                        
-                    } else if (index + 1) < hosts.count {
-                        //print ("bad ", hosts[shuffledIndex], currentUrl)
-                        return checkUrlStatus(index: index+1, hosts, ports, patchs, x, y, z, order, req: req)
-                        
-                    } else {
-                        //print("stop")
-                        return req.future(nil)
-                    }
-                })
-        }
-    }
-    
-    
-
-    
-
     
     
 //=======================
