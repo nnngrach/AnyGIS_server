@@ -48,6 +48,11 @@ public func routes(_ router: Router) throws {
     }
     
     
+    router.get("ping") { req -> String in
+        return "Ping!"
+    }
+    
+    
     
     
     // MARK: Html functions
@@ -377,7 +382,6 @@ public func routes(_ router: Router) throws {
             // File checker
             let firstCheckingIndex = shuffledOrder[startIndex] ?? 0
             
-            print(urls[firstCheckingIndex])
             
             if hosts[firstCheckingIndex] == "dont't need to check" {
                 // Global maps. Dont't need to check it
