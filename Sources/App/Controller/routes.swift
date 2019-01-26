@@ -239,6 +239,7 @@ public func routes(_ router: Router) throws {
                 // Synchronization Futrure to data object.
                 let redirectingResponce = layersList.flatMap(to: Response.self) { layersListData  in
                     
+                    
                     guard layersListData.count != 0 else {return notFoundResponce(request)}
                     
                     // Start checking of file existing for all layers URLs
@@ -255,19 +256,36 @@ public func routes(_ router: Router) throws {
                 return redirectingResponce
                 
                 
-            
-/*
-           case "mapset"
+                
+                
+            /* BACKUP
+            case "mapSet":
+                
+                let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
+                
+                // Load info for every layers from data base in Future format
+                let layersList = try sqlHandler.getPriorityListBy(setName: mapName, zoom: zoom, request)
+                
+                // Synchronization Futrure to data object.
+                let redirectingResponce = layersList.flatMap(to: Response.self) { layersListData  in
                  
-                 let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
+                    guard layersListData.count != 0 else {return notFoundResponce(request)}
                  
-                 let layersList = try sqlHandler.getPriorityListBy(setName: mapName, zoom: zoom, request)
+                    // Start checking of file existing for all layers URLs
+                    let startIndex = 0
+                    let firstExistingUrl = try checkTileExist(layersListData, startIndex, tileNumbers.x, tileNumbers.y, zoom, request)
                  
-                 syncronise { layerListData in
+                    // Redirect to URL for first founded file
+                    return firstExistingUrl.flatMap(to: Response.self) {url in
+                        guard url != "notFound" else {return notFoundResponce(request)}
+                        return redirect(to: url, with: request)
+                    }
                  
-                     load
-                 }
-*/
+                }
+                return redirectingResponce
+           */
+                
+   
 
                 
                 
@@ -307,6 +325,16 @@ public func routes(_ router: Router) throws {
     
     
     // MARK: File existing checker by URL
+    
+    
+    func checkComboMaps(_ maps: [PriorityMapsList], _ index: Int, _ x: Int, _ y: Int, _ z: Int, _ req: Request) throws -> Future<Response> {
+        
+        
+        
+        return notFoundResponce(req)
+    }
+    
+    
     
     
     func checkAllMirrors(_ mirrorName: String, _ x: Int, _ y: Int, _ z: Int, req: Request) throws -> Future<Response> {

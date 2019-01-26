@@ -12,13 +12,16 @@ final class PriorityMapsList: SQLiteModel {
     var zoomMax: Int
     var priority: Int
     var mapName: String
+    var notChecking: Bool
     
-    init(id: Int? = nil, setName: String, zoomMin: Int, zoomMax: Int, priority: Int, mapName: String) {
+    
+    init(id: Int? = nil, setName: String, zoomMin: Int, zoomMax: Int, priority: Int, mapName: String, notChecking: Bool) {
         self.setName = setName
         self.zoomMin = zoomMin
         self.zoomMax = zoomMax
         self.priority = priority
         self.mapName = mapName
+        self.notChecking = notChecking
     }
 }
 
