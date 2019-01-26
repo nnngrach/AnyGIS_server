@@ -418,7 +418,7 @@ public func routes(_ router: Router) throws {
             connection = HTTPClient.connect(hostname: hosts[currentShuffledIndex], on: req)
         } else {
             let portNumber = Int(ports[currentShuffledIndex]) ?? 8088
-            connection = HTTPClient.connect(hostname: hosts[currentShuffledIndex], port: portNumber, connectTimeout: .milliseconds(100), on: req)
+            connection = HTTPClient.connect(hostname: hosts[currentShuffledIndex], port: portNumber, connectTimeout: .milliseconds(150), on: req)
         }
         
         // Synchronization: Waiting, while coonection will be started
