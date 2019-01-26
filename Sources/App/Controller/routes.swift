@@ -47,6 +47,7 @@ public func routes(_ router: Router) throws {
         return try req.view().render("tablePriority", ["databaseMaps": databaseMaps])
     }
     
+    
 
 
 
@@ -215,49 +216,11 @@ public func routes(_ router: Router) throws {
                 
                 
             case "checkAllMirrors":
+ 
                 
                 let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
                 
-                // Load info for every mirrors from data base in Future format
-                let mirrorsList = try sqlHandler.getMirrorsListBy(setName: mapName, request)
-                
-                // Synchronization Futrure to data object.
-                let redirectingResponce = mirrorsList.flatMap(to: Response.self) { mirrorsListData  in
-                    
-                    guard mirrorsListData.count != 0 else {return notFoundResponce(request)}
-                    
-                    let urls = mirrorsListData.map {$0.url}
-                    let hosts = mirrorsListData.map {$0.host}
-                    let patchs = mirrorsListData.map {$0.patch}
-                    let ports = mirrorsListData.map {$0.port}
-                    
-                    // Custom random iterating of array
-                    let startIndex = 0
-                    let shuffledOrder = makeShuffledOrder(maxNumber: mirrorsListData.count)
-                    let firstCheckingIndex = shuffledOrder[startIndex] ?? 0
-                    var firstFoundedFileIndex : EventLoopFuture<Int?>
-
-                    
-                    // File checker
-                    if hosts[firstCheckingIndex] == "dont't need to check" {
-                        // Global maps. Dont't need to check it
-                        firstFoundedFileIndex = request.future(firstCheckingIndex)
-                        
-                    } else {
-                        // Local maps. Start checking of file existing for all mirrors URLs
-                        firstFoundedFileIndex = checkUrlStatus(index: startIndex, hosts, ports, patchs, tileNumbers.x, tileNumbers.y, zoom, shuffledOrder, req: request)
-                    }
-                    
-                    
-                    // Generate URL for founded file and redirect to it
-                    return firstFoundedFileIndex.flatMap(to: Response.self) { i in
-                        guard let index = i else {return notFoundResponce(request)}
-                        
-                        let checkedUrl = urls[index] //Shuffled?
-                        let currentMapUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, checkedUrl, "")
-                        return redirect(to: currentMapUrl, with: request)
-                    }
-                }
+                let redirectingResponce = try checkAllMirrors(mapName, tileNumbers.x, tileNumbers.y, zoom, req: request)
                 
                 return redirectingResponce
  
@@ -302,7 +265,7 @@ public func routes(_ router: Router) throws {
                  
                  syncronise { layerListData in
                  
-                     load 
+                     load
                  }
 */
 
@@ -345,10 +308,60 @@ public func routes(_ router: Router) throws {
     
     // MARK: File existing checker by URL
     
+    
+    func checkAllMirrors(_ mirrorName: String, _ x: Int, _ y: Int, _ z: Int, req: Request) throws -> Future<Response> {
+        
+        // Load info for every mirrors from data base in Future format
+        let mirrorsList = try sqlHandler.getMirrorsListBy(setName: mirrorName, req)
+        
+        // Synchronization Futrure to data object.
+        let redirectingResponce = mirrorsList.flatMap(to: Response.self) { mirrorsListData  in
+            
+            guard mirrorsListData.count != 0 else {return notFoundResponce(req)}
+            
+            let urls = mirrorsListData.map {$0.url}
+            let hosts = mirrorsListData.map {$0.host}
+            let patchs = mirrorsListData.map {$0.patch}
+            let ports = mirrorsListData.map {$0.port}
+            
+            var firstFoundedFileIndex : EventLoopFuture<Int?>
+            
+            // Custom randomized iterating of array
+            let startIndex = 0
+            let shuffledOrder = makeShuffledOrder(maxNumber: mirrorsListData.count)
+            
+            // File checker
+            let firstCheckingIndex = shuffledOrder[startIndex] ?? 0
+            
+            if hosts[firstCheckingIndex] == "dont't need to check" {
+                // Global maps. Dont't need to check it
+                firstFoundedFileIndex = req.future(firstCheckingIndex)
+                
+            } else {
+                // Local maps. Start checking of file existing for all mirrors URLs
+                firstFoundedFileIndex = findExistingMirrorNumber(index: startIndex, hosts, ports, patchs, x, y, z, shuffledOrder, req: req)
+            }
+            
+            
+            // Generate URL for founded file and redirect to it
+            return firstFoundedFileIndex.flatMap(to: Response.self) { futureIndex in
+                guard let index = futureIndex else {return notFoundResponce(req)}
+                
+                let checkedUrl = urls[index] //Shuffled?
+                let currentMapUrl = urlPatchCreator.calculateTileURL(x, y, z, checkedUrl, "")
+                return redirect(to: currentMapUrl, with: req)
+            }
+        }
+        
+        return redirectingResponce
+    }
+    
 
+    
+    
     // Mirrors mode recursive checker
     
-    func checkUrlStatus(index: Int, _ hosts: [String], _ ports: [String], _ patchs: [String], _ x: Int, _ y: Int, _ z: Int, _ order: [Int:Int], req: Request) -> Future<Int?> {
+    func findExistingMirrorNumber(index: Int, _ hosts: [String], _ ports: [String], _ patchs: [String], _ x: Int, _ y: Int, _ z: Int, _ order: [Int:Int], req: Request) -> Future<Int?> {
         
         guard let currentShuffledIndex = order[index] else {return req.future(nil)}
         
@@ -382,7 +395,7 @@ public func routes(_ router: Router) throws {
                     
                 } else if (index + 1) < hosts.count {
                     //print ("Recursive find for next index: ", hosts[shuffledIndex], currentUrl)
-                    return checkUrlStatus(index: index+1, hosts, ports, patchs, x, y, z, order, req: req)
+                    return findExistingMirrorNumber(index: index+1, hosts, ports, patchs, x, y, z, order, req: req)
                     
                 } else {
                     //print("Fail: All URLs checked and file not founded.")
@@ -436,7 +449,24 @@ public func routes(_ router: Router) throws {
     
 //=======================
     
-    
+    /*
+     router.get("test_area") { req -> String in
+     
+     let a = notFoundResponce(req)
+     
+     let b = a.map { c in
+     print("A ", c.http.status.code)
+     }
+     
+     let d = redirect(to: "ABCD", with: req)
+     
+     let e = d.map { f in
+     print("D ", f.http.status.code)
+     }
+     
+     return "test area"
+     }
+     */
 
  
     

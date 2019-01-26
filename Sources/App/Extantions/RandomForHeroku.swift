@@ -56,6 +56,8 @@ func shuffledForHeroku<T>(array: [T]) -> [T] {
 
 
 func makeShuffledOrder(maxNumber: Int) -> [Int:Int] {
+    guard maxNumber > 1 else { return [0 : 0] }
+    
     var dict = [Int:Int]()
     let shuffled = shuffledForHeroku(array: Array(0..<maxNumber))
     for i in 0..<maxNumber {
