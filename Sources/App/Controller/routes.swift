@@ -61,243 +61,10 @@ public func routes(_ router: Router) throws {
         let xText = try request.parameters.next(String.self)
         let yText = try request.parameters.next(String.self)
         let zoom = try request.parameters.next(Int.self)
-    
-        // Load map informarion from database in Future format
-        let mapData = try sqlHandler.getBy(mapName: mapName, request)
-
         
-        // Synchronizing map information
-        let responce = mapData.flatMap(to: Response.self) { mapObject  in
-            
-            guard zoom <= mapObject.zoomMax else {return notFoundResponce(request)}
-            guard zoom >= mapObject.zoomMin else {return notFoundResponce(request)}
-            
-            // Select processing mode
-            switch mapObject.mode {
-                
-                
-            case "redirect":
-                
-                let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
-                
-                let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
-
-                return redirect(to: newUrl, with: request)
-                
-                
-                            
-                            
-            case "overlay":
-                
-                let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
-               
-                // Load layers info from data base in Future format
-                let layers = try sqlHandler.getOverlayBy(setName: mapName, request)
-                
-                // Synchronization Futrure to data object.
-                // Generating redirect URL-response to processed image.
-                let redirectingResponce = layers.flatMap(to: Response.self) { layersData  in
-                
-                    // Load info for every layers from data base in Future format
-                    let baseMapName = layersData.baseName
-                    let overlayMapName = layersData.overlayName
-                    let baseMapData = try sqlHandler.getBy(mapName: baseMapName, request)
-                    let overlayMapData = try sqlHandler.getBy(mapName: overlayMapName, request)
-                    
-                    
-                    // Synchronization Futrure to data object.
-                    return baseMapData.flatMap(to: Response.self) { baseObject  in
-                        return overlayMapData.flatMap(to: Response.self) { overObject  in
-                
-                            let baseUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, baseObject.backgroundUrl, baseObject.backgroundServerName)
-                            
-                            let overlayUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, overObject.backgroundUrl, overObject.backgroundServerName)
-                            
-                            // Upload all images to online image-processor
-                            let loadingResponces = try imageProcessor.uploadTwoTiles([baseUrl, overlayUrl], request)
-                            
-                            // Redirect to URL of resulting file in image-processor storage
-                            return imageProcessor.syncTwo(loadingResponces, request) { res in
-                                
-                                let newUrl = imageProcessor.getUrlOverlay(baseUrl, overlayUrl)
-                                return redirect(to: newUrl, with: request)
-                            }
-                        }
-                    }
-                }
-                
-                return redirectingResponce
-
-                
-                
-                
-
-                
-            case "wgs84":
-                
-                let coordinates = try coordinateTransformer.getCoordinates(xText, yText, zoom)
-                
-                let tilePosition = coordinateTransformer.getWGS84Position(coordinates.lat_deg, coordinates.lon_deg, withZoom: zoom)
-                
-                
-                // To make image with offset I'm cropping one image from four nearest images.
-                let fourTilesAroundUrls = urlPatchCreator.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
-                
-                // Upload all images to online image-processor
-                let loadingResponces = try imageProcessor.uploadFourTiles(fourTilesAroundUrls, request)
-                
-                
-                // Get URL of resulting file in image-processor storage
-                let redirectingResponce = imageProcessor.syncFour(loadingResponces, request) { res in
-                    
-                    let processedImageUrl = imageProcessor.getUrlWithOffset(fourTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY)
-                    
-                    return redirect(to: processedImageUrl, with: request)
-                }
-                
-                return redirectingResponce
-                
+        let httpResponse =  try startSearchingForMap(mapName, xText: xText, yText, zoom, request)
         
-        
-        
-
-            case "wgs84_overlay":
-
-                let coordinates = try coordinateTransformer.getCoordinates(xText, yText, zoom)
-                
-                let tilePosition = coordinateTransformer.getWGS84Position(coordinates.lat_deg, coordinates.lon_deg, withZoom: zoom)
-                
-                // Load layers info from data base in Future format
-                let mapList = try sqlHandler.getOverlayBy(setName: mapName, request)
-                
-                // Synchronization Futrure to data object.
-                // Generating redirect URL-response to processed image.
-                let redirectingResponce = mapList.flatMap(to: Response.self) { mapListData  in
-                    
-                    // Load info for every layers from data base in Future format
-                    let baseMapName = mapListData.baseName
-                    let overlayMapName = mapListData.overlayName
-                    let baseMapData = try sqlHandler.getBy(mapName: baseMapName, request)
-                    let overlayMapData = try sqlHandler.getBy(mapName: overlayMapName, request)
-                    
-                    
-                    // Synchronization Futrure to data object.
-                    return baseMapData.flatMap(to: Response.self) { baseObject  in
-                        return overlayMapData.flatMap(to: Response.self) { overObject  in
-                            
-                            // To make one image with offset I need four nearest to crop.
-                            let fourTilesAroundUrls = urlPatchCreator.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, baseObject.backgroundUrl, baseObject.backgroundServerName)
-                            
-                            let fourOverTilesAroundUrls = urlPatchCreator.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, overObject.backgroundUrl, overObject.backgroundServerName)
-                            
-                            // Upload all images to online image-processor
-                            let loadingResponces = try imageProcessor.uploadFourTiles(fourTilesAroundUrls, request)
-                            
-                            let loadingOverResponces = try imageProcessor.uploadFourTiles(fourOverTilesAroundUrls, request)
-                            
-                            // Get URL of resulting file in image-processor storage
-                            return imageProcessor.syncFour(loadingResponces, request) { res1 in
-                                return imageProcessor.syncFour(loadingOverResponces, request) { res2 in
-                                    
-                                    let processedImageUrl = imageProcessor.getUrlWithOffsetAndOverlay(fourTilesAroundUrls, fourOverTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY)
-                                    
-                                    return redirect(to: processedImageUrl, with: request)
-                                }
-                            }
-                        }
-                    }
-                }
-                
-                return redirectingResponce
-                
-                
-                
-            
-                
-                
-            case "checkAllMirrors":
- 
-                
-                let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
-                
-                let redirectingResponce = try checkAllMirrors(mapName, tileNumbers.x, tileNumbers.y, zoom, req: request)
-                
-                return redirectingResponce
- 
-
-                
-                
-                
-
-            case "mapSet":
-                
-                let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
-                
-                // Load info for every layers from data base in Future format
-                let layersList = try sqlHandler.getPriorityListBy(setName: mapName, zoom: zoom, request)
-                
-                // Synchronization Futrure to data object.
-                let redirectingResponce = layersList.flatMap(to: Response.self) { layersListData  in
-                    
-                    
-                    guard layersListData.count != 0 else {return notFoundResponce(request)}
-                    
-                    // Start checking of file existing for all layers URLs
-                    let startIndex = 0
-                    let firstExistingUrl = try checkTileExist(layersListData, startIndex, tileNumbers.x, tileNumbers.y, zoom, request)
-                    
-                    // Redirect to URL for first founded file
-                    return firstExistingUrl.flatMap(to: Response.self) {url in
-                        guard url != "notFound" else {return notFoundResponce(request)}
-                        return redirect(to: url, with: request)
-                    }
-    
-                }
-                return redirectingResponce
-                
-                
-                
-                
-            /* BACKUP
-            case "mapSet":
-                
-                let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
-                
-                // Load info for every layers from data base in Future format
-                let layersList = try sqlHandler.getPriorityListBy(setName: mapName, zoom: zoom, request)
-                
-                // Synchronization Futrure to data object.
-                let redirectingResponce = layersList.flatMap(to: Response.self) { layersListData  in
-                 
-                    guard layersListData.count != 0 else {return notFoundResponce(request)}
-                 
-                    // Start checking of file existing for all layers URLs
-                    let startIndex = 0
-                    let firstExistingUrl = try checkTileExist(layersListData, startIndex, tileNumbers.x, tileNumbers.y, zoom, request)
-                 
-                    // Redirect to URL for first founded file
-                    return firstExistingUrl.flatMap(to: Response.self) {url in
-                        guard url != "notFound" else {return notFoundResponce(request)}
-                        return redirect(to: url, with: request)
-                    }
-                 
-                }
-                return redirectingResponce
-           */
-                
-   
-
-                
-                
-
-            default:
-                return errorResponce("Unknown value MapMode in data base", request)
-            }
-        
-        }
-        
-        return responce
-        
+        return httpResponse
     }
     
     
@@ -319,7 +86,224 @@ public func routes(_ router: Router) throws {
     func redirect(to url: String, with req: Request) -> Future<Response>  {
         return try! req.redirect(to: url).encode(for: req)
     }
+    
+    
+    
+    
+    
+    
+    
+    func startSearchingForMap(_ mapName: String, xText:String, _ yText: String, _ zoom: Int, _ req: Request) throws -> Future<Response>  {
+        
+        // Load map informarion from database in Future format
+        let mapData = try sqlHandler.getBy(mapName: mapName, req)
+        
+        
+        // Synchronizing map information
+        let responce = mapData.flatMap(to: Response.self) { mapObject  in
+            
+            guard zoom <= mapObject.zoomMax else {return notFoundResponce(req)}
+            guard zoom >= mapObject.zoomMin else {return notFoundResponce(req)}
+            
+            // Select processing mode
+            switch mapObject.mode {
+                
+                
+            case "redirect":
+                
+                let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
+                
+                let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
+                
+                return redirect(to: newUrl, with: req)
+                
+                
+                
+                
+            case "overlay":
+                
+                let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
+                
+                // Load layers info from data base in Future format
+                let layers = try sqlHandler.getOverlayBy(setName: mapName, req)
+                
+                // Synchronization Futrure to data object.
+                // Generating redirect URL-response to processed image.
+                let redirectingResponce = layers.flatMap(to: Response.self) { layersData  in
+                    
+                    // Load info for every layers from data base in Future format
+                    let baseMapName = layersData.baseName
+                    let overlayMapName = layersData.overlayName
+                    let baseMapData = try sqlHandler.getBy(mapName: baseMapName, req)
+                    let overlayMapData = try sqlHandler.getBy(mapName: overlayMapName, req)
+                    
+                    
+                    // Synchronization Futrure to data object.
+                    return baseMapData.flatMap(to: Response.self) { baseObject  in
+                        return overlayMapData.flatMap(to: Response.self) { overObject  in
+                            
+                            let baseUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, baseObject.backgroundUrl, baseObject.backgroundServerName)
+                            
+                            let overlayUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, overObject.backgroundUrl, overObject.backgroundServerName)
+                            
+                            // Upload all images to online image-processor
+                            let loadingResponces = try imageProcessor.uploadTwoTiles([baseUrl, overlayUrl], req)
+                            
+                            // Redirect to URL of resulting file in image-processor storage
+                            return imageProcessor.syncTwo(loadingResponces, req) { res in
+                                
+                                let newUrl = imageProcessor.getUrlOverlay(baseUrl, overlayUrl)
+                                return redirect(to: newUrl, with: req)
+                            }
+                        }
+                    }
+                }
+                
+                return redirectingResponce
+                
+                
+                
+                
+                
+                
+            case "wgs84":
+                
+                let coordinates = try coordinateTransformer.getCoordinates(xText, yText, zoom)
+                
+                let tilePosition = coordinateTransformer.getWGS84Position(coordinates.lat_deg, coordinates.lon_deg, withZoom: zoom)
+                
+                
+                // To make image with offset I'm cropping one image from four nearest images.
+                let fourTilesAroundUrls = urlPatchCreator.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
+                
+                // Upload all images to online image-processor
+                let loadingResponces = try imageProcessor.uploadFourTiles(fourTilesAroundUrls, req)
+                
+                
+                // Get URL of resulting file in image-processor storage
+                let redirectingResponce = imageProcessor.syncFour(loadingResponces, req) { res in
+                    
+                    let processedImageUrl = imageProcessor.getUrlWithOffset(fourTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY)
+                    
+                    return redirect(to: processedImageUrl, with: req)
+                }
+                
+                return redirectingResponce
+                
+                
+                
+                
+                
+            case "wgs84_overlay":
+                
+                let coordinates = try coordinateTransformer.getCoordinates(xText, yText, zoom)
+                
+                let tilePosition = coordinateTransformer.getWGS84Position(coordinates.lat_deg, coordinates.lon_deg, withZoom: zoom)
+                
+                // Load layers info from data base in Future format
+                let mapList = try sqlHandler.getOverlayBy(setName: mapName, req)
+                
+                // Synchronization Futrure to data object.
+                // Generating redirect URL-response to processed image.
+                let redirectingResponce = mapList.flatMap(to: Response.self) { mapListData  in
+                    
+                    // Load info for every layers from data base in Future format
+                    let baseMapName = mapListData.baseName
+                    let overlayMapName = mapListData.overlayName
+                    let baseMapData = try sqlHandler.getBy(mapName: baseMapName, req)
+                    let overlayMapData = try sqlHandler.getBy(mapName: overlayMapName, req)
+                    
+                    
+                    // Synchronization Futrure to data object.
+                    return baseMapData.flatMap(to: Response.self) { baseObject  in
+                        return overlayMapData.flatMap(to: Response.self) { overObject  in
+                            
+                            // To make one image with offset I need four nearest to crop.
+                            let fourTilesAroundUrls = urlPatchCreator.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, baseObject.backgroundUrl, baseObject.backgroundServerName)
+                            
+                            let fourOverTilesAroundUrls = urlPatchCreator.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, overObject.backgroundUrl, overObject.backgroundServerName)
+                            
+                            // Upload all images to online image-processor
+                            let loadingResponces = try imageProcessor.uploadFourTiles(fourTilesAroundUrls, req)
+                            
+                            let loadingOverResponces = try imageProcessor.uploadFourTiles(fourOverTilesAroundUrls, req)
+                            
+                            // Get URL of resulting file in image-processor storage
+                            return imageProcessor.syncFour(loadingResponces, req) { res1 in
+                                return imageProcessor.syncFour(loadingOverResponces, req) { res2 in
+                                    
+                                    let processedImageUrl = imageProcessor.getUrlWithOffsetAndOverlay(fourTilesAroundUrls, fourOverTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY)
+                                    
+                                    return redirect(to: processedImageUrl, with: req)
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                return redirectingResponce
+                
+                
+                
+                
+                
+                
+            case "checkAllMirrors":
+                
+                
+                let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
+                
+                let redirectingResponce = try checkAllMirrors(mapName, tileNumbers.x, tileNumbers.y, zoom, req: req)
+                
+                return redirectingResponce
+                
+                
+                
+                
+                
+                
+            case "mapSet":
+                
+                let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
+                
+                // Load info for every layers from data base in Future format
+                let layersList = try sqlHandler.getPriorityListBy(setName: mapName, zoom: zoom, req)
+                
+                // Synchronization Futrure to data object.
+                let redirectingResponce = layersList.flatMap(to: Response.self) { layersListData  in
+                    
+                    
+                    guard layersListData.count != 0 else {return notFoundResponce(req)}
+                    
+                    // Start checking of file existing for all layers URLs
+                    let startIndex = 0
+                    
+                    let firstExistingUrlResponse = try checkComboMaps(layersListData, startIndex, tileNumbers.x, tileNumbers.y, zoom, req)
+                    
+                    return firstExistingUrlResponse
+                }
+                return redirectingResponce
+                
+                
+                
+                
+                
+            default:
+                return errorResponce("Unknown value MapMode in data base", req)
+            }
+            
+        }
+        
+        return responce
+        
+    }
+    
+    
+    
+    
 
+    
+    
     
  
     
@@ -329,9 +313,37 @@ public func routes(_ router: Router) throws {
     
     func checkComboMaps(_ maps: [PriorityMapsList], _ index: Int, _ x: Int, _ y: Int, _ z: Int, _ req: Request) throws -> Future<Response> {
         
+        var redirectingResponse: Future<Response>
+        
+        let currentMapName = maps[index].mapName
         
         
-        return notFoundResponce(req)
+        if maps[index].notChecking {
+            redirectingResponse = try startSearchingForMap(currentMapName, xText: String(x), String(y), z, req)
+            
+        } else {
+            // Start finding first url with existing file.
+            // All testing maps must be in Mirrors database!
+            let response = try checkAllMirrors(currentMapName, x, y, z, req: req)
+            
+            redirectingResponse = response.flatMap(to: Response.self) { res in
+                
+                if (res.http.status.code == 404) && (maps.count > index+1) {
+                    // print("Recursive find next ")
+                    return try checkComboMaps(maps, index+1, x, y, z, req)
+                
+                } else if(res.http.status.code == 404) {
+                    // print("Fail ")
+                    return notFoundResponce(req)
+                
+                } else {
+                    // print("Success ")
+                    return req.future(res)
+                }
+            }
+        }
+        
+        return redirectingResponse
     }
     
     
@@ -387,6 +399,7 @@ public func routes(_ router: Router) throws {
 
     
     
+    
     // Mirrors mode recursive checker
     
     func findExistingMirrorNumber(index: Int, _ hosts: [String], _ ports: [String], _ patchs: [String], _ x: Int, _ y: Int, _ z: Int, _ order: [Int:Int], req: Request) -> Future<Int?> {
@@ -438,6 +451,7 @@ public func routes(_ router: Router) throws {
     
 
     
+ /*
     // Combo mode checker
     
     func checkTileExist(_ maps: [PriorityMapsList], _ index: Int, _ x: Int, _ y: Int, _ z: Int, _ request: Request) throws -> Future<String> {
@@ -472,30 +486,34 @@ public func routes(_ router: Router) throws {
         }
         return existingUrl
     }
-    
+  */
     
     
 //=======================
     
     /*
-     router.get("test_area") { req -> String in
+     router.get("test_area") { req -> Future<Response> in
+        
+        return notFoundResponce(req)
+        
+//        return errorResponce("Hello world", req)
      
-     let a = notFoundResponce(req)
+//     let a = notFoundResponce(req)
+//
+//     let b = a.map { c in
+//     print("A ", c.http.status.code)
+//     }
+//
+//     let d = redirect(to: "ABCD", with: req)
+//
+//     let e = d.map { f in
+//     print("D ", f.http.status.code)
+//     }
      
-     let b = a.map { c in
-     print("A ", c.http.status.code)
+     //return "test area"
      }
-     
-     let d = redirect(to: "ABCD", with: req)
-     
-     let e = d.map { f in
-     print("D ", f.http.status.code)
-     }
-     
-     return "test area"
-     }
-     */
-
+    */
+    
  
     
     /*
