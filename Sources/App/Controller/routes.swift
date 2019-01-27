@@ -325,7 +325,7 @@ public func routes(_ router: Router) throws {
         var redirectingResponse: Future<Response>
         
         let currentMapName = maps[index].mapName
-        
+         
         
         if maps[index].notChecking {
             redirectingResponse = try startSearchingForMap(currentMapName, xText: String(x), String(y), z, req)
