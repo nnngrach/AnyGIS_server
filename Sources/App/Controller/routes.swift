@@ -325,12 +325,28 @@ public func routes(_ router: Router) throws {
         var redirectingResponse: Future<Response>
         
         let currentMapName = maps[index].mapName
-    
         
-        if maps[index].notChecking {
-            redirectingResponse = try startSearchingForMap(currentMapName, xText: String(x), String(y), z, req)
-            
-        } else {
+        guard !maps[index].notChecking else {
+            return try startSearchingForMap(currentMapName, xText: String(x), String(y), z, req)
+        }
+        
+
+        
+        let coordinates = coordinateTransformer.tileNumberToCoordinates(tileX: x, tileY: y, mapZoom: z)
+        let xRange = maps[index].xMin ... maps[index].xMax
+        let yRange = maps[index].yMin ... maps[index].yMax
+        
+        guard xRange.contains(coordinates.lon_deg) && yRange.contains(coordinates.lat_deg) else {
+            return try checkMapsetList(maps, index+1, x, y, z, req)
+        }
+        
+        
+        
+        
+//        if maps[index].notChecking {
+//            redirectingResponse = try startSearchingForMap(currentMapName, xText: String(x), String(y), z, req)
+//
+//        } else {
             // Start finding first url with existing file.
             // All testing maps must be in Mirrors database!
             let response = try checkMirrorsList(currentMapName, x, y, z, req)
@@ -350,7 +366,7 @@ public func routes(_ router: Router) throws {
                     return req.future(res)
                 }
             }
-        }
+//        }
         
         return redirectingResponse
     }

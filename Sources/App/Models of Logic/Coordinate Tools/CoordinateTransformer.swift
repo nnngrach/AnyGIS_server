@@ -60,7 +60,7 @@ class CoordinateTransformer {
     }
     
     
-    private func tileNumberToCoordinates(tileX : Int, tileY : Int, mapZoom: Int) -> (lat_deg : Double, lon_deg : Double) {
+    func tileNumberToCoordinates(tileX : Int, tileY : Int, mapZoom: Int) -> (lat_deg : Double, lon_deg : Double) {
         let n : Double = pow(2.0, Double(mapZoom))
         let lon = (Double(tileX) / n) * 360.0 - 180.0
         let lat = atan( sinh (.pi - (Double(tileY) / n) * 2 * Double.pi)) * (180.0 / .pi)
