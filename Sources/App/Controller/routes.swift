@@ -410,7 +410,7 @@ public func routes(_ router: Router) throws {
         
         guard let currentShuffledIndex = order[index] else {return notFoundResponce(req)}
         
-        let timeout = 200
+        let timeout = 500
         let defaultPort = 8080
         var connection: EventLoopFuture<HTTPClient>
         
