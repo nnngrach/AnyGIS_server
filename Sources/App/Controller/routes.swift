@@ -410,15 +410,16 @@ public func routes(_ router: Router) throws {
         
         guard let currentShuffledIndex = order[index] else {return notFoundResponce(req)}
         
+        let timeout = 200
+        let defaultPort = 8080
         var connection: EventLoopFuture<HTTPClient>
-        
         
         // Connect to Host URL with correct port
         if ports[currentShuffledIndex] == "any" {
             connection = HTTPClient.connect(hostname: hosts[currentShuffledIndex], on: req)
         } else {
-            let portNumber = Int(ports[currentShuffledIndex]) ?? 8088
-            connection = HTTPClient.connect(hostname: hosts[currentShuffledIndex], port: portNumber, connectTimeout: .milliseconds(150), on: req)
+            let portNumber = Int(ports[currentShuffledIndex]) ?? defaultPort
+            connection = HTTPClient.connect(hostname: hosts[currentShuffledIndex], port: portNumber, connectTimeout: .milliseconds(timeout), on: req)
         }
         
         // Synchronization: Waiting, while coonection will be started
