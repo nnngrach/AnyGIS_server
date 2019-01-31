@@ -322,51 +322,50 @@ public func routes(_ router: Router) throws {
     // Checker for MapSet mode
     func checkMapsetList(_ maps: [PriorityMapsList], _ index: Int, _ x: Int, _ y: Int, _ z: Int, _ req: Request) throws -> Future<Response> {
         
-        var redirectingResponse: Future<Response>
         
         let currentMapName = maps[index].mapName
         
+        // Quick redirect for maps with global coverage
         guard !maps[index].notChecking else {
             return try startSearchingForMap(currentMapName, xText: String(x), String(y), z, req)
         }
         
 
-        
+        // Filter checking maps by it's coverage area
         let coordinates = coordinateTransformer.tileNumberToCoordinates(tileX: x, tileY: y, mapZoom: z)
         let xRange = maps[index].xMin ... maps[index].xMax
         let yRange = maps[index].yMin ... maps[index].yMax
+
+        let defaultValue = 0.0...0.0
+        let isMapWithoutLimits = (xRange == defaultValue && xRange == defaultValue)
+        let isPointInCoverageArea = xRange.contains(coordinates.lon_deg) && yRange.contains(coordinates.lat_deg)
         
-        guard xRange.contains(coordinates.lon_deg) && yRange.contains(coordinates.lat_deg) else {
+        guard isMapWithoutLimits || isPointInCoverageArea else {
             return try checkMapsetList(maps, index+1, x, y, z, req)
         }
         
         
+        // Start checking maps existing
+        var redirectingResponse: Future<Response>
         
+        let response = try checkMirrorsList(currentMapName, x, y, z, req)
         
-//        if maps[index].notChecking {
-//            redirectingResponse = try startSearchingForMap(currentMapName, xText: String(x), String(y), z, req)
-//
-//        } else {
-            // Start finding first url with existing file.
-            // All testing maps must be in Mirrors database!
-            let response = try checkMirrorsList(currentMapName, x, y, z, req)
+        redirectingResponse = response.flatMap(to: Response.self) { res in
             
-            redirectingResponse = response.flatMap(to: Response.self) { res in
-                
-                if (res.http.status.code == 404) && (maps.count > index+1) {
-                    // print("Recursive find next ")
-                    return try checkMapsetList(maps, index+1, x, y, z, req)
-                
-                } else if(res.http.status.code == 404) {
-                    // print("Fail ")
-                    return notFoundResponce(req)
-                
-                } else {
-                    // print("Success ")
-                    return req.future(res)
-                }
+            if (res.http.status.code == 404) && (maps.count > index+1) {
+                // print("Recursive find next ")
+                return try checkMapsetList(maps, index+1, x, y, z, req)
+            
+            } else if(res.http.status.code == 404) {
+                // print("Fail ")
+                return notFoundResponce(req)
+            
+            } else {
+                // print("Success ")
+                return req.future(res)
             }
-//        }
+        }
+
         
         return redirectingResponse
     }
