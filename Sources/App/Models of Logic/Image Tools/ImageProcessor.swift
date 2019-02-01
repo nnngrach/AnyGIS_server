@@ -46,7 +46,7 @@ class ImageProcessor {
     
     //MARK: Uploading image to Cloudinary server
     
-    private func upload(_ sourceUrl: String, _ request: Request) throws -> Future<Response> {
+    func uploadOneTile(_ sourceUrl: String, _ request: Request) throws -> Future<Response> {
         
         let host = "https://api.cloudinary.com/v1_1/nnngrach/image/upload"
         let name = makeName(sourceUrl)
@@ -65,8 +65,8 @@ class ImageProcessor {
     
     public func uploadTwoTiles(_ sourceUrls: [String], _ request: Request) throws -> [Future<Response>] {
         
-        let baseResponce = try upload(sourceUrls[0], request)
-        let overlayResponce = try upload(sourceUrls[1], request)
+        let baseResponce = try uploadOneTile(sourceUrls[0], request)
+        let overlayResponce = try uploadOneTile(sourceUrls[1], request)
         
         return [baseResponce, overlayResponce]
     }
@@ -74,10 +74,10 @@ class ImageProcessor {
     
     public func uploadFourTiles(_ sourceUrls: [String], _ request: Request) throws -> [Future<Response>] {
 
-        let tlLoadingResponce = try upload(sourceUrls[0], request)
-        let trLoadingResponce = try upload(sourceUrls[1], request)
-        let brLoadingResponce = try upload(sourceUrls[2], request)
-        let blLoadingResponce = try upload(sourceUrls[3], request)
+        let tlLoadingResponce = try uploadOneTile(sourceUrls[0], request)
+        let trLoadingResponce = try uploadOneTile(sourceUrls[1], request)
+        let brLoadingResponce = try uploadOneTile(sourceUrls[2], request)
+        let blLoadingResponce = try uploadOneTile(sourceUrls[3], request)
         
         return [tlLoadingResponce, trLoadingResponce, brLoadingResponce, blLoadingResponce]
     }
@@ -85,6 +85,18 @@ class ImageProcessor {
     
     
     //MARK: Synchronizing Responces
+    
+    public func syncOne(_ loadingResponce: EventLoopFuture<Response>,
+                        _ req: Request,
+                        _ closure: @escaping (Request) -> (EventLoopFuture<Response>)) -> EventLoopFuture<Response> {
+        
+        
+        return loadingResponce.flatMap(to: Response.self) { _ in
+            //Body
+            return closure(req)
+        }
+    }
+    
     
     public func syncTwo(_ loadingResponces: [EventLoopFuture<Response>],
                                   _ req: Request,
@@ -162,8 +174,21 @@ class ImageProcessor {
     }
     
     
+    public func getUrlWithOffsetAndOverlay(_ urls: [String], _ overlayUrl: String, _ offsetX: Int, _ offsetY: Int ) -> String {
+        let topLeft = makeName(urls[0])
+        let topRight = makeName(urls[1])
+        let bottomRight = makeName(urls[2])
+        let bottomLeft = makeName(urls[3])
+        let overlay = makeName(overlayUrl)
+        
+        print("https://res.cloudinary.com/nnngrach/image/upload/l_\(topLeft),y_-256/l_\(topRight),x_256,y_-128/l_\(bottomRight),x_128,y_128/c_crop,g_north_west,w_256,h_256,x_\(offsetX),y_\(offsetY)/l_\(overlay),o_100/\(bottomLeft)")
+        
+        return "https://res.cloudinary.com/nnngrach/image/upload/l_\(topLeft),y_-256/l_\(topRight),x_256,y_-128/l_\(bottomRight),x_128,y_128/c_crop,g_north_west,w_256,h_256,x_\(offsetX),y_\(offsetY)/l_\(overlay),o_100/\(bottomLeft)"
+    }
     
-    public func getUrlWithOffsetAndOverlay(_ urls: [String], _ overlayUrls: [String], _ offsetX: Int, _ offsetY: Int ) -> String {
+    
+    
+    public func getUrlWithOffsetAndDoubleOverlay(_ urls: [String], _ overlayUrls: [String], _ offsetX: Int, _ offsetY: Int ) -> String {
         let topLeft = makeName(urls[0])
         let topRight = makeName(urls[1])
         let bottomRight = makeName(urls[2])
