@@ -135,8 +135,8 @@ class WebHandler {
     
     private func makeWgs84RedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
         
-        
-        let coordinates = try coordinateTransformer.getCoordinates(xText, yText, zoom)
+        let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
+        let coordinates = coordinateTransformer.tileNumberToCoordinates(tileNumbers.x, tileNumbers.y, zoom)
         
         let tilePosition = coordinateTransformer.getWGS84Position(coordinates.lat_deg, coordinates.lon_deg, withZoom: zoom)
         
@@ -163,65 +163,11 @@ class WebHandler {
     
     
     
-    private func makeWgs84DoubleOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
-        
-        
-        let coordinates = try coordinateTransformer.getCoordinates(xText, yText, zoom)
-        
-        let tilePosition = coordinateTransformer.getWGS84Position(coordinates.lat_deg, coordinates.lon_deg, withZoom: zoom)
-        
-        // Load layers info from data base in Future format
-        let mapList = try sqlHandler.getOverlayBy(setName: mapName, req)
-        
-        // Synchronization Futrure to data object.
-        // Generating redirect URL-response to processed image.
-        let redirectingResponce = mapList.flatMap(to: Response.self) { mapListData  in
-            
-            // Load info for every layers from data base in Future format
-            let baseMapName = mapListData.baseName
-            let overlayMapName = mapListData.overlayName
-            let baseMapData = try self.sqlHandler.getBy(mapName: baseMapName, req)
-            let overlayMapData = try self.sqlHandler.getBy(mapName: overlayMapName, req)
-            
-            
-            // Synchronization Futrure to data object.
-            return baseMapData.flatMap(to: Response.self) { baseObject  in
-                return overlayMapData.flatMap(to: Response.self) { overObject  in
-                    
-                    // To make one image with offset I need four nearest to crop.
-                    let fourTilesAroundUrls = self.urlPatchCreator.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, baseObject.backgroundUrl, baseObject.backgroundServerName)
-                    
-                    let fourOverTilesAroundUrls = self.urlPatchCreator.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, overObject.backgroundUrl, overObject.backgroundServerName)
-                    
-                    // Upload all images to online image-processor
-                    let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesAroundUrls, req)
-                    
-                    let loadingOverResponces = try self.imageProcessor.uploadFourTiles(fourOverTilesAroundUrls, req)
-                    
-                    // Get URL of resulting file in image-processor storage
-                    return self.imageProcessor.syncFour(loadingResponces, req) { res1 in
-                        return self.imageProcessor.syncFour(loadingOverResponces, req) { res2 in
-                            
-                            let processedImageUrl = self.imageProcessor.getUrlWithOffsetAndDoubleOverlay(fourTilesAroundUrls, fourOverTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY)
-                            
-                            return self.redirect(to: processedImageUrl, with: req)
-                        }
-                    }
-                }
-            }
-        }
-        
-        return redirectingResponce
-    }
-    
-    
-    
-    
     
     private func makeWgs84OverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
         
-        
-        let coordinates = try coordinateTransformer.getCoordinates(xText, yText, zoom)
+        let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
+        let coordinates = coordinateTransformer.tileNumberToCoordinates(tileNumbers.x, tileNumbers.y, zoom)
         
         let tileWGSPosition = coordinateTransformer.getWGS84Position(coordinates.lat_deg, coordinates.lon_deg, withZoom: zoom)
         
@@ -278,6 +224,63 @@ class WebHandler {
     
     
     
+    
+    
+    private func makeWgs84DoubleOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
+        
+        let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
+        let coordinates = coordinateTransformer.tileNumberToCoordinates(tileNumbers.x, tileNumbers.y, zoom)
+        
+        let tilePosition = coordinateTransformer.getWGS84Position(coordinates.lat_deg, coordinates.lon_deg, withZoom: zoom)
+        
+        // Load layers info from data base in Future format
+        let mapList = try sqlHandler.getOverlayBy(setName: mapName, req)
+        
+        // Synchronization Futrure to data object.
+        // Generating redirect URL-response to processed image.
+        let redirectingResponce = mapList.flatMap(to: Response.self) { mapListData  in
+            
+            // Load info for every layers from data base in Future format
+            let baseMapName = mapListData.baseName
+            let overlayMapName = mapListData.overlayName
+            let baseMapData = try self.sqlHandler.getBy(mapName: baseMapName, req)
+            let overlayMapData = try self.sqlHandler.getBy(mapName: overlayMapName, req)
+            
+            
+            // Synchronization Futrure to data object.
+            return baseMapData.flatMap(to: Response.self) { baseObject  in
+                return overlayMapData.flatMap(to: Response.self) { overObject  in
+                    
+                    // To make one image with offset I need four nearest to crop.
+                    let fourTilesAroundUrls = self.urlPatchCreator.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, baseObject.backgroundUrl, baseObject.backgroundServerName)
+                    
+                    let fourOverTilesAroundUrls = self.urlPatchCreator.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, overObject.backgroundUrl, overObject.backgroundServerName)
+                    
+                    // Upload all images to online image-processor
+                    let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesAroundUrls, req)
+                    
+                    let loadingOverResponces = try self.imageProcessor.uploadFourTiles(fourOverTilesAroundUrls, req)
+                    
+                    // Get URL of resulting file in image-processor storage
+                    return self.imageProcessor.syncFour(loadingResponces, req) { res1 in
+                        return self.imageProcessor.syncFour(loadingOverResponces, req) { res2 in
+                            
+                            let processedImageUrl = self.imageProcessor.getUrlWithOffsetAndDoubleOverlay(fourTilesAroundUrls, fourOverTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY)
+                            
+                            return self.redirect(to: processedImageUrl, with: req)
+                        }
+                    }
+                }
+            }
+        }
+        
+        return redirectingResponce
+    }
+    
+    
+    
+    
+
     
     
     private func makeMirrorCheckerRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
@@ -341,7 +344,7 @@ class WebHandler {
         
         
         // Filter checking maps by it's coverage area
-        let coordinates = coordinateTransformer.tileNumberToCoordinates(tileX: x, tileY: y, mapZoom: z)
+        let coordinates = coordinateTransformer.tileNumberToCoordinates(x, y, z)
         let xRange = maps[index].xMin ... maps[index].xMax
         let yRange = maps[index].yMin ... maps[index].yMax
         

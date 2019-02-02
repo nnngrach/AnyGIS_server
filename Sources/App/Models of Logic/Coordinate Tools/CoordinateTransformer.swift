@@ -31,24 +31,7 @@ class CoordinateTransformer {
         }
     }
     
-    
-    
-    public func getCoordinates(_ xText: String, _ yText: String, _ zoom: Int) throws -> (lat_deg: Double, lon_deg: Double) {
-        
-        // If user find by lat/log (as double)
-        if (xText.contains(".") || yText.contains(".")) {
-            
-            guard let latitude = Double(xText) else { throw TransformerError.inputValueIsNotDOUBLE}
-            guard let longitude = Double(yText) else { throw TransformerError.inputValueIsNotDOUBLE}
-            return (latitude, longitude)
-            
-            // If user find directly by tile numbers (as int)
-        } else {
-            guard let xTile = Int(xText) else { throw TransformerError.inputValueIsNotINT}
-            guard let yTile = Int(yText) else { throw TransformerError.inputValueIsNotINT}
-            return tileNumberToCoordinates(tileX: xTile, tileY: yTile, mapZoom: zoom)
-        }
-    }
+
     
     
     
@@ -60,7 +43,7 @@ class CoordinateTransformer {
     }
     
     
-    public func tileNumberToCoordinates(tileX : Int, tileY : Int, mapZoom: Int) -> (lat_deg : Double, lon_deg : Double) {
+    public func tileNumberToCoordinates(_ tileX : Int, _ tileY : Int, _ mapZoom: Int) -> (lat_deg : Double, lon_deg : Double) {
         let n : Double = pow(2.0, Double(mapZoom))
         let lon = (Double(tileX) / n) * 360.0 - 180.0
         let lat = atan( sinh (.pi - (Double(tileY) / n) * 2 * Double.pi)) * (180.0 / .pi)
