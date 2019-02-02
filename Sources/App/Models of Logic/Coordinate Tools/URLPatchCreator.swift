@@ -47,22 +47,6 @@ class URLPatchCreator {
     
     
     
-    // Heroku server doesn't works with Swift's standart arc4random functions.
-    // So this is my silple realisation of it.
-    
-//    private func randomForHeroku(_ max: Int) -> Int {
-//        let unixTime = Date().timeIntervalSince1970
-//        let lastDigit = Int(String(String(unixTime).last!))!
-//        let randomInRange = lastDigit % max
-//        return randomInRange
-//    }
-    
-    
-    
-    
-    
-    
-    
     // All URL replacing functions
     // (I can't call any functions of this class from closures)
     // ("self" does't works. So i using dependency injection)
@@ -179,6 +163,6 @@ class URLPatchCreator {
     
     private lazy var urlTransformers = [getX, getY, getZ, getS, getGoogleZ, getInvY, getSasZ, getFolderX, getFolderY, getYandexX, getYandexY, getYandexTimestamp]
     
-
+    
     
 }

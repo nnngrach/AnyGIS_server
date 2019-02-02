@@ -15,10 +15,10 @@ class WebHandler {
     let coordinateTransformer = CoordinateTransformer()
     
     
-
+    
     // MARK: Main function
     
-    func startSearchingForMap(_ mapName: String, xText:String, _ yText: String, _ zoom: Int, _ req: Request) throws -> Future<Response>  {
+    public func startSearchingForMap(_ mapName: String, xText:String, _ yText: String, _ zoom: Int, _ req: Request) throws -> Future<Response>  {
         
         // Load map informarion from database in Future format
         let mapData = try sqlHandler.getBy(mapName: mapName, req)
@@ -33,7 +33,7 @@ class WebHandler {
             
             // Select processing mode
             switch mapObject.mode {
-            
+                
             case "redirect":
                 return try self.makeSimpleRedirectingResponse(mapObject, mapName, xText, yText, zoom, req)
                 
@@ -45,7 +45,7 @@ class WebHandler {
                 
             case "wgs84_overlay":
                 return try self.makeWgs84OverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, req)
-
+                
             case "wgs84_double_overlay":
                 return try self.makeWgs84DoubleOverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, req)
                 
@@ -72,7 +72,7 @@ class WebHandler {
     
     // MARK: Make Redirecting Response
     
-    func makeSimpleRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeSimpleRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
         
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
@@ -86,7 +86,7 @@ class WebHandler {
     
     
     
-    func makeOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
         
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
@@ -133,7 +133,7 @@ class WebHandler {
     
     
     
-    func makeWgs84RedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeWgs84RedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
         
         
         let coordinates = try coordinateTransformer.getCoordinates(xText, yText, zoom)
@@ -163,7 +163,7 @@ class WebHandler {
     
     
     
-    func makeWgs84DoubleOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeWgs84DoubleOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
         
         
         let coordinates = try coordinateTransformer.getCoordinates(xText, yText, zoom)
@@ -218,7 +218,7 @@ class WebHandler {
     
     
     
-    func makeWgs84OverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeWgs84OverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
         
         
         let coordinates = try coordinateTransformer.getCoordinates(xText, yText, zoom)
@@ -280,7 +280,7 @@ class WebHandler {
     
     
     
-    func makeMirrorCheckerRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeMirrorCheckerRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
         
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
@@ -295,7 +295,7 @@ class WebHandler {
     
     
     
-    func makeMultyLayerRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeMultyLayerRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
         
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
@@ -324,13 +324,13 @@ class WebHandler {
     
     
     
-
     
-
+    
+    
     // MARK: Recursive checkers for file existing by URL
     
     // Checker for MultyLayer mode
-    func checkMultyLayerList(_ maps: [PriorityMapsList], _ index: Int, _ x: Int, _ y: Int, _ z: Int, _ req: Request) throws -> Future<Response> {
+    private func checkMultyLayerList(_ maps: [PriorityMapsList], _ index: Int, _ x: Int, _ y: Int, _ z: Int, _ req: Request) throws -> Future<Response> {
         
         let currentMapName = maps[index].mapName
         
@@ -382,7 +382,7 @@ class WebHandler {
     
     
     // Checker for Mirrors mode
-    func checkMirrorsList(_ mirrorName: String, _ x: Int, _ y: Int, _ z: Int, _ req: Request) throws -> Future<Response> {
+    private func checkMirrorsList(_ mirrorName: String, _ x: Int, _ y: Int, _ z: Int, _ req: Request) throws -> Future<Response> {
         
         // Load info for every mirrors from data base in Future format
         let mirrorsList = try sqlHandler.getMirrorsListBy(setName: mirrorName, req)
@@ -428,7 +428,7 @@ class WebHandler {
     
     
     // Mirrors mode recursive checker sub function
-    func findExistingMirrorNumber(index: Int, _ hosts: [String], _ ports: [String], _ patchs: [String], _ urls: [String], _ x: Int, _ y: Int, _ z: Int, _ order: [Int:Int], req: Request) -> Future<Response> {
+    private func findExistingMirrorNumber(index: Int, _ hosts: [String], _ ports: [String], _ patchs: [String], _ urls: [String], _ x: Int, _ y: Int, _ z: Int, _ order: [Int:Int], req: Request) -> Future<Response> {
         
         guard let currentShuffledIndex = order[index] else {return notFoundResponce(req)}
         
@@ -483,18 +483,18 @@ class WebHandler {
     
     // MARK: Simple Html functions
     
-    func errorResponce (_ description: String, _ req: Request) -> Future<Response> {
+    private func errorResponce (_ description: String, _ req: Request) -> Future<Response> {
         return try! req.response(http: HTTPResponse(status: .custom(code: 501, reasonPhrase: description), body: "")).encode(for: req)
     }
     
     
-    func notFoundResponce (_ req: Request) -> Future<Response> {
+    private func notFoundResponce (_ req: Request) -> Future<Response> {
         return try! req.response(http: HTTPResponse(status: .notFound, body: "")).encode(for: req)
     }
     
     
-    func redirect(to url: String, with req: Request) -> Future<Response>  {
+    private func redirect(to url: String, with req: Request) -> Future<Response>  {
         return try! req.redirect(to: url).encode(for: req)
     }
-
+    
 }

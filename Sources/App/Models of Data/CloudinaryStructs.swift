@@ -6,7 +6,7 @@
 //
 
 import Vapor
-    
+
 struct CloudinaryPostMessage: Content {
     var file: String
     var public_id: String

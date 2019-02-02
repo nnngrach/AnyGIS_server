@@ -53,7 +53,7 @@ class SQLHandler {
         }
     }
     
-
+    
     
     public func getOverlayBy (setName: String, _ request: Request) throws -> Future<OverlayMapsList>  {
         return OverlayMapsList.query(on: request)
@@ -81,5 +81,5 @@ class SQLHandler {
             .all()
     }
     
- 
+    
 }

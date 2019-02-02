@@ -7,4 +7,4 @@
 
 import Foundation
 
-//TODO: Make erase cashe function in Cloudinary.com
+//TODO: Make cashe eraser function in Cloudinary.com

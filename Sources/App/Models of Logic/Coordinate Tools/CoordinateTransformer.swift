@@ -22,8 +22,8 @@ class CoordinateTransformer {
             
             return coordinatesToTileNumbers(latitude, longitude, withZoom: zoom)
             
-        
-        // If user find directly by tile numbers (as int)
+            
+            // If user find directly by tile numbers (as int)
         } else {
             guard let xTile = Int(xText) else { throw TransformerError.inputValueIsNotINT}
             guard let yTile = Int(yText) else { throw TransformerError.inputValueIsNotINT}
@@ -60,7 +60,7 @@ class CoordinateTransformer {
     }
     
     
-    func tileNumberToCoordinates(tileX : Int, tileY : Int, mapZoom: Int) -> (lat_deg : Double, lon_deg : Double) {
+    public func tileNumberToCoordinates(tileX : Int, tileY : Int, mapZoom: Int) -> (lat_deg : Double, lon_deg : Double) {
         let n : Double = pow(2.0, Double(mapZoom))
         let lon = (Double(tileX) / n) * 360.0 - 180.0
         let lat = atan( sinh (.pi - (Double(tileY) / n) * 2 * Double.pi)) * (180.0 / .pi)
@@ -73,7 +73,6 @@ class CoordinateTransformer {
     
     
     // MARK: WGS-84 proection transformations
-    // https://habr.com/post/151103/
     
     public func getWGS84Position(_ latitude: Double, _ longitude: Double, withZoom zoom: Int) -> (x:Int, y:Int, offsetX:Int, offsetY:Int) {
         
@@ -103,7 +102,6 @@ class CoordinateTransformer {
         
         return (Int(tileX), Int(tileY), Int(offsetX), Int(offsetY))
     }
-    
     
     
 }

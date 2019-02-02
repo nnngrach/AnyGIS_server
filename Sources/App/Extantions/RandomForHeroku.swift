@@ -24,23 +24,8 @@ public func randomNubmerForHeroku(_ maxNumber: Int) -> Int {
 }
 
 
-/*
-func shuffledForHeroku(array: [String]) -> [String] {
-    guard array.count != 0 else {return array}
-    let count = array.count
-    var result = array
-    
-    for i in 0 ..< (count - 1) {
-        let newIndex = randomNubmerForHeroku(count)
-        guard newIndex > i else {continue}
-        result.swapAt(i, newIndex)
-    }
-    
-    return result
-}
- */
 
-func shuffledForHeroku<T>(array: [T]) -> [T] {
+public func shuffledForHeroku<T>(array: [T]) -> [T] {
     guard array.count != 0 else {return array}
     let count = array.count
     var result = array
@@ -55,7 +40,7 @@ func shuffledForHeroku<T>(array: [T]) -> [T] {
 }
 
 
-func makeShuffledOrder(maxNumber: Int) -> [Int:Int] {
+public func makeShuffledOrder(maxNumber: Int) -> [Int:Int] {
     guard maxNumber > 1 else { return [0 : 0] }
     
     var dict = [Int:Int]()
@@ -67,6 +52,6 @@ func makeShuffledOrder(maxNumber: Int) -> [Int:Int] {
 }
 
 
-func getShuffledledIndex(index:Int, order: [Int:Int]) -> Int {
+public func getShuffledledIndex(index:Int, order: [Int:Int]) -> Int {
     return order[index] ?? 0
 }

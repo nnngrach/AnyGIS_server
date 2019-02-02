@@ -44,9 +44,10 @@ class ImageProcessor {
     
     
     
+    
     //MARK: Uploading image to Cloudinary server
     
-    func uploadOneTile(_ sourceUrl: String, _ request: Request) throws -> Future<Response> {
+    public func uploadOneTile(_ sourceUrl: String, _ request: Request) throws -> Future<Response> {
         
         let host = "https://api.cloudinary.com/v1_1/nnngrach/image/upload"
         let name = makeName(sourceUrl)
@@ -63,6 +64,7 @@ class ImageProcessor {
     }
     
     
+    
     public func uploadTwoTiles(_ sourceUrls: [String], _ request: Request) throws -> [Future<Response>] {
         
         let baseResponce = try uploadOneTile(sourceUrls[0], request)
@@ -72,8 +74,9 @@ class ImageProcessor {
     }
     
     
+    
     public func uploadFourTiles(_ sourceUrls: [String], _ request: Request) throws -> [Future<Response>] {
-
+        
         let tlLoadingResponce = try uploadOneTile(sourceUrls[0], request)
         let trLoadingResponce = try uploadOneTile(sourceUrls[1], request)
         let brLoadingResponce = try uploadOneTile(sourceUrls[2], request)
@@ -81,6 +84,7 @@ class ImageProcessor {
         
         return [tlLoadingResponce, trLoadingResponce, brLoadingResponce, blLoadingResponce]
     }
+    
     
     
     
@@ -98,9 +102,10 @@ class ImageProcessor {
     }
     
     
+    
     public func syncTwo(_ loadingResponces: [EventLoopFuture<Response>],
-                                  _ req: Request,
-                                  _ closure: @escaping (Request) -> (EventLoopFuture<Response>)) -> EventLoopFuture<Response> {
+                        _ req: Request,
+                        _ closure: @escaping (Request) -> (EventLoopFuture<Response>)) -> EventLoopFuture<Response> {
         
         return loadingResponces[0].flatMap(to: Response.self) { _ in
             return loadingResponces[1].flatMap(to: Response.self) { _ in
@@ -114,8 +119,8 @@ class ImageProcessor {
     
     
     public func syncFour(_ loadingResponces: [EventLoopFuture<Response>],
-                                  _ req: Request,
-                                  _ closure: @escaping (Request) -> (EventLoopFuture<Response>)) -> EventLoopFuture<Response> {
+                         _ req: Request,
+                         _ closure: @escaping (Request) -> (EventLoopFuture<Response>)) -> EventLoopFuture<Response> {
         
         return loadingResponces[0].flatMap(to: Response.self) { _ in
             return loadingResponces[1].flatMap(to: Response.self) { _ in
@@ -133,35 +138,16 @@ class ImageProcessor {
     
     
     
-    // ?
-//    func show (_ responce: Future<Response>, _ request: Request) throws -> Future<Response> {
-//        
-//        let redirectingRespocence = responce.flatMap(to: Response.self) { res in
-//            
-//            let futContent = try res.content.decode(CloudinaryImgUrl.self)
-//            
-//            let newResponce = futContent.map(to: Response.self) { content in
-//                let loadedImageUrl = content.url
-//                return request.redirect(to: loadedImageUrl)
-//            }
-//            
-//            return newResponce
-//        }
-//        
-//        return redirectingRespocence
-//    }
-    
-    
-    
     
     //MARK: Generating URL to Cloudinary image
     
     public func getUrlOverlay(_ baseUrl: String, _ overlayUrl: String) -> String {
         let baseImgName = makeName(baseUrl)
         let overlayImgName = makeName(overlayUrl)
-
+        
         return "https://res.cloudinary.com/nnngrach/image/upload/l_\(overlayImgName),w_256,o_100/\(baseImgName)"
     }
+    
     
     
     public func getUrlWithOffset(_ urls: [String], _ offsetX: Int, _ offsetY: Int ) -> String {
@@ -172,6 +158,7 @@ class ImageProcessor {
         
         return "https://res.cloudinary.com/nnngrach/image/upload/l_\(topLeft),y_-256/l_\(topRight),x_256,y_-128/l_\(bottomRight),x_128,y_128/c_crop,g_north_west,w_256,h_256,x_\(offsetX),y_\(offsetY)/\(bottomLeft)"
     }
+    
     
     
     public func getUrlWithOffsetAndOverlay(_ urls: [String], _ overlayUrl: String, _ offsetX: Int, _ offsetY: Int ) -> String {
@@ -188,6 +175,7 @@ class ImageProcessor {
     
     
     
+    
     public func getUrlWithOffsetAndDoubleOverlay(_ urls: [String], _ overlayUrls: [String], _ offsetX: Int, _ offsetY: Int ) -> String {
         let topLeft = makeName(urls[0])
         let topRight = makeName(urls[1])
@@ -201,70 +189,6 @@ class ImageProcessor {
         
         return "https://res.cloudinary.com/nnngrach/image/upload/l_\(topLeft),y_-256/l_\(topRight),x_256,y_-128/l_\(bottomRight),x_128,y_128/l_\(overTopLeft),x_-128,y_-128/l_\(overTopRight),x_128,y_-128/l_\(overBottomLeft),x_-128,y_128/l_\(overBottomRight),x_128,y_128/c_crop,g_north_west,w_256,h_256,x_\(offsetX),y_\(offsetY)/\(bottomLeft)"
     }
-
-   
-    
-  /*
-    func getUrlWithOpacity(_ url: String, _ opacity: Int) -> String {
-        //return "https://res.cloudinary.com/nnngrach/image/fetch/o_\(opacity)/\(url)"
-        return "https://res.cloudinary.com/nnngrach/image/o_\(opacity)/\(url)"
-    }
-  */
-    
-    
-    
- //===================================
-//    func loadImage(filePatch: URL) -> ProcessingResult {
-//        do {
-//            let data = try Data(contentsOf: filePatch)
-//            let extention = filePatch.pathExtension
-//            return ProcessingResult.image(imageData: data, extention: extention)
-//            
-//        } catch {
-//            return ProcessingResult.error(description: "Image not available")
-//        }
-//    }
-    
-   
-    
-    
-    
- /*
-    func getTestImage(_ req: Request) throws -> Response {
-        // add controller code here
-        // to determine which image is returned
-        //        let filePath = "/Public/0.png"
-        //        let fileUrl = URL(fileURLWithPath: filePath)
-        
-        let directory = DirectoryConfig.detect()
-        let fileUrl = URL(fileURLWithPath: directory.workDir)
-            .appendingPathComponent("Public", isDirectory: true)
-            .appendingPathComponent("0.png")
-        
-        do {
-            let data = try Data(contentsOf: fileUrl)
-            // makeResponse(body: LosslessHTTPBodyRepresentable, as: MediaType)
-            let response: Response = req.makeResponse(data, as: MediaType.png)
-            return response
-        } catch {
-            let response: Response = req.makeResponse("image not available")
-            return response
-        }
-    }
- 
- */
-    
-    
-    
-    
-    
-    
-    
-//    func chechWhite(url: String) {
-////        let img = CGImage(windowListFromArrayScreenBounds: CGRect(x: 0, y: 0, width: 0, height: 0), windowArray: CFArray(), imageOption: <#T##CGWindowImageOption#>)
-//        //let img = NSImage(byReferencing: URL(fileURLWithPath: url))
-////        let rgbImg =
-//    }
     
     
 }

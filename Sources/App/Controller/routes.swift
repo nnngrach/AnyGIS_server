@@ -45,11 +45,11 @@ public func routes(_ router: Router) throws {
     }
     
     
-
     
-
-
-
+    
+    
+    
+    
     // MARK: Main request to get tile image
     router.get(String.parameter, String.parameter, String.parameter,Int.parameter) { request -> Future<Response> in
         
