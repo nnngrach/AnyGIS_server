@@ -49,6 +49,9 @@ class WebHandler {
             case "wgs84_double_overlay":
                 return try self.makeWgs84DoubleOverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, req)
                 
+            case "mapboxOverlay":
+                return try self.makeMapboxOverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, req)
+                
             case "checkAllMirrors":
                 return try self.makeMirrorCheckerRedirectingResponse(mapObject, mapName, xText, yText, zoom, req)
                 
@@ -289,6 +292,58 @@ class WebHandler {
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
         
         let redirectingResponce = try checkMirrorsList(mapName, tileNumbers.x, tileNumbers.y, zoom, req)
+        
+        return redirectingResponce
+    }
+    
+    
+    
+    
+    
+    
+    
+    private func makeMapboxOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
+        
+        
+        let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
+        
+        // Load layers info from data base in Future format
+        let layers = try sqlHandler.getOverlayBy(setName: mapName, req)
+        
+        
+        // Synchronization Futrure to data object.
+        // Generating redirect URL-response to processed image.
+        let redirectingResponce = layers.flatMap(to: Response.self) { layersData  in
+            
+            // Load info for every layers from data base in Future format
+            let baseMapName = layersData.baseName
+            let overlayMapName = layersData.overlayName
+            let baseMapData = try self.sqlHandler.getBy(mapName: baseMapName, req)
+            let overlayMapsData = try self.sqlHandler.getMirrorsListBy(setName: overlayMapName, req)
+            
+            
+            // Synchronization Futrure to data object.
+            return baseMapData.flatMap(to: Response.self) { baseObject  in
+                return overlayMapsData.flatMap(to: Response.self) { overObject  in
+                    
+                    let randomIndex = randomNubmerForHeroku(overObject.count)
+                    
+                    let baseUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, baseObject.backgroundUrl, baseObject.backgroundServerName)
+                    
+                    let overlayUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, overObject[randomIndex].url, "")
+                    
+                    // Upload all images to online image-processor
+                    let loadingResponces = try self.imageProcessor.uploadTwoTiles([baseUrl, overlayUrl], req)
+                    
+                    // Redirect to URL of resulting file in image-processor storage
+                    return self.imageProcessor.syncTwo(loadingResponces, req) { res in
+                        
+                        let newUrl = self.imageProcessor.getUrlOverlay(baseUrl, overlayUrl)
+                        return self.redirect(to: newUrl, with: req)
+                    }
+                }
+            }
+        }
         
         return redirectingResponce
     }
