@@ -517,7 +517,7 @@ class WebHandler {
             // Return index of founded file if success.
             return client.send(request).flatMap{ (response) -> Future<Response> in
                 
-                if response.status.code != 404 && response.status.code != 404 {
+                if response.status.code != 403 && response.status.code != 404 {
                     //print ("Success: File founded! ", hosts[index], currentUrl, response.status.code)
                     let newUrl = self.urlPatchCreator.calculateTileURL(x, y, z, urls[currentShuffledIndex], "")
                     return self.redirect(to: newUrl, with: req)
