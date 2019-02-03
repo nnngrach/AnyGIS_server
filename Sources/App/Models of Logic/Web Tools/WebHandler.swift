@@ -511,19 +511,19 @@ class WebHandler {
             let currentUrl = self.urlPatchCreator.calculateTileURL(x, y, z, patchs[currentShuffledIndex], "")
             
             let request = HTTPRequest(method: .HEAD, url: currentUrl)
-            
+        
             
             // Send Request and check HTML status code
             // Return index of founded file if success.
             return client.send(request).flatMap{ (response) -> Future<Response> in
                 
-                if response.status.code != 404 {
-                    //print ("Success: File founded! ", hosts[shuffledIndex], currentUrl)
+                if response.status.code != 404 && response.status.code != 404 {
+                    //print ("Success: File founded! ", hosts[index], currentUrl, response.status.code)
                     let newUrl = self.urlPatchCreator.calculateTileURL(x, y, z, urls[currentShuffledIndex], "")
                     return self.redirect(to: newUrl, with: req)
                     
                 } else if (index + 1) < hosts.count {
-                    //print ("Recursive find for next index: ", hosts[shuffledIndex], currentUrl)
+                    //print ("Recursive find for next index: ", hosts[index], currentUrl)
                     return self.findExistingMirrorNumber(index: index+1, hosts, ports, patchs, urls, x, y, z, order, req: req)
                     
                 } else {
