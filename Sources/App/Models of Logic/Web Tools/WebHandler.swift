@@ -492,7 +492,7 @@ class WebHandler {
         
         guard let currentShuffledIndex = order[index] else {return notFoundResponce(req)}
         
-        let timeout = 350
+        let timeout = 500       //TODO: I need to increase this speed
         let defaultPort = 8080
         var connection: EventLoopFuture<HTTPClient>
         
