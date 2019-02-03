@@ -5,7 +5,9 @@
 //  Created by HR_book on 31/12/2018.
 //
 
+import Foundation
 import Vapor
+import FluentSQLite
 
 class WebHandler {
     
