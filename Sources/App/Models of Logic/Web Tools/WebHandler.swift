@@ -523,11 +523,11 @@ class WebHandler {
                     return self.redirect(to: newUrl, with: req)
                     
                 } else if (index + 1) < hosts.count {
-                    //print ("Recursive find for next index: ", hosts[index], currentUrl)
+                    //print ("Recursive find for next index: ", hosts[index], currentUrl, response.status.code)
                     return self.findExistingMirrorNumber(index: index+1, hosts, ports, patchs, urls, x, y, z, order, req: req)
                     
                 } else {
-                    //print("Fail: All URLs checked and file not founded.")
+                    //print("Fail: All URLs checked and file not founded. ", response.status.code)
                     return self.notFoundResponce(req)
                 }
             }
