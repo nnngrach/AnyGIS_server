@@ -2,8 +2,6 @@ import FluentSQLite
 import Vapor
 
 
-
-//SQLiteModel
 final class PriorityMapsList: SQLiteModel {
     
     var id: Int?

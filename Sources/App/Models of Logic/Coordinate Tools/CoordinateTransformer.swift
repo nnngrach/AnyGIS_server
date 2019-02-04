@@ -10,7 +10,6 @@ import Foundation
 class CoordinateTransformer {
     
     // MARK: Web Mercator transformations
-    // https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
     
     public func calculateTileNumbers(_ xText: String, _ yText: String, _ zoom: Int) throws -> (x: Int, y: Int) {
         

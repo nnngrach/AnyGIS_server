@@ -2,8 +2,6 @@ import FluentSQLite
 import Vapor
 
 
-
-//SQLiteModel
 final class MirrorsMapsList: SQLiteModel {
     
     var id: Int?
