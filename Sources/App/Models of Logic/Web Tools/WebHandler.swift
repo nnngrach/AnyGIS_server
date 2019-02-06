@@ -13,7 +13,9 @@ class WebHandler {
     let sqlHandler = SQLHandler()
     let imageProcessor = ImageProcessor()
     let urlPatchCreator = URLPatchCreator()
+    let paralleliser = FreeAccountsParalleliser()
     let coordinateTransformer = CoordinateTransformer()
+    
     
     let output = OutputResponceGenerator()
     let urlChecker = UrlFIleChecker()
@@ -31,6 +33,9 @@ class WebHandler {
         // Load map informarion from database in Future format
         let mapData = try sqlHandler.getBy(mapName: mapName, req)
         
+        // Generate Session mumber to use with multy channel processing
+        let sessionID = paralleliser.splitByTime()
+        
         
         // Synchronizing map information
         let responce = mapData.flatMap(to: Response.self) { mapObject  in
@@ -47,25 +52,25 @@ class WebHandler {
                 return try self.makeSimpleRedirectingResponse(mapObject, mapName, xText, yText, zoom, req)
                 
             case "overlay":
-                return try self.makeOverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, req)
+                return try self.makeOverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
                 
             case "wgs84":
-                return try self.makeWgs84RedirectingResponse(mapObject, mapName, xText, yText, zoom, req)
+                return try self.makeWgs84RedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
                 
             case "wgs84_overlay":
-                return try self.makeWgs84OverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, req)
+                return try self.makeWgs84OverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
                 
             case "wgs84_double_overlay":
-                return try self.makeWgs84DoubleOverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, req)
+                return try self.makeWgs84DoubleOverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
                 
             case "mapboxOverlay":
-                return try self.makeMapboxOverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, req)
+                return try self.makeMapboxOverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
                 
             case "checkAllMirrors":
-                return try self.makeMirrorCheckerRedirectingResponse(mapObject, mapName, xText, yText, zoom, req)
+                return try self.makeMirrorCheckerRedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
                 
             case "multyLayer":
-                return try self.makeMultyLayerRedirectingResponse(mapObject, mapName, xText, yText, zoom, req)
+                return try self.makeMultyLayerRedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
                 
             default:
                 return self.output.errorResponce("Unknown value MapMode in data base", req)
@@ -98,7 +103,7 @@ class WebHandler {
     
     
     
-    private func makeOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ sessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
         
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
@@ -126,12 +131,12 @@ class WebHandler {
                     let overlayUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, overObject.backgroundUrl, overObject.backgroundServerName)
                     
                     // Upload all images to online image-processor
-                    let loadingResponces = try self.imageProcessor.uploadTwoTiles([baseUrl, overlayUrl], tileNumbers.x, req)
+                    let loadingResponces = try self.imageProcessor.uploadTwoTiles([baseUrl, overlayUrl], sessionID, req)
                     
                     // Redirect to URL of resulting file in image-processor storage
                     return self.imageProcessor.syncTwo(loadingResponces, req) { res in
                         
-                        let newUrl = self.imageProcessor.getUrlOverlay(baseUrl, overlayUrl, tileNumbers.x)
+                        let newUrl = self.imageProcessor.getUrlOverlay(baseUrl, overlayUrl, sessionID)
                         return self.output.redirect(to: newUrl, with: req)
                     }
                 }
@@ -145,7 +150,7 @@ class WebHandler {
     
     
     
-    private func makeWgs84RedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeWgs84RedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ sessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
         let coordinates = coordinateTransformer.tileNumberToCoordinates(tileNumbers.x, tileNumbers.y, zoom)
@@ -157,13 +162,13 @@ class WebHandler {
         let fourTilesAroundUrls = urlPatchCreator.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
         
         // Upload all images to online image-processor
-        let loadingResponces = try imageProcessor.uploadFourTiles(fourTilesAroundUrls, tileNumbers.x, req)
+        let loadingResponces = try imageProcessor.uploadFourTiles(fourTilesAroundUrls, sessionID, req)
         
         
         // Get URL of resulting file in image-processor storage
         let redirectingResponce = imageProcessor.syncFour(loadingResponces, req) { res in
             
-            let processedImageUrl = self.imageProcessor.getUrlWithOffset(fourTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY, tileNumbers.x)
+            let processedImageUrl = self.imageProcessor.getUrlWithOffset(fourTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY, sessionID)
             
             return self.output.redirect(to: processedImageUrl, with: req)
         }
@@ -176,7 +181,7 @@ class WebHandler {
     
     
     
-    private func makeWgs84OverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeWgs84OverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ sessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
         let coordinates = coordinateTransformer.tileNumberToCoordinates(tileNumbers.x, tileNumbers.y, zoom)
@@ -213,16 +218,16 @@ class WebHandler {
                     print(overlayUrl)
                     
                     // Upload all images to online image-processor
-                    let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesAroundUrls, tileNumbers.x, req)
+                    let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesAroundUrls, sessionID, req)
                     
-                    let loadingOverResponce = try self.imageProcessor.uploadOneTile(overlayUrl, tileNumbers.x, req)
+                    let loadingOverResponce = try self.imageProcessor.uploadOneTile(overlayUrl, sessionID, req)
                     
                     // Get URL of resulting file in image-processor storage
                     return self.imageProcessor.syncFour(loadingResponces, req) { res1 in
                         
                         return self.imageProcessor.syncOne(loadingOverResponce, req) { res2 in
                             
-                            let processedImageUrl = self.imageProcessor.getUrlWithOffsetAndOverlay(fourTilesAroundUrls, overlayUrl, tileWGSPosition.offsetX, tileWGSPosition.offsetY, tileNumbers.x)
+                            let processedImageUrl = self.imageProcessor.getUrlWithOffsetAndOverlay(fourTilesAroundUrls, overlayUrl, tileWGSPosition.offsetX, tileWGSPosition.offsetY, sessionID)
                             
                             return self.output.redirect(to: processedImageUrl, with: req)
                         }
@@ -238,7 +243,7 @@ class WebHandler {
     
     
     
-    private func makeWgs84DoubleOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeWgs84DoubleOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ sessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
         let coordinates = coordinateTransformer.tileNumberToCoordinates(tileNumbers.x, tileNumbers.y, zoom)
@@ -269,15 +274,15 @@ class WebHandler {
                     let fourOverTilesAroundUrls = self.urlPatchCreator.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, overObject.backgroundUrl, overObject.backgroundServerName)
                     
                     // Upload all images to online image-processor
-                    let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesAroundUrls, tileNumbers.x, req)
+                    let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesAroundUrls, sessionID, req)
                     
-                    let loadingOverResponces = try self.imageProcessor.uploadFourTiles(fourOverTilesAroundUrls, tileNumbers.x, req)
+                    let loadingOverResponces = try self.imageProcessor.uploadFourTiles(fourOverTilesAroundUrls, sessionID, req)
                     
                     // Get URL of resulting file in image-processor storage
                     return self.imageProcessor.syncFour(loadingResponces, req) { res1 in
                         return self.imageProcessor.syncFour(loadingOverResponces, req) { res2 in
                             
-                            let processedImageUrl = self.imageProcessor.getUrlWithOffsetAndDoubleOverlay(fourTilesAroundUrls, fourOverTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY, tileNumbers.x)
+                            let processedImageUrl = self.imageProcessor.getUrlWithOffsetAndDoubleOverlay(fourTilesAroundUrls, fourOverTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY, sessionID)
                             
                             return self.output.redirect(to: processedImageUrl, with: req)
                         }
@@ -295,7 +300,7 @@ class WebHandler {
 
     
     
-    private func makeMirrorCheckerRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeMirrorCheckerRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ sessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
         
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
@@ -311,7 +316,7 @@ class WebHandler {
     
     
     
-    private func makeMapboxOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeMapboxOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ sessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
         
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
@@ -342,12 +347,12 @@ class WebHandler {
                     let overlayUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, overObject[randomIndex].url, "")
                     
                     // Upload all images to online image-processor
-                    let loadingResponces = try self.imageProcessor.uploadTwoTiles([baseUrl, overlayUrl], tileNumbers.x, req)
+                    let loadingResponces = try self.imageProcessor.uploadTwoTiles([baseUrl, overlayUrl], sessionID, req)
                     
                     // Redirect to URL of resulting file in image-processor storage
                     return self.imageProcessor.syncTwo(loadingResponces, req) { res in
                         
-                        let newUrl = self.imageProcessor.getUrlOverlay(baseUrl, overlayUrl, tileNumbers.x)
+                        let newUrl = self.imageProcessor.getUrlOverlay(baseUrl, overlayUrl, sessionID)
                         return self.output.redirect(to: newUrl, with: req)
                     }
                 }
@@ -362,7 +367,7 @@ class WebHandler {
     
     
     
-    private func makeMultyLayerRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeMultyLayerRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ sessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
         
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)

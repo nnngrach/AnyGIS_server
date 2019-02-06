@@ -9,6 +9,7 @@ import Foundation
 
 // I have 10 free Cloudinary accounts
 // with names like anygis0, anygis1, anygis2 ...etc.
+// So, number of using account equals sessionID.
 
 class FreeAccountsParalleliser {
     
@@ -17,6 +18,13 @@ class FreeAccountsParalleliser {
     func splitByRandom() -> String {
         let randomValue = randomNubmerForHeroku(cloudinaryServersCount)
         return String(randomValue)
+    }
+    
+    
+    func splitByTime() -> String {
+        let time = Int(Date.timeIntervalSinceReferenceDate)
+        let tenSeconds = (time % 100) / 10
+        return String(tenSeconds)
     }
     
     
