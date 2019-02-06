@@ -126,12 +126,12 @@ class WebHandler {
                     let overlayUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, overObject.backgroundUrl, overObject.backgroundServerName)
                     
                     // Upload all images to online image-processor
-                    let loadingResponces = try self.imageProcessor.uploadTwoTiles([baseUrl, overlayUrl], req)
+                    let loadingResponces = try self.imageProcessor.uploadTwoTiles([baseUrl, overlayUrl], tileNumbers.x, req)
                     
                     // Redirect to URL of resulting file in image-processor storage
                     return self.imageProcessor.syncTwo(loadingResponces, req) { res in
                         
-                        let newUrl = self.imageProcessor.getUrlOverlay(baseUrl, overlayUrl)
+                        let newUrl = self.imageProcessor.getUrlOverlay(baseUrl, overlayUrl, tileNumbers.x)
                         return self.output.redirect(to: newUrl, with: req)
                     }
                 }
@@ -157,13 +157,13 @@ class WebHandler {
         let fourTilesAroundUrls = urlPatchCreator.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
         
         // Upload all images to online image-processor
-        let loadingResponces = try imageProcessor.uploadFourTiles(fourTilesAroundUrls, req)
+        let loadingResponces = try imageProcessor.uploadFourTiles(fourTilesAroundUrls, tileNumbers.x, req)
         
         
         // Get URL of resulting file in image-processor storage
         let redirectingResponce = imageProcessor.syncFour(loadingResponces, req) { res in
             
-            let processedImageUrl = self.imageProcessor.getUrlWithOffset(fourTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY)
+            let processedImageUrl = self.imageProcessor.getUrlWithOffset(fourTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY, tileNumbers.x)
             
             return self.output.redirect(to: processedImageUrl, with: req)
         }
@@ -213,16 +213,16 @@ class WebHandler {
                     print(overlayUrl)
                     
                     // Upload all images to online image-processor
-                    let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesAroundUrls, req)
+                    let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesAroundUrls, tileNumbers.x, req)
                     
-                    let loadingOverResponce = try self.imageProcessor.uploadOneTile(overlayUrl, req)
+                    let loadingOverResponce = try self.imageProcessor.uploadOneTile(overlayUrl, tileNumbers.x, req)
                     
                     // Get URL of resulting file in image-processor storage
                     return self.imageProcessor.syncFour(loadingResponces, req) { res1 in
                         
                         return self.imageProcessor.syncOne(loadingOverResponce, req) { res2 in
                             
-                            let processedImageUrl = self.imageProcessor.getUrlWithOffsetAndOverlay(fourTilesAroundUrls, overlayUrl, tileWGSPosition.offsetX, tileWGSPosition.offsetY)
+                            let processedImageUrl = self.imageProcessor.getUrlWithOffsetAndOverlay(fourTilesAroundUrls, overlayUrl, tileWGSPosition.offsetX, tileWGSPosition.offsetY, tileNumbers.x)
                             
                             return self.output.redirect(to: processedImageUrl, with: req)
                         }
@@ -269,15 +269,15 @@ class WebHandler {
                     let fourOverTilesAroundUrls = self.urlPatchCreator.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, overObject.backgroundUrl, overObject.backgroundServerName)
                     
                     // Upload all images to online image-processor
-                    let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesAroundUrls, req)
+                    let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesAroundUrls, tileNumbers.x, req)
                     
-                    let loadingOverResponces = try self.imageProcessor.uploadFourTiles(fourOverTilesAroundUrls, req)
+                    let loadingOverResponces = try self.imageProcessor.uploadFourTiles(fourOverTilesAroundUrls, tileNumbers.x, req)
                     
                     // Get URL of resulting file in image-processor storage
                     return self.imageProcessor.syncFour(loadingResponces, req) { res1 in
                         return self.imageProcessor.syncFour(loadingOverResponces, req) { res2 in
                             
-                            let processedImageUrl = self.imageProcessor.getUrlWithOffsetAndDoubleOverlay(fourTilesAroundUrls, fourOverTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY)
+                            let processedImageUrl = self.imageProcessor.getUrlWithOffsetAndDoubleOverlay(fourTilesAroundUrls, fourOverTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY, tileNumbers.x)
                             
                             return self.output.redirect(to: processedImageUrl, with: req)
                         }
@@ -342,12 +342,12 @@ class WebHandler {
                     let overlayUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, overObject[randomIndex].url, "")
                     
                     // Upload all images to online image-processor
-                    let loadingResponces = try self.imageProcessor.uploadTwoTiles([baseUrl, overlayUrl], req)
+                    let loadingResponces = try self.imageProcessor.uploadTwoTiles([baseUrl, overlayUrl], tileNumbers.x, req)
                     
                     // Redirect to URL of resulting file in image-processor storage
                     return self.imageProcessor.syncTwo(loadingResponces, req) { res in
                         
-                        let newUrl = self.imageProcessor.getUrlOverlay(baseUrl, overlayUrl)
+                        let newUrl = self.imageProcessor.getUrlOverlay(baseUrl, overlayUrl, tileNumbers.x)
                         return self.output.redirect(to: newUrl, with: req)
                     }
                 }
