@@ -8,6 +8,7 @@ public func routes(_ router: Router) throws {
     
     let webHandler = WebHandler()
     let sqlHandler = SQLHandler()
+    let casheHandler = CasheHandler()
     
     
     
@@ -46,6 +47,14 @@ public func routes(_ router: Router) throws {
     }
     
     
+    
+    // MARK: Storage functions
+    // Start checker for cashe storage. And clean it if needed.
+    // Launched by Uptimerobot.com
+    router.get("cashe_eraser") { req -> String in
+        try casheHandler.erase(req)
+        return "Success: Cloudinary cashe is empty"
+    }
     
     
     
