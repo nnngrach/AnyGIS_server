@@ -9,7 +9,7 @@ import Foundation
 
 struct CloudinaryApiKey {
     
-    let username = [""]
+    let username = ["user"]
     let key = [""]
     let secret = [""]
 }
