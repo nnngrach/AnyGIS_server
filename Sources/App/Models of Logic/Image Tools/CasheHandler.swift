@@ -39,7 +39,7 @@ class CasheHandler {
         let date = Date()
         let calendar = Calendar.current
         let day = calendar.component(.day, from: date)
-        return day == 10
+        return day == 1
     }
     
     

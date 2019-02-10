@@ -147,7 +147,7 @@ class ImageProcessor {
         let baseImgName = makeName(baseUrl)
         let overlayImgName = makeName(overlayUrl)
        
-        return "https://res.cloudinary.com/anygis\(sessionID)/image/upload/l_\(overlayImgName),w_256,o_100/\(baseImgName)"
+        return "https://res.cloudinary.com/anygis\(sessionID)/image/upload/l_\(overlayImgName)/\(baseImgName)"
     }
     
     
