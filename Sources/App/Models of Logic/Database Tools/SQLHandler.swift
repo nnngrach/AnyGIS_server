@@ -82,4 +82,12 @@ class SQLHandler {
     }
     
     
+    public func getServiceDataBy (serviceName: String, _ request: Request) throws -> Future<[ServiceData]>  {
+        
+        return ServiceData.query(on: request)
+            .filter(\.serviceName == serviceName)
+            .all()
+    }
+    
+    
 }

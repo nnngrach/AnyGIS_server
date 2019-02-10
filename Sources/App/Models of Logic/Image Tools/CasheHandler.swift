@@ -11,6 +11,9 @@ import Vapor
 
 class CasheHandler {
     
+    let sqlHandler = SQLHandler()
+    
+    
     public func erase(_ req: Request) throws {
         
         //try checkImageCount(req)
