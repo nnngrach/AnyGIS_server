@@ -36,6 +36,11 @@ class SQLHandler {
             .all()
     }
     
+    public func fetchServiceList(_ request: Request) -> Future<[ServiceData]> {
+        return ServiceData.query(on: request)
+            .all()
+    }
+    
     
     public func getBy (mapName: String, _ request: Request) throws -> Future<MapsList>  {
         return MapsList.query(on: request)

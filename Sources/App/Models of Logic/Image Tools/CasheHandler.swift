@@ -12,7 +12,7 @@ import Vapor
 class CasheHandler {
     
     let sqlHandler = SQLHandler()
-    let deletingCountPerTime = 1000
+    let deletingPerTimeLimit = 1000
     
     
     public func erase(_ req: Request) throws {
@@ -45,15 +45,15 @@ class CasheHandler {
     
     
     private func checkAndDeleteFromFolder(_ folder: String, _ account: ServiceData, _ req: Request) throws {
+        
         let futureImageCount = try self.checkImageCount(account.userName, account.apiKey, account.apiSecret, folder, req)
         
         futureImageCount.map { imageCount in
-            let needDeleteOperations = imageCount / self.deletingCountPerTime
+            
+            let needDeleteOperations = imageCount / self.deletingPerTimeLimit
             
             for _ in 0 ..< needDeleteOperations {
-                
                 try self.deleteImages(account.userName, account.apiKey, account.apiSecret, folder, req)
-                
             }
         }
     }
@@ -66,15 +66,18 @@ class CasheHandler {
         let url = "https://\(apiKey):\(apiSecret)@api.cloudinary.com/v1_1/\(account)/resources/search?expression=type:\(folder)"
         
         let res = try req.client().get(url)
-        
+
         let count = res.flatMap(to: Int.self) { resData in
+            
             return try resData
                 .content
                 .decode(CloudinarySesrchResponse.self)
                 .map(to: Int.self) { jsonContent in
-                return jsonContent.total_count
+                    
+                    return jsonContent.total_count
             }
         }
+        
         return count
     }
     
@@ -88,5 +91,4 @@ class CasheHandler {
         try req.client().delete(url)
     }
     
-
 }
