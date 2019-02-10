@@ -12,24 +12,25 @@ import Vapor
 class CasheHandler {
     
     let sqlHandler = SQLHandler()
+    let deletingCountPerTime = 1000
     
     
     public func erase(_ req: Request) throws {
         
-        //try checkImageCount(req)
-        
         guard isCleaningTime() else {return}
         
-        
-        // Check uploaded count
-        // Erase uploaded
-        
-        // Check fetched count
-        // Erase fetched
-        
-        
-        //try uploadOneTile("https://a.tile.openstreetmap.org/0/0/0.png", "0", req)
+        try sqlHandler
+            .getServiceDataBy(serviceName: "Cloudinary", req)
+            .map { data in
+                
+                for account in data {
+                    try self.checkAndDeleteFromFolder("fetch", account, req)
+                    try self.checkAndDeleteFromFolder("upload", account, req)
+                }
+        }
     }
+    
+    
     
     
     // Cloudinary cashe will be cleaning
@@ -38,12 +39,31 @@ class CasheHandler {
         let date = Date()
         let calendar = Calendar.current
         let day = calendar.component(.day, from: date)
-        return day == 1
+        return day == 10
+    }
+    
+    
+    
+    private func checkAndDeleteFromFolder(_ folder: String, _ account: ServiceData, _ req: Request) throws {
+        let futureImageCount = try self.checkImageCount(account.userName, account.apiKey, account.apiSecret, folder, req)
+        
+        futureImageCount.map { imageCount in
+            let needDeleteOperations = imageCount / self.deletingCountPerTime
+            
+            for _ in 0 ..< needDeleteOperations {
+                
+                try self.deleteImages(account.userName, account.apiKey, account.apiSecret, folder, req)
+                
+            }
+        }
     }
 
     
-    private func checkImageCount(_ url: String, _ req: Request) throws -> Future<Int> {
-        let url2 = "https://399359168177684:ZFECQbQhvPKH2t4Dvq0zTwvqBBY@api.cloudinary.com/v1_1/anygis0/resources/search?expression=type:fetch"
+    
+    
+    private func checkImageCount(_ account: String, _ apiKey: String, _ apiSecret: String, _ folder: String, _ req: Request) throws -> Future<Int> {
+        
+        let url = "https://\(apiKey):\(apiSecret)@api.cloudinary.com/v1_1/\(account)/resources/search?expression=type:\(folder)"
         
         let res = try req.client().get(url)
         
@@ -61,19 +81,12 @@ class CasheHandler {
     
     
     
-//    private func uploadOneTile(_ sourceUrl: String, _ sessionID: String, _ request: Request) throws{
-//
-//        let host = "https://api.cloudinary.com/v1_1/anygis" + sessionID + "/image/upload"
-//        let name = "img_testingTimer_" + String(NSDate().timeIntervalSince1970)
-//
-//        let message = CloudinaryPostMessage(file: sourceUrl,
-//                                            public_id: name,
-//                                            upload_preset: "guestPreset")
-//
-//        let postResponse = try request.client().post(host) { postReq in
-//            try postReq.content.encode(message)
-//        }
-//    }
+    private func deleteImages(_ account: String, _ apiKey: String, _ apiSecret: String, _ folder: String, _ req: Request) throws {
+        
+        let url = "https://\(apiKey):\(apiSecret)@api.cloudinary.com/v1_1/\(account)/resources/image/\(folder)?all=true"
+        
+        try req.client().delete(url)
+    }
     
-    
+
 }
