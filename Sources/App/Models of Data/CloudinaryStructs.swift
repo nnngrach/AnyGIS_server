@@ -13,8 +13,7 @@ struct CloudinaryPostMessage: Content {
     var upload_preset: String
 }
 
-struct CloudinaryImgUrl: Content {
-    var url: String
+
+struct CloudinarySesrchResponse: Content {
+    let total_count: Int
 }
-
-
