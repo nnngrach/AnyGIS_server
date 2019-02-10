@@ -11,5 +11,4 @@ struct CloudinaryApiKey {
     let username = [""]
     let key = [""]
     let secret = [""]
-    //===========  123
 }
