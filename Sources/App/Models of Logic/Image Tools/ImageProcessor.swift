@@ -176,6 +176,18 @@ class ImageProcessor {
     
     
     
+    
+    public func getUrlWithZooming(_ urls: [String], _ offsetX: Int, _ offsetY: Int, _ sessionID: String  ) -> String {
+        let topLeft = makeName(urls[0])
+        let topRight = makeName(urls[1])
+        let bottomRight = makeName(urls[2])
+        let bottomLeft = makeName(urls[3])
+        
+        return "https://res.cloudinary.com/anygis\(sessionID)/image/upload/l_\(topLeft),y_-256/l_\(topRight),x_256,y_-128/l_\(bottomRight),x_128,y_128/w_256/\(bottomLeft)"
+    }
+    
+    
+    
     public func getUrlWithZoomingAndOverlay(_ baseUrl: String, _ overlayUrls: [String], _ offsetX: Int, _ offsetY: Int, _ sessionID: String  ) -> String {
         let topLeft = makeName(overlayUrls[0])
         let topRight = makeName(overlayUrls[1])

@@ -66,6 +66,9 @@ class WebHandler {
             case "mapboxOverlay":
                 return try self.makeMapboxOverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
                 
+            case "mapboxZoom":
+                return try self.makeMapboxZoomRedirectingResponse(mapObject, mapName, xText, yText, zoom, "0", req)
+                
             case "mapboxOverlayWithZoom":
                 return try self.makeMapboxOverlayWithZoomRedirectingResponse(mapObject, mapName, xText, yText, zoom, "0", req)
                 
@@ -364,6 +367,42 @@ class WebHandler {
         
         return redirectingResponce
     }
+    
+    
+    
+    
+    
+    private func makeMapboxZoomRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ sessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
+        
+        let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
+        
+        // Load layers info from data base in Future format
+        let mapList = try self.sqlHandler.getMirrorsListBy(setName: mapName, req)
+        
+        
+        // Synchronization Futrure to data object.
+        // Generating redirect URL-response to processed image.
+        let redirectingResponce = mapList.flatMap(to: Response.self) { mapListData  in
+            
+            let randomIndex = randomNubmerForHeroku(mapListData.count)
+            
+            let fourTilesInNextZoomUrls = self.urlPatchCreator.calculateFourNextZoomTilesUrls(tileNumbers.x, tileNumbers.y, zoom, mapListData[randomIndex].url, "")
+            
+            let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesInNextZoomUrls, sessionID, req)
+            
+            // Get URL of resulting file in image-processor storage
+            return self.imageProcessor.syncFour(loadingResponces, req) { res1 in
+                
+                let processedImageUrl = self.imageProcessor.getUrlWithZooming(fourTilesInNextZoomUrls, tileNumbers.x, tileNumbers.y, sessionID)
+                
+                return self.output.redirect(to: processedImageUrl, with: req)
+                
+            }
+        }
+        
+        return redirectingResponce
+    }
+    
     
     
     
