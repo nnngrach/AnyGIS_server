@@ -21,15 +21,22 @@ class UrlFIleChecker {
     
     
     // Checker for MultyLayer mode
+    
+    
     public func checkMultyLayerList(_ maps: [PriorityMapsList], _ index: Int, _ x: Int, _ y: Int, _ z: Int, _ req: Request) throws -> Future<Response> {
 
         let currentMapName = maps[index].mapName
 
+        
         // Quick redirect for maps with global coverage
         guard !maps[index].notChecking else {
-            return try delegate!.startSearchingForMap(currentMapName, xText: String(x), String(y), z, req)
+            
+            let response1 = try delegate!.startSearchingForMap(currentMapName, xText: String(x), String(y), z, req)
+            
+            return try resultChecker(response1, maps, index, x, y, z, req)
         }
 
+        
 
         // Filter checking maps by it's coverage area
         let coordinates = coordinateTransformer.tileNumberToCoordinates(x, y, z)
@@ -50,23 +57,29 @@ class UrlFIleChecker {
 
         let response = try checkMirrorsList(currentMapName, x, y, z, req)
 
-        redirectingResponse = response.flatMap(to: Response.self) { res in
+        redirectingResponse = try resultChecker(response, maps, index, x, y, z, req)
 
+        return redirectingResponse
+    }
+    
+    
+    private func resultChecker(_ response: EventLoopFuture<Response>, _ maps: [PriorityMapsList], _ index: Int, _ x: Int, _ y: Int, _ z: Int, _ req: Request) throws -> EventLoopFuture<Response> {
+        
+        return response.flatMap(to: Response.self) { res in
+            
             if (res.http.status.code == 404) && (maps.count > index+1) {
                 // print("Recursive find next ")
                 return try self.checkMultyLayerList(maps, index+1, x, y, z, req)
-
+                
             } else if(res.http.status.code == 404) {
                 // print("Fail ")
                 return self.output.notFoundResponce(req)
-
+                
             } else {
                 // print("Success ")
                 return req.future(res)
             }
         }
-
-        return redirectingResponse
     }
     
     
