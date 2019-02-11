@@ -66,6 +66,9 @@ class WebHandler {
             case "mapboxOverlay":
                 return try self.makeMapboxOverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
                 
+            case "mapboxOverlayWithZoom":
+                return try self.makeMapboxOverlayWithZoomRedirectingResponse(mapObject, mapName, xText, yText, zoom, "0", req)
+                
             case "checkAllMirrors":
                 return try self.makeMirrorCheckerRedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
                 
@@ -362,6 +365,69 @@ class WebHandler {
         return redirectingResponce
     }
     
+    
+    
+    
+    
+    private func makeMapboxOverlayWithZoomRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ sessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
+        
+        let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
+        
+        // Load layers info from data base in Future format
+        let mapList = try sqlHandler.getOverlayBy(setName: mapName, req)
+        
+        
+        // Synchronization Futrure to data object.
+        // Generating redirect URL-response to processed image.
+        let redirectingResponce = mapList.flatMap(to: Response.self) { mapListData  in
+            
+            // Load info for every layers from data base in Future format
+            let baseMapName = mapListData.baseName
+            let overlayMapName = mapListData.overlayName
+            let baseMapData = try self.sqlHandler.getBy(mapName: baseMapName, req)
+            let overlayMapData = try self.sqlHandler.getMirrorsListBy(setName: overlayMapName, req)
+            
+            
+            // Synchronization Futrure to data object.
+            return baseMapData.flatMap(to: Response.self) { baseObject  in
+                return overlayMapData.flatMap(to: Response.self) { overObject  in
+                    
+                    let randomIndex = randomNubmerForHeroku(overObject.count)
+                    
+                    let baseUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, baseObject.backgroundUrl, baseObject.backgroundServerName)
+
+                    
+                    // To make one image with offset I need four nearest to crop.
+                    let fourTilesInNextZoomUrls = self.urlPatchCreator.calculateFourNextZoomTilesUrls(tileNumbers.x, tileNumbers.y, zoom, overObject[randomIndex].url, "")
+                    
+                    
+                    
+                    // Upload all images to online image-processor
+                    let loadingBaseResponce = try self.imageProcessor.uploadOneTile(baseUrl, sessionID, req)
+                    
+                    let loadingOverResponces = try self.imageProcessor.uploadFourTiles(fourTilesInNextZoomUrls, sessionID, req)
+                    
+                    
+                    
+                    // Get URL of resulting file in image-processor storage
+                    return self.imageProcessor.syncFour(loadingOverResponces, req) { res1 in
+                        
+                        return self.imageProcessor.syncOne(loadingBaseResponce, req) { res2 in
+                            
+                            
+                            
+                            let processedImageUrl = self.imageProcessor.getUrlWithZoomingAndOverlay(baseUrl, fourTilesInNextZoomUrls, tileNumbers.x, tileNumbers.y, sessionID)
+                            
+                            return self.output.redirect(to: processedImageUrl, with: req)
+                        }
+                    }
+                }
+            }
+        }
+        
+        return redirectingResponce
+    }
+
     
     
     

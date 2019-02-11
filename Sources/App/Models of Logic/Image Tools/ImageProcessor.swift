@@ -157,6 +157,7 @@ class ImageProcessor {
         let topRight = makeName(urls[1])
         let bottomRight = makeName(urls[2])
         let bottomLeft = makeName(urls[3])
+        
        
         return "https://res.cloudinary.com/anygis\(sessionID)/image/upload/l_\(topLeft),y_-256/l_\(topRight),x_256,y_-128/l_\(bottomRight),x_128,y_128/c_crop,g_north_west,w_256,h_256,x_\(offsetX),y_\(offsetY)/\(bottomLeft)"
     }
@@ -171,6 +172,18 @@ class ImageProcessor {
         let overlay = makeName(overlayUrl)
       
         return "https://res.cloudinary.com/anygis\(sessionID)/image/upload/l_\(topLeft),y_-256/l_\(topRight),x_256,y_-128/l_\(bottomRight),x_128,y_128/c_crop,g_north_west,w_256,h_256,x_\(offsetX),y_\(offsetY)/l_\(overlay),o_100/\(bottomLeft)"
+    }
+    
+    
+    
+    public func getUrlWithZoomingAndOverlay(_ baseUrl: String, _ overlayUrls: [String], _ offsetX: Int, _ offsetY: Int, _ sessionID: String  ) -> String {
+        let topLeft = makeName(overlayUrls[0])
+        let topRight = makeName(overlayUrls[1])
+        let bottomRight = makeName(overlayUrls[2])
+        let bottomLeft = makeName(overlayUrls[3])
+        let base = makeName(baseUrl)
+        
+        return "https://res.cloudinary.com/anygis\(sessionID)/image/upload/l_\(topLeft),w_128,x_-64,y_-64/l_\(topRight),w_128,x_64,y_-64/l_\(bottomLeft),w_128,x_-64,y_64/l_\(bottomRight),w_128,x_64,y_64/\(base)"
     }
     
     

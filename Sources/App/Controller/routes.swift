@@ -47,6 +47,16 @@ public func routes(_ router: Router) throws {
     }
     
     
+    /*
+    router.get("experiments_playground") { req -> String in
+        let urlPatchCreator = URLPatchCreator()
+        let fourTilesInNextZoomUrls = urlPatchCreator.calculateFourNextZoomTilesUrls(9888, 5116, 14, "http://tiles.maps.sputnik.ru/tiles/kmt2/{z}/{x}/{y}.png", "")
+        
+        return fourTilesInNextZoomUrls[0]
+    }
+    */
+    
+    
     
     // MARK: Storage functions
     // Start checker for cashe storage. And clean it if needed.

@@ -44,6 +44,16 @@ class URLPatchCreator {
     }
     
     
+    public func calculateFourNextZoomTilesUrls (_ x: Int, _ y: Int, _ z: Int, _ url:String, _ serverName:String) -> [String] {
+        let topLeftTileUrl = calculateTileURL(x*2, y*2, z+1, url, serverName)
+        let topRightTileUrl = calculateTileURL(x*2+1, y*2, z+1, url, serverName)
+        let bottomRightTileUrl = calculateTileURL(x*2+1, y*2+1, z+1, url, serverName)
+        let bottomLeftTileUrl = calculateTileURL(x*2, y*2+1, z+1, url, serverName)
+        
+        return [topLeftTileUrl, topRightTileUrl, bottomRightTileUrl, bottomLeftTileUrl]
+    }
+    
+    
     
     
     
