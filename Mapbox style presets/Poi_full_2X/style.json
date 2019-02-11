@@ -1,0 +1,357 @@
+{
+    "version": 8,
+    "name": "Poi_full_2X",
+    "metadata": {
+        "mapbox:type": "default",
+        "mapbox:origin": "outdoors-v11",
+        "mapbox:autocomposite": true,
+        "mapbox:groups": {},
+        "mapbox:sdk-support": {
+            "js": "0.50.0",
+            "android": "6.7.0",
+            "ios": "4.6.0"
+        }
+    },
+    "center": [42.460900067417356, 43.30390813946107],
+    "zoom": 17.381731973355706,
+    "bearing": 0,
+    "pitch": 0,
+    "sources": {
+        "composite": {
+            "url": "mapbox://mapbox.mapbox-streets-v8",
+            "type": "vector"
+        }
+    },
+    "sprite": "mapbox://sprites/anygis0/cjs0n3ab33t231fqy0qdz32cp",
+    "glyphs": "mapbox://fonts/anygis0/{fontstack}/{range}.pbf",
+    "layers": [
+        {
+            "id": "natural-point-no_mountains",
+            "type": "symbol",
+            "source": "composite",
+            "source-layer": "natural_label",
+            "minzoom": 4,
+            "filter": [
+                "all",
+                [
+                    "match",
+                    ["get", "class"],
+                    ["dock", "glacier", "landform", "water_feature", "wetland"],
+                    true,
+                    false
+                ],
+                ["==", ["geometry-type"], "Point"],
+                ["<=", ["get", "filterrank"], 4],
+                ["match", ["get", "maki"], ["mountain"], false, true]
+            ],
+            "layout": {
+                "text-size": [
+                    "step",
+                    ["zoom"],
+                    ["step", ["get", "sizerank"], 18, 5, 12],
+                    17,
+                    ["step", ["get", "sizerank"], 18, 13, 12]
+                ],
+                "icon-image": [
+                    "step",
+                    ["zoom"],
+                    ["concat", ["get", "maki"], "-11"],
+                    15,
+                    ["concat", ["get", "maki"], "-15"]
+                ],
+                "text-font": [
+                    "DIN Offc Pro Medium",
+                    "Arial Unicode MS Regular"
+                ],
+                "text-offset": [
+                    "step",
+                    ["zoom"],
+                    [
+                        "step",
+                        ["get", "sizerank"],
+                        ["literal", [0, 0]],
+                        5,
+                        ["literal", [0, 0.75]]
+                    ],
+                    17,
+                    [
+                        "step",
+                        ["get", "sizerank"],
+                        ["literal", [0, 0]],
+                        13,
+                        ["literal", [0, 0.75]]
+                    ]
+                ],
+                "text-anchor": [
+                    "step",
+                    ["zoom"],
+                    ["step", ["get", "sizerank"], "center", 5, "top"],
+                    17,
+                    ["step", ["get", "sizerank"], "center", 13, "top"]
+                ],
+                "text-field": ["coalesce", ["get", "name_ru"], ["get", "name"]],
+                "icon-size": 2
+            },
+            "paint": {
+                "icon-opacity": [
+                    "step",
+                    ["zoom"],
+                    ["step", ["get", "sizerank"], 0, 5, 1],
+                    17,
+                    ["step", ["get", "sizerank"], 0, 13, 1]
+                ],
+                "text-halo-color": "hsl(0, 0%, 100%)",
+                "text-halo-width": 0.5,
+                "text-halo-blur": 0.5,
+                "text-color": [
+                    "step",
+                    ["zoom"],
+                    [
+                        "step",
+                        ["get", "sizerank"],
+                        "hsl(26, 20%, 42%)",
+                        5,
+                        "hsl(26, 25%, 32%)"
+                    ],
+                    17,
+                    [
+                        "step",
+                        ["get", "sizerank"],
+                        "hsl(26, 20%, 42%)",
+                        13,
+                        "hsl(26, 25%, 32%)"
+                    ]
+                ],
+                "text-opacity": 0
+            }
+        },
+        {
+            "id": "poi-label no_gas",
+            "type": "symbol",
+            "source": "composite",
+            "source-layer": "poi_label",
+            "minzoom": 6,
+            "filter": [
+                "all",
+                [
+                    "let",
+                    "densityByClass",
+                    [
+                        "match",
+                        ["get", "class"],
+                        [
+                            "food_and_drink_stores",
+                            "historic",
+                            "landmark",
+                            "medical",
+                            "motorist"
+                        ],
+                        3,
+                        ["park_like", "sport_and_leisure", "visitor_amenities"],
+                        4,
+                        2
+                    ],
+                    [
+                        "<=",
+                        ["get", "filterrank"],
+                        [
+                            "case",
+                            ["<", 0, ["var", "densityByClass"]],
+                            [
+                                "+",
+                                ["step", ["zoom"], 0, 14, 1, 17, 2],
+                                ["var", "densityByClass"]
+                            ],
+                            ["var", "densityByClass"]
+                        ]
+                    ]
+                ],
+                [
+                    "match",
+                    ["get", "category_en"],
+                    [
+                        "Gas Station",
+                        "Wood",
+                        "Campground",
+                        "Park",
+                        "Cemetery",
+                        "Hotel",
+                        "Hostel",
+                        "Motel",
+                        "Guest House",
+                        "Alpine Hut"
+                    ],
+                    false,
+                    true
+                ],
+                [
+                    "match",
+                    ["get", "type"],
+                    [
+                        "Nature Reserve",
+                        "Recreation Ground",
+                        "National Park",
+                        "Protected Area"
+                    ],
+                    false,
+                    true
+                ]
+            ],
+            "layout": {
+                "text-size": [
+                    "step",
+                    ["zoom"],
+                    ["step", ["get", "sizerank"], 18, 5, 20],
+                    17,
+                    ["step", ["get", "sizerank"], 18, 13, 12]
+                ],
+                "icon-image": [
+                    "step",
+                    ["zoom"],
+                    ["concat", ["get", "maki"], "-11"],
+                    15,
+                    ["concat", ["get", "maki"], "-15"]
+                ],
+                "text-font": [
+                    "DIN Offc Pro Medium",
+                    "Arial Unicode MS Regular"
+                ],
+                "text-offset": [
+                    "step",
+                    ["zoom"],
+                    [
+                        "step",
+                        ["get", "sizerank"],
+                        ["literal", [0, 0]],
+                        5,
+                        ["literal", [0, 0.75]]
+                    ],
+                    17,
+                    [
+                        "step",
+                        ["get", "sizerank"],
+                        ["literal", [0, 0]],
+                        13,
+                        ["literal", [0, 0.75]]
+                    ]
+                ],
+                "text-anchor": [
+                    "step",
+                    ["zoom"],
+                    ["step", ["get", "sizerank"], "center", 5, "top"],
+                    17,
+                    ["step", ["get", "sizerank"], "center", 13, "top"]
+                ],
+                "text-field": ["coalesce", ["get", "name_ru"], ["get", "name"]],
+                "icon-size": 2
+            },
+            "paint": {
+                "icon-opacity": [
+                    "step",
+                    ["zoom"],
+                    ["step", ["get", "sizerank"], 0, 5, 1],
+                    17,
+                    ["step", ["get", "sizerank"], 0, 13, 1]
+                ],
+                "text-halo-color": "hsl(0, 0%, 100%)",
+                "text-halo-width": 0.5,
+                "text-halo-blur": 0.5,
+                "text-color": [
+                    "step",
+                    ["zoom"],
+                    [
+                        "step",
+                        ["get", "sizerank"],
+                        [
+                            "match",
+                            ["get", "class"],
+                            "food_and_drink",
+                            "hsl(22, 55%, 55%)",
+                            "park_like",
+                            "hsl(100, 45%, 37%)",
+                            "education",
+                            "hsl(51, 40%, 40%)",
+                            "medical",
+                            "hsl(340, 30%, 52%)",
+                            "hsl(26, 20%, 42%)"
+                        ],
+                        5,
+                        [
+                            "match",
+                            ["get", "class"],
+                            "food_and_drink",
+                            "hsl(22, 85%, 38%)",
+                            "park_like",
+                            "hsl(100, 100%, 20%)",
+                            "education",
+                            "hsl(51, 100%, 20%)",
+                            "medical",
+                            "hsl(340, 39%, 42%)",
+                            "hsl(26, 25%, 32%)"
+                        ]
+                    ],
+                    17,
+                    [
+                        "step",
+                        ["get", "sizerank"],
+                        [
+                            "match",
+                            ["get", "class"],
+                            "food_and_drink",
+                            "hsl(22, 55%, 55%)",
+                            "park_like",
+                            "hsl(100, 45%, 37%)",
+                            "education",
+                            "hsl(51, 40%, 40%)",
+                            "medical",
+                            "hsl(340, 30%, 52%)",
+                            "hsl(26, 20%, 42%)"
+                        ],
+                        13,
+                        [
+                            "match",
+                            ["get", "class"],
+                            "food_and_drink",
+                            "hsl(22, 85%, 38%)",
+                            "park_like",
+                            "hsl(100, 100%, 20%)",
+                            "education",
+                            "hsl(51, 100%, 20%)",
+                            "medical",
+                            "hsl(340, 39%, 42%)",
+                            "hsl(26, 25%, 32%)"
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "id": "caves and nest",
+            "type": "symbol",
+            "source": "composite",
+            "source-layer": "natural_label",
+            "minzoom": 4,
+            "filter": [
+                "all",
+                [
+                    "match",
+                    ["get", "class"],
+                    ["dock", "glacier", "landform", "wetland", "water_feature"],
+                    true,
+                    false
+                ],
+                ["==", ["geometry-type"], "Point"],
+                ["<=", ["get", "filterrank"], 4],
+                ["match", ["get", "maki"], ["marker"], true, false]
+            ],
+            "layout": {"icon-image": "square-15", "icon-size": 1},
+            "paint": {}
+        }
+    ],
+    "created": "2019-02-11T17:56:47.745Z",
+    "id": "cjs0n3ab33t231fqy0qdz32cp",
+    "modified": "2019-02-11T18:32:34.420Z",
+    "owner": "anygis0",
+    "visibility": "private",
+    "draft": false
+}

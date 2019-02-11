@@ -1,0 +1,209 @@
+{
+    "version": 8,
+    "name": "Poi",
+    "metadata": {
+        "mapbox:type": "default",
+        "mapbox:origin": "outdoors-v11",
+        "mapbox:autocomposite": true,
+        "mapbox:groups": {
+            "1444855786460.0557": {"name": "Roads", "collapsed": true},
+            "1444934295202.7542": {
+                "name": "Admin boundaries",
+                "collapsed": true
+            },
+            "1444855799204.86": {"name": "Bridges", "collapsed": true},
+            "1444855769305.6016": {"name": "Tunnels", "collapsed": true}
+        },
+        "mapbox:sdk-support": {
+            "js": "0.50.0",
+            "android": "6.7.0",
+            "ios": "4.6.0"
+        }
+    },
+    "center": [-112.9425, 37.2686],
+    "zoom": 14,
+    "bearing": 0,
+    "pitch": 0,
+    "sources": {
+        "composite": {
+            "url": "mapbox://mapbox.mapbox-streets-v8",
+            "type": "vector"
+        }
+    },
+    "sprite": "mapbox://sprites/anygis9/cjs08dux83fuv1fo7vm89h9cq",
+    "glyphs": "mapbox://fonts/anygis9/{fontstack}/{range}.pbf",
+    "layers": [
+        {
+            "id": "poi-label",
+            "type": "symbol",
+            "source": "composite",
+            "source-layer": "poi_label",
+            "minzoom": 6,
+            "filter": [
+                "let",
+                "densityByClass",
+                [
+                    "match",
+                    ["get", "class"],
+                    [
+                        "food_and_drink_stores",
+                        "historic",
+                        "landmark",
+                        "medical",
+                        "motorist"
+                    ],
+                    3,
+                    ["park_like", "sport_and_leisure", "visitor_amenities"],
+                    4,
+                    2
+                ],
+                [
+                    "<=",
+                    ["get", "filterrank"],
+                    [
+                        "case",
+                        ["<", 0, ["var", "densityByClass"]],
+                        [
+                            "+",
+                            ["step", ["zoom"], 0, 14, 1, 17, 2],
+                            ["var", "densityByClass"]
+                        ],
+                        ["var", "densityByClass"]
+                    ]
+                ]
+            ],
+            "layout": {
+                "text-size": [
+                    "step",
+                    ["zoom"],
+                    ["step", ["get", "sizerank"], 18, 5, 12],
+                    17,
+                    ["step", ["get", "sizerank"], 18, 13, 12]
+                ],
+                "icon-image": [
+                    "step",
+                    ["zoom"],
+                    ["concat", ["get", "maki"], "-11"],
+                    15,
+                    ["concat", ["get", "maki"], "-15"]
+                ],
+                "text-font": [
+                    "DIN Offc Pro Medium",
+                    "Arial Unicode MS Regular"
+                ],
+                "text-offset": [
+                    "step",
+                    ["zoom"],
+                    [
+                        "step",
+                        ["get", "sizerank"],
+                        ["literal", [0, 0]],
+                        5,
+                        ["literal", [0, 0.75]]
+                    ],
+                    17,
+                    [
+                        "step",
+                        ["get", "sizerank"],
+                        ["literal", [0, 0]],
+                        13,
+                        ["literal", [0, 0.75]]
+                    ]
+                ],
+                "text-anchor": [
+                    "step",
+                    ["zoom"],
+                    ["step", ["get", "sizerank"], "center", 5, "top"],
+                    17,
+                    ["step", ["get", "sizerank"], "center", 13, "top"]
+                ],
+                "text-field": ["coalesce", ["get", "name_en"], ["get", "name"]]
+            },
+            "paint": {
+                "icon-opacity": [
+                    "step",
+                    ["zoom"],
+                    ["step", ["get", "sizerank"], 0, 5, 1],
+                    17,
+                    ["step", ["get", "sizerank"], 0, 13, 1]
+                ],
+                "text-halo-color": "hsl(0, 0%, 100%)",
+                "text-halo-width": 0.5,
+                "text-halo-blur": 0.5,
+                "text-color": [
+                    "step",
+                    ["zoom"],
+                    [
+                        "step",
+                        ["get", "sizerank"],
+                        [
+                            "match",
+                            ["get", "class"],
+                            "food_and_drink",
+                            "hsl(22, 55%, 55%)",
+                            "park_like",
+                            "hsl(100, 45%, 37%)",
+                            "education",
+                            "hsl(51, 40%, 40%)",
+                            "medical",
+                            "hsl(340, 30%, 52%)",
+                            "hsl(26, 20%, 42%)"
+                        ],
+                        5,
+                        [
+                            "match",
+                            ["get", "class"],
+                            "food_and_drink",
+                            "hsl(22, 85%, 38%)",
+                            "park_like",
+                            "hsl(100, 100%, 20%)",
+                            "education",
+                            "hsl(51, 100%, 20%)",
+                            "medical",
+                            "hsl(340, 39%, 42%)",
+                            "hsl(26, 25%, 32%)"
+                        ]
+                    ],
+                    17,
+                    [
+                        "step",
+                        ["get", "sizerank"],
+                        [
+                            "match",
+                            ["get", "class"],
+                            "food_and_drink",
+                            "hsl(22, 55%, 55%)",
+                            "park_like",
+                            "hsl(100, 45%, 37%)",
+                            "education",
+                            "hsl(51, 40%, 40%)",
+                            "medical",
+                            "hsl(340, 30%, 52%)",
+                            "hsl(26, 20%, 42%)"
+                        ],
+                        13,
+                        [
+                            "match",
+                            ["get", "class"],
+                            "food_and_drink",
+                            "hsl(22, 85%, 38%)",
+                            "park_like",
+                            "hsl(100, 100%, 20%)",
+                            "education",
+                            "hsl(51, 100%, 20%)",
+                            "medical",
+                            "hsl(340, 39%, 42%)",
+                            "hsl(26, 25%, 32%)"
+                        ]
+                    ]
+                ]
+            }
+        }
+    ],
+    "created": "2019-02-11T11:05:06.880Z",
+    "id": "cjs08dux83fuv1fo7vm89h9cq",
+    "modified": "2019-02-11T11:05:49.649Z",
+    "owner": "anygis9",
+    "visibility": "public",
+    "draft": false
+}

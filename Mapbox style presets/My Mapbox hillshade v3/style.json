@@ -1,0 +1,147 @@
+{
+    "version": 8,
+    "name": "Blank",
+    "metadata": {
+        "mapbox:type": "default",
+        "mapbox:origin": "outdoors-v11",
+        "mapbox:autocomposite": true,
+        "mapbox:groups": {},
+        "mapbox:sdk-support": {
+            "js": "0.50.0",
+            "android": "6.7.0",
+            "ios": "4.6.0"
+        }
+    },
+    "center": [-76.29628878638994, 71.9364072806614],
+    "zoom": 11.686494042232258,
+    "bearing": 0,
+    "pitch": 0,
+    "light": {"intensity": 0.5, "color": "hsl(0, 0%, 0%)"},
+    "sources": {
+        "composite": {
+            "url": "mapbox://mapbox.mapbox-terrain-v2",
+            "type": "vector"
+        }
+    },
+    "sprite": "mapbox://sprites/anygis0/cjrtbb1d30k152spbr6octr3z",
+    "glyphs": "mapbox://fonts/anygis0/{fontstack}/{range}.pbf",
+    "layers": [
+        {
+            "id": "hillshade",
+            "type": "fill",
+            "source": "composite",
+            "source-layer": "hillshade",
+            "maxzoom": 16,
+            "layout": {},
+            "paint": {
+                "fill-color": [
+                    "match",
+                    ["get", "class"],
+                    "shadow",
+                    "hsl(56, 59%, 22%)",
+                    "hsl(0, 0%, 100%)"
+                ],
+                "fill-antialias": false,
+                "fill-opacity": [
+                    "interpolate",
+                    ["linear"],
+                    ["zoom"],
+                    0,
+                    0,
+                    7,
+                    0.09,
+                    11,
+                    0.06,
+                    15,
+                    0.04,
+                    16,
+                    0.03
+                ]
+            }
+        },
+        {
+            "id": "contour-label",
+            "type": "symbol",
+            "source": "composite",
+            "source-layer": "contour",
+            "minzoom": 11,
+            "filter": [
+                "any",
+                ["==", ["get", "index"], 10],
+                ["==", ["get", "index"], 5]
+            ],
+            "layout": {
+                "text-field": "{ele} m",
+                "symbol-placement": "line",
+                "text-pitch-alignment": "viewport",
+                "text-max-angle": 25,
+                "text-padding": 5,
+                "text-font": [
+                    "DIN Offc Pro Medium",
+                    "Arial Unicode MS Regular"
+                ],
+                "text-size": [
+                    "interpolate",
+                    ["linear"],
+                    ["zoom"],
+                    15,
+                    9.5,
+                    20,
+                    12
+                ],
+                "visibility": "none"
+            },
+            "paint": {
+                "text-color": "hsl(100, 60%, 28%)",
+                "text-halo-width": 1,
+                "text-halo-color": "hsla(0, 0%, 100%, 0.5)",
+                "text-opacity": 0.5
+            }
+        },
+        {
+            "id": "contour-line",
+            "type": "line",
+            "source": "composite",
+            "source-layer": "contour",
+            "minzoom": 11,
+            "filter": ["!=", ["get", "index"], -1],
+            "layout": {},
+            "paint": {
+                "line-offset": [
+                    "interpolate",
+                    ["linear"],
+                    ["zoom"],
+                    13,
+                    ["match", ["get", "index"], [1, 2], 1, 0.6],
+                    16,
+                    ["match", ["get", "index"], [1, 2], 1.6, 1.2]
+                ],
+                "line-color": "hsl(100, 100%, 20%)",
+                "line-width": [
+                    "interpolate",
+                    ["linear"],
+                    ["zoom"],
+                    13,
+                    ["match", ["get", "index"], [1, 2], 0.5, 0.6],
+                    16,
+                    ["match", ["get", "index"], [1, 2], 0.8, 1.2]
+                ],
+                "line-opacity": [
+                    "interpolate",
+                    ["linear"],
+                    ["zoom"],
+                    15,
+                    0.08,
+                    17,
+                    0
+                ]
+            }
+        }
+    ],
+    "created": "2019-02-06T14:52:31.142Z",
+    "id": "cjrtbb1d30k152spbr6octr3z",
+    "modified": "2019-02-06T14:53:08.828Z",
+    "owner": "anygis0",
+    "visibility": "public",
+    "draft": false
+}

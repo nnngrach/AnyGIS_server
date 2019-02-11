@@ -67,10 +67,10 @@ class WebHandler {
                 return try self.makeMapboxOverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
                 
             case "mapboxZoom":
-                return try self.makeMapboxZoomRedirectingResponse(mapObject, mapName, xText, yText, zoom, "0", req)
+                return try self.makeMapboxZoomRedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
                 
             case "mapboxOverlayWithZoom":
-                return try self.makeMapboxOverlayWithZoomRedirectingResponse(mapObject, mapName, xText, yText, zoom, "0", req)
+                return try self.makeMapboxOverlayWithZoomRedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
                 
             case "checkAllMirrors":
                 return try self.makeMirrorCheckerRedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)

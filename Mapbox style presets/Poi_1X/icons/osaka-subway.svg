@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
+  <title>osaka-subway</title>
+  <rect y="3" width="20" height="14" rx="2" ry="2" fill="#d8d5d2" opacity="0.75" style="isolation: isolate"/>
+  <rect x="1" y="4" width="18" height="12" rx="1" ry="1" fill="#fff"/>
+  <rect width="20" height="17" fill="none"/>
+  <path d="M18,8H14.58A5,5,0,0,0,5.42,8H2V9H5.1a5,5,0,0,0,0,2H2v1H5.42a5,5,0,0,0,9.16,0H18V8ZM10,5.5A4.48,4.48,0,0,1,14,8H6A4.48,4.48,0,0,1,10,5.5ZM5.5,10a4.49,4.49,0,0,1,.12-1h8.76a4.22,4.22,0,0,1,0,2H5.62A4.49,4.49,0,0,1,5.5,10ZM10,14.5A4.48,4.48,0,0,1,6,12h8A4.48,4.48,0,0,1,10,14.5ZM17,11H14.9a5,5,0,0,0,0-2H17v2Z" fill="#f23d3d"/>
+</svg>

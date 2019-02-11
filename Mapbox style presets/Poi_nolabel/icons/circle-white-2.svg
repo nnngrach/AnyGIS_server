@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <title>
+    circle-white-2
+  </title>
+  <g>
+    <path fill="#fff" d="M0.5,10a9.5,9.5,0,1,0,19,0a9.5,9.5,0,1,0-19,0"/>
+    <path fill="#5b638b" d="M10,1a9,9,0,1,1-9,9,9,9,0,0,1,9-9m0-1A10,10,0,1,0,20,10,10,10,0,0,0,10,0Z"/>
+  </g>
+</svg>
