@@ -132,54 +132,84 @@ class UrlFIleChecker {
     
     
     
+
+    
+    
+    
+    
     
     // Mirrors mode recursive checker sub function
     private func findExistingMirrorNumber(index: Int, _ hosts: [String], _ ports: [String], _ patchs: [String], _ urls: [String], _ x: Int, _ y: Int, _ z: Int, _ order: [Int:Int], req: Request) -> Future<Response> {
         
         guard let currentShuffledIndex = order[index] else {return output.notFoundResponce(req)}
         
+        
+        let currentUrl = self.urlPatchCreator.calculateTileURL(x, y, z, patchs[currentShuffledIndex], "")
+        
+        let responceStatus = checkUrlStatus(hosts[currentShuffledIndex], ports[currentShuffledIndex], currentUrl, x, y, z, req: req)
+        
+        
+        let firstFoundedFileResponce = responceStatus.flatMap{ (status) -> Future<Response> in
+            
+            if status.code != 403 && status.code != 404 {
+                //print ("Success: File founded! ", hosts[index], currentUrl, response.status.code)
+                let newUrl = self.urlPatchCreator.calculateTileURL(x, y, z, urls[currentShuffledIndex], "")
+                return self.output.redirect(to: newUrl, with: req)
+                
+            } else if (index + 1) < hosts.count {
+                //print ("Recursive find for next index: ", hosts[index], currentUrl, response.status.code)
+                return self.findExistingMirrorNumber(index: index+1, hosts, ports, patchs, urls, x, y, z, order, req: req)
+                
+            } else {
+                //print("Fail: All URLs checked and file not founded. ", response.status.code)
+                return self.output.notFoundResponce(req)
+            }
+        }
+        
+        return firstFoundedFileResponce
+    }
+    
+    
+    
+    
+    
+    
+    private func checkUrlStatus(_ host: String, _ port: String, _ url: String, _ x: Int, _ y: Int, _ z: Int, req: Request) -> Future<HTTPResponseStatus> {
+        
         let timeout = 500       //TODO: I need to increase this speed
         let defaultPort = 8080
         var connection: EventLoopFuture<HTTPClient>
         
         // Connect to Host URL with correct port
-        if ports[currentShuffledIndex] == "any" {
-            connection = HTTPClient.connect(hostname: hosts[currentShuffledIndex], on: req)
+        if port == "any" {
+            connection = HTTPClient.connect(hostname: host, on: req)
         } else {
-            let portNumber = Int(ports[currentShuffledIndex]) ?? defaultPort
-            connection = HTTPClient.connect(hostname: hosts[currentShuffledIndex], port: portNumber, connectTimeout: .milliseconds(timeout), on: req)
+            let portNumber = Int(port) ?? defaultPort
+            connection = HTTPClient.connect(hostname: host, port: portNumber, connectTimeout: .milliseconds(timeout), on: req)
         }
         
         // Synchronization: Waiting, while coonection will be started
-        let firstFoundedFileIndex = connection.flatMap { (client) -> Future<Response> in
+        let responseStatus = connection.flatMap { client -> Future<HTTPResponseStatus> in
             
-            // Generate URL and make Request for it
-            let currentUrl = self.urlPatchCreator.calculateTileURL(x, y, z, patchs[currentShuffledIndex], "")
+//            // Generate URL and make Request for it
+//            let currentUrl = self.urlPatchCreator.calculateTileURL(x, y, z, patch, "") //MOVE OUT
             
-            let request = HTTPRequest(method: .HEAD, url: currentUrl)
+            let request = HTTPRequest(method: .HEAD, url: url)
             
             
             // Send Request and check HTML status code
-            // Return index of founded file if success.
-            return client.send(request).flatMap{ (response) -> Future<Response> in
-                
-                if response.status.code != 403 && response.status.code != 404 {
-                    //print ("Success: File founded! ", hosts[index], currentUrl, response.status.code)
-                    let newUrl = self.urlPatchCreator.calculateTileURL(x, y, z, urls[currentShuffledIndex], "")
-                    return self.output.redirect(to: newUrl, with: req)
-                    
-                } else if (index + 1) < hosts.count {
-                    //print ("Recursive find for next index: ", hosts[index], currentUrl, response.status.code)
-                    return self.findExistingMirrorNumber(index: index+1, hosts, ports, patchs, urls, x, y, z, order, req: req)
-                    
-                } else {
-                    //print("Fail: All URLs checked and file not founded. ", response.status.code)
-                    return self.output.notFoundResponce(req)
-                }
+            let response = client.send(request)
+            
+            let status = response.flatMap { res -> Future<HTTPResponseStatus> in
+                return req.future(res.status)
             }
+            
+            return status
         }
         
-        return firstFoundedFileIndex
+        return responseStatus
     }
+    
 
+    
 }

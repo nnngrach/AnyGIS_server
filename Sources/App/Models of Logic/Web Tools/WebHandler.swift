@@ -51,6 +51,9 @@ class WebHandler {
             case "redirect":
                 return try self.makeSimpleRedirectingResponse(mapObject, mapName, xText, yText, zoom, req)
                 
+            case "redirect_with_proxy":
+                return try self.makeRedirectingWithProxyResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
+                
             case "overlay":
                 return try self.makeOverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
                 
@@ -303,7 +306,18 @@ class WebHandler {
     
     
     
+    private func makeRedirectingWithProxyResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ sessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
+        
+        
+        let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
+        
+        let redirectingResponce = try urlChecker.checkMirrorsList(mapName, tileNumbers.x, tileNumbers.y, zoom, req)
+        
+        return redirectingResponce
+    }
+    
 
+    
     
     
     private func makeMirrorCheckerRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ sessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
