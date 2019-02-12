@@ -47,12 +47,6 @@ public func routes(_ router: Router) throws {
     }
     
     
- /*
-    router.get("experiments_playground") { req -> String in
-        
-        return "Hello world"
-    }
- */
     
     
     
@@ -81,5 +75,17 @@ public func routes(_ router: Router) throws {
         
         return httpResponse
     }
+    
+    
+    
+    
+    
+    
+/*
+     router.get("experiments_playground") { req -> String in
+        return "Hello world"
+     }
+*/
+  
     
 }

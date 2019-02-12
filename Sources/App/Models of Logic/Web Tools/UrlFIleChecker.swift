@@ -175,18 +175,19 @@ class UrlFIleChecker {
         let timeout = 500       //TODO: I need to increase this speed
         let defaultPort = 8080
         var connection: EventLoopFuture<HTTPClient>
-        
+
         // Connect to Host URL with correct port
         if port == "any" {
             connection = HTTPClient.connect(hostname: host, on: req)
+            
         } else {
             let portNumber = Int(port) ?? defaultPort
             connection = HTTPClient.connect(hostname: host, port: portNumber, connectTimeout: .milliseconds(timeout), on: req)
         }
         
+        
         // Synchronization: Waiting, while coonection will be started
         let responseStatus = connection.flatMap { client -> Future<HTTPResponseStatus> in
-            
             
             let request = HTTPRequest(method: .HEAD, url: url)
             
@@ -197,6 +198,10 @@ class UrlFIleChecker {
             }
             
             return status
+            
+        }.catchFlatMap { error in
+            
+            return req.future(HTTPResponseStatus(statusCode: 404))
         }
         
         return responseStatus
@@ -223,6 +228,7 @@ class UrlFIleChecker {
         
         return resultResponce
     }
+    
     
     
 }
