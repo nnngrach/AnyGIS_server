@@ -143,6 +143,12 @@ class ImageProcessor {
     
     //MARK: Generating URL to Cloudinary image
     
+    public func getDirectUrl(_ url: String, _ sessionID: String) -> String {
+        return "https://res.cloudinary.com/anygis\(sessionID)/image/fetch/\(url)"
+    }
+    
+    
+    
     public func getUrlOverlay(_ baseUrl: String, _ overlayUrl: String, _ sessionID: String) -> String {
         let baseImgName = makeName(baseUrl)
         let overlayImgName = makeName(overlayUrl)

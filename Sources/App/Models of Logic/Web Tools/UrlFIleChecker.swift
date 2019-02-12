@@ -16,6 +16,7 @@ class UrlFIleChecker {
     let output = OutputResponceGenerator()
     let urlPatchCreator = URLPatchCreator()
     let coordinateTransformer = CoordinateTransformer()
+    let imageHandler = ImageProcessor() // I use Cloudinary like a proxy
     
     var delegate: WebHandlerDelegate?
     
@@ -63,6 +64,7 @@ class UrlFIleChecker {
     }
     
     
+    
     private func resultChecker(_ response: EventLoopFuture<Response>, _ maps: [PriorityMapsList], _ index: Int, _ x: Int, _ y: Int, _ z: Int, _ req: Request) throws -> EventLoopFuture<Response> {
         
         return response.flatMap(to: Response.self) { res in
@@ -81,7 +83,6 @@ class UrlFIleChecker {
             }
         }
     }
-    
     
     
     
@@ -132,99 +133,7 @@ class UrlFIleChecker {
     
     
     
-    public func checkForProxy(_ mirrorName: String, _ x: Int, _ y: Int, _ z: Int, _ req: Request) throws -> Future<Response> {
-        
-        // Load info for every mirrors from data base in Future format
-        let mirrorsList = try sqlHandler.getMirrorsListBy(setName: mirrorName, req)
-        
-        // Synchronization Futrure to data object.
-        let redirectingResponce = mirrorsList.flatMap(to: Response.self) { mirrorsListData  in
-            
-            guard mirrorsListData.count != 0 else {return self.output.notFoundResponce(req)}
-            
-            let urls = mirrorsListData.map {$0.url}
-            let hosts = mirrorsListData.map {$0.host}
-            let patchs = mirrorsListData.map {$0.patch}
-            let ports = mirrorsListData.map {$0.port}
-            
 
-            let randomIndex = randomNubmerForHeroku(mirrorsListData.count)
-            
-            let currentPatchUrl = self.urlPatchCreator.calculateTileURL(x, y, z, patchs[randomIndex], "")
-            
-            
-            
-            let status = self.checkUrlStatus(hosts[randomIndex], ports[randomIndex], currentPatchUrl, req: req)
-            
-            print("host ", hosts[randomIndex])
-            print("port ", ports[randomIndex])
-            print("patch ", patchs[randomIndex])
-            print("currentPatchUrl ", currentPatchUrl)
-            
-            let result = status.flatMap(to: String.self) { s in
-                print("status ",s.code, s.reasonPhrase)
-                return req.future("qwe")
-            }
-            
-            
-            // temp
-            return self.output.notFoundResponce(req)
-        }
-        
-        return redirectingResponce
-    }
-    
-    
-    
-    
-    public func checkForProxy2(_ mirrorName: String, _ x: Int, _ y: Int, _ z: Int, _ req: Request) throws -> Future<Response> {
-        
-        // Load info for every mirrors from data base in Future format
-        let mirrorsList = try sqlHandler.getMirrorsListBy(setName: mirrorName, req)
-        
-        // Synchronization Futrure to data object.
-        let redirectingResponce = mirrorsList.flatMap(to: Response.self) { mirrorsListData  in
-            
-            guard mirrorsListData.count != 0 else {return self.output.notFoundResponce(req)}
-            
-            let urls = mirrorsListData.map {$0.url}
-            let hosts = mirrorsListData.map {$0.host}
-            let patchs = mirrorsListData.map {$0.patch}
-            let ports = mirrorsListData.map {$0.port}
-            
-            
-            let randomIndex = randomNubmerForHeroku(mirrorsListData.count)
-            
-            let currentPatchUrl = self.urlPatchCreator.calculateTileURL(x, y, z, patchs[randomIndex], "")
-            
-            
-            
-            let status = self.checkUrlStatus(hosts[randomIndex], ports[randomIndex], currentPatchUrl, req: req)
-            
-            print("host ", hosts[randomIndex])
-            print("port ", ports[randomIndex])
-            print("patch ", patchs[randomIndex])
-            print("currentPatchUrl ", currentPatchUrl)
-            
-            let result = status.flatMap(to: String.self) { s in
-                print("status ",s.code, s.reasonPhrase)
-                return req.future("qwe")
-            }
-            
-            
-            // temp
-            return self.output.notFoundResponce(req)
-        }
-        
-        return redirectingResponce
-    }
-    
-    
-
-    
-    
-    
-    
     
     // Mirrors mode recursive checker sub function
     private func findExistingMirrorNumber(index: Int, _ hosts: [String], _ ports: [String], _ patchs: [String], _ urls: [String], _ x: Int, _ y: Int, _ z: Int, _ order: [Int:Int], req: Request) -> Future<Response> {
@@ -256,7 +165,6 @@ class UrlFIleChecker {
         
         return firstFoundedFileResponce
     }
-    
     
     
     
@@ -294,6 +202,30 @@ class UrlFIleChecker {
         return responseStatus
     }
     
-
+    
+    
+    
+    public func checkUrlStatusAndProxy(_ url: String, _ sessionID: String, _ req: Request) throws -> Future<Response> {
+        
+        let checkingResponse = try req.client().get(url)
+        
+        let resultResponce = checkingResponse.map(to: Response.self) { res in
+            let status = res.http.status
+            
+            if status.code == 200 {
+                return res
+            } else {
+                let proxyUrl = self.imageHandler.getDirectUrl(url, sessionID)
+                
+                //return req.redirect(to: proxyUrl)
+                
+                // FIXME: FOR TEST PERIOD
+                return req.redirect(to: "https://res.cloudinary.com/anygis0/image/fetch/https://a.tile.openstreetmap.org/0/0/0.png")
+            }
+        }
+        
+        return resultResponce
+    }
+    
     
 }
