@@ -217,10 +217,7 @@ class UrlFIleChecker {
             } else {
                 let proxyUrl = self.imageHandler.getDirectUrl(url, sessionID)
                 
-                //return req.redirect(to: proxyUrl)
-                
-                // FIXME: FOR TEST PERIOD
-                return req.redirect(to: "https://res.cloudinary.com/anygis0/image/fetch/https://a.tile.openstreetmap.org/0/0/0.png")
+                return req.redirect(to: proxyUrl)
             }
         }
         
