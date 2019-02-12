@@ -47,12 +47,24 @@ public func routes(_ router: Router) throws {
     }
     
     
-    /*
-    router.get("experiments_playground") { req -> String in
-        let urlPatchCreator = URLPatchCreator()
-        let fourTilesInNextZoomUrls = urlPatchCreator.calculateFourNextZoomTilesUrls(9888, 5116, 14, "http://tiles.maps.sputnik.ru/tiles/kmt2/{z}/{x}/{y}.png", "")
+ /*
+    router.get("experiments_playground") { req -> Future<Response> in
         
-        return fourTilesInNextZoomUrls[0]
+        let url = "http://a.tile.openstreetmap.org/1/0/0.png"
+        
+        let checkingResponse = try req.client().get(url)
+        
+        let resultResponce = checkingResponse.map(to: Response.self) { res in
+            let status = res.http.status
+            
+            if status.code == 200 {
+                return res
+            } else {
+                return req.redirect(to: "CloudinaryUrl")
+            }
+        }
+        
+        return resultResponce
     }
     */
     

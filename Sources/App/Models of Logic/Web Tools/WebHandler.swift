@@ -51,8 +51,11 @@ class WebHandler {
             case "redirect":
                 return try self.makeSimpleRedirectingResponse(mapObject, mapName, xText, yText, zoom, req)
                 
-            case "redirect_with_proxy":
+            case "redirect_or_proxy":
                 return try self.makeRedirectingWithProxyResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
+                
+            case "redirect_or_proxy2":
+                return try self.makeRedirectingWithProxyResponse2(mapObject, mapName, xText, yText, zoom, sessionID, req)
                 
             case "overlay":
                 return try self.makeOverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
@@ -311,9 +314,35 @@ class WebHandler {
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
         
-        let redirectingResponce = try urlChecker.checkMirrorsList(mapName, tileNumbers.x, tileNumbers.y, zoom, req)
+        let redirectingResponce = try urlChecker.checkForProxy(mapName, tileNumbers.x, tileNumbers.y, zoom, req)
         
         return redirectingResponce
+    }
+    
+    
+    
+    private func makeRedirectingWithProxyResponse2(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ sessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
+        
+        
+        let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
+        
+        let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
+        
+        
+        let checkingResponse = try req.client().get(newUrl)
+        
+        let resultResponce = checkingResponse.map(to: Response.self) { res in
+            let status = res.http.status
+            
+            if status.code == 200 {
+                return res
+            } else {
+                return req.redirect(to: "https://res.cloudinary.com/anygis0/image/fetch/https://a.tile.openstreetmap.org/0/0/0.png")
+            }
+        }
+        
+        return resultResponce
+        
     }
     
 

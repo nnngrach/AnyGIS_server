@@ -132,6 +132,94 @@ class UrlFIleChecker {
     
     
     
+    public func checkForProxy(_ mirrorName: String, _ x: Int, _ y: Int, _ z: Int, _ req: Request) throws -> Future<Response> {
+        
+        // Load info for every mirrors from data base in Future format
+        let mirrorsList = try sqlHandler.getMirrorsListBy(setName: mirrorName, req)
+        
+        // Synchronization Futrure to data object.
+        let redirectingResponce = mirrorsList.flatMap(to: Response.self) { mirrorsListData  in
+            
+            guard mirrorsListData.count != 0 else {return self.output.notFoundResponce(req)}
+            
+            let urls = mirrorsListData.map {$0.url}
+            let hosts = mirrorsListData.map {$0.host}
+            let patchs = mirrorsListData.map {$0.patch}
+            let ports = mirrorsListData.map {$0.port}
+            
+
+            let randomIndex = randomNubmerForHeroku(mirrorsListData.count)
+            
+            let currentPatchUrl = self.urlPatchCreator.calculateTileURL(x, y, z, patchs[randomIndex], "")
+            
+            
+            
+            let status = self.checkUrlStatus(hosts[randomIndex], ports[randomIndex], currentPatchUrl, req: req)
+            
+            print("host ", hosts[randomIndex])
+            print("port ", ports[randomIndex])
+            print("patch ", patchs[randomIndex])
+            print("currentPatchUrl ", currentPatchUrl)
+            
+            let result = status.flatMap(to: String.self) { s in
+                print("status ",s.code, s.reasonPhrase)
+                return req.future("qwe")
+            }
+            
+            
+            // temp
+            return self.output.notFoundResponce(req)
+        }
+        
+        return redirectingResponce
+    }
+    
+    
+    
+    
+    public func checkForProxy2(_ mirrorName: String, _ x: Int, _ y: Int, _ z: Int, _ req: Request) throws -> Future<Response> {
+        
+        // Load info for every mirrors from data base in Future format
+        let mirrorsList = try sqlHandler.getMirrorsListBy(setName: mirrorName, req)
+        
+        // Synchronization Futrure to data object.
+        let redirectingResponce = mirrorsList.flatMap(to: Response.self) { mirrorsListData  in
+            
+            guard mirrorsListData.count != 0 else {return self.output.notFoundResponce(req)}
+            
+            let urls = mirrorsListData.map {$0.url}
+            let hosts = mirrorsListData.map {$0.host}
+            let patchs = mirrorsListData.map {$0.patch}
+            let ports = mirrorsListData.map {$0.port}
+            
+            
+            let randomIndex = randomNubmerForHeroku(mirrorsListData.count)
+            
+            let currentPatchUrl = self.urlPatchCreator.calculateTileURL(x, y, z, patchs[randomIndex], "")
+            
+            
+            
+            let status = self.checkUrlStatus(hosts[randomIndex], ports[randomIndex], currentPatchUrl, req: req)
+            
+            print("host ", hosts[randomIndex])
+            print("port ", ports[randomIndex])
+            print("patch ", patchs[randomIndex])
+            print("currentPatchUrl ", currentPatchUrl)
+            
+            let result = status.flatMap(to: String.self) { s in
+                print("status ",s.code, s.reasonPhrase)
+                return req.future("qwe")
+            }
+            
+            
+            // temp
+            return self.output.notFoundResponce(req)
+        }
+        
+        return redirectingResponce
+    }
+    
+    
 
     
     
@@ -144,9 +232,9 @@ class UrlFIleChecker {
         guard let currentShuffledIndex = order[index] else {return output.notFoundResponce(req)}
         
         
-        let currentUrl = self.urlPatchCreator.calculateTileURL(x, y, z, patchs[currentShuffledIndex], "")
+        let currentPatchUrl = self.urlPatchCreator.calculateTileURL(x, y, z, patchs[currentShuffledIndex], "")
         
-        let responceStatus = checkUrlStatus(hosts[currentShuffledIndex], ports[currentShuffledIndex], currentUrl, x, y, z, req: req)
+        let responceStatus = checkUrlStatus(hosts[currentShuffledIndex], ports[currentShuffledIndex], currentPatchUrl, req: req)
         
         
         let firstFoundedFileResponce = responceStatus.flatMap{ (status) -> Future<Response> in
@@ -174,7 +262,7 @@ class UrlFIleChecker {
     
     
     
-    private func checkUrlStatus(_ host: String, _ port: String, _ url: String, _ x: Int, _ y: Int, _ z: Int, req: Request) -> Future<HTTPResponseStatus> {
+    private func checkUrlStatus(_ host: String, _ port: String, _ url: String, req: Request) -> Future<HTTPResponseStatus> {
         
         let timeout = 500       //TODO: I need to increase this speed
         let defaultPort = 8080
@@ -191,13 +279,9 @@ class UrlFIleChecker {
         // Synchronization: Waiting, while coonection will be started
         let responseStatus = connection.flatMap { client -> Future<HTTPResponseStatus> in
             
-//            // Generate URL and make Request for it
-//            let currentUrl = self.urlPatchCreator.calculateTileURL(x, y, z, patch, "") //MOVE OUT
             
             let request = HTTPRequest(method: .HEAD, url: url)
             
-            
-            // Send Request and check HTML status code
             let response = client.send(request)
             
             let status = response.flatMap { res -> Future<HTTPResponseStatus> in
