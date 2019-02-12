@@ -47,26 +47,18 @@ public func routes(_ router: Router) throws {
     }
     
     
- /*
+ 
     router.get("experiments_playground") { req -> Future<Response> in
         
-        let url = "http://a.tile.openstreetmap.org/1/0/0.png"
+        let output = OutputResponceGenerator()
         
-        let checkingResponse = try req.client().get(url)
+        let res = try! req.response(http: HTTPResponse(status: .custom(code: 501, reasonPhrase: "HELLO WORLD"), body: "qweqweqe")).encode(for: req)
         
-        let resultResponce = checkingResponse.map(to: Response.self) { res in
-            let status = res.http.status
-            
-            if status.code == 200 {
-                return res
-            } else {
-                return req.redirect(to: "CloudinaryUrl")
-            }
-        }
+//        let res2 = try! req.response(http: HTTPResponse(status: .badRequest, version: <#T##HTTPVersion#>, headers: <#T##HTTPHeaders#>, body: <#T##LosslessHTTPBodyRepresentable#>))
         
-        return resultResponce
+        return res
     }
-    */
+ 
     
     
     
