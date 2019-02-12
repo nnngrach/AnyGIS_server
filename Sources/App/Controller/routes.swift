@@ -47,18 +47,12 @@ public func routes(_ router: Router) throws {
     }
     
     
- 
-    router.get("experiments_playground") { req -> Future<Response> in
+ /*
+    router.get("experiments_playground") { req -> String in
         
-        let output = OutputResponceGenerator()
-        
-        let res = try! req.response(http: HTTPResponse(status: .custom(code: 501, reasonPhrase: "HELLO WORLD"), body: "qweqweqe")).encode(for: req)
-        
-//        let res2 = try! req.response(http: HTTPResponse(status: .badRequest, version: <#T##HTTPVersion#>, headers: <#T##HTTPHeaders#>, body: <#T##LosslessHTTPBodyRepresentable#>))
-        
-        return res
+        return "Hello world"
     }
- 
+ */
     
     
     

@@ -82,7 +82,7 @@ class WebHandler {
                 return try self.makeMultyLayerRedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
                 
             default:
-                return self.output.errorResponce("Unknown value MapMode in data base", req)
+                return try self.output.errorResponce("Unknown value MapMode in data base", req)
             }
             
         }

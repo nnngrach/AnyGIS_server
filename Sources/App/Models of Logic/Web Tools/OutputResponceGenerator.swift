@@ -10,7 +10,10 @@ import Vapor
 
 class OutputResponceGenerator {
     
-    public func errorResponce (_ description: String, _ req: Request) -> Future<Response> {
+    public func errorResponce (_ description: String, _ req: Request) throws -> Future<Response> {
+        
+        throw Abort(.internalServerError, reason: description)
+        
         return try! req.response(http: HTTPResponse(status: .custom(code: 501, reasonPhrase: description), body: "")).encode(for: req)
     }
     
