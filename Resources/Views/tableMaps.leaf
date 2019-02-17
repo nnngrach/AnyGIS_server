@@ -9,7 +9,7 @@
         </colgroup>
         
         <tr>
-            <th>API name</th>
+            <th>API MapName</th>
             <th>Description</th>
             <th>Max zoom level</th>
         </tr>
