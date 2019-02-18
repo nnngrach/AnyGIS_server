@@ -1,0 +1,2 @@
+AddType application/octet-stream .ms
+AddType application/octet-stream .xml
