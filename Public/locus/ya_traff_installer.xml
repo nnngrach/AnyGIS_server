@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<locusActions>
+    <download>
+        <source size="11295">
+            <![CDATA[https://anygis.herokuapp.com/download/locus/ya_traff.zip]]>
+        </source>
+        <dest>
+            <![CDATA[/mapsOnline/custom/ya_traff.zip]]>
+        </dest>
+        <after>extract|deleteSource|refreshMap</after>
+    </download>
+</locusActions>
