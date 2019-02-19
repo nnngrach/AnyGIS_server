@@ -81,11 +81,14 @@ public func routes(_ router: Router) throws {
     
     
     
-/*
-     router.get("experiments_playground") { req -> String in
-        return "Hello world"
+//Future<Response>
+     router.get("experiments_playground") { req -> Future<Response> in
+        let a = try req.client().get("https://anygis.herokuapp.com/custom-map-source/galileo-bing-maps.ms")
+    
+        
+        return a
      }
-*/
+
   
     
 }

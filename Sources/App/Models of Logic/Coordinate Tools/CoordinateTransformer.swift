@@ -66,8 +66,7 @@ class CoordinateTransformer {
         
         let yCompressionOfEllipsoid = sqrt( pow(radiusA, 2.0) - pow(radiusB, 2.0)) / radiusA
         
-        // I really don't know what the names of these variable mean =(
-        
+        // I really don't know what the name of this variable mean =(
         let m2 = log((1 + sin(latitudeInRadians)) / (1 - sin(latitudeInRadians))) / 2 - yCompressionOfEllipsoid * log((1 + yCompressionOfEllipsoid * sin(latitudeInRadians)) / (1 - yCompressionOfEllipsoid * sin(latitudeInRadians))) / 2
         
         // x count = y count
