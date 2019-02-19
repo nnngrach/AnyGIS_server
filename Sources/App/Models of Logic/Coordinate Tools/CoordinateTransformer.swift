@@ -58,7 +58,7 @@ class CoordinateTransformer {
     
     public func getWGS84Position(_ latitude: Double, _ longitude: Double, withZoom zoom: Int) -> (x:Int, y:Int, offsetX:Int, offsetY:Int) {
         
-        // Earth verticaд and horisontal radiuses
+        // Earth vertical and horisontal radiuses
         let radiusA = 6378137.0
         let radiusB = 6356752.0
         
