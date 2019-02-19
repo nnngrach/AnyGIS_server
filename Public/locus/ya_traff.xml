@@ -29,7 +29,7 @@
 
 
 
-	<provider id="8888007" type="2" visible="true" background="10080">
+	<provider id="8888007" type="2" visible="true" background="8888015">
 		<name>Global - City</name>
 		<mode>Yandex Traffic</mode>
 		<countries>World</countries>

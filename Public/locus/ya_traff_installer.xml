@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <locusActions>
     <download>
-        <source size="11295">
+        <source size="11293">
             <![CDATA[https://anygis.herokuapp.com/download/locus/ya_traff.zip]]>
         </source>
         <dest>
