@@ -62,28 +62,28 @@ class CoordinateTransformer {
         let radiusA = 6378137.0
         let radiusB = 6356752.0
         
-        // I really don't know what the names of these variables mean =(
-        
         let latitudeInRadians = latitude * Double.pi / 180
         
         let yCompressionOfEllipsoid = sqrt( pow(radiusA, 2.0) - pow(radiusB, 2.0)) / radiusA
         
+        // I really don't know what the names of these variable mean =(
+        
         let m2 = log((1 + sin(latitudeInRadians)) / (1 - sin(latitudeInRadians))) / 2 - yCompressionOfEllipsoid * log((1 + yCompressionOfEllipsoid * sin(latitudeInRadians)) / (1 - yCompressionOfEllipsoid * sin(latitudeInRadians))) / 2
         
-        // xTilesCountForThisZoom equal yTilesCountForThisZoom
+        // x count = y count
         let xTilesCountForThisZoom = Double(1 << zoom)
         
         //Tile numbers in WGS-84 proection
-        let tileX = floor((longitude + 180) / 360 * xTilesCountForThisZoom)
-        let tileY = floor(xTilesCountForThisZoom / 2 - m2 * xTilesCountForThisZoom / 2 / Double.pi)
+        let xTileNumber = floor((longitude + 180) / 360 * xTilesCountForThisZoom)
+        let yTileNumber = floor(xTilesCountForThisZoom / 2 - m2 * xTilesCountForThisZoom / 2 / Double.pi)
         
         //Offset in pixels of the coordinate of the
         //left-top corner of the OSM tile
         //from the left-top corner of the WGS-84 tile
-        let offsetX = floor(((longitude + 180) / 360 * xTilesCountForThisZoom - tileX) * 256)
-        let offsetY = floor(((xTilesCountForThisZoom / 2 - m2 * xTilesCountForThisZoom / 2 / Double.pi) - tileY) * 256)
+        let offsetX = floor(((longitude + 180) / 360 * xTilesCountForThisZoom - xTileNumber) * 256)
+        let offsetY = floor(((xTilesCountForThisZoom / 2 - m2 * xTilesCountForThisZoom / 2 / Double.pi) - yTileNumber) * 256)
         
-        return (Int(tileX), Int(tileY), Int(offsetX), Int(offsetY))
+        return (Int(xTileNumber), Int(yTileNumber), Int(offsetX), Int(offsetY))
     }
     
     
