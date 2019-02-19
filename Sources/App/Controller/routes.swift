@@ -84,10 +84,48 @@ public func routes(_ router: Router) throws {
 //Future<Response>
      router.get("experiments_playground") { req -> Future<Response> in
         let a = try req.client().get("https://anygis.herokuapp.com/custom-map-source/galileo-bing-maps.ms")
-    
         
-        return a
+        let b = a.flatMap(to: Response.self) { c in
+            
+            var headers1 = c.http.headers
+            
+            let newHeader = HTTPHeaders([("Content-Type","application/octet-stream") ,
+                                        ("Content-Disposition","attachment"),
+                                        ("filename","test.ms")])
+            
+            let e = c.http.contentType
+            
+            
+           
+            let d = Response(http: HTTPResponse(status: c.http.status,
+                                                version: c.http.version,
+                                                headers: newHeader,
+                                                body: c.http.body),
+                             using: req)
+            
+            
+            
+            //let file = File(data: c.http.body as! LosslessDataConvertible, filename: "tetest")
+            
+            let name = "tetetest.ms"
+            let headers: HTTPHeaders = ["content-disposition": "attachment; filename=\"\(name)\""]
+            
+            let res = HTTPResponse(headers: headers, body: c.http.body)
+            
+            return req.future(Response(http: res, using: req))
+        }
+        
+        return b
      }
+    
+    
+//    func download(_ req: Request) throws -> Future<Response> {
+//        return try req.parameters.next(Model.self).map { obj in
+//            let file = File(data: obj.data, filename: obj.filename)
+//            return req.response(file: file)
+//        }
+//    }
+
 
   
     

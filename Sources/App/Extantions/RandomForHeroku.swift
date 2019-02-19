@@ -55,3 +55,19 @@ public func makeShuffledOrder(maxNumber: Int) -> [Int:Int] {
 public func getShuffledledIndex(index:Int, order: [Int:Int]) -> Int {
     return order[index] ?? 0
 }
+
+
+
+
+
+import Vapor
+
+extension Request {
+    func response(file: File) -> Response {
+        let headers: HTTPHeaders = [
+            "content-disposition": "attachment; filename=\"\(file.filename)\""
+        ]
+        let res = HTTPResponse(headers: headers, body: file.data)
+        return response(http: res)
+    }
+}
