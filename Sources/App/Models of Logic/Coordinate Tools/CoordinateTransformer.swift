@@ -64,23 +64,24 @@ class CoordinateTransformer {
         
         // I really don't know what the names of these variables mean =(
         
-        let e2 = latitude * Double.pi / 180
+        let latitudeInRadians = latitude * Double.pi / 180
         
         let j2 = sqrt( pow(radiusA, 2.0) - pow(radiusB, 2.0)) / radiusA
         
-        let m2 = log((1 + sin(e2)) / (1 - sin(e2))) / 2 - j2 * log((1 + j2 * sin(e2)) / (1 - j2 * sin(e2))) / 2
+        let m2 = log((1 + sin(latitudeInRadians)) / (1 - sin(latitudeInRadians))) / 2 - j2 * log((1 + j2 * sin(latitudeInRadians)) / (1 - j2 * sin(latitudeInRadians))) / 2
         
-        let b2 = Double(1 << zoom)
+        // xTilesCountForThisZoom equal yTilesCountForThisZoom
+        let xTilesCountForThisZoom = Double(1 << zoom)
         
         //Tile numbers in WGS-84 proection
-        let tileX = floor((longitude + 180) / 360 * b2)
-        let tileY = floor(b2 / 2 - m2 * b2 / 2 / Double.pi)
+        let tileX = floor((longitude + 180) / 360 * xTilesCountForThisZoom)
+        let tileY = floor(xTilesCountForThisZoom / 2 - m2 * xTilesCountForThisZoom / 2 / Double.pi)
         
         //Offset in pixels of the coordinate of the
         //left-top corner of the OSM tile
         //from the left-top corner of the WGS-84 tile
-        let offsetX = floor(((longitude + 180) / 360 * b2 - tileX) * 256)
-        let offsetY = floor(((b2 / 2 - m2 * b2 / 2 / Double.pi) - tileY) * 256)
+        let offsetX = floor(((longitude + 180) / 360 * xTilesCountForThisZoom - tileX) * 256)
+        let offsetY = floor(((xTilesCountForThisZoom / 2 - m2 * xTilesCountForThisZoom / 2 / Double.pi) - tileY) * 256)
         
         return (Int(tileX), Int(tileY), Int(offsetX), Int(offsetY))
     }
