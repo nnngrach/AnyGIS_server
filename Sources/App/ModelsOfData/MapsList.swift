@@ -15,15 +15,17 @@ final class MapsList: SQLiteModel {
     var mode: String
     var backgroundUrl: String
     var backgroundServerName: String
+    var referer: String
     var zoomMin: Int
     var zoomMax: Int
     var description: String
     
-    init(id: Int? = nil, name: String, mode: String, backgroundUrl: String, backgroundServerName: String, zoomMin: Int, zoomMax: Int, description: String) {
+    init(id: Int? = nil, name: String, mode: String, backgroundUrl: String, backgroundServerName: String, referer: String, zoomMin: Int, zoomMax: Int, description: String) {
         self.name = name
         self.mode = mode
         self.backgroundUrl = backgroundUrl
         self.backgroundServerName = backgroundServerName
+        self.referer = referer
         self.zoomMin = zoomMin
         self.zoomMax = zoomMax
         self.description = description

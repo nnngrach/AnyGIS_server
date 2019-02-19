@@ -51,6 +51,9 @@ class WebHandler {
             case "redirect":
                 return try self.makeSimpleRedirectingResponse(mapObject, mapName, xText, yText, zoom, req)
                 
+            case "loadWithReferer":
+                return try self.makeLoadWithRefererResponse(mapObject, mapName, xText, yText, zoom, req)
+                
             case "proxy":
                 return try self.makeRedirectingWithProxyResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
                 
@@ -108,6 +111,20 @@ class WebHandler {
         let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
         
         return output.redirect(to: newUrl, with: req)
+    }
+    
+    
+    
+    
+    
+    private func makeLoadWithRefererResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
+        
+        
+        let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
+        
+        let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
+        
+        return try req.client().get(newUrl, headers: HTTPHeaders(dictionaryLiteral: ("referer",mapObject.referer)))
     }
     
     

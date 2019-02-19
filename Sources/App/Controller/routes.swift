@@ -81,11 +81,14 @@ public func routes(_ router: Router) throws {
     
     
     
-/*
-     router.get("experiments_playground") { req -> String in
-        return "Hello world"
+
+     router.get("experiments_playground") { req -> Future<Response> in
+        
+        let b = try req.client().get("http://www.opensnowmap.org/base_snow_map_high_dpi/3/1/2.png", headers: HTTPHeaders(dictionaryLiteral: ("referer","http://www.opensnowmap.org/")))
+        
+        return b
      }
-*/
+
   
     
 }
