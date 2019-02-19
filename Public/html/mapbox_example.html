@@ -1,0 +1,29 @@
+Use Mapbox GL JS. Copy the example below into an HTML document to get started.
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<title>Display a map</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+<style>
+body { margin:0; padding:0; }
+#map { position:absolute; top:0; bottom:0; width:100%; }
+</style>
+</head>
+<body>
+ 
+<div id='map'></div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiYW55Z2lzMCIsImEiOiJjanJ0Yjl3bjcyZ3RnM3lvbzRvdzJmOHF4In0.LPVqw0pU6PDmwvi8txXDTQ';
+const map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/anygis0/cjs0f13pv06sk1fn366n1ea14',
+center: [37.576624, 54.836328],
+zoom: 15.5
+});
+</script>
+ 
+</body>
+</html>
