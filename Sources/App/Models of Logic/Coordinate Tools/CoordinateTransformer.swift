@@ -66,9 +66,9 @@ class CoordinateTransformer {
         
         let latitudeInRadians = latitude * Double.pi / 180
         
-        let j2 = sqrt( pow(radiusA, 2.0) - pow(radiusB, 2.0)) / radiusA
+        let yCompressionOfEllipsoid = sqrt( pow(radiusA, 2.0) - pow(radiusB, 2.0)) / radiusA
         
-        let m2 = log((1 + sin(latitudeInRadians)) / (1 - sin(latitudeInRadians))) / 2 - j2 * log((1 + j2 * sin(latitudeInRadians)) / (1 - j2 * sin(latitudeInRadians))) / 2
+        let m2 = log((1 + sin(latitudeInRadians)) / (1 - sin(latitudeInRadians))) / 2 - yCompressionOfEllipsoid * log((1 + yCompressionOfEllipsoid * sin(latitudeInRadians)) / (1 - yCompressionOfEllipsoid * sin(latitudeInRadians))) / 2
         
         // xTilesCountForThisZoom equal yTilesCountForThisZoom
         let xTilesCountForThisZoom = Double(1 << zoom)
