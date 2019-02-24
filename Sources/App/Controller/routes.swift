@@ -123,6 +123,14 @@ public func routes(_ router: Router) throws {
         return a.getLocusActionsIntro() + a.getLocusActionsItem(fileName: "myName.txt") + a.getLocusActionsOutro()
         //return "Hello, World!"
     }
-  
+    
+    router.get("experiments_playground_2") { req -> String in
+        let disk = DiskHandler()
+        let temp = TextTemplates()
+        
+        //disk.cleanFolder(patch: temp.pathToInstallers)
+        disk.createFile(patch: temp.pathToInstallers + "qwe.txt", content: "Hi!")
+        return "delete"
+    }
     
 }

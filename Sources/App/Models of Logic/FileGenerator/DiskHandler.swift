@@ -11,10 +11,35 @@ class DiskHandler {
     
     func createFile(patch: String, content: String) {
         
+        let url = URL(string: patch)!
+        
+        do {
+            try content.write(to: url, atomically: true, encoding: String.Encoding.utf8)
+        } catch {
+            print(error)
+        }
     }
     
     
     func cleanFolder(patch: String) {
         
+        let folderUrl = URL(string: patch)!
+        
+        do {
+            let fileURLs = try FileManager
+                .default
+                .contentsOfDirectory(at: folderUrl,
+                                     includingPropertiesForKeys: nil,
+                                     options: [.skipsHiddenFiles,
+                                               .skipsSubdirectoryDescendants])
+            
+            for fileURL in fileURLs {
+                try FileManager.default.removeItem(at: fileURL)
+            }
+            
+        } catch {
+            print(error)
+        }
     }
+    
 }

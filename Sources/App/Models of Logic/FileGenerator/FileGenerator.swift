@@ -10,15 +10,9 @@ import Vapor
 class FileGenerator {
     
     let baseHandler = SQLHandler()
+    let diskHandler = DiskHandler()
     let templates = TextTemplates()
     
-    
- 
-    
-    
-    
-    
-
     
     
     
@@ -43,48 +37,13 @@ class FileGenerator {
     
     func createInstallerFile(_ prefix: String, _ fileName: String) {
         
-//        let str = "Hello, World!"
-        
-
-        
-        
-        
         let fullFileName = prefix + "-" + fileName + ".xml"
+        let filePatch = templates.pathToInstallers + fullFileName
 
-        let patch = URL(string: templates.pathToInstallers + fullFileName)!
-    
-        
-        
-        let content = """
-<?xml version="1.0" encoding="utf-8"?>
-<locusActions>
-
-    <download>
-        <source>
-            <![CDATA[https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/Full_set/\(fullFileName)]]>
-        </source>
-        <dest>
-            <![CDATA[/mapsOnline/custom/\(fullFileName)]]>
-        </dest>
-    </download>
-
-</locusActions>
-"""
-        
-    
-        do {
-            try content.write(to: patch, atomically: true, encoding: String.Encoding.utf8)
-        } catch {
-            // failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
-        }
-        
+        diskHandler.createFile(patch: filePatch, content: "hello world!")
     }
     
     
     
-    
-    func cleanFolder(patch: String) {
-        
-    }
     
 }
