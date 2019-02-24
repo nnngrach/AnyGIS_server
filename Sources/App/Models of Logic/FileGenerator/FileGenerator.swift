@@ -13,6 +13,19 @@ class FileGenerator {
     let diskHandler = DiskHandler()
     let templates = TextTemplates()
     
+    func update(_ req: Request) {
+        diskHandler.cleanFolder(patch: templates.pathToInstallers)
+        diskHandler.cleanFolder(patch: templates.pathToMarkdownPages)
+        
+        createLocusSingleMapsInstallers(req)
+        createLocusFolderMapsInstallers(req)
+        createLocusAllMapsInstallers(isShortSet: true, req)
+        createLocusAllMapsInstallers(isShortSet: false, req)
+        
+        createLocusAllMapsPage(isShortSet: true, req)
+        createLocusAllMapsPage(isShortSet: false, req)
+    }
+    
     
     func createLocusSingleMapsInstallers(_ req: Request) {
         
@@ -80,6 +93,7 @@ class FileGenerator {
         
         var previousFolder = ""
         let baseInfo = isShortSet ? baseHandler.fetchShortSetFileGenInfo(req) : baseHandler.fetchAllFileGenInfo(req)
+        let fileName = isShortSet ? "AnyGIS_short_set.xml" : "AnyGIS_full_set.xml"
         
         // Add first part of content
         var content = self.templates.getLocusActionsIntro()
@@ -101,7 +115,7 @@ class FileGenerator {
             content += self.templates.getLocusActionsOutro()
             
             // Create file
-            let installerPatch = self.templates.pathToInstallers + "AnyGIS_full_set.xml"
+            let installerPatch = self.templates.pathToInstallers + fileName
             
             self.diskHandler.createFile(patch: installerPatch, content: content)
         }
@@ -113,9 +127,11 @@ class FileGenerator {
         
         var previousFolder = ""
         let baseInfo = isShortSet ? baseHandler.fetchShortSetFileGenInfo(req) : baseHandler.fetchAllFileGenInfo(req)
+        let fileName = isShortSet ? "Short.md" : "Full.md"
+        
         
         // Add first part of content
-        var content = self.templates.getLocusActionsIntro()
+        var content = self.templates.getMarkdownHeader() + self.templates.getMarkdownMaplistIntro()
         
         baseInfo.map { table in
             
@@ -124,17 +140,14 @@ class FileGenerator {
                 
                 if line.groupName != previousFolder {
                     previousFolder = line.groupName
-                    content += self.templates.getLocusActionsItem(fileName: line.groupName, isIcon: true)
+                    content += self.templates.getMarkdownMaplistCategory(categoryName: line.groupName)
                 }
                 
-                content += self.templates.getLocusActionsItem(fileName: line.clientMapName, isIcon: false)
+                content += self.templates.getMarkDownMaplistItem(mapName: line.clientMapName)
             }
             
-            // Add ending part
-            content += self.templates.getLocusActionsOutro()
-            
             // Create file
-            let installerPatch = self.templates.pathToInstallers + "AnyGIS_full_set.xml"
+            let installerPatch = self.templates.pathToMarkdownPages + fileName
             
             self.diskHandler.createFile(patch: installerPatch, content: content)
         }

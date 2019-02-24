@@ -124,7 +124,14 @@ public func routes(_ router: Router) throws {
     
     router.get("experiments_playground_2") { req -> String in
         let fileGenerator = FileGenerator()
-        fileGenerator.createLocusAllMapsInstallers(isShortSet: false, req)
+        fileGenerator.createLocusAllMapsPage(isShortSet: false, req)
+        
+        return "Hello, World!"
+    }
+    
+    router.get("experiments_playground_3") { req -> String in
+        let fileGenerator = FileGenerator()
+        fileGenerator.update(req)
         
         return "Hello, World!"
     }

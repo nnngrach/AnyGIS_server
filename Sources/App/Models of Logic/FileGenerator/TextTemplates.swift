@@ -16,7 +16,7 @@ struct TextTemplates {
     let pathToMarkdownMaps = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/script/Maps/"
     let pathToMarkdownPages = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/script/Pages/"
    
-    let locusActionsFolder = "https://github.com/nnngrach/map-sources/raw/master/Locus_online_maps/script/Installers/"
+    let locusInstallersFolder = "https://github.com/nnngrach/map-sources/raw/master/Locus_online_maps/script/Installers/"
     let locusIconsFolder = "https://github.com/nnngrach/map-sources/raw/master/Locus_online_maps/script/Icons/"
     let locusMapsFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/Full_set/"
     let locusPagesFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/script/Pages/"
@@ -96,7 +96,7 @@ struct TextTemplates {
     
     func getLocusActionsItem(fileName: String, isIcon: Bool) -> String {
         
-        let patch = isIcon ? locusIconsFolder : locusActionsFolder
+        let patch = isIcon ? locusIconsFolder : locusInstallersFolder
         let fileType = isIcon ? ".png" : ".xml"
         let filenameWithoutSpaces = fileName.makeCorrectPatch()
         
@@ -147,22 +147,28 @@ struct TextTemplates {
     
     func getMarkdownMaplistIntro() -> String {
         return """
-        #Скачать карты для Locus
+        # Скачать карты для Locus
         
         """
     }
     
     
     func getMarkdownMaplistCategory(categoryName: String) -> String {
+        let url = locusInstallersFolder + "_" + categoryName.makeCorrectPatch() + ".xml"
+        
         return """
-        ###\(categoryName)
+        ### [\(categoryName)](\(url) "Скачать всю группу")
+        
         """
     }
     
     
     func getMarkDownMaplistItem(mapName: String) -> String {
+        let url = locusInstallersFolder + "__" + mapName + ".xml"
+        
         return """
-        \(mapName)
+        [\(mapName)](\(url) "Скачать эту карту")
+        
         """
     }
 
