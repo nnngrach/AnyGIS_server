@@ -11,7 +11,7 @@ class DiskHandler {
     
     func createFile(patch: String, content: String) {
         
-        let url = URL(string: patch)!
+        let url = URL(string: patch.cleanSpaces())!
         
         do {
             try content.write(to: url, atomically: true, encoding: String.Encoding.utf8)

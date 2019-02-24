@@ -17,6 +17,7 @@ struct TextTemplates {
     let pathToMarkdownPages = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/script/Pages/"
    
     let locusActionsFolder = "https://github.com/nnngrach/map-sources/raw/master/Locus_online_maps/script/Installers/"
+    let locusIconsFolder = "https://github.com/nnngrach/map-sources/raw/master/Locus_online_maps/script/Icons/"
     let locusMapsFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/Full_set/"
     let locusPagesFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/script/Pages/"
     
@@ -30,6 +31,7 @@ struct TextTemplates {
     let email = "anygis@bk.ru"
 
     
+ 
     
     
     //MARK: Templates for description
@@ -45,11 +47,13 @@ struct TextTemplates {
     func getDescription(forLocus: Bool) -> String {
         
         let locusName = """
-        Комплект карт "AnyGIS" для навигатора Locus (\(locusPage)).
+        Комплект карт "AnyGIS" для навигатора Locus.
+        \(locusPage)
         """
         
         let guruName = """
-        Комплект карт "AnyGIS" для навигатора GuruMaps (ex Galileo) (\(guruPage)).
+        Комплект карт "AnyGIS" для навигатора GuruMaps (ex Galileo)
+        \(guruPage)
         """
         
         let nameString = forLocus ? locusName : guruName
@@ -58,6 +62,7 @@ struct TextTemplates {
         return """
         <!--
         \(nameString)
+        
         Составитель: AnyGIS (\(email)).
         Файл обновлен: \(getCreationTime())
         
@@ -89,15 +94,21 @@ struct TextTemplates {
     }
     
     
-    func getLocusActionsItem(fileName: String) -> String {
+    func getLocusActionsItem(fileName: String, isIcon: Bool) -> String {
+        
+        let patch = isIcon ? locusIconsFolder : locusActionsFolder
+        let fileType = isIcon ? ".png" : ".xml"
+        let filenameWithoutSpaces = fileName.makeCorrectPatch()
+        
+        
         return """
         
             <download>
                 <source>
-                <![CDATA[\(locusMapsFolder)\(fileName)]]>
+                <![CDATA[\(patch + filenameWithoutSpaces + fileType)]]>
                 </source>
                 <dest>
-                <![CDATA[/mapsOnline/custom/\(fileName)]]>
+                <![CDATA[/mapsOnline/custom/\(fileName + fileType)]]>
                 </dest>
             </download>
         
