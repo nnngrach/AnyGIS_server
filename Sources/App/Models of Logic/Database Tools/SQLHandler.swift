@@ -43,7 +43,16 @@ class SQLHandler {
     
     
     public func fetchAllFileGenInfo(_ request: Request) -> Future<[FileGeneratorDB]> {
-        return FileGeneratorDB.query(on: request).all()
+        return FileGeneratorDB.query(on: request)
+            .sort(\.groupName)
+            .all()
+    }
+    
+    public func fetchShortSetFileGenInfo(_ request: Request) -> Future<[FileGeneratorDB]> {
+        return FileGeneratorDB.query(on: request)
+            .filter(\FileGeneratorDB.isInStarterSet == true)
+            .sort(\.groupName)
+            .all()
     }
     
     

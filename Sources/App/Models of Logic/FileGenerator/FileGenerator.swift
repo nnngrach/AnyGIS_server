@@ -55,8 +55,6 @@ class FileGenerator {
                         
                         installerPatch = self.templates.pathToInstallers + "_" + previousFolder + ".xml"
                         
-                        print(installerPatch)
-                        
                         self.diskHandler.createFile(patch: installerPatch, content: content)
                     }
                     
@@ -78,20 +76,67 @@ class FileGenerator {
 
     
     
-    func createLocusFilesetMapsInstallers(_ req: Request) {
+    func createLocusAllMapsInstallers(isShortSet: Bool, _ req: Request) {
         
-        let baseInfo = baseHandler.fetchAllFileGenInfo(req)
+        var previousFolder = ""
+        let baseInfo = isShortSet ? baseHandler.fetchShortSetFileGenInfo(req) : baseHandler.fetchAllFileGenInfo(req)
+        
+        // Add first part of content
+        var content = self.templates.getLocusActionsIntro()
         
         baseInfo.map { table in
             
+            // Add all maps and icons
             for line in table {
                 
-                let installerPatch = self.templates.pathToInstallers + "__" + line.groupPrefix + "-" + line.clientMapName + ".xml"
+                if line.groupName != previousFolder {
+                    previousFolder = line.groupName
+                    content += self.templates.getLocusActionsItem(fileName: line.groupName, isIcon: true)
+                }
                 
-                let content = self.templates.getLocusActionsIntro() + self.templates.getLocusActionsItem(fileName: line.clientMapName, isIcon: false) + self.templates.getLocusActionsItem(fileName: line.groupName, isIcon: true) + self.templates.getLocusActionsOutro()
-                
-                self.diskHandler.createFile(patch: installerPatch, content: content)
+                content += self.templates.getLocusActionsItem(fileName: line.clientMapName, isIcon: false)
             }
+            
+            // Add ending part
+            content += self.templates.getLocusActionsOutro()
+            
+            // Create file
+            let installerPatch = self.templates.pathToInstallers + "AnyGIS_full_set.xml"
+            
+            self.diskHandler.createFile(patch: installerPatch, content: content)
+        }
+    }
+    
+    
+    
+    func createLocusAllMapsPage(isShortSet: Bool, _ req: Request) {
+        
+        var previousFolder = ""
+        let baseInfo = isShortSet ? baseHandler.fetchShortSetFileGenInfo(req) : baseHandler.fetchAllFileGenInfo(req)
+        
+        // Add first part of content
+        var content = self.templates.getLocusActionsIntro()
+        
+        baseInfo.map { table in
+            
+            // Add all maps and icons
+            for line in table {
+                
+                if line.groupName != previousFolder {
+                    previousFolder = line.groupName
+                    content += self.templates.getLocusActionsItem(fileName: line.groupName, isIcon: true)
+                }
+                
+                content += self.templates.getLocusActionsItem(fileName: line.clientMapName, isIcon: false)
+            }
+            
+            // Add ending part
+            content += self.templates.getLocusActionsOutro()
+            
+            // Create file
+            let installerPatch = self.templates.pathToInstallers + "AnyGIS_full_set.xml"
+            
+            self.diskHandler.createFile(patch: installerPatch, content: content)
         }
     }
     
@@ -99,9 +144,6 @@ class FileGenerator {
     
     
     
-    //TODO: Generate Fullset installers
-    
-    //TODO: Generate beginner set installers
     
     //TODO: Generate MarkDownPage installers
     

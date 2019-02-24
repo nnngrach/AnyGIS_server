@@ -117,28 +117,17 @@ public func routes(_ router: Router) throws {
     
     router.get("experiments_playground_1") { req -> String in
         let fileGenerator = FileGenerator()
-        fileGenerator.createLocusFolderMapsInstallers(req)
+        fileGenerator.createLocusAllMapsInstallers(isShortSet: false, req)
         
         return "Hello, World!"
     }
     
-    
-//    router.get("experiments_playground_1") { req -> String in
-//        let a = TextTemplates()
-//        let b = a.getDescription(forLocus: true)
-//
-//        a.getLocusActionsIntro() + a.getLocusActionsItem(fileName: "myName.txt", isIcon: false) + a.getLocusActionsOutro()
-//
-//        return "Hello, World!"
-//    }
-//
-//    router.get("experiments_playground_2") { req -> String in
-//        let disk = DiskHandler()
-//        let temp = TextTemplates()
-//
-//        //disk.cleanFolder(patch: temp.pathToInstallers)
-//        disk.createFile(patch: temp.pathToInstallers + "qwe.txt", content: "Hi!")
-//        return "delete"
-//    }
+    router.get("experiments_playground_2") { req -> String in
+        let fileGenerator = FileGenerator()
+        fileGenerator.createLocusAllMapsInstallers(isShortSet: false, req)
+        
+        return "Hello, World!"
+    }
+ 
     
 }
