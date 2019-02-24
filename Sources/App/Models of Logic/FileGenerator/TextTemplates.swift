@@ -15,11 +15,15 @@ struct TextTemplates {
     let pathToInstallers = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/script/Installers/"
     let pathToMarkdownMaps = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/script/Maps/"
     let pathToMarkdownPages = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/script/Pages/"
-   
-    let locusInstallersFolder = "https://github.com/nnngrach/map-sources/raw/master/Locus_online_maps/script/Installers/"
+    
+    let locusInstallersFolder = "https://github.com/nnngrach/map-sources/raw/PreparingForFilegeneraor/Locus_online_maps/script/Installers/"
+    let locusPagesFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/PreparingForFilegeneraor/Locus_online_maps/script/Pages/"
+    
+    
+    //let locusInstallersFolder = "https://github.com/nnngrach/map-sources/raw/master/Locus_online_maps/script/Installers/"
     let locusIconsFolder = "https://github.com/nnngrach/map-sources/raw/master/Locus_online_maps/script/Icons/"
     let locusMapsFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/Full_set/"
-    let locusPagesFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/script/Pages/"
+    //let locusPagesFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/script/Pages/"
     
     let indexPage = "https://nnngrach.github.io/map-sources/index"
     let descriptionPage = "https://nnngrach.github.io/map-sources/Web/Html/Description"

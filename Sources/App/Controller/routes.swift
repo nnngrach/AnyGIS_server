@@ -107,6 +107,18 @@ public func routes(_ router: Router) throws {
     
     
     
+    router.get("update_local_files") { req -> String in
+        let fileGenerator = FileGenerator()
+        fileGenerator.update(req)
+        
+        return "Local files updated"
+    }
+    
+    
+    
+    
+    
+    
     
     router.get("experiments_playground_0") { req -> String in
         let fileGenerator = FileGenerator()
@@ -129,12 +141,6 @@ public func routes(_ router: Router) throws {
         return "Hello, World!"
     }
     
-    router.get("experiments_playground_3") { req -> String in
-        let fileGenerator = FileGenerator()
-        fileGenerator.update(req)
-        
-        return "Hello, World!"
-    }
- 
+
     
 }
