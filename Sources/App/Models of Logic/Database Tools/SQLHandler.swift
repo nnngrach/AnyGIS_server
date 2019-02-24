@@ -42,6 +42,12 @@ class SQLHandler {
     }
     
     
+    public func fetchAllFileGenInfo(_ request: Request) -> Future<[FileGeneratorDB]> {
+        return FileGeneratorDB.query(on: request).all()
+    }
+    
+    
+    
     public func getBy (mapName: String, _ request: Request) throws -> Future<MapsList>  {
         return MapsList.query(on: request)
             .filter(\MapsList.name == mapName)

@@ -58,6 +58,6 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     migrations.add(model: PriorityMapsList.self, database: .sqlite)
     migrations.add(model: MirrorsMapsList.self, database: .sqlite)
     migrations.add(model: ServiceData.self, database: .sqlite)
+    migrations.add(model: FileGeneratorDB.self, database: .sqlite)
     services.register(migrations)
-
 }

@@ -105,6 +105,24 @@ public func routes(_ router: Router) throws {
         return response
      }
     
+    
+    
+    
+    router.get("experiments_playground") { req -> Future<String> in
+        let fileGenerator = FileGenerator()
+        let result = fileGenerator.updateLocusInstallers(req)
+        
+        return result
+        //return "Hello, World!"
+    }
+    
+    router.get("experiments_playground_1") { req -> String in
+        let a = TextTemplates()
+        let b = a.getDescription(forLocus: true)
+        
+        return a.getLocusActionsIntro() + a.getLocusActionsItem(fileName: "myName.txt") + a.getLocusActionsOutro()
+        //return "Hello, World!"
+    }
   
     
 }
