@@ -11,16 +11,22 @@ struct TextTemplates {
     
     //MARK: Links
     
-    let pathToIcons = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/script/Icons/"
-    let pathToInstallers = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/script/Installers/"
-    let pathToMarkdownMaps = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/script/Maps/"
-    let pathToMarkdownPages = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/script/Pages/"
+    let localPathToIcons = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/Icons/"
+    let localPathToInstallers = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/Installers/"
+    let localPathToMapsFull = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/Maps_full/"
+    let localPathToMapsShort = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/Maps_short/"
+    let localPathToMarkdownPages = "file:////Projects/GIS/Online%20map%20sources/map-sources/Web/Html/Download/"
     
     
-    let locusInstallersFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/script/Installers/"
-    let locusIconsFolder = "https://github.com/nnngrach/map-sources/raw/master/Locus_online_maps/script/Icons/"
-    let locusMapsFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/Full_set/"
-    let locusPagesFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/script/Pages/"
+    let gitLocusInstallersFolder = "https://github.com/nnngrach/map-sources/master/Locus_online_maps/Installers/"
+    let gitLocusIconsFolder = "https://github.com/nnngrach/map-sources/raw/master/Locus_online_maps/Icons/"
+    
+    //FIXME
+    let gitLocusMapsFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/Backup/Full_set/"
+    let gitLocusPagesFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Web/Html/Download/"
+    
+    let gitLocusActionInstallersFolder = "locus-actions://https/raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/Installers/"
+    
     
     let indexPage = "https://nnngrach.github.io/map-sources/index"
     let descriptionPage = "https://nnngrach.github.io/map-sources/Web/Html/Description"
@@ -99,7 +105,7 @@ struct TextTemplates {
     
     func getLocusActionsItem(fileName: String, isIcon: Bool) -> String {
         
-        let patch = isIcon ? locusIconsFolder : locusInstallersFolder
+        let patch = isIcon ? gitLocusIconsFolder : gitLocusMapsFolder
         let fileType = isIcon ? ".png" : ".xml"
         let filenameWithoutSpaces = fileName.makeCorrectPatch()
         
@@ -160,7 +166,7 @@ struct TextTemplates {
     
     
     func getMarkdownMaplistCategory(categoryName: String) -> String {
-        let url = locusInstallersFolder + "_" + categoryName.cleanSpaces() + ".xml"
+        let url = gitLocusActionInstallersFolder + "_" + categoryName.cleanSpaces() + ".xml"
         
         return """
         
@@ -173,7 +179,7 @@ struct TextTemplates {
     
     
     func getMarkDownMaplistItem(name:String, fileName: String) -> String {
-        let url = locusInstallersFolder + "__" + fileName + ".xml"
+        let url = gitLocusActionInstallersFolder + "__" + fileName + ".xml"
         
         return """
         [\(name)](\(url) "Скачать эту карту")

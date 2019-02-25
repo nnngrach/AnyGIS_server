@@ -19,8 +19,8 @@ class FileGenerator {
         #if os(Linux)
             return "Files generation works only on local maschine"
         #else
-            diskHandler.cleanFolder(patch: templates.pathToInstallers)
-            diskHandler.cleanFolder(patch: templates.pathToMarkdownPages)
+            diskHandler.cleanFolder(patch: templates.localPathToInstallers)
+            diskHandler.cleanFolder(patch: templates.localPathToMarkdownPages)
         
             createLocusSingleMapsInstallers(req)
             createLocusFolderMapsInstallers(req)
@@ -43,9 +43,10 @@ class FileGenerator {
             
             for line in table {
                 
-                let installerPatch = self.templates.pathToInstallers + "__" + line.groupPrefix + "-" + line.clientMapName + ".xml"
+                let mapFileName = line.groupPrefix + "-" + line.clientMapName
+                let installerPatch = self.templates.localPathToInstallers + "__" + mapFileName + ".xml"
 
-                let content = self.templates.getLocusActionsIntro() + self.templates.getLocusActionsItem(fileName: line.clientMapName, isIcon: false) + self.templates.getLocusActionsItem(fileName: line.groupName, isIcon: true) + self.templates.getLocusActionsOutro()
+                let content = self.templates.getLocusActionsIntro() + self.templates.getLocusActionsItem(fileName: mapFileName, isIcon: false) + self.templates.getLocusActionsItem(fileName: line.groupName, isIcon: true) + self.templates.getLocusActionsOutro()
                 
                 self.diskHandler.createFile(patch: installerPatch, content: content)
             }
@@ -66,6 +67,8 @@ class FileGenerator {
         baseInfo.map { table in
             
             for line in table {
+                
+                let mapFileName = line.groupPrefix + "-" + line.clientMapName
        
                 if line.groupName != previousFolder {
                     
@@ -79,12 +82,12 @@ class FileGenerator {
                     isNotFirstString = true
                     previousFolder = line.groupName
                     
-                    content = self.templates.getLocusActionsIntro() + self.templates.getLocusActionsItem(fileName: line.groupName, isIcon: true) + self.templates.getLocusActionsItem(fileName: line.clientMapName, isIcon: false)
+                    content = self.templates.getLocusActionsIntro() + self.templates.getLocusActionsItem(fileName: line.groupName, isIcon: true) + self.templates.getLocusActionsItem(fileName: mapFileName, isIcon: false)
                     
                 } else {
                     
                     // Just add current map to group
-                    content += self.templates.getLocusActionsItem(fileName: line.clientMapName, isIcon: false)
+                    content += self.templates.getLocusActionsItem(fileName: mapFileName, isIcon: false)
                 }
                 
                 
@@ -100,7 +103,7 @@ class FileGenerator {
         
         let resultContent = content + self.templates.getLocusActionsOutro()
         
-        let installerPatch = self.templates.pathToInstallers + "_" + folderName + ".xml"
+        let installerPatch = self.templates.localPathToInstallers + "_" + folderName + ".xml"
         
         self.diskHandler.createFile(patch: installerPatch, content: content)
     }
@@ -126,14 +129,15 @@ class FileGenerator {
                     content += self.templates.getLocusActionsItem(fileName: line.groupName, isIcon: true)
                 }
                 
-                content += self.templates.getLocusActionsItem(fileName: line.clientMapName, isIcon: false)
+                let mapFileName = line.groupPrefix + "-" + line.clientMapName
+                content += self.templates.getLocusActionsItem(fileName: mapFileName, isIcon: false)
             }
             
             // Add ending part
             content += self.templates.getLocusActionsOutro()
             
             // Create file
-            let installerPatch = self.templates.pathToInstallers + fileName
+            let installerPatch = self.templates.localPathToInstallers + fileName
             
             self.diskHandler.createFile(patch: installerPatch, content: content)
         }
@@ -144,7 +148,7 @@ class FileGenerator {
     func createLocusAllMapsPage(isShortSet: Bool, _ req: Request) {
         
         var previousFolder = ""
-        let fileName = isShortSet ? "Short.md" : "Full.md"
+        let fileName = isShortSet ? "LocusShort.md" : "LocusFull.md"
         let clientMapsList = isShortSet ? baseHandler.fetchShortSetFileGenInfo(req) : baseHandler.fetchAllFileGenInfo(req)
         let allMapsList = baseHandler.fetchAllMapsList(req)
         
@@ -172,7 +176,7 @@ class FileGenerator {
                 }
                 
                 // Create file
-                let installerPatch = self.templates.pathToMarkdownPages + fileName
+                let installerPatch = self.templates.localPathToMarkdownPages + fileName
                 
                 self.diskHandler.createFile(patch: installerPatch, content: content)
             }
