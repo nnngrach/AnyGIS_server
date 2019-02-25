@@ -50,25 +50,6 @@ public func routes(_ router: Router) throws {
     
     
     
-    // MARK: Storage functions
-    // Start checker for cashe storage. And clean it if needed.
-    // Launched by Uptimerobot.com
-    router.get("cashe_eraser") { req -> String in
-        try casheHandler.erase(req)
-        return "Success: Cloudinary cashe is empty"
-    }
-    
-    // MARK: Script to generate XML and MD files in git repo on local maschine.
-    router.get("update_local_files") { req -> String in
-        let fileGenerator = FileGenerator()
-        let status = fileGenerator.update(req)
-        return status
-    }
-    
-    
-    
-    
-    
     // MARK: Main request to get tile image
     router.get(String.parameter, String.parameter, String.parameter,Int.parameter) { request -> Future<Response> in
         
@@ -86,20 +67,55 @@ public func routes(_ router: Router) throws {
     
     
     
+    // MARK: Storage functions
+    // Start checker for cashe storage. And clean it if needed.
+    // Launched by Uptimerobot.com
+    router.get("cashe_eraser") { req -> String in
+        try casheHandler.erase(req)
+        return "Success: Cloudinary cashe is empty"
+    }
     
     
-
-     router.get("download", String.parameter, String.parameter) { req -> Future<Response> in
+    
+    // MARK: Script to generate XML and MD files in git repo on local maschine.
+    router.get("update_local_files") { req -> String in
+        #if os(Linux)
+            return "Files generation works only on local maschine"
+        #else
+            let diskHandler = DiskHandler()
+            let templates = TextTemplates()
+            let markdownPagesGenerator = MarkdownPagesGenerator()
+            let locusInstallersGenerator = LocusInstallersGenerator()
+        
+        
+            diskHandler.cleanFolder(patch: templates.localPathToInstallers)
+            diskHandler.cleanFolder(patch: templates.localPathToMarkdownPages)
+        
+            locusInstallersGenerator.createSingleMapsLoader(req)
+            locusInstallersGenerator.createFolderLoader(req)
+            locusInstallersGenerator.createAllMapsLoader(isShortSet: true, req)
+            locusInstallersGenerator.createAllMapsLoader(isShortSet: false, req)
+        
+            markdownPagesGenerator.createLocusPage(isShortSet: true, req)
+            markdownPagesGenerator.createLocusPage(isShortSet: false, req)
+        
+            return "Files generation finished!"
+        #endif
+    }
+    
+    
+    // To force download file (don't open)
+    router.get("download", String.parameter, String.parameter) { req -> Future<Response> in
         
         // Extracting values from URL parameters
         let folder = try req.parameters.next(String.self)
         let filename = try req.parameters.next(String.self)
-        
+
         let url = "https://anygis.herokuapp.com/" + folder + "/" + filename
-        
+
         let futureContent = try req.client().get(url)
-        
-        
+
+
         let response = futureContent.flatMap(to: Response.self) { content in
 
             let headers: HTTPHeaders = ["content-disposition": "attachment; filename=\"\(filename)\""]
@@ -108,18 +124,13 @@ public func routes(_ router: Router) throws {
             
             return req.future(Response(http: res, using: req))
         }
-        
+
         return response
-     }
+    }
     
     
     
 
-    
-    
-    
-    
-    
     
     
 //    router.get("experiments_playground_0") { req -> String in

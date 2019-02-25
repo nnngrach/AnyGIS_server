@@ -1,41 +1,21 @@
 //
-//  FileGenerator.swift
+//  GenerateoOfLocusInstallers.swift
 //  AnyGIS_ServerPackageDescription
 //
-//  Created by HR_book on 21/02/2019.
+//  Created by HR_book on 25/02/2019.
 //
 
 import Vapor
 
-class FileGenerator {
+class LocusInstallersGenerator {
     
     let baseHandler = SQLHandler()
     let diskHandler = DiskHandler()
     let templates = TextTemplates()
     
     
-    func update(_ req: Request) -> String {
-        
-        #if os(Linux)
-            return "Files generation works only on local maschine"
-        #else
-            diskHandler.cleanFolder(patch: templates.localPathToInstallers)
-            diskHandler.cleanFolder(patch: templates.localPathToMarkdownPages)
-        
-            createLocusSingleMapsInstallers(req)
-            createLocusFolderMapsInstallers(req)
-            createLocusAllMapsInstallers(isShortSet: true, req)
-            createLocusAllMapsInstallers(isShortSet: false, req)
-        
-            createLocusAllMapsPage(isShortSet: true, req)
-            createLocusAllMapsPage(isShortSet: false, req)
-            return "Files generation finished!"
-        #endif
-    }
     
-    
-    
-    func createLocusSingleMapsInstallers(_ req: Request) {
+    func createSingleMapsLoader(_ req: Request) {
         
         let baseInfo = baseHandler.fetchAllFileGenInfo(req)
         
@@ -45,7 +25,7 @@ class FileGenerator {
                 
                 let mapFileName = line.groupPrefix + "-" + line.clientMapName
                 let installerPatch = self.templates.localPathToInstallers + "__" + mapFileName + ".xml"
-
+                
                 let content = self.templates.getLocusActionsIntro() + self.templates.getLocusActionsItem(fileName: mapFileName, isIcon: false) + self.templates.getLocusActionsItem(fileName: line.groupName, isIcon: true) + self.templates.getLocusActionsOutro()
                 
                 self.diskHandler.createFile(patch: installerPatch, content: content)
@@ -55,7 +35,8 @@ class FileGenerator {
     
     
     
-    func createLocusFolderMapsInstallers(_ req: Request) {
+    
+    func createFolderLoader(_ req: Request) {
         
         var content = ""
         var previousFolder = ""
@@ -69,7 +50,7 @@ class FileGenerator {
             for line in table {
                 
                 let mapFileName = line.groupPrefix + "-" + line.clientMapName
-       
+                
                 if line.groupName != previousFolder {
                     
                     // Last map of the current group.
@@ -110,7 +91,9 @@ class FileGenerator {
     
     
     
-    func createLocusAllMapsInstallers(isShortSet: Bool, _ req: Request) {
+    
+    
+    func createAllMapsLoader(isShortSet: Bool, _ req: Request) {
         
         var previousFolder = ""
         let baseInfo = isShortSet ? baseHandler.fetchShortSetFileGenInfo(req) : baseHandler.fetchAllFileGenInfo(req)
@@ -140,46 +123,6 @@ class FileGenerator {
             let installerPatch = self.templates.localPathToInstallers + fileName
             
             self.diskHandler.createFile(patch: installerPatch, content: content)
-        }
-    }
-    
-    
-    
-    func createLocusAllMapsPage(isShortSet: Bool, _ req: Request) {
-        
-        var previousFolder = ""
-        let fileName = isShortSet ? "LocusShort.md" : "LocusFull.md"
-        let clientMapsList = isShortSet ? baseHandler.fetchShortSetFileGenInfo(req) : baseHandler.fetchAllFileGenInfo(req)
-        let allMapsList = baseHandler.fetchAllMapsList(req)
-        
-        // Add first part of content
-        var content = self.templates.getMarkdownHeader() + self.templates.getMarkdownMaplistIntro()
-        
-        clientMapsList.map { clientMapsTable in
-            allMapsList.map { allMapsTable in
-                
-                // Add all maps and icons
-                for clientMapsLine in clientMapsTable {
-                    
-                    // Add link to Catecory
-                    if clientMapsLine.groupName != previousFolder {
-                        previousFolder = clientMapsLine.groupName
-                        content += self.templates.getMarkdownMaplistCategory(categoryName: clientMapsLine.groupName)
-                    }
-                    
-                    // Add link to single map
-                    let allMapsLine = allMapsTable.filter {$0.name == clientMapsLine.anygisMapName}.first!
-                    
-                    let filename = clientMapsLine.groupPrefix + "-" + clientMapsLine.clientMapName
-                    
-                    content += self.templates.getMarkDownMaplistItem(name: allMapsLine.description, fileName: filename)
-                }
-                
-                // Create file
-                let installerPatch = self.templates.localPathToMarkdownPages + fileName
-                
-                self.diskHandler.createFile(patch: installerPatch, content: content)
-            }
         }
     }
     
