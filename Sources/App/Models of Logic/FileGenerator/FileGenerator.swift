@@ -126,38 +126,37 @@ class FileGenerator {
     func createLocusAllMapsPage(isShortSet: Bool, _ req: Request) {
         
         var previousFolder = ""
-        let baseInfo = isShortSet ? baseHandler.fetchShortSetFileGenInfo(req) : baseHandler.fetchAllFileGenInfo(req)
         let fileName = isShortSet ? "Short.md" : "Full.md"
-        
+        let clientMapsList = isShortSet ? baseHandler.fetchShortSetFileGenInfo(req) : baseHandler.fetchAllFileGenInfo(req)
+        let allMapsList = baseHandler.fetchAllMapsList(req)
         
         // Add first part of content
         var content = self.templates.getMarkdownHeader() + self.templates.getMarkdownMaplistIntro()
         
-        baseInfo.map { table in
-            
-            // Add all maps and icons
-            for line in table {
+        clientMapsList.map { clientMapsTable in
+            allMapsList.map { allMapsTable in
                 
-                if line.groupName != previousFolder {
-                    previousFolder = line.groupName
-                    content += self.templates.getMarkdownMaplistCategory(categoryName: line.groupName)
+                // Add all maps and icons
+                for clientMapsLine in clientMapsTable {
+                    
+                    // Add link to Catecory
+                    if clientMapsLine.groupName != previousFolder {
+                        previousFolder = clientMapsLine.groupName
+                        content += self.templates.getMarkdownMaplistCategory(categoryName: clientMapsLine.groupName)
+                    }
+                    
+                    // Add link to single map
+                    let allMapsLine = allMapsTable.filter {$0.name == clientMapsLine.anygisMapName}.first!
+                    
+                    content += self.templates.getMarkDownMaplistItem(name: allMapsLine.description, fileName: clientMapsLine.clientMapName)
                 }
                 
-                content += self.templates.getMarkDownMaplistItem(mapName: line.clientMapName)
+                // Create file
+                let installerPatch = self.templates.pathToMarkdownPages + fileName
+                
+                self.diskHandler.createFile(patch: installerPatch, content: content)
             }
-            
-            // Create file
-            let installerPatch = self.templates.pathToMarkdownPages + fileName
-            
-            self.diskHandler.createFile(patch: installerPatch, content: content)
         }
     }
-    
-    
-    
-    
-    
-    
-    //TODO: Generate MarkDownPage installers
     
 }

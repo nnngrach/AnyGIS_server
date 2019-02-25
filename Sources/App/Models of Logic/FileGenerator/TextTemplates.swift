@@ -167,11 +167,11 @@ struct TextTemplates {
     }
     
     
-    func getMarkDownMaplistItem(mapName: String) -> String {
-        let url = locusInstallersFolder + "__" + mapName + ".xml"
+    func getMarkDownMaplistItem(name:String, fileName: String) -> String {
+        let url = locusInstallersFolder + "__" + fileName + ".xml"
         
         return """
-        [\(mapName)](\(url) "Скачать эту карту")
+        [\(name)](\(url) "Скачать эту карту")
         
         """
     }
