@@ -22,7 +22,8 @@ struct TextTemplates {
     let gitLocusIconsFolder = "https://github.com/nnngrach/map-sources/raw/master/Locus_online_maps/Icons/"
     
     //FIXME
-    let gitLocusMapsFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/Backup/Full_set/"
+    //let gitLocusMapsFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/Backup/Full_set/"
+    let gitLocusMapsFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/Maps_full/"
     let gitLocusPagesFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Web/Html/Download/"
     
     let gitLocusActionInstallersFolder = "locus-actions://https/raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/Installers/"

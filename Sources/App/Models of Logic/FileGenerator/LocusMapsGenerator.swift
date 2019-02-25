@@ -35,7 +35,7 @@ class LocusMapsGenerator {
                     content += self.templates.getLocusMapOutro()
                     
                     // Create file
-                    let filename = "__" + clientMapsLine.groupPrefix + "-" + clientMapsLine.clientMapName + ".xml"
+                    let filename = clientMapsLine.groupPrefix + "-" + clientMapsLine.clientMapName + ".xml"
                     
                     let patch = self.templates.localPathToMapsFull + filename
                     

@@ -23,6 +23,9 @@ class LocusInstallersGenerator {
             
             for line in table {
                 
+                // Filter off service layers
+                guard line.groupName != "Background" else {continue}
+                
                 let mapFileName = line.groupPrefix + "-" + line.clientMapName
                 let installerPatch = self.templates.localPathToInstallers + "__" + mapFileName + ".xml"
                 
@@ -48,6 +51,9 @@ class LocusInstallersGenerator {
         baseInfo.map { table in
             
             for line in table {
+                
+                // Filter off service layers
+                guard line.groupName != "Background" else {continue}
                 
                 let mapFileName = line.groupPrefix + "-" + line.clientMapName
                 
@@ -106,6 +112,9 @@ class LocusInstallersGenerator {
             
             // Add all maps and icons
             for line in table {
+                
+                // Filter off service layers
+                guard line.groupName != "Background" else {continue}
                 
                 if line.groupName != previousFolder {
                     previousFolder = line.groupName

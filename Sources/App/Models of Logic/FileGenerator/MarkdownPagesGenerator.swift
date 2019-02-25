@@ -30,6 +30,9 @@ class MarkdownPagesGenerator {
                 // Add all maps and icons
                 for clientMapsLine in clientMapsTable {
                     
+                    // Filter off service layers
+                    guard clientMapsLine.groupName != "Background" else {continue}
+                    
                     // Add link to Catecory
                     if clientMapsLine.groupName != previousFolder {
                         previousFolder = clientMapsLine.groupName
