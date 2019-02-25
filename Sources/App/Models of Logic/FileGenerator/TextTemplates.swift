@@ -211,28 +211,56 @@ struct TextTemplates {
     
     
     
-    func getLocusMapItem(id: Int, projection: Int, visible: Bool, background: String, group: String, name: String, countries: String, usage: String) -> String {
-        return """
+    
+    func getLocusMapItem(id: Int, projection: Int, visible: Bool, background: String, group: String, name: String, countries: String, usage: String, url: String, serverParts: String, zoomMin: Int, zoomMax: Int, referer: String) -> String {
         
+        var result = """
+
         <provider id="\(id)" type="\(projection)" visible="\(visible)" background="\(background)">
-                <name>\(group)</name>
-                <mode>\(name)</mode>
-                <countries>\(countries)</countries>
-                <usage>\(usage)</usage>
-                <url><![CDATA[https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png]]></url>
-                <serverPart>a;b;c</serverPart>
-                <zoomPart>{z}-8</zoomPart>
-                <!-- Max: 19+8 -->
-                <zoomMin>8</zoomMin>
-                <zoomMax>27</zoomMax>
-                <tileSize>256</tileSize>
-                <attribution><![CDATA[Map Data <a href="https://www.openstreetmap.org/">OpenStreetMap</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>]]></attribution>
-                <extraHeader><![CDATA[User-Agent#Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.110 Safari/537.36]]></extraHeader>
-                <extraHeader><![CDATA[Referer#https://www.openstreetmap.org/]]></extraHeader>
-            </provider>
+            <name>\(group)</name>
+            <mode>\(name)</mode>
+            <countries>\(countries)</countries>
+            <usage>\(usage)</usage>
+            <url><![CDATA[\(url)]]></url>
         
         """
+        
+        
+        if serverParts != "" || serverParts != " " {
+            result += """
+                <serverPart>\(serverParts)</serverPart>
+            
+            """
+        }
+        
+        
+        result += """
+            <zoomPart>{z}-8</zoomPart>
+            <zoomMin>\(zoomMin + 8)</zoomMin>    <!-- \(zoomMin) -->
+            <zoomMax>\(zoomMax + 8)</zoomMax>   <!-- \(zoomMax) -->
+            <tileSize>256</tileSize>
+        
+        """
+        
+        
+        if referer.replacingOccurrences(of: " ", with: "") != "" {
+            result += """
+                <extraHeader><![CDATA[Referer#\(referer)]]></extraHeader>
+            
+            """
+        }
+
+        
+        result += """
+            <extraHeader><![CDATA[User-Agent#Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.110 Safari/537.36]]></extraHeader>
+            <attribution><![CDATA[Сборник карт AnyGIS. <a href="\(locusPage)">Проверить обновления</a>]]></attribution>
+        </provider>
+        
+        """
+        
+        return result
     }
+    
     
     
     

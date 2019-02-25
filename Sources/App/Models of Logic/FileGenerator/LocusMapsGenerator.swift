@@ -91,7 +91,28 @@ class LocusMapsGenerator {
         
         let allMapsLine = allMapsTable.filter {$0.name == clientMapsLine.anygisMapName}.first!
         
-        return self.templates.getLocusMapItem(id: clientMapsLine.id!, projection: clientMapsLine.projection, visible: clientMapsLine.visible, background: background, group: clientMapsLine.groupName, name: allMapsLine.description, countries: clientMapsLine.countries, usage: clientMapsLine.usage)
+        
+        // Prepare Url and server parts
+        var url = ""
+        var serverParts = ""
+        
+        if clientMapsLine.locusLoadAnygis {
+            url = "https://anygis.herokuapp.com/\(allMapsLine.name)/{x}/{y}/{z}"
+            
+        } else {
+            url = allMapsLine.backgroundUrl
+            url = url.replacingOccurrences(of: "{invY}", with: "{y}")
+            
+            let origServerParts = allMapsLine.backgroundServerName
+            for i in origServerParts {
+                serverParts.append(i)
+                serverParts.append(";")
+            }
+            serverParts = String(serverParts.dropLast())
+        }
+        
+        
+        return self.templates.getLocusMapItem(id: clientMapsLine.id!, projection: clientMapsLine.projection, visible: clientMapsLine.visible, background: background, group: clientMapsLine.groupName, name: allMapsLine.description, countries: clientMapsLine.countries, usage: clientMapsLine.usage, url: url, serverParts: serverParts, zoomMin: allMapsLine.zoomMin, zoomMax: allMapsLine.zoomMax, referer: allMapsLine.referer)
 
     }
     
