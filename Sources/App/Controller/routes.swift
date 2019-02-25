@@ -84,12 +84,14 @@ public func routes(_ router: Router) throws {
         #else
             let diskHandler = DiskHandler()
             let templates = TextTemplates()
+            let locusMapsGenerator = LocusMapsGenerator()
             let markdownPagesGenerator = MarkdownPagesGenerator()
             let locusInstallersGenerator = LocusInstallersGenerator()
         
         
             diskHandler.cleanFolder(patch: templates.localPathToInstallers)
             diskHandler.cleanFolder(patch: templates.localPathToMarkdownPages)
+            diskHandler.cleanFolder(patch: templates.localPathToMapsFull)
         
             locusInstallersGenerator.createSingleMapsLoader(req)
             locusInstallersGenerator.createFolderLoader(req)
@@ -98,6 +100,8 @@ public func routes(_ router: Router) throws {
         
             markdownPagesGenerator.createLocusPage(isShortSet: true, req)
             markdownPagesGenerator.createLocusPage(isShortSet: false, req)
+        
+            locusMapsGenerator.createAll(req)
         
             return "Files generation finished!"
         #endif

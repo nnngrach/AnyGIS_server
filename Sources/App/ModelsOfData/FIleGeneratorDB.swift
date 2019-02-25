@@ -24,8 +24,20 @@ final class FileGeneratorDB: SQLiteModel {
     
     var isInStarterSet: Bool        // This map is included in list of best maps.
     
+    var projection: Int             // Locus map projection
+   
+    var countries: String           // Locus tags
+    var usage: String
     
-    init(id: Int? = nil, anygisMapName: String, groupName: String, groupPrefix: String, clientMapName: String, layersIDList: String, locusLoadAnygis: Bool, gurumapsLoadAnygis: Bool, isInStarterSet: Bool) {
+    var visible: Bool               // Locus tag for background layers
+    
+    
+    
+    
+    
+    
+    init(id: Int? = nil, anygisMapName: String, groupName: String, groupPrefix: String, clientMapName: String, layersIDList: String, locusLoadAnygis: Bool, gurumapsLoadAnygis: Bool, isInStarterSet: Bool, projection: Int, visible: Bool, countries: String, usage: String) {
+        
         self.anygisMapName = anygisMapName
         self.groupName = groupName
         self.groupPrefix = groupPrefix
@@ -34,6 +46,10 @@ final class FileGeneratorDB: SQLiteModel {
         self.locusLoadAnygis = locusLoadAnygis
         self.gurumapsLoadAnygis = gurumapsLoadAnygis
         self.isInStarterSet = isInStarterSet
+        self.projection = projection
+        self.visible = visible
+        self.countries = countries
+        self.usage = usage
     }
 }
 

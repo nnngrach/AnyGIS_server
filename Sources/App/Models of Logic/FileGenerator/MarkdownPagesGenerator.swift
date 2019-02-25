@@ -14,7 +14,6 @@ class MarkdownPagesGenerator {
     let templates = TextTemplates()
     
     
-    
     func createLocusPage(isShortSet: Bool, _ req: Request) {
         
         var previousFolder = ""
