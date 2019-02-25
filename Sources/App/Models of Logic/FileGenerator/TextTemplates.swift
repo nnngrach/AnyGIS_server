@@ -16,14 +16,11 @@ struct TextTemplates {
     let pathToMarkdownMaps = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/script/Maps/"
     let pathToMarkdownPages = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/script/Pages/"
     
-    let locusInstallersFolder = "https://github.com/nnngrach/map-sources/raw/PreparingForFilegeneraor/Locus_online_maps/script/Installers/"
-    let locusPagesFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/PreparingForFilegeneraor/Locus_online_maps/script/Pages/"
     
-    
-    //let locusInstallersFolder = "https://github.com/nnngrach/map-sources/raw/master/Locus_online_maps/script/Installers/"
+    let locusInstallersFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/script/Installers/"
     let locusIconsFolder = "https://github.com/nnngrach/map-sources/raw/master/Locus_online_maps/script/Icons/"
     let locusMapsFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/Full_set/"
-    //let locusPagesFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/script/Pages/"
+    let locusPagesFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/script/Pages/"
     
     let indexPage = "https://nnngrach.github.io/map-sources/index"
     let descriptionPage = "https://nnngrach.github.io/map-sources/Web/Html/Description"
@@ -46,6 +43,7 @@ struct TextTemplates {
         dateFormatter.dateFormat = "dd-MM-yyyy HH:mm"
         return dateFormatter.string(from: currentDate)
     }
+    
     
     
     func getDescription(forLocus: Bool) -> String {
@@ -98,6 +96,7 @@ struct TextTemplates {
     }
     
     
+    
     func getLocusActionsItem(fileName: String, isIcon: Bool) -> String {
         
         let patch = isIcon ? locusIconsFolder : locusInstallersFolder
@@ -118,6 +117,7 @@ struct TextTemplates {
         
         """
     }
+    
     
     
     func getLocusActionsOutro() -> String {
@@ -149,6 +149,7 @@ struct TextTemplates {
     }
     
     
+    
     func getMarkdownMaplistIntro() -> String {
         return """
         # Скачать карты для Locus
@@ -157,14 +158,18 @@ struct TextTemplates {
     }
     
     
+    
     func getMarkdownMaplistCategory(categoryName: String) -> String {
-        let url = locusInstallersFolder + "_" + categoryName.makeCorrectPatch() + ".xml"
+        let url = locusInstallersFolder + "_" + categoryName.cleanSpaces() + ".xml"
         
         return """
+        
+        
         ### [\(categoryName)](\(url) "Скачать всю группу")
         
         """
     }
+    
     
     
     func getMarkDownMaplistItem(name:String, fileName: String) -> String {
@@ -172,6 +177,7 @@ struct TextTemplates {
         
         return """
         [\(name)](\(url) "Скачать эту карту")
+        
         
         """
     }

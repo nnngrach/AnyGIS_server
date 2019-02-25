@@ -58,6 +58,13 @@ public func routes(_ router: Router) throws {
         return "Success: Cloudinary cashe is empty"
     }
     
+    // MARK: Script to generate XML and MD files in git repo on local maschine.
+    router.get("update_local_files") { req -> String in
+        let fileGenerator = FileGenerator()
+        let status = fileGenerator.update(req)
+        return status
+    }
+    
     
     
     
@@ -107,40 +114,16 @@ public func routes(_ router: Router) throws {
     
     
     
-    router.get("update_local_files") { req -> String in
-        let fileGenerator = FileGenerator()
-        fileGenerator.update(req)
-        
-        return "Local files updated"
-    }
-    
-    
-    
-    
-    
-    
-    
-    router.get("experiments_playground_0") { req -> String in
-        let fileGenerator = FileGenerator()
-        fileGenerator.createLocusSingleMapsInstallers(req)
-        
-        return "Hello, World!"
-    }
-    
-    router.get("experiments_playground_1") { req -> String in
-        let fileGenerator = FileGenerator()
-        fileGenerator.createLocusAllMapsInstallers(isShortSet: false, req)
-        
-        return "Hello, World!"
-    }
-    
-    router.get("experiments_playground_2") { req -> String in
-        let fileGenerator = FileGenerator()
-        fileGenerator.createLocusAllMapsPage(isShortSet: false, req)
-        
-        return "Hello, World!"
-    }
-    
 
+    
+    
+    
+    
+    
+    
+    
+//    router.get("experiments_playground_0") { req -> String in
+//        return "Hello, World!"
+//    }
     
 }

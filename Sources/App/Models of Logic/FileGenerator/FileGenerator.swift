@@ -13,18 +13,26 @@ class FileGenerator {
     let diskHandler = DiskHandler()
     let templates = TextTemplates()
     
-    func update(_ req: Request) {
-        diskHandler.cleanFolder(patch: templates.pathToInstallers)
-        diskHandler.cleanFolder(patch: templates.pathToMarkdownPages)
+    
+    func update(_ req: Request) -> String {
         
-        createLocusSingleMapsInstallers(req)
-        createLocusFolderMapsInstallers(req)
-        createLocusAllMapsInstallers(isShortSet: true, req)
-        createLocusAllMapsInstallers(isShortSet: false, req)
+        #if os(Linux)
+            return "Files generation works only on local maschine"
+        #else
+            diskHandler.cleanFolder(patch: templates.pathToInstallers)
+            diskHandler.cleanFolder(patch: templates.pathToMarkdownPages)
         
-        createLocusAllMapsPage(isShortSet: true, req)
-        createLocusAllMapsPage(isShortSet: false, req)
+            createLocusSingleMapsInstallers(req)
+            createLocusFolderMapsInstallers(req)
+            createLocusAllMapsInstallers(isShortSet: true, req)
+            createLocusAllMapsInstallers(isShortSet: false, req)
+        
+            createLocusAllMapsPage(isShortSet: true, req)
+            createLocusAllMapsPage(isShortSet: false, req)
+            return "Files generation finished!"
+        #endif
     }
+    
     
     
     func createLocusSingleMapsInstallers(_ req: Request) {
@@ -45,6 +53,7 @@ class FileGenerator {
     }
     
     
+    
     func createLocusFolderMapsInstallers(_ req: Request) {
         
         var content = ""
@@ -63,14 +72,8 @@ class FileGenerator {
                     // Last map of the current group.
                     // Finish collecting data and write a file.
                     if isNotFirstString {
-                        
-                        content += self.templates.getLocusActionsOutro()
-                        
-                        installerPatch = self.templates.pathToInstallers + "_" + previousFolder + ".xml"
-                        
-                        self.diskHandler.createFile(patch: installerPatch, content: content)
+                        self.finishAndWriteLocusFolderInstaller(folderName: previousFolder, content: content)
                     }
-                    
                     
                     // Start collecting data for next group
                     isNotFirstString = true
@@ -83,10 +86,25 @@ class FileGenerator {
                     // Just add current map to group
                     content += self.templates.getLocusActionsItem(fileName: line.clientMapName, isIcon: false)
                 }
+                
+                
+                // For last iteration: write collected data to last file
+                self.finishAndWriteLocusFolderInstaller(folderName: previousFolder, content: content)
             }
         }
     }
-
+    
+    
+    
+    func finishAndWriteLocusFolderInstaller(folderName: String, content: String) {
+        
+        let resultContent = content + self.templates.getLocusActionsOutro()
+        
+        let installerPatch = self.templates.pathToInstallers + "_" + folderName + ".xml"
+        
+        self.diskHandler.createFile(patch: installerPatch, content: content)
+    }
+    
     
     
     func createLocusAllMapsInstallers(isShortSet: Bool, _ req: Request) {
@@ -148,7 +166,9 @@ class FileGenerator {
                     // Add link to single map
                     let allMapsLine = allMapsTable.filter {$0.name == clientMapsLine.anygisMapName}.first!
                     
-                    content += self.templates.getMarkDownMaplistItem(name: allMapsLine.description, fileName: clientMapsLine.clientMapName)
+                    let filename = clientMapsLine.groupPrefix + "-" + clientMapsLine.clientMapName
+                    
+                    content += self.templates.getMarkDownMaplistItem(name: allMapsLine.description, fileName: filename)
                 }
                 
                 // Create file
