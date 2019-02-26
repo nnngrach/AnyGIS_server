@@ -14,6 +14,7 @@ final class FileGeneratorDB: SQLiteModel {
     var anygisMapName: String       // For fething for MapList database.
     
     var groupName: String           // Folders name, icon name.
+    var shortName: String           // Short map name to show in app.
     var groupPrefix: String         // ../groupPrefix_clientMapName.xml
     var clientMapName: String
     
@@ -31,15 +32,21 @@ final class FileGeneratorDB: SQLiteModel {
     
     var visible: Bool               // Locus tag for background layers
     
+    var forLocus: Bool              // Use this record for generating Locus map file
+    var forGuru: Bool               // Use this record for generating Guru map file
+    
+    var comment: String             // Second description for some maps
     
     
     
     
     
-    init(id: Int? = nil, anygisMapName: String, groupName: String, groupPrefix: String, clientMapName: String, layersIDList: String, locusLoadAnygis: Bool, gurumapsLoadAnygis: Bool, isInStarterSet: Bool, projection: Int, visible: Bool, countries: String, usage: String) {
+    
+    init(id: Int? = nil, anygisMapName: String, groupName: String, shortName: String, groupPrefix: String, clientMapName: String, layersIDList: String, locusLoadAnygis: Bool, gurumapsLoadAnygis: Bool, isInStarterSet: Bool, projection: Int, visible: Bool, countries: String, usage: String, forLocus: Bool, forGuru: Bool, comment: String) {
         
         self.anygisMapName = anygisMapName
         self.groupName = groupName
+        self.shortName = shortName
         self.groupPrefix = groupPrefix
         self.clientMapName = clientMapName
         self.layersIDList = layersIDList
@@ -50,6 +57,9 @@ final class FileGeneratorDB: SQLiteModel {
         self.visible = visible
         self.countries = countries
         self.usage = usage
+        self.forLocus = forLocus
+        self.forGuru = forGuru
+        self.comment = comment
     }
 }
 

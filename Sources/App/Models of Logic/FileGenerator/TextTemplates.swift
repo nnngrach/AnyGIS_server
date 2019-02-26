@@ -36,6 +36,8 @@ struct TextTemplates {
     let guruPage = "https://nnngrach.github.io/map-sources/Web/Html/Galileo"
     let apiPage = "https://nnngrach.github.io/map-sources/Web/Html/Api"
     
+    let anygisMapUrl = "https://anygis.herokuapp.com/{mapName}/{x}/{y}/{z}"
+    
     let email = "anygis@bk.ru"
 
     

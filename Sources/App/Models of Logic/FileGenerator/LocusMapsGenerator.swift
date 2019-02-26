@@ -97,7 +97,8 @@ class LocusMapsGenerator {
         var serverParts = ""
         
         if clientMapsLine.locusLoadAnygis {
-            url = "https://anygis.herokuapp.com/\(allMapsLine.name)/{x}/{y}/{z}"
+            url = self.templates.anygisMapUrl
+            url = url.replacingOccurrences(of: "{mapName}", with: allMapsLine.name)
             
         } else {
             url = allMapsLine.backgroundUrl
