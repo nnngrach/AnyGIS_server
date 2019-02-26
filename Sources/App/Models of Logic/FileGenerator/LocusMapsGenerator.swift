@@ -25,10 +25,11 @@ class LocusMapsGenerator {
                 for clientMapsLine in clientMapsTable {
                     
                     // Filter off service layers
-                    guard clientMapsLine.groupName != "Background" else {continue}
+                    //guard clientMapsLine.groupName != "Background" else {continue}
+                    guard clientMapsLine.forLocus else {continue}
                     
                     // Start content agregation
-                    var content = self.templates.getLocusMapIntro()
+                    var content = self.templates.getLocusMapIntro(comment: clientMapsLine.comment)
                     
                     content += self.generateLayersContent(clientMapsLine.id!, clientMapsLine.layersIDList, clientMapsTable, allMapsTable)
                     
@@ -113,7 +114,7 @@ class LocusMapsGenerator {
         }
         
         
-        return self.templates.getLocusMapItem(id: clientMapsLine.id!, projection: clientMapsLine.projection, visible: clientMapsLine.visible, background: background, group: clientMapsLine.groupName, name: allMapsLine.description, countries: clientMapsLine.countries, usage: clientMapsLine.usage, url: url, serverParts: serverParts, zoomMin: allMapsLine.zoomMin, zoomMax: allMapsLine.zoomMax, referer: allMapsLine.referer)
+        return self.templates.getLocusMapItem(id: clientMapsLine.id!, projection: clientMapsLine.projection, visible: clientMapsLine.visible, background: background, group: clientMapsLine.groupName, name: clientMapsLine.shortName, countries: clientMapsLine.countries, usage: clientMapsLine.usage, url: url, serverParts: serverParts, zoomMin: allMapsLine.zoomMin, zoomMax: allMapsLine.zoomMax, referer: allMapsLine.referer)
 
     }
     

@@ -200,12 +200,26 @@ struct TextTemplates {
     
     //MARK: Templates for Locus maps XLM
     
-    func getLocusMapIntro() -> String {
+    func getLocusMapIntro(comment: String) -> String {
+        
+        var secondDescription = ""
+        
+        if comment.replacingOccurrences(of: " ", with: "") != "" {
+            secondDescription = """
+            <!--
+            \(comment)
+            -->
+            
+            """
+        }
+        
+        
         return """
         <?xml version="1.0" encoding="utf-8"?>
         
         \(getDescription(forLocus: true))
         
+        \(secondDescription)
         
         <providers>
         
