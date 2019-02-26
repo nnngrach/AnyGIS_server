@@ -52,6 +52,8 @@ class LocusInstallersGenerator {
             
             for line in table {
                 
+                
+                
                 // Filter off service layers
                 guard line.groupName != "Background" else {continue}
                 
@@ -67,7 +69,7 @@ class LocusInstallersGenerator {
                     
                     // Start collecting data for next group
                     isNotFirstString = true
-                    previousFolder = line.groupName
+                    previousFolder = line.groupPrefix
                     
                     content = self.templates.getLocusActionsIntro() + self.templates.getLocusActionsItem(fileName: line.groupName, isIcon: true) + self.templates.getLocusActionsItem(fileName: mapFileName, isIcon: false)
                     
