@@ -14,10 +14,10 @@ class LocusMapsGenerator {
     let templates = TextTemplates()
     
     
-    func createAll(_ req: Request) {
+    func createAll(isShortSet: Bool, _ req: Request) {
         
-        let clientMapsList = baseHandler.fetchAllFileGenInfo(req)
         let allMapsList = baseHandler.fetchAllMapsList(req)
+        let clientMapsList = baseHandler.fetchAllFileGenInfo(req)
         
         clientMapsList.map { clientMapsTable in
             allMapsList.map { allMapsTable in
@@ -25,8 +25,10 @@ class LocusMapsGenerator {
                 for clientMapsLine in clientMapsTable {
                     
                     // Filter off service layers
-                    //guard clientMapsLine.groupName != "Background" else {continue}
                     guard clientMapsLine.forLocus else {continue}
+                    // Filter for short list
+                    if isShortSet && !clientMapsLine.isInStarterSet {continue}
+ 
                     
                     // Start content agregation
                     var content = self.templates.getLocusMapIntro(comment: clientMapsLine.comment)
@@ -38,9 +40,11 @@ class LocusMapsGenerator {
                     // Create file
                     let filename = clientMapsLine.groupPrefix + "-" + clientMapsLine.clientMapName + ".xml"
                     
-                    let patch = self.templates.localPathToMapsFull + filename
+                    let patch = isShortSet ? self.templates.localPathToMapsShort : self.templates.localPathToMapsFull
                     
-                    self.diskHandler.createFile(patch: patch, content: content)
+                    let fullPatch = patch + filename
+                    
+                    self.diskHandler.createFile(patch: fullPatch, content: content)
                 }
                 
             }

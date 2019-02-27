@@ -31,12 +31,12 @@ class MarkdownPagesGenerator {
                 for clientMapsLine in clientMapsTable {
                     
                     // Filter off service layers
-                    guard clientMapsLine.groupName != "Background" else {continue}
+                    guard clientMapsLine.forLocus else {continue}
                     
                     // Add link to Catecory
                     if clientMapsLine.groupName != previousFolder {
                         previousFolder = clientMapsLine.groupName
-                        content += self.templates.getMarkdownMaplistCategory(categoryName: clientMapsLine.groupName)
+                        content += self.templates.getMarkdownMaplistCategory(categoryName: clientMapsLine.groupName, fileName: clientMapsLine.groupPrefix)
                     }
                     
                     // Add link to single map

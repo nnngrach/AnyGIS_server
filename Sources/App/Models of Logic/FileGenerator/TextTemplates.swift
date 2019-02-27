@@ -168,8 +168,8 @@ struct TextTemplates {
     
     
     
-    func getMarkdownMaplistCategory(categoryName: String) -> String {
-        let url = gitLocusActionInstallersFolder + "_" + categoryName.cleanSpaces() + ".xml"
+    func getMarkdownMaplistCategory(categoryName: String, fileName: String) -> String {
+        let url = gitLocusActionInstallersFolder + "_" + fileName.cleanSpaces() + ".xml"
         
         return """
         

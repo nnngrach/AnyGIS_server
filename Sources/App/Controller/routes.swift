@@ -92,6 +92,7 @@ public func routes(_ router: Router) throws {
             diskHandler.cleanFolder(patch: templates.localPathToInstallers)
             diskHandler.cleanFolder(patch: templates.localPathToMarkdownPages)
             diskHandler.cleanFolder(patch: templates.localPathToMapsFull)
+            diskHandler.cleanFolder(patch: templates.localPathToMapsShort)
         
             locusInstallersGenerator.createSingleMapsLoader(req)
             locusInstallersGenerator.createFolderLoader(req)
@@ -101,7 +102,8 @@ public func routes(_ router: Router) throws {
             markdownPagesGenerator.createLocusPage(isShortSet: true, req)
             markdownPagesGenerator.createLocusPage(isShortSet: false, req)
         
-            locusMapsGenerator.createAll(req)
+            locusMapsGenerator.createAll(isShortSet: true, req)
+            locusMapsGenerator.createAll(isShortSet: false, req)
         
             return "Files generation finished!"
         #endif
