@@ -14,15 +14,19 @@ class MarkdownPagesGenerator {
     let templates = TextTemplates()
     
     
-    func createLocusPage(isShortSet: Bool, _ req: Request) {
+    func createMarkdownPage(forLocus:Bool, isShortSet: Bool, _ req: Request) {
         
         var previousFolder = ""
-        let fileName = isShortSet ? "LocusShort.md" : "LocusFull.md"
+        
+        let firstPart = forLocus ? "Locus" : "Guru"
+        let secondPart = isShortSet ? "Short.md" : "Full.md"
+        let fullFileName = firstPart + secondPart
+        
         let clientMapsList = isShortSet ? baseHandler.fetchShortSetFileGenInfo(req) : baseHandler.fetchAllFileGenInfo(req)
         let allMapsList = baseHandler.fetchAllMapsList(req)
         
         // Add first part of content
-        var content = self.templates.getMarkdownHeader() + self.templates.getMarkdownMaplistIntro()
+        var content = self.templates.getMarkdownHeader() + self.templates.getMarkdownMaplistIntro(forLocus: forLocus)
         
         clientMapsList.map { clientMapsTable in
             allMapsList.map { allMapsTable in
@@ -31,12 +35,13 @@ class MarkdownPagesGenerator {
                 for clientMapsLine in clientMapsTable {
                     
                     // Filter off service layers
-                    guard clientMapsLine.forLocus else {continue}
+                    if forLocus && !clientMapsLine.forLocus {continue}
+                    if !forLocus && !clientMapsLine.forGuru {continue}
                     
                     // Add link to Catecory
                     if clientMapsLine.groupName != previousFolder {
                         previousFolder = clientMapsLine.groupName
-                        content += self.templates.getMarkdownMaplistCategory(categoryName: clientMapsLine.groupName, fileName: clientMapsLine.groupPrefix)
+                        content += self.templates.getMarkdownMaplistCategory(forLocus: forLocus, categoryName: clientMapsLine.groupName, fileName: clientMapsLine.groupPrefix)
                     }
                     
                     // Add link to single map
@@ -44,11 +49,11 @@ class MarkdownPagesGenerator {
                     
                     let filename = clientMapsLine.groupPrefix + "-" + clientMapsLine.clientMapName
                     
-                    content += self.templates.getMarkDownMaplistItem(name: allMapsLine.description, fileName: filename)
+                    content += self.templates.getMarkDownMaplistItem(forLocus: forLocus, name: allMapsLine.description, fileName: filename)
                 }
                 
                 // Create file
-                let installerPatch = self.templates.localPathToMarkdownPages + fileName
+                let installerPatch = self.templates.localPathToMarkdownPages + fullFileName
                 
                 self.diskHandler.createFile(patch: installerPatch, content: content)
             }

@@ -13,19 +13,27 @@ struct TextTemplates {
     
     let localPathToIcons = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/Icons/"
     let localPathToInstallers = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/Installers/"
-    let localPathToMapsFull = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/Maps_full/"
-    let localPathToMapsShort = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/Maps_short/"
+    let localPathToLocusMapsFull = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/Maps_full/"
+    let localPathToLocusMapsShort = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/Maps_short/"
+    let localPathToGuruMapsFull = "file:////Projects/GIS/Online%20map%20sources/map-sources/Galileo_online_maps/Maps_full/"
+    let localPathToGuruMapsShort = "file:////Projects/GIS/Online%20map%20sources/map-sources/Galileo_online_maps/Maps_short/"
     let localPathToMarkdownPages = "file:////Projects/GIS/Online%20map%20sources/map-sources/Web/Html/Download/"
+    
     
     let gitLocusInstallersFolder = "https://github.com/nnngrach/map-sources/master/Locus_online_maps/Installers/"
     let gitLocusIconsFolder = "https://github.com/nnngrach/map-sources/raw/master/Locus_online_maps/Icons/"
-    let gitLocusMapsFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/Maps_full/"
     let gitLocusPagesFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Web/Html/Download/"
+    
+    let gitLocusMapsFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/Maps_full/"
+    let anygisGuruMapsFolder = "https://anygis.herokuapp.com/download/galileo/"
+    
     
     let gitLocusFullMapsZip = "https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/nnngrach/map-sources/tree/master/Locus_online_maps/Maps_full"
     let gitLocusShortMapsZip = "https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/nnngrach/map-sources/tree/master/Locus_online_maps/Maps_short"
     
     let gitLocusActionInstallersFolder = "locus-actions://https/raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/Installers/"
+    
+    
     
     
     let indexPage = "https://nnngrach.github.io/map-sources/index"
@@ -158,30 +166,44 @@ struct TextTemplates {
     
     
     
-    func getMarkdownMaplistIntro() -> String {
+    func getMarkdownMaplistIntro(forLocus: Bool) -> String {
+        let name = forLocus ? "Locus" : "Guru Maps"
+        
         return """
-        # Скачать карты для Locus
+        # Скачать карты для \(name)
         
         """
     }
     
     
     
-    func getMarkdownMaplistCategory(categoryName: String, fileName: String) -> String {
+    func getMarkdownMaplistCategory(forLocus: Bool, categoryName: String, fileName: String) -> String {
         let url = gitLocusActionInstallersFolder + "_" + fileName.cleanSpaces() + ".xml"
         
-        return """
+        let locusText = """
         
         
         ### [\(categoryName)](\(url) "Скачать всю группу")
         
         """
+        
+        let guruText = """
+        
+        
+        ### \(categoryName)
+        
+        """
+        
+        return forLocus ? locusText : guruText
+        
     }
     
     
     
-    func getMarkDownMaplistItem(name:String, fileName: String) -> String {
-        let url = gitLocusActionInstallersFolder + "__" + fileName + ".xml"
+    func getMarkDownMaplistItem(forLocus: Bool, name:String, fileName: String) -> String {
+        let locusUrl = gitLocusActionInstallersFolder + "__" + fileName + ".xml"
+        let guruUrl = anygisGuruMapsFolder + fileName + ".ms"
+        let url = forLocus ? locusUrl : guruUrl
         
         return """
         [\(name)](\(url) "Скачать эту карту")
@@ -286,6 +308,81 @@ struct TextTemplates {
         </providers>
         """
     }
+    
+    
+    
+    
+    
+    
+    //MARK: Templates for GuruMaps (Galileo) maps MS
+    
+    func getGuruMapIntro(mapName: String, comment: String) -> String {
+        
+        var secondDescription = ""
+        
+        if comment.replacingOccurrences(of: " ", with: "") != "" {
+            secondDescription = """
+            <!--
+            \(comment)
+            -->
+            
+            """
+        }
+        
+        
+        return """
+        <?xml version="1.0" encoding="utf-8"?>
+        
+        \(getDescription(forLocus: false))
+        
+        \(secondDescription)
+        
+        <customMapSource>
+        <name>\(mapName)</name>
+        <layers>
 
+        
+        """
+    }
+    
+    
+    
+    func getGuruMapsItem(url: String, zoomMin: Int, zoomMax: Int, serverParts: String) -> String {
+        
+        let firtstPart = """
+            <layer>
+            <minZoom>\(zoomMin)</minZoom>
+            <maxZoom>\(zoomMax)</maxZoom>
+            <url>\(url)</url>
+
+        """
+        
+        var secondPart = ""
+        
+        if serverParts.replacingOccurrences(of: " ", with: "") != "" {
+            secondPart = """
+                <serverParts>\(serverParts)</serverParts>
+            
+            """
+        }
+        
+        let thirdPart = """
+            </layer>
+
+
+        """
+        
+        return firtstPart + secondPart + thirdPart
+    }
+    
+    
+    
+    func getGuruMapOutro() -> String {
+        return """
+        
+        </layers>
+        </customMapSource>
+        """
+    }
     
 }

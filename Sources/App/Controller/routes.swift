@@ -84,24 +84,33 @@ public func routes(_ router: Router) throws {
         #else
             let diskHandler = DiskHandler()
             let templates = TextTemplates()
+            let guruMapsGenerator = GuruMapsGenerator()
             let locusMapsGenerator = LocusMapsGenerator()
             let markdownPagesGenerator = MarkdownPagesGenerator()
             let locusInstallersGenerator = LocusInstallersGenerator()
         
         
+        
             diskHandler.cleanFolder(patch: templates.localPathToInstallers)
             diskHandler.cleanFolder(patch: templates.localPathToMarkdownPages)
-            diskHandler.cleanFolder(patch: templates.localPathToMapsFull)
-            diskHandler.cleanFolder(patch: templates.localPathToMapsShort)
+            diskHandler.cleanFolder(patch: templates.localPathToLocusMapsFull)
+            diskHandler.cleanFolder(patch: templates.localPathToLocusMapsShort)
+            diskHandler.cleanFolder(patch: templates.localPathToGuruMapsFull)
+            diskHandler.cleanFolder(patch: templates.localPathToGuruMapsShort)
+
         
             locusInstallersGenerator.createSingleMapsLoader(req)
             locusInstallersGenerator.createFolderLoader(req)
             locusInstallersGenerator.createAllMapsLoader(isShortSet: true, req)
             locusInstallersGenerator.createAllMapsLoader(isShortSet: false, req)
         
-            markdownPagesGenerator.createLocusPage(isShortSet: true, req)
-            markdownPagesGenerator.createLocusPage(isShortSet: false, req)
+            markdownPagesGenerator.createMarkdownPage(forLocus: true, isShortSet: true, req)
+            markdownPagesGenerator.createMarkdownPage(forLocus: true, isShortSet: false, req)
+            markdownPagesGenerator.createMarkdownPage(forLocus: false, isShortSet: true, req)
+            markdownPagesGenerator.createMarkdownPage(forLocus: false, isShortSet: false, req)
         
+            guruMapsGenerator.createAll(isShortSet: true, req)
+            guruMapsGenerator.createAll(isShortSet: false, req)
             locusMapsGenerator.createAll(isShortSet: true, req)
             locusMapsGenerator.createAll(isShortSet: false, req)
         
