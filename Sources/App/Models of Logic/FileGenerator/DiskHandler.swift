@@ -42,4 +42,31 @@ class DiskHandler {
         }
     }
     
+    
+    
+    func cleanXmlFromFolder(patch: String) {
+        
+        let folderUrl = URL(string: patch)!
+        
+        do {
+            let fileURLs = try FileManager
+                .default
+                .contentsOfDirectory(at: folderUrl,
+                                     includingPropertiesForKeys: nil,
+                                     options: [.skipsHiddenFiles,
+                                               .skipsSubdirectoryDescendants])
+            
+            for fileURL in fileURLs {
+                if fileURL.absoluteString.hasSuffix(".xml") {
+                    try FileManager.default.removeItem(at: fileURL)
+                }
+            }
+            
+        } catch {
+            print(error)
+        }
+    }
+    
+
+    
 }

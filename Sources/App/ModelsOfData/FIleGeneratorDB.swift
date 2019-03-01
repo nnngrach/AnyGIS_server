@@ -37,12 +37,14 @@ final class FileGeneratorDB: SQLiteModel {
     
     var comment: String             // Second description for some maps
     
+    var order: Int                  // Order to showing in Web page
     
     
     
     
     
-    init(id: Int? = nil, anygisMapName: String, groupName: String, shortName: String, groupPrefix: String, clientMapName: String, layersIDList: String, locusLoadAnygis: Bool, gurumapsLoadAnygis: Bool, isInStarterSet: Bool, projection: Int, visible: Bool, countries: String, usage: String, forLocus: Bool, forGuru: Bool, comment: String) {
+    
+    init(id: Int? = nil, anygisMapName: String, groupName: String, shortName: String, groupPrefix: String, clientMapName: String, layersIDList: String, locusLoadAnygis: Bool, gurumapsLoadAnygis: Bool, isInStarterSet: Bool, projection: Int, visible: Bool, countries: String, usage: String, forLocus: Bool, forGuru: Bool, comment: String, order: Int) {
         
         self.anygisMapName = anygisMapName
         self.groupName = groupName
@@ -60,6 +62,7 @@ final class FileGeneratorDB: SQLiteModel {
         self.forLocus = forLocus
         self.forGuru = forGuru
         self.comment = comment
+        self.order = order
     }
 }
 

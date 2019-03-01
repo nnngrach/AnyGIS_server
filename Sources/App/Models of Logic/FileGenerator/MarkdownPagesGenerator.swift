@@ -49,7 +49,7 @@ class MarkdownPagesGenerator {
                     
                     let filename = clientMapsLine.groupPrefix + "-" + clientMapsLine.clientMapName
                     
-                    content += self.templates.getMarkDownMaplistItem(forLocus: forLocus, name: allMapsLine.description, fileName: filename)
+                    content += self.templates.getMarkDownMaplistItem(forLocus: forLocus, name: clientMapsLine.shortName, fileName: filename)
                 }
                 
                 // Create file

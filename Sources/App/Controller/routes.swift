@@ -90,25 +90,23 @@ public func routes(_ router: Router) throws {
             let locusInstallersGenerator = LocusInstallersGenerator()
         
         
-        
             diskHandler.cleanFolder(patch: templates.localPathToInstallers)
             diskHandler.cleanFolder(patch: templates.localPathToMarkdownPages)
-            diskHandler.cleanFolder(patch: templates.localPathToLocusMapsFull)
-            diskHandler.cleanFolder(patch: templates.localPathToLocusMapsShort)
+            diskHandler.cleanXmlFromFolder(patch: templates.localPathToLocusMapsFull)
+            diskHandler.cleanXmlFromFolder(patch: templates.localPathToLocusMapsShort)
             diskHandler.cleanFolder(patch: templates.localPathToGuruMapsFull)
             diskHandler.cleanFolder(patch: templates.localPathToGuruMapsShort)
-
         
             locusInstallersGenerator.createSingleMapsLoader(req)
             locusInstallersGenerator.createFolderLoader(req)
             locusInstallersGenerator.createAllMapsLoader(isShortSet: true, req)
             locusInstallersGenerator.createAllMapsLoader(isShortSet: false, req)
-        
+
             markdownPagesGenerator.createMarkdownPage(forLocus: true, isShortSet: true, req)
             markdownPagesGenerator.createMarkdownPage(forLocus: true, isShortSet: false, req)
             markdownPagesGenerator.createMarkdownPage(forLocus: false, isShortSet: true, req)
             markdownPagesGenerator.createMarkdownPage(forLocus: false, isShortSet: false, req)
-        
+
             guruMapsGenerator.createAll(isShortSet: true, req)
             guruMapsGenerator.createAll(isShortSet: false, req)
             locusMapsGenerator.createAll(isShortSet: true, req)

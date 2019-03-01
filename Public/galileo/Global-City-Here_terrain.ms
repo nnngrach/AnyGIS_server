@@ -5,7 +5,7 @@
 https://nnngrach.github.io/map-sources/Web/Html/Galileo
 
 Составитель: AnyGIS (anygis@bk.ru).
-Файл обновлен: 01-03-2019 18:57
+Файл обновлен: 01-03-2019 21:49
 
 Сделан на основе наборов карт от:
 - SAS.planet (http://www.sasgis.org/)
@@ -17,7 +17,7 @@ https://nnngrach.github.io/map-sources/Web/Html/Galileo
 
 
 <customMapSource>
-<name>Here Terrain</name>
+<name>Here Ландшафт</name>
 <layers>
 
     <layer>

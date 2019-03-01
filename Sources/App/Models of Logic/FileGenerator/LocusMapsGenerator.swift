@@ -46,7 +46,6 @@ class LocusMapsGenerator {
                     
                     self.diskHandler.createFile(patch: fullPatch, content: content)
                 }
-                
             }
         }
         
@@ -120,6 +119,7 @@ class LocusMapsGenerator {
 
     }
     
+
     
     
 }
