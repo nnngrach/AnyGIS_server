@@ -17,14 +17,13 @@ struct TextTemplates {
     let localPathToMapsShort = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/Maps_short/"
     let localPathToMarkdownPages = "file:////Projects/GIS/Online%20map%20sources/map-sources/Web/Html/Download/"
     
-    
     let gitLocusInstallersFolder = "https://github.com/nnngrach/map-sources/master/Locus_online_maps/Installers/"
     let gitLocusIconsFolder = "https://github.com/nnngrach/map-sources/raw/master/Locus_online_maps/Icons/"
-    
-    //FIXME
-    //let gitLocusMapsFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/Backup/Full_set/"
     let gitLocusMapsFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/Maps_full/"
     let gitLocusPagesFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Web/Html/Download/"
+    
+    let gitLocusFullMapsZip = "https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/nnngrach/map-sources/tree/master/Locus_online_maps/Maps_full"
+    let gitLocusShortMapsZip = "https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/nnngrach/map-sources/tree/master/Locus_online_maps/Maps_short"
     
     let gitLocusActionInstallersFolder = "locus-actions://https/raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/Installers/"
     
