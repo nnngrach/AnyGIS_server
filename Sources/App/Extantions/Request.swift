@@ -8,7 +8,7 @@
 import Vapor
 
 extension Request {
-    func response(file: File) -> Response {
+    public func response(file: File) -> Response {
         let headers: HTTPHeaders = [
             "content-disposition": "attachment; filename=\"\(file.filename)\""
         ]

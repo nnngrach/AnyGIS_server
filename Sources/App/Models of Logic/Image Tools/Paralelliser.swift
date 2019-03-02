@@ -15,20 +15,20 @@ class FreeAccountsParalleliser {
     
     let cloudinaryServersCount = 10
     
-    func splitByRandom() -> String {
+    public func splitByRandom() -> String {
         let randomValue = randomNubmerForHeroku(cloudinaryServersCount)
         return String(randomValue)
     }
     
     
-    func splitByTime() -> String {
+    public func splitByTime() -> String {
         let time = Int(Date.timeIntervalSinceReferenceDate)
         let tenSeconds = (time % 100) / 10
         return String(tenSeconds)
     }
     
     
-    func splitBy(tileNumber: Int) -> String {
+    public func splitBy(tileNumber: Int) -> String {
         let number = (tileNumber % 100) / 10
         return String(number)
     }

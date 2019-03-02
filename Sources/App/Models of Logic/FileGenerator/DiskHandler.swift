@@ -9,7 +9,7 @@ import Foundation
 
 class DiskHandler {
     
-    func createFile(patch: String, content: String) {
+    public func createFile(patch: String, content: String) {
         
         let url = URL(string: patch.cleanSpaces())!
         
@@ -21,7 +21,7 @@ class DiskHandler {
     }
     
     
-    func cleanFolder(patch: String) {
+    public func cleanFolder(patch: String) {
         
         let folderUrl = URL(string: patch)!
         
@@ -44,7 +44,7 @@ class DiskHandler {
     
     
     
-    func cleanXmlFromFolder(patch: String) {
+    public func cleanXmlFromFolder(patch: String) {
         
         let folderUrl = URL(string: patch)!
         

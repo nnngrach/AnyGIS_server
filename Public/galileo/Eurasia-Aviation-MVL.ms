@@ -5,7 +5,7 @@
 https://nnngrach.github.io/map-sources/Web/Html/Galileo
 
 Составитель: AnyGIS (anygis@bk.ru).
-Файл обновлен: 01-03-2019 21:49
+Файл обновлен: 02-03-2019 14:09
 
 Сделан на основе наборов карт от:
 - SAS.planet (http://www.sasgis.org/)

@@ -15,7 +15,7 @@ class LocusInstallersGenerator {
     
     
     
-    func createSingleMapsLoader(_ req: Request) {
+    public func createSingleMapsLoader(_ req: Request) {
         
         let baseInfo = baseHandler.fetchAllFileGenInfo(req)
         
@@ -39,7 +39,7 @@ class LocusInstallersGenerator {
     
     
     
-    func createFolderLoader(_ req: Request) {
+    public func createFolderLoader(_ req: Request) {
         
         var content = ""
         var previousFolder = ""
@@ -86,7 +86,7 @@ class LocusInstallersGenerator {
     
     
     
-    func finishAndWriteLocusFolderInstaller(folderName: String, content: String) {
+    private func finishAndWriteLocusFolderInstaller(folderName: String, content: String) {
         
         let resultContent = content + self.templates.getLocusActionsOutro()
         
@@ -99,7 +99,7 @@ class LocusInstallersGenerator {
     
     
     
-    func createAllMapsLoader(isShortSet: Bool, _ req: Request) {
+    public func createAllMapsLoader(isShortSet: Bool, _ req: Request) {
         
         var previousFolder = ""
         let baseInfo = isShortSet ? baseHandler.fetchShortSetFileGenInfo(req) : baseHandler.fetchAllFileGenInfo(req)

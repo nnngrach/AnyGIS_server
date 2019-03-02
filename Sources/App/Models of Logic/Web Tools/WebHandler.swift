@@ -503,6 +503,7 @@ class WebHandler {
         let redirectingResponce = try urlChecker.checkMirrorsList(mapName, tileNumbers.x, tileNumbers.y, zoom, req)
         
         return redirectingResponce
+        //return try req.client().get(newUrl, headers: HTTPHeaders(dictionaryLiteral: ("referer",mapObject.referer)))
     }
     
     

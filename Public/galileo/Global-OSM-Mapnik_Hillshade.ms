@@ -17,13 +17,20 @@ https://nnngrach.github.io/map-sources/Web/Html/Galileo
 
 
 <customMapSource>
-<name>Киргизский хребет</name>
+<name>Mapnik + Рельеф</name>
 <layers>
 
     <layer>
     <minZoom>0</minZoom>
-    <maxZoom>15</maxZoom>
-    <url>https://anygis.herokuapp.com/Local_Kyrgiz1/{$x}/{$y}/{$z}</url>
+    <maxZoom>19</maxZoom>
+    <url>http://{$serverpart}.tile.openstreetmap.org/{$z}/{$x}/{$y}.png</url>
+    <serverParts>a b c </serverParts>
+    </layer>
+
+    <layer>
+    <minZoom>0</minZoom>
+    <maxZoom>19</maxZoom>
+    <url>https://anygis.herokuapp.com/Osm_Mapnik_Mapbox_Hillshades/{$x}/{$y}/{$z}</url>
     </layer>
 
 

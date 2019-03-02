@@ -9,11 +9,11 @@ import Foundation
 
 extension String {
     
-    func makeCorrectPatch() -> String {
+    public func makeCorrectPatch() -> String {
         return self.replacingOccurrences(of: " ", with: "%20")
     }
     
-    func cleanSpaces() -> String {
+    public func cleanSpaces() -> String {
         return self.replacingOccurrences(of: " ", with: "")
     }
     

@@ -117,7 +117,8 @@ class UrlFIleChecker {
                 // Global maps. Dont't need to check it
                 let newUrl = self.urlPatchCreator.calculateTileURL(x, y, z, urls[firstCheckingIndex], "")
                 
-                firstFoundedUrlResponse = self.output.redirect(to: newUrl, with: req)
+                //firstFoundedUrlResponse = self.output.redirect(to: newUrl, with: req)
+                firstFoundedUrlResponse = self.output.redirectWithReferer(to: newUrl, referer: nil, with: req)
                 
             } else {
                 // Local maps. Start checking of file existing for all mirrors URLs
@@ -151,7 +152,8 @@ class UrlFIleChecker {
             if status.code != 403 && status.code != 404 {
                 //print ("Success: File founded! ", hosts[index], currentUrl, response.status.code)
                 let newUrl = self.urlPatchCreator.calculateTileURL(x, y, z, urls[currentShuffledIndex], "")
-                return self.output.redirect(to: newUrl, with: req)
+                //return self.output.redirect(to: newUrl, with: req)
+                return self.output.redirectWithReferer(to: newUrl, referer: nil, with: req)
                 
             } else if (index + 1) < hosts.count {
                 //print ("Recursive find for next index: ", hosts[index], currentUrl, response.status.code)

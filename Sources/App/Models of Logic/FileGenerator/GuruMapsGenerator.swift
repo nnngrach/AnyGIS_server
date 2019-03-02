@@ -14,7 +14,7 @@ class GuruMapsGenerator {
     let templates = TextTemplates()
     
     
-    func createAll(isShortSet: Bool, _ req: Request) {
+    public func createAll(isShortSet: Bool, _ req: Request) {
         
         let allMapsList = baseHandler.fetchAllMapsList(req)
         let clientMapsList = baseHandler.fetchAllFileGenInfo(req)
@@ -52,7 +52,7 @@ class GuruMapsGenerator {
     
     
     
-    func generateLayersContent(_ currentID: Int, _ layersIdList: String, _ clientMapsTable: [FileGeneratorDB], _ allMapsTable: [MapsList]) -> String {
+    private func generateLayersContent(_ currentID: Int, _ layersIdList: String, _ clientMapsTable: [FileGeneratorDB], _ allMapsTable: [MapsList]) -> String {
         
         var content = ""
         
@@ -77,7 +77,7 @@ class GuruMapsGenerator {
     
     
     
-    func addLayerBlock(locusId: Int, _ clientMapsTable: [FileGeneratorDB], _ allMapsTable: [MapsList]) -> String {
+    private func addLayerBlock(locusId: Int, _ clientMapsTable: [FileGeneratorDB], _ allMapsTable: [MapsList]) -> String {
         
         let clientMapsLine = clientMapsTable.filter {$0.id == locusId}.first!
         
@@ -102,7 +102,7 @@ class GuruMapsGenerator {
     
     
     
-    func prepareUrl(url: String, mapName: String) -> String {
+    private func prepareUrl(url: String, mapName: String) -> String {
         var resultUrl = url
         resultUrl = resultUrl.replacingOccurrences(of: "{mapName}", with: mapName)
         resultUrl = resultUrl.replacingOccurrences(of: "{x}", with: "{$x}")
