@@ -20,28 +20,28 @@ struct TextTemplates {
     let localPathToMarkdownPages = "file:////Projects/GIS/Online%20map%20sources/map-sources/Web/Html/Download/"
     
     
-    let gitLocusInstallersFolder = "https://github.com/nnngrach/map-sources/master/Locus_online_maps/Installers/"
-    let gitLocusIconsFolder = "https://github.com/nnngrach/map-sources/raw/master/Locus_online_maps/Icons/"
-    let gitLocusPagesFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Web/Html/Download/"
+    let gitLocusInstallersFolder = "https://github.com/nnngrach/AnyGIS_maps/master/Locus_online_maps/Installers/"
+    let gitLocusIconsFolder = "https://github.com/nnngrach/AnyGIS_maps/raw/master/Locus_online_maps/Icons/"
+    let gitLocusPagesFolder = "https://raw.githubusercontent.com/nnngrach/AnyGIS_maps/master/Web/Html/Download/"
     
-    let gitLocusMapsFolder = "https://raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/Maps_full/"
+    let gitLocusMapsFolder = "https://raw.githubusercontent.com/nnngrach/AnyGIS_maps/master/Locus_online_maps/Maps_full/"
     let anygisGuruMapsFolder = "https://anygis.herokuapp.com/download/galileo/"
     
     
-    let gitLocusFullMapsZip = "https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/nnngrach/map-sources/tree/master/Locus_online_maps/Maps_full"
-    let gitLocusShortMapsZip = "https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/nnngrach/map-sources/tree/master/Locus_online_maps/Maps_short"
+    let gitLocusFullMapsZip = "https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/nnngrach/AnyGIS_maps/tree/master/Locus_online_maps/Maps_full"
+    let gitLocusShortMapsZip = "https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/nnngrach/AnyGIS_maps/tree/master/Locus_online_maps/Maps_short"
     
-    let gitLocusActionInstallersFolder = "locus-actions://https/raw.githubusercontent.com/nnngrach/map-sources/master/Locus_online_maps/Installers/"
-    
-    
+    let gitLocusActionInstallersFolder = "locus-actions://https/raw.githubusercontent.com/nnngrach/AnyGIS_maps/master/Locus_online_maps/Installers/"
     
     
-    let indexPage = "https://nnngrach.github.io/map-sources/index"
-    let descriptionPage = "https://nnngrach.github.io/map-sources/Web/Html/Description"
-    let rusOutdoorPage = "https://nnngrach.github.io/map-sources/Web/Html/RusOutdoor"
-    let locusPage = "https://nnngrach.github.io/map-sources/Web/Html/Locus"
-    let guruPage = "https://nnngrach.github.io/map-sources/Web/Html/Galileo"
-    let apiPage = "https://nnngrach.github.io/map-sources/Web/Html/Api"
+    
+    
+    let indexPage = "https://nnngrach.github.io/AnyGIS_maps/index"
+    let descriptionPage = "https://nnngrach.github.io/AnyGIS_maps/Web/Html/Description"
+    let rusOutdoorPage = "https://nnngrach.github.io/AnyGIS_maps/Web/Html/RusOutdoor"
+    let locusPage = "https://nnngrach.github.io/AnyGIS_maps/Web/Html/Locus"
+    let guruPage = "https://nnngrach.github.io/AnyGIS_maps/Web/Html/Galileo"
+    let apiPage = "https://nnngrach.github.io/AnyGIS_maps/Web/Html/Api"
     
     let anygisMapUrl = "https://anygis.herokuapp.com/{mapName}/{x}/{y}/{z}"
     
