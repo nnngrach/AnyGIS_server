@@ -34,8 +34,7 @@ class WebHandler {
         let mapData = try sqlHandler.getBy(mapName: mapName, req)
         
         // Generate Session mumber to use with multy channel processing
-        let sessionID = paralleliser.splitByTime()
-        
+        let sessionID = paralleliser.splitByMinutes()
         
         // Synchronizing map information
         let responce = mapData.flatMap(to: Response.self) { mapObject  in
@@ -210,9 +209,9 @@ class WebHandler {
         // Generating redirect URL-response to processed image.
         let redirectingResponce = mapList.flatMap(to: Response.self) { mapListData  in
             
-            let randomIndex = randomNubmerForHeroku(mapListData.count)
+            let index = Int(sessionID) ?? 0
             
-            let fourTilesInNextZoomUrls = self.urlPatchCreator.calculateFourNextZoomTilesUrls(tileNumbers.x, tileNumbers.y, zoom, mapListData[randomIndex].url, "")
+            let fourTilesInNextZoomUrls = self.urlPatchCreator.calculateFourNextZoomTilesUrls(tileNumbers.x, tileNumbers.y, zoom, mapListData[index].url, "")
             
             let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesInNextZoomUrls, sessionID, req)
             
@@ -257,11 +256,11 @@ class WebHandler {
             return baseMapData.flatMap(to: Response.self) { baseObject  in
                 return overlayMapsData.flatMap(to: Response.self) { overObject  in
                     
-                    let randomIndex = randomNubmerForHeroku(overObject.count)
+                    let index = Int(sessionID) ?? 0
                     
                     let baseUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, baseObject.backgroundUrl, baseObject.backgroundServerName)
                     
-                    let overlayUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, overObject[randomIndex].url, "")
+                    let overlayUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, overObject[index].url, "")
                     
                     // Upload all images to online image-processor
                     let loadingResponces = try self.imageProcessor.uploadTwoTiles([baseUrl, overlayUrl], sessionID, req)
@@ -306,13 +305,13 @@ class WebHandler {
             return baseMapData.flatMap(to: Response.self) { baseObject  in
                 return overlayMapData.flatMap(to: Response.self) { overObject  in
                     
-                    let randomIndex = randomNubmerForHeroku(overObject.count)
+                    let index = Int(sessionID) ?? 0
                     
                     let baseUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, baseObject.backgroundUrl, baseObject.backgroundServerName)
                     
                     
                     // To make one image with offset I need four nearest to crop.
-                    let fourTilesInNextZoomUrls = self.urlPatchCreator.calculateFourNextZoomTilesUrls(tileNumbers.x, tileNumbers.y, zoom, overObject[randomIndex].url, "")
+                    let fourTilesInNextZoomUrls = self.urlPatchCreator.calculateFourNextZoomTilesUrls(tileNumbers.x, tileNumbers.y, zoom, overObject[index].url, "")
                     
                     
                     

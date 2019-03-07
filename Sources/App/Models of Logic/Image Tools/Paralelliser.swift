@@ -7,30 +7,23 @@
 
 import Foundation
 
-// I have 10 free Cloudinary accounts
+// I have 30 free Cloudinary accounts
 // with names like anygis0, anygis1, anygis2 ...etc.
 // So, number of using account equals sessionID.
 
 class FreeAccountsParalleliser {
     
-    let cloudinaryServersCount = 10
     
-    public func splitByRandom() -> String {
-        let randomValue = randomNubmerForHeroku(cloudinaryServersCount)
-        return String(randomValue)
+    // Every 2 munutes switch to next account.
+    
+    public func splitByMinutes() -> String {
+        let date = Date()
+        let calendar = Calendar.current
+        let minutes = calendar.component(.minute, from: date)
+        
+        let sessionNumber = minutes / 2
+        return String(sessionNumber)
     }
     
-    
-    public func splitByTime() -> String {
-        let time = Int(Date.timeIntervalSinceReferenceDate)
-        let tenSeconds = (time % 100) / 10
-        return String(tenSeconds)
-    }
-    
-    
-    public func splitBy(tileNumber: Int) -> String {
-        let number = (tileNumber % 100) / 10
-        return String(number)
-    }
     
 }
