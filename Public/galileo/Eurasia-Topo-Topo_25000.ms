@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
         
 <customMapSource>
-<name>ERSI Topomap</name>
+<name>Топокарты 25000 м</name>
 <layers>
 
     <layer>
     <minZoom>0</minZoom>
-    <maxZoom>22</maxZoom>
-    <url>https://anygis.herokuapp.com/Ersi_Topomap/{$x}/{$y}/{$z}</url>
+    <maxZoom>9</maxZoom>
+    <url>https://tiles.nakarte.me/eurasia25km/{$z}/{$x}/{$invY}</url>
     </layer>
 
 
