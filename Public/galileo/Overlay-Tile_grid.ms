@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
         
 <customMapSource>
-<name>Sputnik.ru</name>
+<name>OSM Tile Grid</name>
 <layers>
 
     <layer>
     <minZoom>0</minZoom>
-    <maxZoom>19</maxZoom>
-    <url>http://tiles.maps.sputnik.ru/tiles/kmt2/{$z}/{$x}/{$y}.png</url>
+    <maxZoom>22</maxZoom>
+    <url>https://anygis.herokuapp.com/TILE_GRID/{$x}/{$y}/{$z}</url>
     </layer>
 
 
