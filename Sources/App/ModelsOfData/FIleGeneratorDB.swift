@@ -14,7 +14,10 @@ final class FileGeneratorDB: SQLiteModel {
     var anygisMapName: String       // For fething for MapList database.
     
     var groupName: String           // Folders name, icon name.
+    var groupNameEng: String           // Folders name, icon name.
     var shortName: String           // Short map name to show in app.
+    var shortNameEng: String           // Short map name to show in app.
+    
     var groupPrefix: String         // ../groupPrefix_clientMapName.xml
     var clientMapName: String
     
@@ -44,11 +47,13 @@ final class FileGeneratorDB: SQLiteModel {
     
     
     
-    init(id: Int? = nil, anygisMapName: String, groupName: String, shortName: String, groupPrefix: String, clientMapName: String, layersIDList: String, locusLoadAnygis: Bool, gurumapsLoadAnygis: Bool, isInStarterSet: Bool, projection: Int, visible: Bool, countries: String, usage: String, forLocus: Bool, forGuru: Bool, comment: String, order: Int) {
+    init(id: Int? = nil, anygisMapName: String, groupName: String, groupNameEng: String, shortName: String, shortNameEng: String, groupPrefix: String, clientMapName: String, layersIDList: String, locusLoadAnygis: Bool, gurumapsLoadAnygis: Bool, isInStarterSet: Bool, projection: Int, visible: Bool, countries: String, usage: String, forLocus: Bool, forGuru: Bool, comment: String, order: Int) {
         
         self.anygisMapName = anygisMapName
         self.groupName = groupName
+        self.groupNameEng = groupNameEng
         self.shortName = shortName
+        self.shortNameEng = shortNameEng
         self.groupPrefix = groupPrefix
         self.clientMapName = clientMapName
         self.layersIDList = layersIDList
