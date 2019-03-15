@@ -102,10 +102,12 @@ public func routes(_ router: Router) throws {
             locusInstallersGenerator.createAllMapsLoader(isShortSet: true, req)
             locusInstallersGenerator.createAllMapsLoader(isShortSet: false, req)
 
-            markdownPagesGenerator.createMarkdownPage(forLocus: true, isShortSet: true, req)
-            markdownPagesGenerator.createMarkdownPage(forLocus: true, isShortSet: false, req)
-            markdownPagesGenerator.createMarkdownPage(forLocus: false, isShortSet: true, req)
-            markdownPagesGenerator.createMarkdownPage(forLocus: false, isShortSet: false, req)
+            markdownPagesGenerator.createMarkdownPage(forLocus: true, forIOS: false, isShortSet: true, req)
+            markdownPagesGenerator.createMarkdownPage(forLocus: true, forIOS: false, isShortSet: false, req)
+            markdownPagesGenerator.createMarkdownPage(forLocus: false, forIOS: false, isShortSet: true, req)
+            markdownPagesGenerator.createMarkdownPage(forLocus: false, forIOS: false, isShortSet: false, req)
+            markdownPagesGenerator.createMarkdownPage(forLocus: false, forIOS: true, isShortSet: true, req)
+            markdownPagesGenerator.createMarkdownPage(forLocus: false, forIOS: true, isShortSet: false, req)
 
             guruMapsGenerator.createAll(isShortSet: true, req)
             guruMapsGenerator.createAll(isShortSet: false, req)

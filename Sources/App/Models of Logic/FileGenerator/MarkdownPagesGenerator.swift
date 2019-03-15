@@ -14,13 +14,14 @@ class MarkdownPagesGenerator {
     let templates = TextTemplates()
     
     
-    public func createMarkdownPage(forLocus:Bool, isShortSet: Bool, _ req: Request) {
+    public func createMarkdownPage(forLocus:Bool, forIOS: Bool, isShortSet: Bool, _ req: Request) {
         
         var previousFolder = ""
         
         let firstPart = forLocus ? "Locus" : "Guru"
-        let secondPart = isShortSet ? "Short.md" : "Full.md"
-        let fullFileName = firstPart + secondPart
+        let secondPart = forIOS ? "_IOS" : "_Android"
+        let thirdPart = isShortSet ? "_Short.md" : "_Full.md"
+        let fullFileName = firstPart + secondPart + thirdPart
         
         let clientMapsList = isShortSet ? baseHandler.fetchShortSetFileGenInfo(req) : baseHandler.fetchAllFileGenInfo(req)
         let allMapsList = baseHandler.fetchAllMapsList(req)
@@ -49,7 +50,7 @@ class MarkdownPagesGenerator {
                     
                     let filename = clientMapsLine.groupPrefix + "-" + clientMapsLine.clientMapName
                     
-                    content += self.templates.getMarkDownMaplistItem(forLocus: forLocus, name: clientMapsLine.shortName, fileName: filename)
+                    content += self.templates.getMarkDownMaplistItem(forLocus: forLocus, forIOS: forIOS, name: clientMapsLine.shortName, fileName: filename)
                 }
                 
                 // Create file

@@ -32,6 +32,7 @@ struct TextTemplates {
     let gitLocusShortMapsZip = "https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/nnngrach/AnyGIS_maps/tree/master/Locus_online_maps/Maps_short"
     
     let gitLocusActionInstallersFolder = "locus-actions://https/raw.githubusercontent.com/nnngrach/AnyGIS_maps/master/Locus_online_maps/Installers/"
+    let gitGuruActionInstallersFolder = "guru://open?path=https://raw.githubusercontent.com/nnngrach/AnyGIS_maps/master/Galileo_online_maps/Maps_full/"
     
     
     
@@ -200,9 +201,10 @@ struct TextTemplates {
     
     
     
-    func getMarkDownMaplistItem(forLocus: Bool, name:String, fileName: String) -> String {
+    func getMarkDownMaplistItem(forLocus: Bool, forIOS:Bool, name:String, fileName: String) -> String {
+        let guruBase = forIOS ? gitGuruActionInstallersFolder : anygisGuruMapsFolder
+        let guruUrl = guruBase + fileName + ".ms"
         let locusUrl = gitLocusActionInstallersFolder + "__" + fileName + ".xml"
-        let guruUrl = anygisGuruMapsFolder + fileName + ".ms"
         let url = forLocus ? locusUrl : guruUrl
         
         return """
