@@ -146,25 +146,8 @@ public func routes(_ router: Router) throws {
 
     
     
-    router.get("experiments_playground") { req -> String in
-        //http://vec02.maps.yandex.net/tiles?l=map&x=308&y=152&z=9&g=Gagar
-//        let x = 75
-//        let y = 38
-//        let z = 7
-        
-        let x = 308
-        let y = 152
-        let z = 9
-        
-//        let sasX = 11
-//        let sasY = 25
-        
-        let zPow = Int(pow(2.0, Double(z)))
-        let newX = x - zPow / 2
-        let newY = (zPow - y - 1) - zPow / 2
-        
-        return String(newX) + " " + String(newY)
-        return "Hello, World!"
-    }
+//    router.get("experiments_playground") { req -> String in
+//        return "Hello, World!"
+//    }
     
 }

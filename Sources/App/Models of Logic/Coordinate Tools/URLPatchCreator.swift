@@ -184,13 +184,57 @@ class URLPatchCreator {
     }
     
     
+    private let getMetersL: ([Int], String) -> String = {
+        coordinates, serverName in
+        
+        let xPlanetDistance = 40075016.6855784878
+        let tileCounsPerZoom = pow(2.0, Double(coordinates[2]))
+        let distance = xPlanetDistance / tileCounsPerZoom * Double(coordinates[0]) - xPlanetDistance/2.0
+        
+        return "\(distance)"
+    }
+    
+    
+    private let getMetersR: ([Int], String) -> String = {
+        coordinates, serverName in
+        
+        let xPlanetDistance = 40075016.6855784878
+        let tileCounsPerZoom = pow(2.0, Double(coordinates[2]))
+        let distance = xPlanetDistance / tileCounsPerZoom * Double(coordinates[0] + 1) - xPlanetDistance/2.0
+        
+        return "\(distance)"
+    }
+    
+    
+    private let getMetersT: ([Int], String) -> String = {
+        coordinates, serverName in
+        
+        let yPlanetDistance = 40075016.6855784804
+        let tileCounsPerZoom = pow(2.0, Double(coordinates[2]))
+        let distance = yPlanetDistance / tileCounsPerZoom * Double(coordinates[1]) - yPlanetDistance/2.0
+        
+        return "\(-distance)"
+    }
+    
+    
+    private let getMetersB: ([Int], String) -> String = {
+        coordinates, serverName in
+        
+        let yPlanetDistance = 40075016.6855784804
+        let tileCounsPerZoom = pow(2.0, Double(coordinates[2]))
+        let distance = yPlanetDistance / tileCounsPerZoom * Double(coordinates[1] + 1) - yPlanetDistance/2.0
+        
+        return "\(-distance)"
+    }
+    
+    
     
     
     // Two arrays for quick and short iterating of all this functions
     
-    private let urlPlaceholders = ["{x}", "{y}", "{z}", "{s}", "{googleZ}", "{invY}", "{sasZ}", "{folderX}", "{folderY}", "{yandexX}", "{yandexY}", "{timeStamp}", "{kosmosnimkiX}", "{kosmosnimkiY}"]
+    private let urlPlaceholders = ["{x}", "{y}", "{z}", "{s}", "{googleZ}", "{invY}", "{sasZ}", "{folderX}", "{folderY}", "{yandexX}", "{yandexY}", "{timeStamp}", "{kosmosnimkiX}", "{kosmosnimkiY}", "{left}", "{right}", "{top}", "{bottom}"]
     
-    private lazy var urlTransformers = [getX, getY, getZ, getS, getGoogleZ, getInvY, getSasZ, getFolderX, getFolderY, getYandexX, getYandexY, getYandexTimestamp, getKosmosnimkiX, getKosmosnimkiY]
+    private lazy var urlTransformers = [getX, getY, getZ, getS, getGoogleZ, getInvY, getSasZ, getFolderX, getFolderY, getYandexX, getYandexY, getYandexTimestamp, getKosmosnimkiX, getKosmosnimkiY, getMetersL, getMetersR, getMetersT, getMetersB]
     
     
     
