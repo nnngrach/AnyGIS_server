@@ -77,6 +77,7 @@ class WebHandler {
             case "wgs84_double_overlay":
                 return try self.makeWgs84DoubleOverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
                 
+                
             case "checkAllMirrors":
                 return try self.makeMirrorCheckerRedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
                 
@@ -365,7 +366,11 @@ class WebHandler {
         // Get URL of resulting file in image-processor storage
         let redirectingResponce = imageProcessor.syncFour(loadingResponces, req) { res in
             
+            //print(fourTilesAroundUrls)
+            
             let processedImageUrl = self.imageProcessor.getUrlWithOffset(fourTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY, sessionID)
+            
+            //print(processedImageUrl)
             
             return self.output.redirect(to: processedImageUrl, with: req)
         }

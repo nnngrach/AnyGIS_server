@@ -164,14 +164,33 @@ class URLPatchCreator {
     
     
     
+    private let getKosmosnimkiX: ([Int], String) -> String = {
+        coordinates, serverName in
+        
+        let zPow = Int(pow(2.0, Double(coordinates[2])))
+        let newX = coordinates[0] - zPow / 2
+        
+        return "\(newX)"
+    }
+    
+    
+    private let getKosmosnimkiY: ([Int], String) -> String = {
+        coordinates, serverName in
+        
+        let zPow = Int(pow(2.0, Double(coordinates[2])))
+        let newY = (zPow - coordinates[1] - 1) - zPow / 2
+        
+        return "\(newY)"
+    }
+    
     
     
     
     // Two arrays for quick and short iterating of all this functions
     
-    private let urlPlaceholders = ["{x}", "{y}", "{z}", "{s}", "{googleZ}", "{invY}", "{sasZ}", "{folderX}", "{folderY}", "{yandexX}", "{yandexY}", "{timeStamp}"]
+    private let urlPlaceholders = ["{x}", "{y}", "{z}", "{s}", "{googleZ}", "{invY}", "{sasZ}", "{folderX}", "{folderY}", "{yandexX}", "{yandexY}", "{timeStamp}", "{kosmosnimkiX}", "{kosmosnimkiY}"]
     
-    private lazy var urlTransformers = [getX, getY, getZ, getS, getGoogleZ, getInvY, getSasZ, getFolderX, getFolderY, getYandexX, getYandexY, getYandexTimestamp]
+    private lazy var urlTransformers = [getX, getY, getZ, getS, getGoogleZ, getInvY, getSasZ, getFolderX, getFolderY, getYandexX, getYandexY, getYandexTimestamp, getKosmosnimkiX, getKosmosnimkiY]
     
     
     

@@ -18,11 +18,17 @@ class ImageProcessor {
         
         var range: Range<String.Index>
         let yandexNarodMapUrlLenght = 580
+        let kosmosnimkiUrlLenght = 350
         let serverPartOffset = 13
         let prefix = "img"
         
+        print(sourceUrl.count)
+        
         if sourceUrl.count >= yandexNarodMapUrlLenght {
             range = sourceUrl.index(sourceUrl.startIndex, offsetBy: yandexNarodMapUrlLenght)..<sourceUrl.endIndex
+            
+        } else if sourceUrl.count >= kosmosnimkiUrlLenght {
+            range = sourceUrl.index(sourceUrl.startIndex, offsetBy: kosmosnimkiUrlLenght)..<sourceUrl.endIndex
             
         } else if sourceUrl.count >= serverPartOffset {
             range = sourceUrl.index(sourceUrl.startIndex, offsetBy: serverPartOffset)..<sourceUrl.endIndex
