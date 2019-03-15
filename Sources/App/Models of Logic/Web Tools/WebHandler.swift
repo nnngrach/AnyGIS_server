@@ -68,6 +68,9 @@ class WebHandler {
             case "mapboxOverlayWithZoom":
                 return try self.makeMapboxOverlayWithZoomRedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
                 
+            case "navionics":
+                return try self.makeNavisonicRedirectingResponse(mapObject, mapName, xText, yText, zoom, req)
+                
             case "wgs84":
                 return try self.makeWgs84RedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
                 
@@ -342,7 +345,37 @@ class WebHandler {
         return redirectingResponce
     }
     
+
     
+    
+    
+    // MARK: Navionics
+    
+    private func makeNavisonicRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
+        
+        let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
+        
+        let tileUrlBase = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
+        
+        
+        let checkerURL = mapObject.backgroundServerName + String(NSDate().timeIntervalSince1970)
+        
+        let headers: HTTPHeaders = ["Origin": "http://webapp.navionics.com", "Referer": "http://webapp.navionics.com/"]
+        
+        
+        let resultResponse = try req
+            .client()
+            .get(checkerURL, headers: headers)
+            .flatMap(to: Response.self) { checkerAnswer in
+                
+                let secretCode = "\(checkerAnswer.http.body)"
+                let fullURL = tileUrlBase + secretCode
+                let response = try req.client().get(fullURL, headers: headers)
+                return response
+        }
+        
+        return resultResponse
+    }
     
     
     
