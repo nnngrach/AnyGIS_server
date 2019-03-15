@@ -375,6 +375,7 @@ class WebHandler {
                 let secretCode = "\(checkerAnswer.http.body)"
                 print(secretCode)
                 let fullURL = tileUrlBase + secretCode
+                print(fullURL)
                 let response = try req.client().get(fullURL, headers: headers)
                 return response
         }
