@@ -151,6 +151,8 @@ public func routes(_ router: Router) throws {
     router.get("experiments_playground") { req -> Future<Response> in
         
         let loginURL = "http://backend.navionics.io/tile/get_key/Navionics_internalpurpose_00001/webapp.navionics.com?_=" + String(NSDate().timeIntervalSince1970)
+        
+        print(Int(NSDate().timeIntervalSince1970))
   
         let headers: HTTPHeaders = ["Origin": "http://webapp.navionics.com", "Referer": "http://webapp.navionics.com/"]
         

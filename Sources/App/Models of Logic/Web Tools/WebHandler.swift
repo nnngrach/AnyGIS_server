@@ -357,8 +357,12 @@ class WebHandler {
         
         let tileUrlBase = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
         
+        print(tileUrlBase)
         
-        let checkerURL = mapObject.backgroundServerName + String(NSDate().timeIntervalSince1970)
+        let checkerURL = mapObject.backgroundServerName + String(Int(NSDate().timeIntervalSince1970))
+        
+        //print(NSDate().timeIntervalSince1970)
+        print(checkerURL)
         
         let headers: HTTPHeaders = ["Origin": "http://webapp.navionics.com", "Referer": "http://webapp.navionics.com/"]
         
@@ -369,6 +373,7 @@ class WebHandler {
             .flatMap(to: Response.self) { checkerAnswer in
                 
                 let secretCode = "\(checkerAnswer.http.body)"
+                print(secretCode)
                 let fullURL = tileUrlBase + secretCode
                 let response = try req.client().get(fullURL, headers: headers)
                 return response
