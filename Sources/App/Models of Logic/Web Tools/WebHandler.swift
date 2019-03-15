@@ -357,12 +357,8 @@ class WebHandler {
         
         let tileUrlBase = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
         
-        print(tileUrlBase)
-        
+
         let checkerURL = mapObject.backgroundServerName + String(Int(NSDate().timeIntervalSince1970))
-        
-        //print(NSDate().timeIntervalSince1970)
-        print(checkerURL)
         
         let headers: HTTPHeaders = ["Origin": "http://webapp.navionics.com", "Referer": "http://webapp.navionics.com/"]
         
@@ -373,30 +369,26 @@ class WebHandler {
             .flatMap(to: Response.self) { checkerAnswer in
                 
                 let secretCode = "\(checkerAnswer.http.body)"
-                print(secretCode)
-                let fullURL = tileUrlBase + secretCode
-                print(fullURL)
-//                let response = try req.client().get(fullURL, headers: headers)
-//                return response
                 
+                let fullURL = tileUrlBase + secretCode
+     
                 let connection = HTTPClient.connect(hostname: "backend.navionics.io", connectTimeout: .milliseconds(500), on: req)
                 
+                
                 let result = connection.flatMap(to: Response.self) { client in
-                    let a = client
+
                     let request = HTTPRequest(method: .GET, url: fullURL, headers: headers, body: "")
-                    let response = client.send(request).map(to: Response.self) { httpRes in
-                        
-                        let a = Response(http: httpRes, using: req)
+                    let response = client
+                        .send(request)
+                        .map(to: Response.self) { httpRes in
+    
                         return Response(http: httpRes, using: req)
                     }
 
                     return response
                 }
                 
-                return result
-                
-                //return req.future(req.redirect(to: " "))
-                
+            return result
         }
         
         return resultResponse

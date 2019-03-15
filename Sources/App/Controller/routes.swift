@@ -148,28 +148,9 @@ public func routes(_ router: Router) throws {
 
     
     
-//    router.get("experiments_playground") { req -> Future<Response> in
-//        
-//        let loginURL = "http://backend.navionics.io/tile/get_key/Navionics_internalpurpose_00001/webapp.navionics.com?_=" + String(NSDate().timeIntervalSince1970)
-//        
-//        print(Int(NSDate().timeIntervalSince1970))
-//  
-//        let headers: HTTPHeaders = ["Origin": "http://webapp.navionics.com", "Referer": "http://webapp.navionics.com/"]
-//        
-//        let baseURL = "http://backend.navionics.io/tile/10/583/296?LAYERS=config_1_10.00_0&TRANSPARENT=FALSE&UGC=FALSE&navtoken="
-//        
-//        let asnswerForCode = try req
-//            .client()
-//            .get(loginURL, headers: headers)
-//            .flatMap(to: Response.self) { answerData in
-//                let code = "\(answerData.http.body)"
-//                let fullURL = baseURL+code
-//                let res = try req.client().get(fullURL, headers: headers)
-//                
-//                return res
-//            }
-//        
-//        return asnswerForCode
+//    router.get("experiments_playground") { req -> String in
+//
+//        return "Hello, world!"
 //    }
     
 }
