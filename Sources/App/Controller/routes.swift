@@ -145,6 +145,9 @@ public func routes(_ router: Router) throws {
     
     
     
+    
+ 
+    /*
     router.get("experiments_playground", Int.parameter) { req -> Future<String> in
         print("==============")
 //        print("start")
@@ -213,6 +216,7 @@ public func routes(_ router: Router) throws {
         return responseStatus
         //return "Hello, world!"
     }
+*/
     
     
 //    router.get("experiments_playground") { req -> String in
