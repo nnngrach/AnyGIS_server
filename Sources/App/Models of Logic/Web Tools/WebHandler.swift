@@ -360,7 +360,8 @@ class WebHandler {
 
         let checkerURL = mapObject.backgroundServerName + String(Int(NSDate().timeIntervalSince1970))
         
-        let headers: HTTPHeaders = ["Origin": "http://webapp.navionics.com", "Referer": "http://webapp.navionics.com/"]
+        let headers: HTTPHeaders = ["Origin": "http://webapp.navionics.com",
+                                    "Referer": "http://webapp.navionics.com/"]
         
         
         let resultResponse = try req
