@@ -20,11 +20,9 @@ final class FileGeneratorDB: SQLiteModel {
     
     var groupPrefix: String         // ../groupPrefix_clientMapName.xml
     var clientMapName: String
+    var oruxGroupPrefix: String     // One word with CAPSLOCK
     
     var layersIDList: String        // "100, 101, 102".  First is background layer.
-    
-    var locusLoadAnygis: Bool       // For comlicated maps, which no way
-    var gurumapsLoadAnygis: Bool    // to realise in client map file.
     
     var isInStarterSet: Bool        // This map is included in list of best maps.
     
@@ -37,6 +35,16 @@ final class FileGeneratorDB: SQLiteModel {
     
     var forLocus: Bool              // Use this record for generating Locus map file
     var forGuru: Bool               // Use this record for generating Guru map file
+    var forOrux: Bool
+    var forOsmand: Bool
+    
+    var locusLoadAnygis: Bool       // For comlicated maps, which no way
+    var gurumapsLoadAnygis: Bool    // to realise in client map file.
+    var oruxLoadAnygis: Bool
+    var osmandLoadAnygis: Bool
+    
+    var cacheStoringHours: Int      // How much time in hours can be stored tile in cache
+                                    // 0 = don't caching,  99999 = don't update
     
     var comment: String             // Second description for some maps
     
@@ -47,7 +55,7 @@ final class FileGeneratorDB: SQLiteModel {
     
     
     
-    init(id: Int? = nil, anygisMapName: String, groupName: String, groupNameEng: String, shortName: String, shortNameEng: String, groupPrefix: String, clientMapName: String, layersIDList: String, locusLoadAnygis: Bool, gurumapsLoadAnygis: Bool, isInStarterSet: Bool, projection: Int, visible: Bool, countries: String, usage: String, forLocus: Bool, forGuru: Bool, comment: String, order: Int) {
+    init(id: Int? = nil, anygisMapName: String, groupName: String, groupNameEng: String, shortName: String, shortNameEng: String, groupPrefix: String, oruxGroupPrefix: String, clientMapName: String, layersIDList: String, locusLoadAnygis: Bool, gurumapsLoadAnygis: Bool, oruxLoadAnygis: Bool, osmandLoadAnygis: Bool, isInStarterSet: Bool, projection: Int, visible: Bool, countries: String, usage: String, forLocus: Bool, forGuru: Bool, forOrux: Bool, forOsmand: Bool, cacheStoringHours: Int, comment: String, order: Int) {
         
         self.anygisMapName = anygisMapName
         self.groupName = groupName
@@ -55,10 +63,13 @@ final class FileGeneratorDB: SQLiteModel {
         self.shortName = shortName
         self.shortNameEng = shortNameEng
         self.groupPrefix = groupPrefix
+        self.oruxGroupPrefix = oruxGroupPrefix
         self.clientMapName = clientMapName
         self.layersIDList = layersIDList
         self.locusLoadAnygis = locusLoadAnygis
         self.gurumapsLoadAnygis = gurumapsLoadAnygis
+        self.oruxLoadAnygis = oruxLoadAnygis
+        self.osmandLoadAnygis = osmandLoadAnygis
         self.isInStarterSet = isInStarterSet
         self.projection = projection
         self.visible = visible
@@ -66,6 +77,9 @@ final class FileGeneratorDB: SQLiteModel {
         self.usage = usage
         self.forLocus = forLocus
         self.forGuru = forGuru
+        self.forOrux = forOrux
+        self.forOsmand = forOsmand
+        self.cacheStoringHours = cacheStoringHours
         self.comment = comment
         self.order = order
     }

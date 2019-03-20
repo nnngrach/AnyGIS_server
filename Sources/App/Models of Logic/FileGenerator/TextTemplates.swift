@@ -11,14 +11,16 @@ struct TextTemplates {
     
     //MARK: Links
     
+    let localPathToMarkdownPages = "file:////Projects/GIS/Online%20map%20sources/map-sources/Web/Html/Download/"
+    
     let localPathToIcons = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/Icons/"
     let localPathToInstallers = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/Installers/"
     let localPathToLocusMapsFull = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/Maps_full/"
     let localPathToLocusMapsShort = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/Maps_short/"
     let localPathToGuruMapsFull = "file:////Projects/GIS/Online%20map%20sources/map-sources/Galileo_online_maps/Maps_full/"
     let localPathToGuruMapsShort = "file:////Projects/GIS/Online%20map%20sources/map-sources/Galileo_online_maps/Maps_short/"
-    let localPathToMarkdownPages = "file:////Projects/GIS/Online%20map%20sources/map-sources/Web/Html/Download/"
-    
+    let localPathToOruxMapsFull = "file:////Projects/GIS/Online%20map%20sources/map-sources/Orux_online_maps/Maps_Full/"
+    let localPathToOruxMapsShort = "file:////Projects/GIS/Online%20map%20sources/map-sources/Orux_online_maps/Maps_short/"
     
     let gitLocusInstallersFolder = "https://github.com/nnngrach/AnyGIS_maps/master/Locus_online_maps/Installers/"
     let gitLocusIconsFolder = "https://github.com/nnngrach/AnyGIS_maps/raw/master/Locus_online_maps/Icons/"
@@ -42,6 +44,8 @@ struct TextTemplates {
     let rusOutdoorPage = "https://nnngrach.github.io/AnyGIS_maps/Web/Html/RusOutdoor"
     let locusPage = "https://nnngrach.github.io/AnyGIS_maps/Web/Html/Locus"
     let guruPage = "https://nnngrach.github.io/AnyGIS_maps/Web/Html/Galileo"
+    let oruxPage = "https://nnngrach.github.io/AnyGIS_maps/Web/Html/Orux"
+    let osmandPage = "https://nnngrach.github.io/AnyGIS_maps/Web/Html/Osmand"
     let apiPage = "https://nnngrach.github.io/AnyGIS_maps/Web/Html/Api"
     
     let anygisMapUrl = "https://anygis.herokuapp.com/{mapName}/{x}/{y}/{z}"
@@ -63,19 +67,28 @@ struct TextTemplates {
     
     
     
-    func getDescription(forLocus: Bool) -> String {
+    func getDescription(appName: ClientAppList) -> String {
         
-        let locusName = """
-        Комплект карт "AnyGIS" для навигатора Locus.
-        \(locusPage)
+        var currentAppPageUrl: String
+        
+        switch appName {
+        case .GuruMapsIOS, .GuruMapsAndroid:
+            currentAppPageUrl = guruPage
+        case .Locus:
+            currentAppPageUrl = locusPage
+        case .Osmand:
+            currentAppPageUrl = osmandPage
+        case .Orux:
+            currentAppPageUrl = oruxPage
+        }
+        
+        let currentAppName = appName.rawValue
+        
+        
+        let nameString = """
+        Комплект карт "AnyGIS" для навигатора \(currentAppName).
+        \(currentAppPageUrl)
         """
-        
-        let guruName = """
-        Комплект карт "AnyGIS" для навигатора GuruMaps (ex Galileo)
-        \(guruPage)
-        """
-        
-        let nameString = forLocus ? locusName : guruName
         
         
         return """
@@ -104,7 +117,7 @@ struct TextTemplates {
         return """
         <?xml version="1.0" encoding="utf-8"?>
         
-        \(getDescription(forLocus: true))
+        \(getDescription(appName: .Locus))
         
         
         <locusActions>
@@ -167,8 +180,9 @@ struct TextTemplates {
     
     
     
-    func getMarkdownMaplistIntro(forLocus: Bool) -> String {
-        let name = forLocus ? "Locus" : "Guru Maps"
+    func getMarkdownMaplistIntro(appName: ClientAppList) -> String {
+        
+        let name = appName.rawValue
         
         return """
         # Скачать карты для \(name)
@@ -178,37 +192,51 @@ struct TextTemplates {
     
     
     
-    func getMarkdownMaplistCategory(forLocus: Bool, categoryName: String, fileName: String) -> String {
-        let url = gitLocusActionInstallersFolder + "_" + fileName.cleanSpaces() + ".xml"
+    func getMarkdownMaplistCategory(appName: ClientAppList, categoryName: String, fileName: String) -> String {
+        let locusFolderDownloaderUrl = gitLocusActionInstallersFolder + "_" + fileName.cleanSpaces() + ".xml"
         
-        let locusText = """
+        var resultText = ""
         
+        switch appName {
+        case .Locus:
+            resultText = """
+            
+            
+            ### [\(categoryName)](\(locusFolderDownloaderUrl) "Скачать всю группу")
+            
+            """
+            
+        default:
+            resultText = """
+            
+            
+            ### \(categoryName)
+            
+            """
+        }
         
-        ### [\(categoryName)](\(url) "Скачать всю группу")
-        
-        """
-        
-        let guruText = """
-        
-        
-        ### \(categoryName)
-        
-        """
-        
-        return forLocus ? locusText : guruText
-        
+        return resultText
     }
     
     
     
-    func getMarkDownMaplistItem(forLocus: Bool, forIOS:Bool, name:String, fileName: String) -> String {
-        let guruBase = forIOS ? gitGuruActionInstallersFolder : anygisGuruMapsFolder
-        let guruUrl = guruBase + fileName + ".ms"
-        let locusUrl = gitLocusActionInstallersFolder + "__" + fileName + ".xml"
-        let url = forLocus ? locusUrl : guruUrl
+    func getMarkDownMaplistItem(appName: ClientAppList, name:String, fileName: String) -> String {
+
+        var resultUrl = ""
         
+        switch appName {
+        case .Locus:
+            resultUrl = gitLocusActionInstallersFolder + "__" + fileName + ".xml"
+        case .GuruMapsIOS:
+            resultUrl = gitGuruActionInstallersFolder + fileName + ".ms"
+        case .GuruMapsAndroid:
+            resultUrl = anygisGuruMapsFolder + fileName + ".ms"
+        default:
+            break
+        }
+         
         return """
-        [\(name)](\(url) "Скачать эту карту")
+        [\(name)](\(resultUrl) "Скачать эту карту")
         
         
         """
@@ -240,7 +268,7 @@ struct TextTemplates {
         return """
         <?xml version="1.0" encoding="utf-8"?>
         
-        \(getDescription(forLocus: true))
+        \(getDescription(appName: .Locus))
         
         \(secondDescription)
         
@@ -383,4 +411,50 @@ struct TextTemplates {
         """
     }
     
+    
+    
+    
+    
+    //MARK: Templates for Orux maps XML
+    
+    func getOruxMapIntro() -> String {
+        return """
+        <?xml version="1.0" encoding="utf-8"?>
+        <onlinemapsources>
+        
+        """
+    }
+    
+    
+    func getOruxMapsItem(id: Int, projectionName: String, name: String, group: String, url: String, serverParts: String, zoomMin: Int, zoomMax: Int, cacheable: Int, yInvertingScript: String) -> String {
+
+        
+        return """
+        
+            <onlinemapsource uid="\(id)">
+                <name>\(name) (\(group))</name>
+                <url><![CDATA[\(url)]]></url>
+                <servers>\(serverParts)</servers>
+                <maxzoom>\(zoomMax)</maxzoom>
+                <minzoom>\(zoomMin)</minzoom>
+                <projection>\(projectionName)</projection>
+                <downloadable>1</downloadable>
+                <cacheable>\(cacheable)</cacheable>
+                <xop></xop>
+                <yop>\(yInvertingScript)</yop>
+                <zop></zop>
+                <qop></qop>
+            </onlinemapsource>
+        
+        """
+    }
+    
+    
+    func getOutroMapOutro() -> String {
+        return """
+        
+        
+        </onlinemapsources>
+        """
+    }
 }

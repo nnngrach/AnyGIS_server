@@ -85,10 +85,10 @@ public func routes(_ router: Router) throws {
             let diskHandler = DiskHandler()
             let templates = TextTemplates()
             let guruMapsGenerator = GuruMapsGenerator()
+            let oruxMapsGenerator = OruxMapsGenerator()
             let locusMapsGenerator = LocusMapsGenerator()
             let markdownPagesGenerator = MarkdownPagesGenerator()
             let locusInstallersGenerator = LocusInstallersGenerator()
-        
         
             diskHandler.cleanFolder(patch: templates.localPathToInstallers)
             diskHandler.cleanFolder(patch: templates.localPathToMarkdownPages)
@@ -96,23 +96,28 @@ public func routes(_ router: Router) throws {
             diskHandler.cleanXmlFromFolder(patch: templates.localPathToLocusMapsShort)
             diskHandler.cleanFolder(patch: templates.localPathToGuruMapsFull)
             diskHandler.cleanFolder(patch: templates.localPathToGuruMapsShort)
+            diskHandler.cleanFolder(patch: templates.localPathToOruxMapsFull)
+            diskHandler.cleanFolder(patch: templates.localPathToOruxMapsShort)
         
             locusInstallersGenerator.createSingleMapsLoader(req)
             locusInstallersGenerator.createFolderLoader(req)
             locusInstallersGenerator.createAllMapsLoader(isShortSet: true, req)
             locusInstallersGenerator.createAllMapsLoader(isShortSet: false, req)
 
-            markdownPagesGenerator.createMarkdownPage(forLocus: true, forIOS: false, isShortSet: true, req)
-            markdownPagesGenerator.createMarkdownPage(forLocus: true, forIOS: false, isShortSet: false, req)
-            markdownPagesGenerator.createMarkdownPage(forLocus: false, forIOS: false, isShortSet: true, req)
-            markdownPagesGenerator.createMarkdownPage(forLocus: false, forIOS: false, isShortSet: false, req)
-            markdownPagesGenerator.createMarkdownPage(forLocus: false, forIOS: true, isShortSet: true, req)
-            markdownPagesGenerator.createMarkdownPage(forLocus: false, forIOS: true, isShortSet: false, req)
+            markdownPagesGenerator.createMarkdownPage(appName: .Locus, isShortSet: true, req)
+            markdownPagesGenerator.createMarkdownPage(appName: .Locus, isShortSet: false, req)
+            markdownPagesGenerator.createMarkdownPage(appName: .GuruMapsAndroid, isShortSet: true, req)
+            markdownPagesGenerator.createMarkdownPage(appName: .GuruMapsAndroid, isShortSet: false, req)
+            markdownPagesGenerator.createMarkdownPage(appName: .GuruMapsIOS, isShortSet: true, req)
+            markdownPagesGenerator.createMarkdownPage(appName: .GuruMapsIOS, isShortSet: false, req)
 
             guruMapsGenerator.createAll(isShortSet: true, req)
             guruMapsGenerator.createAll(isShortSet: false, req)
+            oruxMapsGenerator.createAll(isShortSet: true, req)
+            oruxMapsGenerator.createAll(isShortSet: false, req)
             locusMapsGenerator.createAll(isShortSet: true, req)
             locusMapsGenerator.createAll(isShortSet: false, req)
+        
         
             return "Files generation finished!"
         #endif
@@ -144,6 +149,53 @@ public func routes(_ router: Router) throws {
     }
     
     
+    
+    
+    
+ /*
+    router.get("experiments_playground") { req -> String in
+        
+        android_metadata.query(on: req).first().map { record in
+            record?.delete(on: req)
+        }
+        
+        let metaData = android_metadata(locale: "ru_RU")
+        metaData.save(on: req)
+        
+        
+        info.query(on: req).first().map { record in
+            record?.delete(on: req)
+        }
+        
+//        let infoData = info(minzoom: Data(count: -3),
+//                            maxzoom: Data(count: 16),
+//                            url: Data(base64URLEncoded: "http://a.tile.thunderforest.com/outdoors/{0}/{1}/{2}.png?apikey=6170aad10dfd42a38d4d8c709a536f38"),
+//                            tilenumbering: "BigPlanet",
+//                            timecolumn: "no",
+//                            expireminutes: "0",
+//                            ellipsoid: 0,
+//                            rule: nil)
+        
+        
+//        req.withPooledConnection(to: .sqlite) { conn in
+//            return conn.raw("SELECT version()")
+//        }
+        
+        
+        let infoData = info(minzoom: Data("-3".utf8),
+                            maxzoom: Data("16".utf8),
+                            url: Data("http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{0}/{2}/{1}".utf8),
+                            tilenumbering: "BigPlanet",
+                            timecolumn: "no",
+                            expireminutes: "0",
+                            ellipsoid: 0)
+        
+        
+        infoData.save(on: req)
+        
+        return "Hello, world!"
+    }
+  */
     
     
  
