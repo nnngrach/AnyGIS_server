@@ -96,8 +96,9 @@ public func routes(_ router: Router) throws {
             diskHandler.cleanXmlFromFolder(patch: templates.localPathToLocusMapsShort)
             diskHandler.cleanFolder(patch: templates.localPathToGuruMapsFull)
             diskHandler.cleanFolder(patch: templates.localPathToGuruMapsShort)
-            diskHandler.cleanFolder(patch: templates.localPathToOruxMapsFull)
-            diskHandler.cleanFolder(patch: templates.localPathToOruxMapsShort)
+            diskHandler.cleanFolder(patch: templates.localPathToGuruMapsInServer)
+            diskHandler.cleanFolder(patch: templates.localPathToOruxMapsFullInServer)
+            diskHandler.cleanFolder(patch: templates.localPathToOruxMapsShortInServer)
         
             locusInstallersGenerator.createSingleMapsLoader(req)
             locusInstallersGenerator.createFolderLoader(req)
@@ -117,8 +118,7 @@ public func routes(_ router: Router) throws {
             oruxMapsGenerator.createAll(isShortSet: false, req)
             locusMapsGenerator.createAll(isShortSet: true, req)
             locusMapsGenerator.createAll(isShortSet: false, req)
-        
-        
+
             return "Files generation finished!"
         #endif
     }

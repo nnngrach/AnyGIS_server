@@ -19,8 +19,11 @@ struct TextTemplates {
     let localPathToLocusMapsShort = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/Maps_short/"
     let localPathToGuruMapsFull = "file:////Projects/GIS/Online%20map%20sources/map-sources/Galileo_online_maps/Maps_full/"
     let localPathToGuruMapsShort = "file:////Projects/GIS/Online%20map%20sources/map-sources/Galileo_online_maps/Maps_short/"
-    let localPathToOruxMapsFull = "file:////Projects/GIS/Online%20map%20sources/map-sources/Orux_online_maps/Maps_Full/"
-    let localPathToOruxMapsShort = "file:////Projects/GIS/Online%20map%20sources/map-sources/Orux_online_maps/Maps_short/"
+    
+    
+    let localPathToGuruMapsInServer = "file://///Projects/GIS/AnyGIS%20server/AnyGIS_Server/Public/galileo/"
+    let localPathToOruxMapsFullInServer = "file:////Projects/GIS/AnyGIS%20server/AnyGIS_Server/Public/orux_full/"
+    let localPathToOruxMapsShortInServer = "file:////Projects/GIS/AnyGIS%20server/AnyGIS_Server/Public/orux_short/"
     
     let gitLocusInstallersFolder = "https://github.com/nnngrach/AnyGIS_maps/master/Locus_online_maps/Installers/"
     let gitLocusIconsFolder = "https://github.com/nnngrach/AnyGIS_maps/raw/master/Locus_online_maps/Icons/"
@@ -42,6 +45,7 @@ struct TextTemplates {
     let indexPage = "https://nnngrach.github.io/AnyGIS_maps/index"
     let descriptionPage = "https://nnngrach.github.io/AnyGIS_maps/Web/Html/Description"
     let rusOutdoorPage = "https://nnngrach.github.io/AnyGIS_maps/Web/Html/RusOutdoor"
+    let downloadPage = "https://nnngrach.github.io/AnyGIS_maps/Web/Html/DownloadPage"
     let locusPage = "https://nnngrach.github.io/AnyGIS_maps/Web/Html/Locus"
     let guruPage = "https://nnngrach.github.io/AnyGIS_maps/Web/Html/Galileo"
     let oruxPage = "https://nnngrach.github.io/AnyGIS_maps/Web/Html/Orux"
@@ -165,15 +169,14 @@ struct TextTemplates {
     
     func getMarkdownHeader() -> String {
         return """
-        | [AnyGIS][01] | [Как это работает?][02] | [RusOutdoor Maps][03] | [Карты для Locus][04] | [Карты для GuruMaps][05] | [API][06] |
+        | [AnyGIS][01] | [Как это работает?][02] | [RusOutdoor Maps][03] | [Скачать карты][04] | [API][05] |
         
         
         [01]: \(indexPage)
         [02]: \(descriptionPage)
         [03]: \(rusOutdoorPage)
-        [04]: \(locusPage)
-        [05]: \(guruPage)
-        [06]: \(apiPage)
+        [04]: \(downloadPage)
+        [05]: \(apiPage)
 
         """
     }

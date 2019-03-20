@@ -44,6 +44,16 @@ class GuruMapsGenerator {
                     let fullPatch = patch + filename
                     
                     self.diskHandler.createFile(patch: fullPatch, content: content)
+                    
+                    
+                    // Copy to dublicate to Public folder to use with Downloader script
+                    if !isShortSet {
+                        
+                        let serverPatch = self.templates.localPathToGuruMapsInServer + filename
+                        
+                        self.diskHandler.createFile(patch: serverPatch, content: content)
+                    }
+                    
                 }
             }
         }

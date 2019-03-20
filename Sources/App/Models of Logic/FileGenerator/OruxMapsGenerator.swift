@@ -39,7 +39,7 @@ class OruxMapsGenerator {
                 content += self.templates.getOutroMapOutro()
                 
                 // Create file
-                let patch = isShortSet ? self.templates.localPathToOruxMapsShort : self.templates.localPathToOruxMapsFull
+                let patch = isShortSet ? self.templates.localPathToOruxMapsShortInServer : self.templates.localPathToOruxMapsFullInServer
                 
                 let fullPatch = patch + "onlinemapsources.xml"
                 
