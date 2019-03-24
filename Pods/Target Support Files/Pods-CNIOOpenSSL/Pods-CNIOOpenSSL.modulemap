@@ -1,0 +1,6 @@
+framework module Pods_CNIOOpenSSL {
+  umbrella header "Pods-CNIOOpenSSL-umbrella.h"
+
+  export *
+  module * { export * }
+}

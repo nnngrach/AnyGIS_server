@@ -1,0 +1,6 @@
+framework module Pods_CNIOHTTPParser {
+  umbrella header "Pods-CNIOHTTPParser-umbrella.h"
+
+  export *
+  module * { export * }
+}

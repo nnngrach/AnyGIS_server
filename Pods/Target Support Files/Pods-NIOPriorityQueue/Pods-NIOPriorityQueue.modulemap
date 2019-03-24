@@ -1,0 +1,6 @@
+framework module Pods_NIOPriorityQueue {
+  umbrella header "Pods-NIOPriorityQueue-umbrella.h"
+
+  export *
+  module * { export * }
+}

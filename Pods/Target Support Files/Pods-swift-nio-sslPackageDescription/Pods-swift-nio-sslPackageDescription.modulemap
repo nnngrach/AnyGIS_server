@@ -1,0 +1,6 @@
+framework module Pods_swift_nio_sslPackageDescription {
+  umbrella header "Pods-swift-nio-sslPackageDescription-umbrella.h"
+
+  export *
+  module * { export * }
+}

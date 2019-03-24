@@ -1,0 +1,6 @@
+framework module Pods_CNIOLinux {
+  umbrella header "Pods-CNIOLinux-umbrella.h"
+
+  export *
+  module * { export * }
+}

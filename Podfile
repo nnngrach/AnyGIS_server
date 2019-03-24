@@ -16,6 +16,7 @@ target 'App' do
   use_frameworks!
   #nnngrach: installed this!
   #pod 'Cloudinary', '~> 2.0'
+  pod 'SQLiteSwift', '~> 0.1'
 
   # Pods for App
 

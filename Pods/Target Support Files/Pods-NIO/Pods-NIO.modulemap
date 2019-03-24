@@ -1,0 +1,6 @@
+framework module Pods_NIO {
+  umbrella header "Pods-NIO-umbrella.h"
+
+  export *
+  module * { export * }
+}

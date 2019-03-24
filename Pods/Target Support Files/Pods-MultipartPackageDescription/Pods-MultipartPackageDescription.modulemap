@@ -1,0 +1,6 @@
+framework module Pods_MultipartPackageDescription {
+  umbrella header "Pods-MultipartPackageDescription-umbrella.h"
+
+  export *
+  module * { export * }
+}

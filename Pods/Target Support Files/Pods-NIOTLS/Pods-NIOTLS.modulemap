@@ -1,0 +1,6 @@
+framework module Pods_NIOTLS {
+  umbrella header "Pods-NIOTLS-umbrella.h"
+
+  export *
+  module * { export * }
+}

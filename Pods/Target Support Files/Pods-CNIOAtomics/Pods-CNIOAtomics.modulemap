@@ -1,0 +1,6 @@
+framework module Pods_CNIOAtomics {
+  umbrella header "Pods-CNIOAtomics-umbrella.h"
+
+  export *
+  module * { export * }
+}

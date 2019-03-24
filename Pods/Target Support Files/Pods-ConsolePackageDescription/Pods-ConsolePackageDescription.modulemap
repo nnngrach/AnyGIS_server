@@ -1,0 +1,6 @@
+framework module Pods_ConsolePackageDescription {
+  umbrella header "Pods-ConsolePackageDescription-umbrella.h"
+
+  export *
+  module * { export * }
+}

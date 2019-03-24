@@ -1,0 +1,6 @@
+framework module Pods_SQLitePackageDescription {
+  umbrella header "Pods-SQLitePackageDescription-umbrella.h"
+
+  export *
+  module * { export * }
+}

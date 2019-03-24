@@ -1,6 +1,9 @@
 import Foundation
 import Vapor
 
+import FluentSQLite
+import SQLite
+import DatabaseKit
  
 
 /// Register your application's routes here.
@@ -152,7 +155,82 @@ public func routes(_ router: Router) throws {
     
     
     
- /*
+    
+    
+//    router.get("experiments_playground1") { req -> String in
+//
+////        let text = "http://maps.marshruty.ru/ml.ashx?al=1&i=1&x={1}&y={2}&z={0}"
+//        //let text = "http://anygis.herokuapp.com/Osm_Sputnik/{1}/{2}/{0}"
+//        let text = "http://anygis.herokuapp.com/Google_Sat_RU_SD/{1}/{2}/{0}"
+//
+//        let dataText = text.data(using: .utf8)!
+//
+//
+//
+//        req.withPooledConnection(to: .sqliteOsmand) { (conn: SQLiteConnection) -> Future<Void> in
+//
+//
+//
+//            conn.update(Tetest.self)
+//                .set(\Tetest.url, to: text)
+////                .where(\Tetest.expireminutes == "0")
+//                .run()
+//
+//
+//            return req.future()
+//        }
+//
+//        return "Hello, world1"
+//    }
+    
+    
+    
+    
+  
+
+//    router.get("experiments_playground") { req -> String in
+//        
+//        //            conn.update(info.self)
+//        //                .set(\info.expireminutes == "123")
+//        //                .where(\info.expireminutes == "0")
+//        //                .run()
+//        
+//        let b = req.withPooledConnection(to: .sqliteOsmand) { (conn: SQLiteConnection) -> Future<Void> in
+//            let users = conn.select()
+//                .all().from(Tetest.self)
+//                //.where(\Tetest.expireminutes == "0")
+//                .all(decoding: Tetest.self)
+//            //print(users) // Future<[User]>
+//            
+//            users.map { a in
+//                print(a)
+//            }
+//            
+//            return req.future()
+//        }
+//
+//        return "Hello, world!"
+//    }
+    
+    
+    
+    
+//    router.get("sql") { req in
+//        return req.withPooledConnection(to: .sqliteOsmand) { (conn: SQLiteConnection) in
+//            return conn.select()
+//                .column("sqlite_version")
+//                .all(decoding: SQLiteVersion.self)
+//            }.map { rows in
+//                return rows[0].version
+//        }
+//    }
+    
+    
+    
+    
+    
+    
+ 
     router.get("experiments_playground") { req -> String in
         
         android_metadata.query(on: req).first().map { record in
@@ -167,108 +245,50 @@ public func routes(_ router: Router) throws {
             record?.delete(on: req)
         }
         
-//        let infoData = info(minzoom: Data(count: -3),
-//                            maxzoom: Data(count: 16),
-//                            url: Data(base64URLEncoded: "http://a.tile.thunderforest.com/outdoors/{0}/{1}/{2}.png?apikey=6170aad10dfd42a38d4d8c709a536f38"),
+        
+        
+//        let infoData = info(minzoom: "-3",
+//                            maxzoom: "16",
+//                            url: "http://maps.marshruty.ru/ml.ashx?al=1&i=1&x={1}&y={2}&z={0}",
 //                            tilenumbering: "BigPlanet",
 //                            timecolumn: "no",
 //                            expireminutes: "0",
-//                            ellipsoid: 0,
-//                            rule: nil)
+//                            ellipsoid: 0)
         
+
         
-//        req.withPooledConnection(to: .sqlite) { conn in
-//            return conn.raw("SELECT version()")
-//        }
+//        let infoData = info(minzoom: "-3",
+//                            maxzoom: "16",
+//                            url: "http://anygis.herokuapp.com/Osm_Outdoors/{1}/{2}/{0}",
+//                            tilenumbering: "BigPlanet",
+//                            timecolumn: "no",
+//                            expireminutes: "0",
+//                            ellipsoid: 0)
         
+//        let infoData = info(minzoom: "-3",
+//                            maxzoom: "16",
+//                            url: "http://anygis.herokuapp.com/Yandex_sat_clean_WGS84/{1}/{2}/{0}",
+//                            tilenumbering: "BigPlanet",
+//                            timecolumn: "no",
+//                            expireminutes: "0",
+//                            ellipsoid: 1)
         
-        let infoData = info(minzoom: Data("-3".utf8),
-                            maxzoom: Data("16".utf8),
-                            url: Data("http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{0}/{2}/{1}".utf8),
+        let infoData = info(minzoom: "-3",
+                            maxzoom: "16",
+                            url: "http://ecn.dynamic.t0.tiles.virtualearth.net/comp/ch/{3}?mkt=en-us&it=G,VE,BX,L,LA&shading=hill&og=2&n=z",
                             tilenumbering: "BigPlanet",
                             timecolumn: "no",
                             expireminutes: "0",
                             ellipsoid: 0)
         
-        
         infoData.save(on: req)
         
         return "Hello, world!"
     }
-  */
+  
     
     
  
-    /*
-    router.get("experiments_playground", Int.parameter) { req -> Future<String> in
-        print("==============")
-//        print("start")
-        let index = try req.parameters.next(Int.self)
-        
-        let hosts = ["a.tile.openstreetmap.org",
-                    "tiles.maps.sputnik.ru",
-                    "www.dzz.by",
-                    "www.dzz.by",
-                    "dzz.by",
-                    "dzz.by",
-                    "tiles.nakarte.me"]
-        
-        let urls = ["https://a.tile.openstreetmap.org/0/0/0.png",
-                    "http://tiles.maps.sputnik.ru/tiles/kmt2/0/0/0.png",
-                    "https://www.dzz.by/Java/proxy.jsp",
-                    "https://www.dzz.by/Java/proxy.jsp?https://www.dzz.by/arcgis/rest/services/georesursDDZ/Belarus_Web_Mercator_new/ImageServer/tile/4/324/588",
-                    "/Java/proxy.jsp",
-                    "/Java/proxy.jsp?https://www.dzz.by/arcgis/rest/services/georesursDDZ/Belarus_Web_Mercator_new/ImageServer/tile/4/324/588",
-                    "https://tiles.nakarte.me/ggc2000/0/0/0"]
-        
-        let headers: HTTPHeaders = ["Origin": "https://www.dzz.by/izuchdzz/",
-                                    "Referer": "https://www.dzz.by/izuchdzz/",
-                                    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36"]
-        
-        print(urls[index])
-        
-        let connection = HTTPClient.connect(hostname: hosts[index], connectTimeout: .milliseconds(5000), on: req)
-        
-        
-        // Synchronization: Waiting, while coonection will be started
-        let responseStatus = connection.flatMap(to: String.self) { client in
-//            print("responseStatus")
-            
-            let httpRequest = HTTPRequest(method: .GET, url: urls[index], headers: headers)
-            
-            let response = client.send(httpRequest)
-            
-//            let status = response.flatMap { res -> Future<HTTPResponseStatus> in
-//                return req.future(res.status)
-//            }
-            
-            
-            let a = response.map(to: String.self) { res in
-//                print("response.flatMap")
-//                print(res.status.code)
-//                print(res.headers)
-                let intro = "============== \n"
-                let s = "\(res.status.code) \n"
-                let a = res.description
-                let b = res.headers.debugDescription
-                print(res.description)
-                return s + res.headers.debugDescription
-            }
-            
-            return a
-            //return status
-            
-            }.catchFlatMap { error in
-                print ("err")
-                
-                return req.future(error.localizedDescription)
-                //return req.future(HTTPResponseStatus(statusCode: 404))
-        }
-        
-        return responseStatus
-        //return "Hello, world!"
-    }
-*/
     
     
 //    router.get("experiments_playground") { req -> String in

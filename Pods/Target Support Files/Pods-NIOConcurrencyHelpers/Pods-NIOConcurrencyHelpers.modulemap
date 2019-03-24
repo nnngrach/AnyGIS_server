@@ -1,0 +1,6 @@
+framework module Pods_NIOConcurrencyHelpers {
+  umbrella header "Pods-NIOConcurrencyHelpers-umbrella.h"
+
+  export *
+  module * { export * }
+}

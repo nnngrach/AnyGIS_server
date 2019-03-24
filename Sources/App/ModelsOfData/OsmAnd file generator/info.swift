@@ -11,9 +11,9 @@ import Vapor
 final class info: SQLiteModel {
     
     var id: Int?
-    var minzoom: Data?
-    var maxzoom: Data?
-    var url: Data?
+    var minzoom: String?
+    var maxzoom: String?
+    var url: String?
     var tilenumbering: String?
     var timecolumn: String?
     var expireminutes: String?
@@ -22,7 +22,7 @@ final class info: SQLiteModel {
     
     
     
-    init(id: Int? = nil, minzoom: Data? = nil, maxzoom: Data? = nil, url: Data? = nil, tilenumbering: String? = nil, timecolumn: String? = nil, expireminutes: String? = nil, ellipsoid: Int? = nil, rule: String? = nil) {
+    init(id: Int? = nil, minzoom: String? = nil, maxzoom: String? = nil, url: String? = nil, tilenumbering: String? = nil, timecolumn: String? = nil, expireminutes: String? = nil, ellipsoid: Int? = nil, rule: String? = nil) {
         self.minzoom = minzoom
         self.maxzoom = maxzoom
         self.url = url
