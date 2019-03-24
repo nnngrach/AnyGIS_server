@@ -6,7 +6,6 @@ import Leaf
 public func configure(_ config: inout Config, _ env: inout Environment, _ services: inout Services) throws {
     /// Register providers first
     try services.register(FluentSQLiteProvider())
-//    try services.register(SQLiteProvider())
     
     /// Leaf
     try services.register(LeafProvider())
@@ -32,8 +31,6 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     // Configure a SQLite database
     //let sqlite = try SQLiteDatabase(storage: .memory)
     //let sqlite = try SQLiteDatabase(storage: .file(path: "/Projects/GIS/AnyGIS server/AnyGIS_Server/Sources/App/Models of Data/base.sqlite"))
-    
-    
     let sqlite = try SQLiteDatabase(storage: .file(path: "\(directoryConfig.workDir)base.sqlite"))
     let sqliteOsmand = try SQLiteDatabase(storage: .file(path: "\(directoryConfig.workDir)osmandTemplate.sqlitedb"))
 
