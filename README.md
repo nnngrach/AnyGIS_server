@@ -1,6 +1,18 @@
-# AnyGIS Server API
+# AnyGIS Server
 
-This is a utility to connect different navigation applications (web, ios, android) to map sources with non-standard URLS. It allows you to convert coordinates. Also, it can process tile images.
+This is a server utility, which helping to connect different navigation applications (web, ios, android) to different online-map sources.
+
+It receives a GET request from the client navigation apps to download a tile. Next it gets the map name and XYZ coordinates parameters from this query. Depending on the specified of this map, AnyGIS generates a corresponding URL. Then it downloads a tile and returns it to the client app.
+
+This proxi component can perform various additional calculations and can generate quite complex and dynamically changing non-standard URL addresses. This allows you to connect many of the previously unavailable maps to mobile navigation apps.
+
+Also, this utility is able to do various image processing on the fly. For example, it can transform tiles from the WGS84 ellipsoid projection to the WebMerkatror spherical projection. Or overlay one image on another if the client application does not allow such operations.
+
+You can read more about how this utility works on [this page](https://nnngrach.github.io/AnyGIS_maps/Web/Html/Description).
+
+
+
+# AnyGIS Server API
 
 ### Get tile by tile numbers
 

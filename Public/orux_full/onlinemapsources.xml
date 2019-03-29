@@ -1381,6 +1381,66 @@
         <qop></qop>
     </onlinemapsource>
 
+    <onlinemapsource uid="5555019">
+        <name>Беларусь 3-х верстовая (EURASIAIHYSTORYC)</name>
+        <url><![CDATA[https://anygis.herokuapp.com/Historic_Belarus_3v_plus/{$x}/{$y}/{$z}]]></url>
+        <servers></servers>
+        <maxzoom>15</maxzoom>
+        <minzoom>10</minzoom>
+        <projection>MERCATORESFERICA</projection>
+        <downloadable>1</downloadable>
+        <cacheable>1</cacheable>
+        <xop></xop>
+        <yop></yop>
+        <zop></zop>
+        <qop></qop>
+    </onlinemapsource>
+
+    <onlinemapsource uid="5555021">
+        <name>Беларусь Генштаб (EURASIAIHYSTORYC)</name>
+        <url><![CDATA[https://anygis.herokuapp.com/Historic_Belarus_Genstab/{$x}/{$y}/{$z}]]></url>
+        <servers></servers>
+        <maxzoom>19</maxzoom>
+        <minzoom>0</minzoom>
+        <projection>MERCATORESFERICA</projection>
+        <downloadable>1</downloadable>
+        <cacheable>1</cacheable>
+        <xop></xop>
+        <yop></yop>
+        <zop></zop>
+        <qop></qop>
+    </onlinemapsource>
+
+    <onlinemapsource uid="5555020">
+        <name>Беларусь РККА 500м (EURASIAIHYSTORYC)</name>
+        <url><![CDATA[https://anygis.herokuapp.com/Historic_Belarus_RKKA_plus/{$x}/{$y}/{$z}]]></url>
+        <servers></servers>
+        <maxzoom>15</maxzoom>
+        <minzoom>10</minzoom>
+        <projection>MERCATORESFERICA</projection>
+        <downloadable>1</downloadable>
+        <cacheable>1</cacheable>
+        <xop></xop>
+        <yop></yop>
+        <zop></zop>
+        <qop></qop>
+    </onlinemapsource>
+
+    <onlinemapsource uid="5555018">
+        <name>Беларусь WIG 1km (EURASIAIHYSTORYC)</name>
+        <url><![CDATA[https://anygis.herokuapp.com/Historic_Belarus_WIG_plus/{$x}/{$y}/{$z}]]></url>
+        <servers></servers>
+        <maxzoom>15</maxzoom>
+        <minzoom>6</minzoom>
+        <projection>MERCATORESFERICA</projection>
+        <downloadable>1</downloadable>
+        <cacheable>1</cacheable>
+        <xop></xop>
+        <yop></yop>
+        <zop></zop>
+        <qop></qop>
+    </onlinemapsource>
+
     <onlinemapsource uid="5555017">
         <name>Европейская Россия Шуберт 3-х верстовая (EURASIAIHYSTORYC)</name>
         <url><![CDATA[https://anygis.herokuapp.com/Historic_Shubert/{$x}/{$y}/{$z}]]></url>

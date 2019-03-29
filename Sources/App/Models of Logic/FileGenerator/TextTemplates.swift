@@ -19,11 +19,15 @@ struct TextTemplates {
     let localPathToLocusMapsShort = "file:////Projects/GIS/Online%20map%20sources/map-sources/Locus_online_maps/Maps_short/"
     let localPathToGuruMapsFull = "file:////Projects/GIS/Online%20map%20sources/map-sources/Galileo_online_maps/Maps_full/"
     let localPathToGuruMapsShort = "file:////Projects/GIS/Online%20map%20sources/map-sources/Galileo_online_maps/Maps_short/"
+    let localPathToOsmandMapsFull = "file:////Projects/GIS/Online%20map%20sources/map-sources/Osmand_online_maps/Maps_full/"
+    let localPathToOsmandMapsShort = "file:////Projects/GIS/Online%20map%20sources/map-sources/Osmand_online_maps/Maps_short/"
     
     
     let localPathToGuruMapsInServer = "file://///Projects/GIS/AnyGIS%20server/AnyGIS_Server/Public/galileo/"
     let localPathToOruxMapsFullInServer = "file:////Projects/GIS/AnyGIS%20server/AnyGIS_Server/Public/orux_full/"
     let localPathToOruxMapsShortInServer = "file:////Projects/GIS/AnyGIS%20server/AnyGIS_Server/Public/orux_short/"
+    
+    let localPathToOsmandTemplate = "file://///Projects/GIS/AnyGIS%20server/AnyGIS_Server/osmandTemplate.sqlitedb"
     
     let gitLocusInstallersFolder = "https://github.com/nnngrach/AnyGIS_maps/master/Locus_online_maps/Installers/"
     let gitLocusIconsFolder = "https://github.com/nnngrach/AnyGIS_maps/raw/master/Locus_online_maps/Icons/"
@@ -53,6 +57,8 @@ struct TextTemplates {
     let apiPage = "https://nnngrach.github.io/AnyGIS_maps/Web/Html/Api"
     
     let anygisMapUrl = "https://anygis.herokuapp.com/{mapName}/{x}/{y}/{z}"
+    let anygisMapUrlHttp = "http://anygis.herokuapp.com/{mapName}/{x}/{y}/{z}"
+
     
     let email = "anygis@bk.ru"
 
@@ -460,4 +466,27 @@ struct TextTemplates {
         </onlinemapsources>
         """
     }
+    
+    
+    
+    
+    
+    //MARK: Templates for Osman maps Sqlitedb
+ /*
+    func getOsmandUrlScript(serverNames: String, serverCount: String, url: String) -> String {
+        
+        return """
+        public static String eqt(int z, int x, int y) {
+        static final String[] NUM_CHAR = { \(serverNames) };
+        int i = ((x + y) % \(serverCount));
+        return NUM_CHAR[i];
+        }
+        
+        String getTileUrl(int z, int x, int y) {
+        return \(url);
+        }
+        """
+    }
+ */
+    
 }

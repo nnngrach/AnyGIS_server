@@ -86,6 +86,7 @@ public func routes(_ router: Router) throws {
             let guruMapsGenerator = GuruMapsGenerator()
             let oruxMapsGenerator = OruxMapsGenerator()
             let locusMapsGenerator = LocusMapsGenerator()
+            let osmandMapsGenerator = OsmandMapGenerator()
             let markdownPagesGenerator = MarkdownPagesGenerator()
             let locusInstallersGenerator = LocusInstallersGenerator()
         
@@ -96,6 +97,8 @@ public func routes(_ router: Router) throws {
             diskHandler.cleanFolder(patch: templates.localPathToGuruMapsFull)
             diskHandler.cleanFolder(patch: templates.localPathToGuruMapsShort)
             diskHandler.cleanFolder(patch: templates.localPathToGuruMapsInServer)
+            diskHandler.cleanFolder(patch: templates.localPathToOsmandMapsFull)
+            diskHandler.cleanFolder(patch: templates.localPathToOsmandMapsShort)
             diskHandler.cleanFolder(patch: templates.localPathToOruxMapsFullInServer)
             diskHandler.cleanFolder(patch: templates.localPathToOruxMapsShortInServer)
         
@@ -117,6 +120,8 @@ public func routes(_ router: Router) throws {
             oruxMapsGenerator.createAll(isShortSet: false, req)
             locusMapsGenerator.createAll(isShortSet: true, req)
             locusMapsGenerator.createAll(isShortSet: false, req)
+            osmandMapsGenerator.createAll(isShortSet: true, req)
+            osmandMapsGenerator.createAll(isShortSet: false, req)
 
             return "Files generation finished!"
         #endif
