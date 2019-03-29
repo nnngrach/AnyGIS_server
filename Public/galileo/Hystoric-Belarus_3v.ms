@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
         
 <customMapSource>
-<name>Беларусь РККА 500м</name>
+<name>Беларусь 3-х верстовая</name>
 <layers>
 
     <layer>
     <minZoom>10</minZoom>
     <maxZoom>14</maxZoom>
-    <url>https://globus.tut.by/.tiles/rkka_v2/Z{$z}/{$y}/{$x}.jpg</url>
+    <url>https://orda.of.by/.tiles/3v/Z{$z}/{$y}/{$x}.jpg</url>
     </layer>
 
 
