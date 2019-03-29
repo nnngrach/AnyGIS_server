@@ -2,7 +2,7 @@
 //  GenerateoOfLocusInstallers.swift
 //  AnyGIS_ServerPackageDescription
 //
-//  Created by HR_book on 25/02/2019.
+//  Created by Nnngrach on 25/02/2019.
 //
 
 import Vapor

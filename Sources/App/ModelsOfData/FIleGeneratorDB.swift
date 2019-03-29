@@ -1,7 +1,7 @@
 //
 //  MapData.swift
 //
-//  Created by HR_book on 25/11/2018.
+//  Created by Nnngrach on 25/11/2018.
 //
 
 import FluentSQLite

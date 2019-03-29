@@ -2,7 +2,7 @@
 //  OruxMapsGeneratr.swift
 //  AnyGIS_ServerPackageDescription
 //
-//  Created by HR_book on 20/03/2019.
+//  Created by Nnngrach on 20/03/2019.
 //
 
 import Vapor
@@ -54,7 +54,7 @@ class OruxMapsGenerator {
     
     private func generateLayersContent(_ currentID: Int, _ layersIdList: String, _ clientMapsTable: [FileGeneratorDB], _ allMapsTable: [MapsList]) -> String {
         
-        var content = ""
+        //var content = ""
         
         let clientMapsLine = clientMapsTable.filter {$0.id == currentID}.first!
         

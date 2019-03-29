@@ -2,7 +2,7 @@
 //  OsmandMapGenerator.swift
 //  AnyGIS_ServerPackageDescription
 //
-//  Created by HR_book on 21/03/2019.
+//  Created by Nnngrach on 21/03/2019.
 //
 
 

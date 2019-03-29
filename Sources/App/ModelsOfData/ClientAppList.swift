@@ -2,7 +2,7 @@
 //  ClientAppList.swift
 //  AnyGIS_ServerPackageDescription
 //
-//  Created by HR_book on 20/03/2019.
+//  Created by Nnngrach on 20/03/2019.
 //
 
 import Foundation
