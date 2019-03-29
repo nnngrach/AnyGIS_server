@@ -122,6 +122,8 @@ class OsmandMapGenerator {
     
     
     
+    
+    
     private func prepareURL(_ url: String, _ mapName : String) -> String {
         var result = url
         result = result.replacingOccurrences(of: "{mapName}", with: mapName)
