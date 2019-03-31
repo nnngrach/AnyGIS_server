@@ -32,12 +32,10 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     //let sqlite = try SQLiteDatabase(storage: .memory)
     //let sqlite = try SQLiteDatabase(storage: .file(path: "/Projects/GIS/AnyGIS server/AnyGIS_Server/Sources/App/Models of Data/base.sqlite"))
     let sqlite = try SQLiteDatabase(storage: .file(path: "\(directoryConfig.workDir)base.sqlite"))
-    let sqliteOsmand = try SQLiteDatabase(storage: .file(path: "\(directoryConfig.workDir)osmandTemplate.sqlitedb"))
 
     /// Register the configured SQLite database to the database config.
     var databases = DatabasesConfig()
     databases.add(database: sqlite, as: .sqlite)
-    databases.add(database: sqliteOsmand, as: .sqliteOsmand)
     services.register(databases)
 
     /// Configure migrations
@@ -47,10 +45,5 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     migrations.add(model: PriorityMapsList.self, database: .sqlite)
     migrations.add(model: MirrorsMapsList.self, database: .sqlite)
     migrations.add(model: ServiceData.self, database: .sqlite)
-    migrations.add(model: FileGeneratorDB.self, database: .sqlite)
-    
-    migrations.add(model: info.self, database: .sqliteOsmand)
-    migrations.add(model: tiles.self, database: .sqliteOsmand)
-    migrations.add(model: android_metadata.self, database: .sqliteOsmand)
     services.register(migrations)
 }

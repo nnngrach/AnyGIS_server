@@ -42,21 +42,6 @@ class SQLHandler {
     }
     
     
-    public func fetchAllFileGenInfo(_ request: Request) -> Future<[FileGeneratorDB]> {
-        return FileGeneratorDB.query(on: request)
-            .sort(\.order)
-            .sort(\.clientMapName)
-            .all()
-    }
-    
-    public func fetchShortSetFileGenInfo(_ request: Request) -> Future<[FileGeneratorDB]> {
-        return FileGeneratorDB.query(on: request)
-            .filter(\FileGeneratorDB.isInStarterSet == true)
-            .sort(\.order)
-            .sort(\.clientMapName)
-            .all()
-    }
-    
     
     
     public func getBy (mapName: String, _ request: Request) throws -> Future<MapsList>  {
