@@ -1866,7 +1866,7 @@
 <url><![CDATA[https://anygis.herokuapp.com/Local_River_Volga/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>15</maxzoom>
-<minzoom>0</minzoom>
+<minzoom>7</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
 <cacheable>1</cacheable>
