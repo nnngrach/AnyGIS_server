@@ -155,7 +155,7 @@
 <name>AnyGIS Satellites compilation (GLOBALSATELLITES)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Combo_All_Satellites/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
-<maxzoom>22</maxzoom>
+<maxzoom>20</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
@@ -198,7 +198,7 @@
 
 <onlinemapsource uid="10021">
 <name>Google Satellite (GLOBALSATELLITES)</name>
-<url><![CDATA[http://mt{$s}.google.com/vt/lyrs=s@176103410&x={$x}&y={$y}&z={$z}&s=Galileo&scale=1&hl=en]]></url>
+<url><![CDATA[https://mt{$s}.google.com/vt/lyrs=s@176103410&x={$x}&y={$y}&z={$z}&s=Galileo&scale=1&hl=en]]></url>
 <servers>0,1,2,3</servers>
 <maxzoom>20</maxzoom>
 <minzoom>0</minzoom>
@@ -1069,6 +1069,21 @@
 <onlinemapsource uid="424000">
 <name>RusOutdoor maps (EURASIAHIKINGMULTYLAYER)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Combo_RusOutdoor/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>22</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="424007">
+<name>RusOutdoor maps (lite) (EURASIAHIKINGMULTYLAYER)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Combo_RusOutdoor_lite/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>22</maxzoom>
 <minzoom>0</minzoom>
@@ -2266,6 +2281,21 @@
 <qop></qop>
 </onlinemapsource>
 
+<onlinemapsource uid="8888030">
+<name>Hillshade (GLOBALINFO)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Osm_Mapnik_Mapbox_Hillshades/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>19</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
 <onlinemapsource uid="8888025">
 <name>Navionics Marine Charts (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Navionics_Marine_Charts_layer/{$x}/{$y}/{$z}]]></url>
@@ -2389,6 +2419,21 @@
 <onlinemapsource uid="8888023">
 <name>Way Marked Trails - Hiking (OVERLAY)</name>
 <url><![CDATA[https://tile.waymarkedtrails.org/hiking/{$z}/{$x}/{$y}.png]]></url>
+<servers></servers>
+<maxzoom>19</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="8888029">
+<name>Wigle.net Wi-fi location (GLOBALINFO)</name>
+<url><![CDATA[http://wigle.net/tile?tileX={$x}&tileY={$y}&tileZoom={$z}&coloring=density]]></url>
 <servers></servers>
 <maxzoom>19</maxzoom>
 <minzoom>0</minzoom>

@@ -16,13 +16,13 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="10080">
-<name>Yandex Карта (GLOBALCITY)</name>
-<url><![CDATA[https://vec0{$s}.maps.yandex.net/tiles?l=map&x={$x}&y={$y}&z={$z}]]></url>
-<servers>1,2,3,4</servers>
-<maxzoom>19</maxzoom>
+<onlinemapsource uid="10020">
+<name>Google Карта RU (GLOBALCITY)</name>
+<url><![CDATA[https://mt{$s}.google.com/vt/lyrs=m&hl=ru&x={$x}&y={$y}&z={$z}]]></url>
+<servers>0,1,2,3</servers>
+<maxzoom>20</maxzoom>
 <minzoom>0</minzoom>
-<projection>MERCATORELIPSOIDAL</projection>
+<projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
 <cacheable>1</cacheable>
 <xop></xop>
@@ -31,13 +31,28 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="424001">
-<name>AnyGIS Спутниковый сборник (GLOBALSATELLITES)</name>
-<url><![CDATA[https://anygis.herokuapp.com/Combo_All_Satellites/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
-<maxzoom>22</maxzoom>
+<onlinemapsource uid="117593">
+<name>Google Ландшафт RU (GLOBALCITY)</name>
+<url><![CDATA[http://mt{$s}.google.com/vt/lyrs=t@130,r@206000000&hl=ru&x={$x}&y={$y}&z={$z}&s=Galileo&scale=1&hl=ru]]></url>
+<servers>0,1,2,3</servers>
+<maxzoom>20</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="10080">
+<name>Yandex Карта (GLOBALCITY)</name>
+<url><![CDATA[https://vec0{$s}.maps.yandex.net/tiles?l=map&x={$x}&y={$y}&z={$z}]]></url>
+<servers>1,2,3,4</servers>
+<maxzoom>19</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORELIPSOIDAL</projection>
 <downloadable>1</downloadable>
 <cacheable>1</cacheable>
 <xop></xop>
@@ -229,6 +244,21 @@
 <onlinemapsource uid="424000">
 <name>RusOutdoor maps (EURASIAHIKINGMULTYLAYER)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Combo_RusOutdoor/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>22</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="424007">
+<name>RusOutdoor maps (lite) (EURASIAHIKINGMULTYLAYER)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Combo_RusOutdoor_lite/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>22</maxzoom>
 <minzoom>0</minzoom>

@@ -155,7 +155,7 @@
 <name>AnyGIS Спутниковый сборник (GLOBALSATELLITES)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Combo_All_Satellites/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
-<maxzoom>22</maxzoom>
+<maxzoom>20</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
@@ -198,7 +198,7 @@
 
 <onlinemapsource uid="10021">
 <name>Google Спутник (GLOBALSATELLITES)</name>
-<url><![CDATA[http://mt{$s}.google.com/vt/lyrs=s@176103410&x={$x}&y={$y}&z={$z}&s=Galileo&scale=1&hl=en]]></url>
+<url><![CDATA[https://mt{$s}.google.com/vt/lyrs=s@176103410&x={$x}&y={$y}&z={$z}&s=Galileo&scale=1&hl=en]]></url>
 <servers>0,1,2,3</servers>
 <maxzoom>20</maxzoom>
 <minzoom>0</minzoom>
@@ -901,6 +901,21 @@
 <qop></qop>
 </onlinemapsource>
 
+<onlinemapsource uid="424007">
+<name>RusOutdoor maps (lite) (EURASIAHIKINGMULTYLAYER)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Combo_RusOutdoor_lite/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>22</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
 <onlinemapsource uid="424004">
 <name>Маршруты.ru (EURASIAHIKINGMULTYLAYER)</name>
 <url><![CDATA[http://maps.marshruty.ru/ml.ashx?al=1&x={$x}&y={$y}&z={$z}&i=1]]></url>
@@ -1367,7 +1382,7 @@
 </onlinemapsource>
 
 <onlinemapsource uid="190006">
-<name>Речная лоция Волги и Камы 1996 (EURASIARIVERS)</name>
+<name>Речная лоция Волги и Камы 1996 (gmap.camapka.ru) (EURASIARIVERS)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Local_River_Volga/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>15</maxzoom>
@@ -2386,6 +2401,21 @@
 <qop></qop>
 </onlinemapsource>
 
+<onlinemapsource uid="8888029">
+<name>Wigle.net Wi-fi location (GLOBALINFO)</name>
+<url><![CDATA[http://wigle.net/tile?tileX={$x}&tileY={$y}&tileZoom={$z}&coloring=density]]></url>
+<servers></servers>
+<maxzoom>19</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
 <onlinemapsource uid="8888019">
 <name>Yandex Надписи (OVERLAY)</name>
 <url><![CDATA[https://vec0{$s}.maps.yandex.net/tiles?l=skl&x={$x}&y={$y}&z={$z}]]></url>
@@ -2410,6 +2440,21 @@
 <projection>MERCATORELIPSOIDAL</projection>
 <downloadable>1</downloadable>
 <cacheable>0</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="8888030">
+<name>Рельеф (GLOBALINFO)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Osm_Mapnik_Mapbox_Hillshades/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>19</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
 <xop></xop>
 <yop></yop>
 <zop></zop>
