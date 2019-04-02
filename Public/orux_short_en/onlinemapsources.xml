@@ -153,7 +153,7 @@
 
 <onlinemapsource uid="10207">
 <name>OpenTopoMap (GLOBALOSM)</name>
-<url><![CDATA[http://{$s}.tile.opentopomap.org/{$z}/{$x}/{$y}.png]]></url>
+<url><![CDATA[https://{$s}.tile.opentopomap.org/{$z}/{$x}/{$y}.png]]></url>
 <servers>a,b,c</servers>
 <maxzoom>17</maxzoom>
 <minzoom>0</minzoom>

@@ -391,24 +391,9 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="6666007">
-<name>Mapsurfer (GLOBALOSM)</name>
-<url><![CDATA[https://api.openrouteservice.org/pmapsurfer/{$z}/{$x}/{$y}.png?api_key=5b3ce3597851110001cf62486750381f491044b7b57eae69a4b46fca]]></url>
-<servers></servers>
-<maxzoom>19</maxzoom>
-<minzoom>0</minzoom>
-<projection>MERCATORESFERICA</projection>
-<downloadable>1</downloadable>
-<cacheable>1</cacheable>
-<xop></xop>
-<yop></yop>
-<zop></zop>
-<qop></qop>
-</onlinemapsource>
-
 <onlinemapsource uid="10207">
 <name>OpenTopoMap (GLOBALOSM)</name>
-<url><![CDATA[http://{$s}.tile.opentopomap.org/{$z}/{$x}/{$y}.png]]></url>
+<url><![CDATA[https://{$s}.tile.opentopomap.org/{$z}/{$x}/{$y}.png]]></url>
 <servers>a,b,c</servers>
 <maxzoom>17</maxzoom>
 <minzoom>0</minzoom>
@@ -2043,7 +2028,7 @@
 
 <onlinemapsource uid="5555017">
 <name>European Russia - Shubert (EURASIAIHYSTORYC)</name>
-<url><![CDATA[https://anygis.herokuapp.com/Historic_Shubert/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[http://boxpis.ru/sas/SVG_3v_all/z{$z}/{$y}/{$x}.jpg]]></url>
 <servers></servers>
 <maxzoom>14</maxzoom>
 <minzoom>0</minzoom>
@@ -2223,7 +2208,7 @@
 
 <onlinemapsource uid="5555016">
 <name>Tver Mende (EURASIAIHYSTORYC)</name>
-<url><![CDATA[https://anygis.herokuapp.com/Historic_Tver_Mende/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[http://boxpis.ru/sas/tg_2vrnb/z{$z}/{$y}/{$x}.jpg]]></url>
 <servers></servers>
 <maxzoom>14</maxzoom>
 <minzoom>0</minzoom>
