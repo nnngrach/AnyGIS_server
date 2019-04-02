@@ -127,7 +127,11 @@ class WebHandler {
         
         let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
         
-        return try req.client().get(newUrl, headers: HTTPHeaders(dictionaryLiteral: ("referer",mapObject.referer)))
+        let userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.110 Safari/537.36"
+       
+        let headers = HTTPHeaders([("referer", mapObject.referer), ("User-Agent", userAgent)])
+        
+        return try req.client().get(newUrl, headers: headers)
     }
     
     
