@@ -21,7 +21,16 @@ class FreeAccountsParalleliser {
         let calendar = Calendar.current
         let minutes = calendar.component(.minute, from: date)
         
-        let sessionNumber = minutes / 2
+        var sessionNumber = minutes / 2
+        
+        
+        // temp ============================
+        let endedAccounts = [13]
+        if endedAccounts.contains(sessionNumber) {
+            sessionNumber += 1
+        }
+        // ================================
+        
         return String(sessionNumber)
     }
     
