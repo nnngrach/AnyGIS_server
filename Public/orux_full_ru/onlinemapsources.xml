@@ -1788,7 +1788,7 @@
 
 <onlinemapsource uid="10808">
 <name>Ukraine - Кадастровая карта (EUROPEEASTERN)</name>
-<url><![CDATA[http://map.land.gov.ua/map/dzk_overview/{$z}/{$x}/{$y}.png]]></url>
+<url><![CDATA[https://anygis.herokuapp.com/Other_Ukr_Kadastr_layer/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>22</maxzoom>
 <minzoom>0</minzoom>
