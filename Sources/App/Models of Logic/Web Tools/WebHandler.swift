@@ -207,6 +207,8 @@ class WebHandler {
     
     private func makeMapboxZoomRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ sessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
         
+        let mapboxSession = String(Int(sessionID)! / 2)
+        
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
         
         // Load layers info from data base in Future format
@@ -217,9 +219,9 @@ class WebHandler {
         // Generating redirect URL-response to processed image.
         let redirectingResponce = mapList.flatMap(to: Response.self) { mapListData  in
             
-            let index = Int(sessionID) ?? 0
+            let mapboxIndex = Int(mapboxSession) ?? 0
             
-            let fourTilesInNextZoomUrls = self.urlPatchCreator.calculateFourNextZoomTilesUrls(tileNumbers.x, tileNumbers.y, zoom, mapListData[index].url, "")
+            let fourTilesInNextZoomUrls = self.urlPatchCreator.calculateFourNextZoomTilesUrls(tileNumbers.x, tileNumbers.y, zoom, mapListData[mapboxIndex].url, "")
             
             let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesInNextZoomUrls, sessionID, req)
             
@@ -242,6 +244,7 @@ class WebHandler {
     
     private func makeMapboxOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ sessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
         
+        let mapboxSession = String(Int(sessionID)! / 2)
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
         
@@ -264,7 +267,7 @@ class WebHandler {
             return baseMapData.flatMap(to: Response.self) { baseObject  in
                 return overlayMapsData.flatMap(to: Response.self) { overObject  in
                     
-                    let index = Int(sessionID) ?? 0
+                    let index = Int(mapboxSession) ?? 0
                     
                     let baseUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, baseObject.backgroundUrl, baseObject.backgroundServerName)
                     
@@ -292,6 +295,8 @@ class WebHandler {
     
     private func makeMapboxOverlayWithZoomRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ sessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
         
+        let mapboxSession = String(Int(sessionID)! / 2)
+        
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
         
         // Load layers info from data base in Future format
@@ -313,7 +318,7 @@ class WebHandler {
             return baseMapData.flatMap(to: Response.self) { baseObject  in
                 return overlayMapData.flatMap(to: Response.self) { overObject  in
                     
-                    let index = Int(sessionID) ?? 0
+                    let index = Int(mapboxSession) ?? 0
                     
                     let baseUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, baseObject.backgroundUrl, baseObject.backgroundServerName)
                     

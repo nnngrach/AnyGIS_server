@@ -14,6 +14,9 @@ import Foundation
 class FreeAccountsParalleliser {
     
     
+    private let endedCloudinryAccounts : [Int] = [0, 7, 8, 9, 11, 12, 13, 14, 21, 22, 24, 28, 29]
+    
+    
     // Every 2 munutes switch to next account.
     
     public func splitByMinutes() -> String {
@@ -24,12 +27,11 @@ class FreeAccountsParalleliser {
         var sessionNumber = minutes / 2
         
         
-        // temp ============================
-        let endedAccounts = [13]
-        if endedAccounts.contains(sessionNumber) {
-            sessionNumber += 1
+        // TODO: Delete this after 1.05.19 =====================
+        if endedCloudinryAccounts.contains(sessionNumber) {
+            sessionNumber += 30
         }
-        // ================================
+        // ==================================================
         
         return String(sessionNumber)
     }
