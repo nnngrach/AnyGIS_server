@@ -7,33 +7,49 @@
 
 import Foundation
 
-// I have 30 free Cloudinary accounts
+// I have 60 free Cloudinary accounts
 // with names like anygis0, anygis1, anygis2 ...etc.
 // So, number of using account equals sessionID.
 
 class FreeAccountsParalleliser {
     
+    private let endedCloudinryAccounts : [Int] = [0, 1, 7, 8, 9,
+                                                  11, 12, 13, 14, 15, 19,
+                                                  20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
     
-    private let endedCloudinryAccounts : [Int] = [0, 7, 8, 9, 11, 12, 13, 14, 20, 21, 22, 24, 26, 28, 29]
     
-    
-    // Every 2 munutes switch to next account.
+    // Every 1 munutes switch to next account.
     
     public func splitByMinutes() -> String {
         let date = Date()
         let calendar = Calendar.current
         let minutes = calendar.component(.minute, from: date)
         
-        var sessionNumber = minutes / 2
+        var sessionNumber = minutes
         
         
         // TODO: Delete this after 1.05.19 =====================
         if endedCloudinryAccounts.contains(sessionNumber) {
-            sessionNumber += 30
+            sessionNumber = findFirstWorkingAccount()
         }
         // ==================================================
         
         return String(sessionNumber)
+    }
+    
+    
+    
+    
+    
+    private func findFirstWorkingAccount() -> Int {
+        
+        var nextAccount = 0
+        
+        while endedCloudinryAccounts.contains(nextAccount) {
+            nextAccount += 1
+        }
+        
+        return nextAccount
     }
     
     
