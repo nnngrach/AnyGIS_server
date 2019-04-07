@@ -14,7 +14,7 @@ import Foundation
 class FreeAccountsParalleliser {
     
     
-    private let endedCloudinryAccounts : [Int] = [0, 7, 8, 9, 11, 12, 13, 14, 21, 22, 24, 28, 29]
+    private let endedCloudinryAccounts : [Int] = [0, 7, 8, 9, 11, 12, 13, 14, 20, 21, 22, 24, 26, 28, 29]
     
     
     // Every 2 munutes switch to next account.
