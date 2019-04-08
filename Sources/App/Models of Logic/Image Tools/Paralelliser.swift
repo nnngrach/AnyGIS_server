@@ -13,6 +13,8 @@ import Foundation
 
 class FreeAccountsParalleliser {
     
+    private let allCLoudinaryAccountsCount = 60
+    
     private let endedCloudinryAccounts : [Int] = [0, 1, 2, 7, 8, 9,
                                                   11, 12, 13, 14, 15, 19,
                                                   20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
@@ -30,7 +32,11 @@ class FreeAccountsParalleliser {
         
         // TODO: Delete this after 1.05.19 =====================
         if endedCloudinryAccounts.contains(sessionNumber) {
-            sessionNumber = findFirstWorkingAccount()
+            sessionNumber = findFirstWorkingAccount(currentAccount: sessionNumber)
+            
+            if sessionNumber >= allCLoudinaryAccountsCount {
+                sessionNumber = findFirstWorkingAccount(currentAccount: 0)
+            }
         }
         // ==================================================
         
@@ -41,9 +47,9 @@ class FreeAccountsParalleliser {
     
     
     
-    private func findFirstWorkingAccount() -> Int {
+    private func findFirstWorkingAccount(currentAccount: Int) -> Int {
         
-        var nextAccount = 0
+        var nextAccount = currentAccount
         
         while endedCloudinryAccounts.contains(nextAccount) {
             nextAccount += 1
