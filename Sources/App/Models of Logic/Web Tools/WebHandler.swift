@@ -207,7 +207,7 @@ class WebHandler {
     
     private func makeMapboxZoomRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ sessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
         
-        let mapboxSession = String(Int(sessionID)! / 2)
+        let mapboxSession = String(Int(sessionID)! / 30)
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
         
@@ -244,7 +244,7 @@ class WebHandler {
     
     private func makeMapboxOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ sessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
         
-        let mapboxSession = String(Int(sessionID)! / 2)
+        let mapboxSession = String(Int(sessionID)! / 30)
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
         
@@ -295,7 +295,7 @@ class WebHandler {
     
     private func makeMapboxOverlayWithZoomRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ sessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
         
-        let mapboxSession = String(Int(sessionID)! / 2)
+        let mapboxSession = String(Int(sessionID)! / 30)
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
         

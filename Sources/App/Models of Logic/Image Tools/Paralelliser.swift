@@ -13,21 +13,28 @@ import Foundation
 
 class FreeAccountsParalleliser {
     
-    private let allCLoudinaryAccountsCount = 60
+    private let allCLoudinaryAccountsCount = 100
     
     private let endedCloudinryAccounts : [Int] = [0, 1, 2, 3, 7, 8, 9,
                                                   10, 11, 12, 13, 14, 15, 16, 19,
                                                   20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
     
     
-    // Every 1 munutes switch to next account.
+    // Every 30 seconds switch to next account.
     
     public func splitByMinutes() -> String {
+        
+        /*
         let date = Date()
         let calendar = Calendar.current
         let minutes = calendar.component(.minute, from: date)
+        let seconds = calendar.component(.second, from: date)
+        // for 0 to 119
+        var sessionNumber = (minutes * 2) + (seconds / 30)
+        */
         
-        var sessionNumber = minutes
+        let hundreedOfMinutes = Int(Date().timeIntervalSince1970) % 10000 / 100
+        var sessionNumber = hundreedOfMinutes
         
         
         // TODO: Delete this after 1.05.19 =====================
