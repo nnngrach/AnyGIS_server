@@ -148,7 +148,7 @@ class WebHandler {
         
         let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
         
-        let checkedStatus = try urlChecker.checkUrlStatusAndProxy(newUrl, sessionID, req)
+        let checkedStatus = try urlChecker.checkUrlStatusAndProxy(newUrl, sessionID, nil, nil, req)
         
         let resultResponse = checkedStatus.map(to: Response.self) { status in
             
@@ -578,15 +578,99 @@ class WebHandler {
     
     private func makeStravaRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ sessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
         
+        
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
         
         let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
         
-        //let resultResponce = try urlChecker.checkUrlStatusAndProxy(newUrl, sessionID, req)
+        
+        /*
+        let body = ""
+        
+        let checkedStatus = try urlChecker.checkUrlStatusAndProxy(newUrl, sessionID, nil, nil, req)
+        
+        let resultResponse = checkedStatus.map(to: Response.self) { status in
+            
+            var url = ""
+            
+            if status.code == 200 {
+                url = newUrl
+            } else {
+                url = self.imageProcessor.getDirectUrl(url, sessionID)
+            }
+            
+            return req.redirect(to: url)
+        }
+        */
         
         
-        return req.future(req.redirect(to: ""))
+        
+        
+ 
+        let startCookieExtractorScriptUrl = "https://api.apify.com/v2/acts/nnngrach~strava-auth/run-sync?token=ATnnxbF6sE7zEZDmMbZTTppKo&outputRecordKey=OUTPUT&timeout=120"
+        
+        let fetchedDataUrl = "https://api.apify.com/v2/acts/nnngrach~strava-auth/runs/last/dataset/items?token=ATnnxbF6sE7zEZDmMbZTTppKo"
+        
+        struct LoginRequest: Content {
+            var email: String
+            var password: String
+        }
+        
+        struct outputJson: Codable {
+            var name: String
+            var value: String
+        }
+        
+        
+        
+        let loginRequest = LoginRequest(email: "anygis0000@gmail.com", password: "AnyG15server")
+        
+        let starterCookieExtractResponse = try req.client().post(startCookieExtractorScriptUrl) { loginReq in
+            try loginReq.content.encode(loginRequest)
+        }
+        
+        
+        let loaderSavedCookieResponse = starterCookieExtractResponse.flatMap(to: Response.self) { res in
+            return try req.client().get(fetchedDataUrl)
+        }
+        
+        
+        let resultingResponse = loaderSavedCookieResponse.flatMap(to: Response.self) { res in
+            
+            let resonseWithCookies = "\(res.http.body)"
+            
+            if let decodedCookies = try? JSONDecoder().decode([outputJson].self, from: resonseWithCookies) {
+                
+            var urlWithAuthParameters = newUrl
+                
+                for cookie in decodedCookies {
+                    
+                    if cookie.name.hasPrefix("CloudFront") {
+                        
+                        let parametrName = cookie.name.replacingOccurrences(of: "CloudFront-", with: "")
+                        
+                        urlWithAuthParameters.append("&" + parametrName + "=" + cookie.value)
+                    }
+                }
+                
+                
+                return try req.client().get(urlWithAuthParameters)
+                
+            } else {
+                
+                return try self.output.errorResponce("Strava Cookies JSON parsing error", req)
+           
+            }
+
+        }
+        
+
+        return resultingResponse
+
     }
+    
+    
+    
     
     
     

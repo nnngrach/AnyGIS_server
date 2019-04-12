@@ -212,9 +212,23 @@ class UrlFIleChecker {
     
     
     
-    public func checkUrlStatusAndProxy(_ url: String, _ sessionID: String, _ req: Request) throws -> Future<HTTPResponseStatus> {
+    public func checkUrlStatusAndProxy(_ url: String, _ sessionID: String, _ headers: HTTPHeaders?, _ body: LosslessHTTPBodyRepresentable?,  _ req: Request) throws -> Future<HTTPResponseStatus> {
         
-        let checkingResponse = try req.client().get(url)
+
+        var checkingResponse: Future<Response>
+        
+        if headers == nil || body == nil {
+            
+            checkingResponse = try req.client().get(url)
+            
+        } else {
+            
+            let request = Request(http: HTTPRequest(method: .HEAD, url: url, headers: headers!, body: body!), using: req)
+            
+            checkingResponse = try req.client().send(request)
+        }
+        
+        
         
         let resultResponce = checkingResponse.map(to: HTTPResponseStatus.self) { res in
             return res.http.status
