@@ -212,20 +212,12 @@ class UrlFIleChecker {
     
     
     
-    public func checkUrlStatusAndProxy(_ url: String, _ sessionID: String, _ req: Request) throws -> Future<Response> {
+    public func checkUrlStatusAndProxy(_ url: String, _ sessionID: String, _ req: Request) throws -> Future<HTTPResponseStatus> {
         
         let checkingResponse = try req.client().get(url)
         
-        let resultResponce = checkingResponse.map(to: Response.self) { res in
-            let status = res.http.status
-            
-            if status.code == 200 {
-                return res
-            } else {
-                let proxyUrl = self.imageHandler.getDirectUrl(url, sessionID)
-                
-                return req.redirect(to: proxyUrl)
-            }
+        let resultResponce = checkingResponse.map(to: HTTPResponseStatus.self) { res in
+            return res.http.status
         }
         
         return resultResponce

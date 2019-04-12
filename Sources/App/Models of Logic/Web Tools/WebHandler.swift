@@ -80,6 +80,9 @@ class WebHandler {
             case "wgs84_double_overlay":
                 return try self.makeWgs84DoubleOverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
                 
+            case "strava":
+                return try self.makeStravaRedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
+                
                 
             case "checkAllMirrors":
                 return try self.makeMirrorCheckerRedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
@@ -145,9 +148,22 @@ class WebHandler {
         
         let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
         
-        let resultResponce = try urlChecker.checkUrlStatusAndProxy(newUrl, sessionID, req)
+        let checkedStatus = try urlChecker.checkUrlStatusAndProxy(newUrl, sessionID, req)
         
-        return resultResponce
+        let resultResponse = checkedStatus.map(to: Response.self) { status in
+            
+            var url = ""
+            
+            if status.code == 200 {
+                url = newUrl
+            } else {
+                url = self.imageProcessor.getDirectUrl(url, sessionID)
+            }
+            
+            return req.redirect(to: url)
+        }
+        
+        return resultResponse
     }
     
     
@@ -552,6 +568,26 @@ class WebHandler {
         
         return redirectingResponce
     }
+    
+    
+    
+    
+    
+    
+    // MARK: Strava
+    
+    private func makeStravaRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ sessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
+        
+        let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
+        
+        let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
+        
+        //let resultResponce = try urlChecker.checkUrlStatusAndProxy(newUrl, sessionID, req)
+        
+        
+        return req.future(req.redirect(to: ""))
+    }
+    
     
     
     
