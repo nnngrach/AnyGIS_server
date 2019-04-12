@@ -39,11 +39,15 @@ class FreeAccountsParalleliser {
         
         // TODO: Delete this after 1.05.19 =====================
         if endedCloudinryAccounts.contains(sessionNumber) {
+            /*
             sessionNumber = findFirstWorkingAccount(currentAccount: sessionNumber)
             
             if sessionNumber >= allCLoudinaryAccountsCount {
                 sessionNumber = findFirstWorkingAccount(currentAccount: 0)
             }
+            */
+            
+            sessionNumber += 60
         }
         // ==================================================
         

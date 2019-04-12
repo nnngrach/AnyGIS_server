@@ -2,6 +2,7 @@ import Vapor
 import FluentSQLite
 
 
+
 /// Register your application's routes here.
 public func routes(_ router: Router) throws {
     
@@ -102,6 +103,31 @@ public func routes(_ router: Router) throws {
         return response
     }
     
+    
+    
+    
+    router.get("experiments_playground") { req -> String in
+        
+        
+        let testString = """
+        {
+        "url": "https://www.strava.com/login",
+        "renderType": "jpeg",
+        "scripts": {
+                "domReady": [
+                    "https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js",
+                    "if(location.pathname==='/login'){ _pjscMeta.manualWait=true; $('#email')[0].value='anygis0000@gmail.com'; $('#password')[0].value='AnyG15server'; $('#login-button')[0].submit(); }"
+                    ]
+            }
+        }
+        """
+ 
+        
+        
+        let encodedString = testString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+        
+        return encodedString
+    }
     
     
     
