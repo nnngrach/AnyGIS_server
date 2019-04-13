@@ -2311,6 +2311,81 @@
 <qop></qop>
 </onlinemapsource>
 
+<onlinemapsource uid="8888031">
+<name>Strava Heatmap - All (OVERLAY)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_All/{$x}/{$y}/{$z}]]></url>
+<servers>a,b,c</servers>
+<maxzoom>15</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="8888032">
+<name>Strava Heatmap - Ride (OVERLAY)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Ride/{$x}/{$y}/{$z}]]></url>
+<servers>a,b,c</servers>
+<maxzoom>15</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="8888033">
+<name>Strava Heatmap - Run (OVERLAY)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Run/{$x}/{$y}/{$z}]]></url>
+<servers>a,b,c</servers>
+<maxzoom>15</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="8888034">
+<name>Strava Heatmap - Water (OVERLAY)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Water/{$x}/{$y}/{$z}]]></url>
+<servers>a,b,c</servers>
+<maxzoom>15</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="8888035">
+<name>Strava Heatmap - Winter (OVERLAY)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Winter/{$x}/{$y}/{$z}]]></url>
+<servers>a,b,c</servers>
+<maxzoom>15</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
 <onlinemapsource uid="8888024">
 <name>Way Marked Trails - Cycling (OVERLAY)</name>
 <url><![CDATA[https://tile.waymarkedtrails.org/cycling/{$z}/{$x}/{$y}.png]]></url>
