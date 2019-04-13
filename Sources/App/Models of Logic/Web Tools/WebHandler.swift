@@ -580,11 +580,10 @@ class WebHandler {
     
     private func makeStravaRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ sessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
         
-        print ("====================")
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
         
-        var newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
+        var generatedUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
         
         let storedStravaAuthData = try sqlHandler.getServiceDataBy(serviceName: "Strava", req)
 
@@ -600,37 +599,32 @@ class WebHandler {
             // Final URL as a future
             futureUrl = futureUrl.flatMap(to: String.self) {_ in
                 
+                // Load free version of map (/tiles/)
                 if zoom < 12 {
                     
-                    print("zoom < 12")
+                    generatedUrl = generatedUrl.replacingOccurrences(of: "tiles-auth", with: "tiles")
                     
-                    // Load free version of map (/tiles/)
-                    newUrl = newUrl.replacingOccurrences(of: "tiles-auth", with: "tiles")
+                    return req.future(generatedUrl)
+                
                     
-                    return req.future(newUrl)
-                    
-                    
+                // Load map with auth parameters (/tiles-auth/)
                 } else {
                     
-                    print("zoom >= 12")
                     
-                    // Load map with auth parameters (/tiles-auth/)
-                    
-                    let urlWithStoredAuthKey = newUrl + storedStravaAuthLine.apiSecret
-                    
-                    
+                    let urlWithStoredAuthKey = generatedUrl + storedStravaAuthLine.apiSecret
                     
                     let checkedStatus = try self.urlChecker.checkUrlStatusAndProxy(urlWithStoredAuthKey, sessionID, nil, nil, req)
                     
                     
+                    // Checking stored AuthKey
                     let futureUrlWithWorkingAuthKey = checkedStatus.flatMap(to: String.self) { status in
                         
-                        print(status.code)
-                        
+                        // Key is valid. Return the same URL
                         if status.code == 200 {
                             
                             return req.future(urlWithStoredAuthKey)
-                            
+                        
+                        // Key is invalid. Fetching new key. Return URL with new key
                         } else {
                             
                             let stravaAuthParams = try self.stravaParser.getAuthParameters(login: storedStravaAuthLine.userName, password: storedStravaAuthLine.apiKey, req)
@@ -640,7 +634,7 @@ class WebHandler {
                                 storedStravaAuthLine.apiSecret = newParams
                                 storedStravaAuthLine.save(on: req)
                                 
-                                return newUrl + newParams
+                                return generatedUrl + newParams
                             }
                             
                             return futureUrlWithNewAuthKey
@@ -652,12 +646,8 @@ class WebHandler {
             }
             
             
-            
-            
+            // Redirecting user to checked URL
             let response = futureUrl.map(to: Response.self){ resultUrl in
-                
-                print(resultUrl)
-                print ("====================")
                 return req.redirect(to: resultUrl)
             }
             
@@ -666,7 +656,6 @@ class WebHandler {
         
         
         return resultResponse
-        
     }
     
     
