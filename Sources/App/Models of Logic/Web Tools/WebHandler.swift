@@ -11,10 +11,12 @@ import Vapor
 class WebHandler {
     
     let sqlHandler = SQLHandler()
+    let stravaParser = StravaParser()
     let imageProcessor = ImageProcessor()
     let urlPatchCreator = URLPatchCreator()
     let paralleliser = FreeAccountsParalleliser()
     let coordinateTransformer = CoordinateTransformer()
+    
     
     
     let output = OutputResponceGenerator()
@@ -578,95 +580,93 @@ class WebHandler {
     
     private func makeStravaRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ sessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
         
+        print ("====================")
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
         
-        let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
+        var newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
+        
+        let storedStravaAuthData = try sqlHandler.getServiceDataBy(serviceName: "Strava", req)
+
+        var futureUrl: Future<String> = req.future("")
         
         
-        /*
-        let body = ""
         
-        let checkedStatus = try urlChecker.checkUrlStatusAndProxy(newUrl, sessionID, nil, nil, req)
-        
-        let resultResponse = checkedStatus.map(to: Response.self) { status in
+        let resultResponse = storedStravaAuthData.flatMap(to: Response.self) { data in
             
-            var url = ""
+            let storedStravaAuthLine = data[0]
             
-            if status.code == 200 {
-                url = newUrl
-            } else {
-                url = self.imageProcessor.getDirectUrl(url, sessionID)
-            }
             
-            return req.redirect(to: url)
-        }
-        */
-        
-        
-        
-        
- 
-        let startCookieExtractorScriptUrl = "https://api.apify.com/v2/acts/nnngrach~strava-auth/run-sync?token=ATnnxbF6sE7zEZDmMbZTTppKo&outputRecordKey=OUTPUT&timeout=120"
-        
-        let fetchedDataUrl = "https://api.apify.com/v2/acts/nnngrach~strava-auth/runs/last/dataset/items?token=ATnnxbF6sE7zEZDmMbZTTppKo"
-        
-        struct LoginRequest: Content {
-            var email: String
-            var password: String
-        }
-        
-        struct outputJson: Codable {
-            var name: String
-            var value: String
-        }
-        
-        
-        
-        let loginRequest = LoginRequest(email: "anygis0000@gmail.com", password: "AnyG15server")
-        
-        let starterCookieExtractResponse = try req.client().post(startCookieExtractorScriptUrl) { loginReq in
-            try loginReq.content.encode(loginRequest)
-        }
-        
-        
-        let loaderSavedCookieResponse = starterCookieExtractResponse.flatMap(to: Response.self) { res in
-            return try req.client().get(fetchedDataUrl)
-        }
-        
-        
-        let resultingResponse = loaderSavedCookieResponse.flatMap(to: Response.self) { res in
-            
-            let resonseWithCookies = "\(res.http.body)"
-            
-            if let decodedCookies = try? JSONDecoder().decode([outputJson].self, from: resonseWithCookies) {
+            // Final URL as a future
+            futureUrl = futureUrl.flatMap(to: String.self) {_ in
                 
-            var urlWithAuthParameters = newUrl
-                
-                for cookie in decodedCookies {
+                if zoom < 12 {
                     
-                    if cookie.name.hasPrefix("CloudFront") {
+                    print("zoom < 12")
+                    
+                    // Load free version of map (/tiles/)
+                    newUrl = newUrl.replacingOccurrences(of: "tiles-auth", with: "tiles")
+                    
+                    return req.future(newUrl)
+                    
+                    
+                } else {
+                    
+                    print("zoom >= 12")
+                    
+                    // Load map with auth parameters (/tiles-auth/)
+                    
+                    let urlWithStoredAuthKey = newUrl + storedStravaAuthLine.apiSecret
+                    
+                    
+                    
+                    let checkedStatus = try self.urlChecker.checkUrlStatusAndProxy(urlWithStoredAuthKey, sessionID, nil, nil, req)
+                    
+                    
+                    let futureUrlWithWorkingAuthKey = checkedStatus.flatMap(to: String.self) { status in
                         
-                        let parametrName = cookie.name.replacingOccurrences(of: "CloudFront-", with: "")
+                        print(status.code)
                         
-                        urlWithAuthParameters.append("&" + parametrName + "=" + cookie.value)
+                        if status.code == 200 {
+                            
+                            return req.future(urlWithStoredAuthKey)
+                            
+                        } else {
+                            
+                            let stravaAuthParams = try self.stravaParser.getAuthParameters(login: storedStravaAuthLine.userName, password: storedStravaAuthLine.apiKey, req)
+                            
+                            let futureUrlWithNewAuthKey = stravaAuthParams.map(to: String.self) { newParams in
+                                
+                                storedStravaAuthLine.apiSecret = newParams
+                                storedStravaAuthLine.save(on: req)
+                                
+                                return newUrl + newParams
+                            }
+                            
+                            return futureUrlWithNewAuthKey
+                        }
                     }
+                    
+                    return futureUrlWithWorkingAuthKey
                 }
-                
-                
-                return try req.client().get(urlWithAuthParameters)
-                
-            } else {
-                
-                return try self.output.errorResponce("Strava Cookies JSON parsing error", req)
-           
             }
-
+            
+            
+            
+            
+            let response = futureUrl.map(to: Response.self){ resultUrl in
+                
+                print(resultUrl)
+                print ("====================")
+                return req.redirect(to: resultUrl)
+            }
+            
+            return response
         }
         
-
-        return resultingResponse
-
+        
+        return resultResponse
+        
     }
     
     

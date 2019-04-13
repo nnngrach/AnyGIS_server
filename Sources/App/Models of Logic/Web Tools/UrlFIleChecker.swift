@@ -230,11 +230,11 @@ class UrlFIleChecker {
         
         
         
-        let resultResponce = checkingResponse.map(to: HTTPResponseStatus.self) { res in
+        let responseStatus = checkingResponse.map(to: HTTPResponseStatus.self) { res in
             return res.http.status
         }
         
-        return resultResponce
+        return responseStatus
     }
     
     
