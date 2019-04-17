@@ -7,7 +7,7 @@
 <layer>
     <minZoom>0</minZoom>
     <maxZoom>9</maxZoom>
-    <url>http://mt{$serverpart}.google.com/vt/lyrs=t@130,r@206000000{&amp;}hl=ru{&amp;}x={$x}{&amp;}y={$y}{&amp;}z={$z}{&amp;}s=Galileo{&amp;}scale=1{&amp;}hl=ru</url>
+    <url>http://mt{$serverpart}.google.com/vt/lyrs=t@130,r@206000000&amp;hl=ru&amp;x={$x}&amp;y={$y}&amp;z={$z}&amp;s=Galileo&amp;scale=1&amp;hl=ru</url>
     <serverParts>0 1 2 3</serverParts>
 </layer>
 
@@ -57,7 +57,7 @@
 <layer>
     <minZoom>17</minZoom>
     <maxZoom>18</maxZoom>
-    <url>http://mt{$serverpart}.google.com/vt/lyrs=s@176103410{&amp;}x={$x}{&amp;}y={$y}{&amp;}z={$z}{&amp;}s=Galileo{&amp;}scale=1{&amp;}hl=en</url>
+    <url>http://mt{$serverpart}.google.com/vt/lyrs=s@176103410&amp;x={$x}&amp;y={$y}&amp;z={$z}&amp;s=Galileo&amp;scale=1&amp;hl=en</url>
     <serverParts>0 1 2 3</serverParts>
 </layer>
 
