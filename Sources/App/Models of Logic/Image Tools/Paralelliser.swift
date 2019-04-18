@@ -48,7 +48,7 @@ class FreeAccountsParalleliser {
             }
             */
             
-            sessionNumber = sessionNumber / 70 + 30
+            sessionNumber = sessionNumber / 70 + 31
         }
         // ==================================================
         

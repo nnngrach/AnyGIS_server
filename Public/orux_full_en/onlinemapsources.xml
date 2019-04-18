@@ -2417,7 +2417,7 @@
 </onlinemapsource>
 
 <onlinemapsource uid="8888024">
-<name>Way Marked Trails - Cycling (OVERLAY)</name>
+<name>Waymarkedtrails.org - Cycling (OVERLAY)</name>
 <url><![CDATA[https://tile.waymarkedtrails.org/cycling/{$z}/{$x}/{$y}.png]]></url>
 <servers></servers>
 <maxzoom>19</maxzoom>
@@ -2432,7 +2432,7 @@
 </onlinemapsource>
 
 <onlinemapsource uid="8888023">
-<name>Way Marked Trails - Hiking (OVERLAY)</name>
+<name>Waymarkedtrails.org - Hiking (OVERLAY)</name>
 <url><![CDATA[https://tile.waymarkedtrails.org/hiking/{$z}/{$x}/{$y}.png]]></url>
 <servers></servers>
 <maxzoom>19</maxzoom>

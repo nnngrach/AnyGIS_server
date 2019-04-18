@@ -136,21 +136,6 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="10203">
-<name>Thunderforest Transport (GLOBALOSM)</name>
-<url><![CDATA[http://{$s}.tile.thunderforest.com/transport/{$z}/{$x}/{$y}.png?apikey=6170aad10dfd42a38d4d8c709a536f38]]></url>
-<servers>a,b,c</servers>
-<maxzoom>22</maxzoom>
-<minzoom>0</minzoom>
-<projection>MERCATORESFERICA</projection>
-<downloadable>1</downloadable>
-<cacheable>1</cacheable>
-<xop></xop>
-<yop></yop>
-<zop></zop>
-<qop></qop>
-</onlinemapsource>
-
 <onlinemapsource uid="10202">
 <name>Thunderforest Cycle (GLOBALOSMWAYS)</name>
 <url><![CDATA[http://{$s}.tile.thunderforest.com/cycle/{$z}/{$x}/{$y}.png?apikey=6170aad10dfd42a38d4d8c709a536f38]]></url>
@@ -377,7 +362,7 @@
 </onlinemapsource>
 
 <onlinemapsource uid="8888024">
-<name>Way Marked Trails - Cycling (OVERLAY)</name>
+<name>Waymarkedtrails.org - Cycling (OVERLAY)</name>
 <url><![CDATA[https://tile.waymarkedtrails.org/cycling/{$z}/{$x}/{$y}.png]]></url>
 <servers></servers>
 <maxzoom>19</maxzoom>
@@ -392,7 +377,7 @@
 </onlinemapsource>
 
 <onlinemapsource uid="8888023">
-<name>Way Marked Trails - Hiking (OVERLAY)</name>
+<name>Waymarkedtrails.org - Hiking (OVERLAY)</name>
 <url><![CDATA[https://tile.waymarkedtrails.org/hiking/{$z}/{$x}/{$y}.png]]></url>
 <servers></servers>
 <maxzoom>19</maxzoom>
