@@ -109,7 +109,7 @@
 <onlinemapsource uid="6666003">
 <name>Mapnik (PROXY) (GLOBALOSM)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Osm_Mapnik_proxy/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>a,b,c</servers>
 <maxzoom>19</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -126,6 +126,36 @@
 <url><![CDATA[https://{$s}.tile.opentopomap.org/{$z}/{$x}/{$y}.png]]></url>
 <servers>a,b,c</servers>
 <maxzoom>17</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="6666011">
+<name>Strava Heatmap - Ride (GLOBALOSMWAYS)</name>
+<url><![CDATA[https://heatmap-external-a.strava.com/tiles-auth/ride/hot/{$z}/{$x}/{$y}.png?px=256]]></url>
+<servers>a,b,c</servers>
+<maxzoom>15</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="6666012">
+<name>Strava Heatmap - Run (GLOBALOSMWAYS)</name>
+<url><![CDATA[https://heatmap-external-a.strava.com/tiles-auth/run/hot/{$z}/{$x}/{$y}.png?px=256]]></url>
+<servers>a,b,c</servers>
+<maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
@@ -169,7 +199,7 @@
 <onlinemapsource uid="190007">
 <name>Navionics Marine Charts (GLOBALNAUTICAL)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Navionics_Marine_Charts/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>h,t,t,p,:,/,/,b,a,c,k,e,n,d,.,n,a,v,i,o,n,i,c,s,.,i,o,/,t,i,l,e,/,g,e,t,_,k,e,y,/,N,a,v,i,o,n,i,c,s,_,i,n,t,e,r,n,a,l,p,u,r,p,o,s,e,_,0,0,0,0,1,/,w,e,b,a,p,p,.,n,a,v,i,o,n,i,c,s,.,c,o,m,?,_,=</servers>
 <maxzoom>19</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -184,7 +214,7 @@
 <onlinemapsource uid="12040">
 <name>Wikimapia.org (GLOBALINFO)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Wikimapia/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>w,i,k,i,m,a,p,i,a</servers>
 <maxzoom>22</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -214,7 +244,7 @@
 <onlinemapsource uid="424003">
 <name>Генштаб (Все масштабы) (EURASIATOPOGENSHTAB)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Combo_Best_Genshtab/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers> </servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -259,7 +289,7 @@
 <onlinemapsource uid="8888025">
 <name>Navionics Marine Charts (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Navionics_Marine_Charts_layer/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>h,t,t,p,:,/,/,b,a,c,k,e,n,d,.,n,a,v,i,o,n,i,c,s,.,i,o,/,t,i,l,e,/,g,e,t,_,k,e,y,/,N,a,v,i,o,n,i,c,s,_,i,n,t,e,r,n,a,l,p,u,r,p,o,s,e,_,0,0,0,0,1,/,w,e,b,a,p,p,.,n,a,v,i,o,n,i,c,s,.,c,o,m,?,_,=</servers>
 <maxzoom>19</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -304,7 +334,7 @@
 <onlinemapsource uid="8888032">
 <name>Strava Heatmap - Ride (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Ride/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>a,b,c</servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -319,7 +349,7 @@
 <onlinemapsource uid="8888033">
 <name>Strava Heatmap - Run (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Run/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>a,b,c</servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -334,7 +364,7 @@
 <onlinemapsource uid="8888034">
 <name>Strava Heatmap - Water (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Water/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>a,b,c</servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -349,7 +379,7 @@
 <onlinemapsource uid="8888035">
 <name>Strava Heatmap - Winter (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Winter/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>a,b,c</servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
