@@ -13,7 +13,7 @@
 
 <layer>
     <minZoom>0</minZoom>
-    <maxZoom>19</maxZoom>
+    <maxZoom>15</maxZoom>
     <url>https://anygis.herokuapp.com/Tracks_Strava_All_HD/{$x}/{$y}/{$z}</url>
 </layer>
 

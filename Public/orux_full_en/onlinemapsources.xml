@@ -346,6 +346,36 @@
 <qop></qop>
 </onlinemapsource>
 
+<onlinemapsource uid="6666016">
+<name>Mapy Tourists (GLOBALOSM)</name>
+<url><![CDATA[https://m{$s}.mapserver.mapy.cz/base-m/{$z}-{$x}-{$y}]]></url>
+<servers>1,2,3,4</servers>
+<maxzoom>19</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="6666018">
+<name>Michelin transport (GLOBALOSM)</name>
+<url><![CDATA[https://map{$s}.viamichelin.com/map/mapdirect?map=viamichelin&z={$z}&x={$x}&y={$y}&format=png&version=201901161110&layer=background&locale=default&cs=1&protocol=https]]></url>
+<servers>1,2,3,4</servers>
+<maxzoom>19</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
 <onlinemapsource uid="10207">
 <name>OpenTopoMap (GLOBALOSM)</name>
 <url><![CDATA[https://{$s}.tile.opentopomap.org/{$z}/{$x}/{$y}.png]]></url>
@@ -411,6 +441,21 @@
 <url><![CDATA[http://{$s}.tile.thunderforest.com/transport-dark/{$z}/{$x}/{$y}.png?apikey=6170aad10dfd42a38d4d8c709a536f38]]></url>
 <servers>a,b,c</servers>
 <maxzoom>22</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="6666017">
+<name>Mapy Winter (GLOBALOSMWAYS)</name>
+<url><![CDATA[https://m{$s}.mapserver.mapy.cz/winter-m/{$z}-{$x}-{$y}]]></url>
+<servers>1,2,3,4</servers>
+<maxzoom>19</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
