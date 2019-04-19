@@ -543,7 +543,7 @@
 
 <onlinemapsource uid="6666014">
 <name>Strava Heatmap - Winter (GLOBALOSMWAYS)</name>
-<url><![CDATA[https://heatmap-external-a.strava.com/tiles-auth/winter/hot/{$z}/{$x}/{$y}.png?px=256]]></url>
+<url><![CDATA[https://heatmap-external-a.strava.com/tiles-auth/winter/hot/{$z}/{$x}/{$y}.png?px=512]]></url>
 <servers>a,b,c</servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>

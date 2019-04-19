@@ -6,8 +6,8 @@
 
 <layer>
     <minZoom>0</minZoom>
-    <maxZoom>17</maxZoom>
-    <url>http://{$serverpart}.tile.osm.kosmosnimki.ru/night/{$z}/{$x}/{$y}.png</url>
+    <maxZoom>19</maxZoom>
+    <url>https://a.tiles.mapbox.com/v4/mapquest.dark-mb/{$z}/{$x}/{$y}.png?access_token=pk.eyJ1IjoibWFwcXVlc3QiLCJhIjoiY2Q2N2RlMmNhY2NiZTRkMzlmZjJmZDk0NWU0ZGJlNTMifQ.mPRiEubbajc6a5y9ISgydg</url>
     <serverParts>a b c </serverParts>
 </layer>
 
