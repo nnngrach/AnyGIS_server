@@ -7,14 +7,14 @@
 <layer>
     <minZoom>0</minZoom>
     <maxZoom>19</maxZoom>
-    <url>https://a.tiles.mapbox.com/v4/mapquest.dark-mb/{$z}/{$x}/{$y}.png?access_token=pk.eyJ1IjoibWFwcXVlc3QiLCJhIjoiY2Q2N2RlMmNhY2NiZTRkMzlmZjJmZDk0NWU0ZGJlNTMifQ.mPRiEubbajc6a5y9ISgydg</url>
-    <serverParts>a b c </serverParts>
+    <url>https://{$serverpart}.tiles.mapbox.com/v4/mapquest.dark-mb/{$z}/{$x}/{$y}@2x.png?access_token=pk.eyJ1IjoibWFwcXVlc3QiLCJhIjoiY2Q2N2RlMmNhY2NiZTRkMzlmZjJmZDk0NWU0ZGJlNTMifQ.mPRiEubbajc6a5y9ISgydg</url>
+    <serverParts>a b c</serverParts>
 </layer>
 
 <layer>
     <minZoom>0</minZoom>
     <maxZoom>15</maxZoom>
-    <url>https://anygis.herokuapp.com/Tracks_Strava_Winter/{$x}/{$y}/{$z}</url>
+    <url>https://anygis.herokuapp.com/Tracks_Strava_Winter_HD/{$x}/{$y}/{$z}</url>
 </layer>
 
 </layers>
