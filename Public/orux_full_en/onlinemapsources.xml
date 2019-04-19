@@ -2357,7 +2357,7 @@
 </onlinemapsource>
 
 <onlinemapsource uid="8888030">
-<name>Hillshade Mapbox (GLOBALINFO)</name>
+<name>Hillshade Mapbox (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Osm_Mapnik_Mapbox_Hillshades/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>19</maxzoom>
@@ -2612,7 +2612,7 @@
 </onlinemapsource>
 
 <onlinemapsource uid="8888029">
-<name>Wigle.net Wi-fi location (GLOBALINFO)</name>
+<name>Wigle.net Wi-fi location (OVERLAY)</name>
 <url><![CDATA[http://wigle.net/tile?tileX={$x}&tileY={$y}&tileZoom={$z}&coloring=density]]></url>
 <servers></servers>
 <maxzoom>19</maxzoom>
