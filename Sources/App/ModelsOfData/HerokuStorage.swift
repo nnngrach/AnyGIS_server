@@ -8,23 +8,13 @@
 import FluentSQLite
 import Vapor
 
-/// A single entry of a Todo list.
 final class HerokuStorage: SQLiteModel {
     
-    /// The unique identifier for this `Storage`.
     var id: Int?
-    
-    /// A title describing what this `Storage` entails.
     var title: String
-    
-    /// Timestamp of current record
     var unixTime: Int
-    
-    /// Stored data in JSON format
     var data: String
     
-    
-    /// Creates a new `Todo`.
     init(id: Int? = nil, title: String, unixTime: Int, data: String) {
         self.id = id
         self.title = title

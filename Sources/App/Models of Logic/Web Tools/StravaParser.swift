@@ -16,6 +16,7 @@ class StravaParser {
     
 
     
+    
     public func getAuthParameters(login: String, password: String, _ req: Request) throws -> Future<String> {
         
         var httpParameters = ""
@@ -64,7 +65,5 @@ class StravaParser {
         
         return resultingHttpParameters
     }
-    
-    
     
 }

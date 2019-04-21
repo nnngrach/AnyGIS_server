@@ -79,7 +79,7 @@ public func routes(_ router: Router) throws {
 
     
     
-    // To force download file (don't open)
+    // To force download file (don't open as text)
     router.get("download", String.parameter, String.parameter) { req -> Future<Response> in
         
         // Extracting values from URL parameters
@@ -105,7 +105,7 @@ public func routes(_ router: Router) throws {
     
     
     
-    
+    // TODO: delete this?
     router.get("strava_saved_key") { req -> Future<String> in
         
         return try sqlHandler
@@ -117,27 +117,22 @@ public func routes(_ router: Router) throws {
     
     
     
+    
     router.get("experiments_playground") { req -> Future<Response> in
         
-        let jsonData = "{ \"email\": \"your_nick@gmail.com\" , \"password\": \"Your_Password\" }"
-        //let jsonData = "{ 1 : 0}"
-        
+        let jsonData = "{ \"email\": \"your_nick3@gmail.com\" , \"password\": \"Your_Password\" }"
         
         let timestamp = Int(Date().timeIntervalSince1970)
-        
-        //let timestamp = 1234
+
         
         
         let record = HerokuStorage(title: "test", unixTime: timestamp, data: jsonData)
-        print(record)
         
-        let res = try req.client().post("http://localhost:8081/newRecord") { post in
+        let res = try req.client().post("http://localhost:8081/record") { post in
             try post.content.encode(record)
         }
         
         return res
-        
-        //return "Hello, world!"
     }
 
 }
