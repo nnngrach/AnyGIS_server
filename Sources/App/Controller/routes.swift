@@ -117,8 +117,27 @@ public func routes(_ router: Router) throws {
     
     
     
-//    router.get("experiments_playground") { req -> String in
-//        return "Hello, world!"
-//    }
+    router.get("experiments_playground") { req -> Future<Response> in
+        
+        let jsonData = "{ \"email\": \"your_nick@gmail.com\" , \"password\": \"Your_Password\" }"
+        //let jsonData = "{ 1 : 0}"
+        
+        
+        let timestamp = Int(Date().timeIntervalSince1970)
+        
+        //let timestamp = 1234
+        
+        
+        let record = HerokuStorage(title: "test", unixTime: timestamp, data: jsonData)
+        print(record)
+        
+        let res = try req.client().post("http://localhost:8081/newRecord") { post in
+            try post.content.encode(record)
+        }
+        
+        return res
+        
+        //return "Hello, world!"
+    }
 
 }
