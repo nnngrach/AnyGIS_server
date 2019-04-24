@@ -93,7 +93,7 @@ class WebHandler {
                 return try self.makeMultyLayerRedirectingResponse(mapObject, mapName, xText, yText, zoom, sessionID, req)
                 
             default:
-                return try self.output.errorResponce("Unknown value MapMode in data base", req)
+                return try self.output.serverErrorResponce("Unknown value MapMode in data base", req)
             }
             
         }
@@ -581,6 +581,9 @@ class WebHandler {
     private func makeStravaRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ sessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
         
         
+        let isInAuthProcessingStausText = "The app is processing Strava authorization. Please reload this map after 2 minutes"
+        
+        
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
         
         var generatedUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
@@ -610,6 +613,9 @@ class WebHandler {
                 // Load map with auth parameters (/tiles-auth/)
                 } else {
                     
+                    // Stop if is in auth processing now
+                    guard storedStravaAuthLine.apiSecret != isInAuthProcessingStausText else {return req.future(isInAuthProcessingStausText)}
+                    
                     
                     let urlWithStoredAuthKey = generatedUrl + storedStravaAuthLine.apiSecret
                     
@@ -626,6 +632,11 @@ class WebHandler {
                         
                         // Key is invalid. Fetching new key. Return URL with new key
                         } else {
+                            
+                            // Add stopper-flag
+                            storedStravaAuthLine.apiSecret = isInAuthProcessingStausText
+                            storedStravaAuthLine.save(on: req)
+                            
                             
                             let stravaAuthParams = try self.stravaParser.getAuthParameters(login: storedStravaAuthLine.userName, password: storedStravaAuthLine.apiKey, req)
                             
@@ -648,6 +659,9 @@ class WebHandler {
             
             // Redirecting user to checked URL
             let response = futureUrl.map(to: Response.self){ resultUrl in
+                
+                guard resultUrl != isInAuthProcessingStausText else {return self.output.customErrorResponce(501, isInAuthProcessingStausText, req)}
+                
                 return req.redirect(to: resultUrl)
             }
             

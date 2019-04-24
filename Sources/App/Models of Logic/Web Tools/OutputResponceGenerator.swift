@@ -10,9 +10,15 @@ import Vapor
 
 class OutputResponceGenerator {
     
-    public func errorResponce (_ description: String, _ req: Request) throws -> Future<Response> {
+    public func serverErrorResponce (_ description: String, _ req: Request) throws -> Future<Response> {
         
         throw Abort(.internalServerError, reason: description)
+    }
+    
+    
+    public func customErrorResponce (_ statusCode: Int, _ description: String, _ req: Request) -> Response {
+        
+        return Response(http: HTTPResponse(status: HTTPResponseStatus(statusCode: statusCode, reasonPhrase: description)), using: req)
     }
     
     
