@@ -70,7 +70,7 @@ public func routes(_ router: Router) throws {
     // MARK: Storage functions
     // Start checker for cashe storage. And clean it if needed.
     // Launched by Uptimerobot.com
-    router.get("cashe_eraser") { req -> String in
+    router.get("new_day_status_update") { req -> String in
         try casheHandler.erase(req)
         return "Success: Cloudinary cashe is empty"
     }
@@ -105,15 +105,15 @@ public func routes(_ router: Router) throws {
     
     
     
-    // TODO: delete this?
-    router.get("strava_saved_key") { req -> Future<String> in
-        
-        return try sqlHandler
-            .getServiceDataBy(serviceName: "Strava", req)
-            .map(to: String.self) { data in
-                return data[0].apiSecret
-        }
-    }
+//    // TODO: delete this?
+//    router.get("strava_saved_key") { req -> Future<String> in
+//
+//        return try sqlHandler
+//            .getServiceDataBy(serviceName: "Strava", req)
+//            .map(to: String.self) { data in
+//                return data[0].apiSecret
+//        }
+//    }
     
     
     
