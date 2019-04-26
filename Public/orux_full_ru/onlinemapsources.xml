@@ -796,6 +796,21 @@
 <qop></qop>
 </onlinemapsource>
 
+<onlinemapsource uid="420009">
+<name>Советские военные карты 1км (вся планета) (EURASIATOPOGENSHTAB)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Other_Ru_Topomapper/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>13</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
 <onlinemapsource uid="424006">
 <name>Топокарты (Все масштабы) (EURASIATOPOSOVIETS)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Combo_Best_Topo/{$x}/{$y}/{$z}]]></url>

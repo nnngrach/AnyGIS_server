@@ -1321,6 +1321,21 @@
 <qop></qop>
 </onlinemapsource>
 
+<onlinemapsource uid="420009">
+<name>Soviet military map 1km (planet) (EURASIATOPOGENSHTAB)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Other_Ru_Topomapper/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>13</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
 <onlinemapsource uid="101002">
 <name>Adraces (EURASIAHIKINGMOSCOW)</name>
 <url><![CDATA[https://tiles.nakarte.me/adraces/{$z}/{$x}/{$y}]]></url>
