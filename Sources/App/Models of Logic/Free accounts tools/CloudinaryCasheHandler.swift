@@ -9,38 +9,25 @@ import Foundation
 import Vapor
 
 
-class CasheHandler {
+class CloudinaryCasheHandler {
     
     let sqlHandler = SQLHandler()
     let deletingPerTimeLimit = 1000
     
     
-    public func erase(_ req: Request) throws {
+    
+    func erase(_ account: ServiceData, _ stats: CloudinaryUsage, _ req: Request) throws {
         
-        guard isCleaningTime() else {return}
+        let imagesCountInStorage = stats.objects.usage
         
-        try sqlHandler
-            .getServiceDataBy(serviceName: "Cloudinary", req)
-            .map { data in
-                
-                for account in data {
-                    try self.checkAndDeleteFromFolder("fetch", account, req)
-                    try self.checkAndDeleteFromFolder("upload", account, req)
-                }
+        if imagesCountInStorage > deletingPerTimeLimit {
+            
+            try checkAndDeleteFromFolder("fetch", account, req)
+            
+            try checkAndDeleteFromFolder("upload", account, req)
         }
     }
     
-    
-    
-    
-    // Cloudinary cashe will be cleaning
-    // at the 1-st day of every month.
-    private func isCleaningTime() -> Bool {
-        let date = Date()
-        let calendar = Calendar.current
-        let day = calendar.component(.day, from: date)
-        return day == 1
-    }
     
     
     

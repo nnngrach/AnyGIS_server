@@ -26,19 +26,8 @@ class FreeAccountsParalleliser {
     }
     
     
-    //temp
-    public func getCloudinarySessionId() -> String {
-        
-        let accountCount = 100
-        
-        let randomNumber = getRandomByUnixTimeMinutes() / accountCount
-        
-        return String(randomNumber)
-    }
     
-    
-    
-    public func getCloudinarySessionId2(_ req: Request) throws -> Future<String>{
+    public func getCloudinarySessionId(_ req: Request) throws -> Future<String>{
         
         let randomNumber = getRandomByUnixTimeMinutes()
         

@@ -8,7 +8,8 @@ public func routes(_ router: Router) throws {
     
     let webHandler = WebHandler()
     let sqlHandler = SQLHandler()
-    let casheHandler = CasheHandler()
+    let casheHandler = CloudinaryCasheHandler()
+    let cloudinaryHandler = CloudinaryAccountsHandler()
     
     
     
@@ -71,7 +72,9 @@ public func routes(_ router: Router) throws {
     // Start checker for cashe storage. And clean it if needed.
     // Launched by Uptimerobot.com
     router.get("new_day_status_update") { req -> String in
-        try casheHandler.erase(req)
+        try cloudinaryHandler.newDayStatusUpdate(req)
+        
+        //try casheHandler.erase(req)
         return "Success: Cloudinary cashe is empty"
     }
     

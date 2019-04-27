@@ -36,7 +36,7 @@ class WebHandler {
         let mapData = try sqlHandler.getBy(mapName: mapName, req)
         
         // Generate Session mumber to use with multy channel processing
-        let cloudinarySessionId = paralleliser.getCloudinarySessionId()
+        let cloudinarySessionId = try paralleliser.getCloudinarySessionId(req)
         let mapboxSessionId = paralleliser.getMapboxSessionId()
         
         
@@ -145,29 +145,34 @@ class WebHandler {
     
     
     
-    private func makeRedirectingWithProxyResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeRedirectingWithProxyResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: Future<String>, _ req: Request) throws -> EventLoopFuture<Response> {
         
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
         
         let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
         
-        let checkedStatus = try urlChecker.checkUrlStatusAndProxy(newUrl, cloudinarySessionID, nil, nil, req)
         
-        let resultResponse = checkedStatus.map(to: Response.self) { status in
+        return cloudinarySessionID.flatMap(to: Response.self) { cloudinaryID  in
+        
+            let checkedStatus = try self.urlChecker.checkUrlStatusAndProxy(newUrl, nil, nil, req)
             
-            var url = ""
-            
-            if status.code == 200 {
-                url = newUrl
-            } else {
-                url = self.imageProcessor.getDirectUrl(url, cloudinarySessionID)
+            let resultResponse = checkedStatus.map(to: Response.self) { status in
+                
+                var url = ""
+                
+                if status.code == 200 {
+                    url = newUrl
+                } else {
+                    url = self.imageProcessor.getDirectUrl(url, cloudinaryID)
+                }
+                
+                return req.redirect(to: url)
             }
             
-            return req.redirect(to: url)
+            return resultResponse
         }
         
-        return resultResponse
     }
     
     
@@ -176,7 +181,7 @@ class WebHandler {
     
     // MARK: Simple two-layer functions
     
-    private func makeOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: Future<String>, _ req: Request) throws -> EventLoopFuture<Response> {
         
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
@@ -198,19 +203,23 @@ class WebHandler {
             // Synchronization Futrure to data object.
             return baseMapData.flatMap(to: Response.self) { baseObject  in
                 return overlayMapData.flatMap(to: Response.self) { overObject  in
+                    return cloudinarySessionID.flatMap(to: Response.self) { cloudinaryID  in
+                    
                     
                     let baseUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, baseObject.backgroundUrl, baseObject.backgroundServerName)
                     
                     let overlayUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, overObject.backgroundUrl, overObject.backgroundServerName)
                     
                     // Upload all images to online image-processor
-                    let loadingResponces = try self.imageProcessor.uploadTwoTiles([baseUrl, overlayUrl], cloudinarySessionID, req)
+                    let loadingResponces = try self.imageProcessor.uploadTwoTiles([baseUrl, overlayUrl], cloudinaryID, req)
                     
                     // Redirect to URL of resulting file in image-processor storage
                     return self.imageProcessor.syncTwo(loadingResponces, req) { res in
                         
-                        let newUrl = self.imageProcessor.getUrlOverlay(baseUrl, overlayUrl, cloudinarySessionID)
+                        let newUrl = self.imageProcessor.getUrlOverlay(baseUrl, overlayUrl, cloudinaryID)
                         return self.output.redirect(to: newUrl, with: req)
+                        
+                        }
                     }
                 }
             }
@@ -225,7 +234,7 @@ class WebHandler {
     
     // MARK: Mapbox transformation functions
     
-    private func makeMapboxZoomRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: String, _ mapboxSessionId: String, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeMapboxZoomRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: Future<String>, _ mapboxSessionId: String, _ req: Request) throws -> EventLoopFuture<Response> {
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
         
@@ -236,20 +245,22 @@ class WebHandler {
         // Synchronization Futrure to data object.
         // Generating redirect URL-response to processed image.
         let redirectingResponce = mapList.flatMap(to: Response.self) { mapListData  in
-            
-            let mapboxIndex = Int(mapboxSessionId) ?? 0
-            
-            let fourTilesInNextZoomUrls = self.urlPatchCreator.calculateFourNextZoomTilesUrls(tileNumbers.x, tileNumbers.y, zoom, mapListData[mapboxIndex].url, "")
-            
-            let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesInNextZoomUrls, cloudinarySessionID, req)
-            
-            // Get URL of resulting file in image-processor storage
-            return self.imageProcessor.syncFour(loadingResponces, req) { res1 in
+            return cloudinarySessionID.flatMap(to: Response.self) { cloudinaryID  in
                 
-                let processedImageUrl = self.imageProcessor.getUrlWithZooming(fourTilesInNextZoomUrls, tileNumbers.x, tileNumbers.y, cloudinarySessionID)
+                let mapboxIndex = Int(mapboxSessionId) ?? 0
                 
-                return self.output.redirect(to: processedImageUrl, with: req)
+                let fourTilesInNextZoomUrls = self.urlPatchCreator.calculateFourNextZoomTilesUrls(tileNumbers.x, tileNumbers.y, zoom, mapListData[mapboxIndex].url, "")
                 
+                let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesInNextZoomUrls, cloudinaryID, req)
+                
+                // Get URL of resulting file in image-processor storage
+                return self.imageProcessor.syncFour(loadingResponces, req) { res1 in
+                    
+                    let processedImageUrl = self.imageProcessor.getUrlWithZooming(fourTilesInNextZoomUrls, tileNumbers.x, tileNumbers.y, cloudinaryID)
+                    
+                    return self.output.redirect(to: processedImageUrl, with: req)
+                    
+                }
             }
         }
         
@@ -260,7 +271,7 @@ class WebHandler {
     
     
     
-    private func makeMapboxOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: String, _ mapboxSessionId: String, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeMapboxOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: Future<String>, _ mapboxSessionId: String, _ req: Request) throws -> EventLoopFuture<Response> {
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
         
@@ -282,6 +293,7 @@ class WebHandler {
             // Synchronization Futrure to data object.
             return baseMapData.flatMap(to: Response.self) { baseObject  in
                 return overlayMapsData.flatMap(to: Response.self) { overObject  in
+                    return cloudinarySessionID.flatMap(to: Response.self) { cloudinaryID  in
                     
                     let index = Int(mapboxSessionId) ?? 0
                     
@@ -290,13 +302,14 @@ class WebHandler {
                     let overlayUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, overObject[index].url, "")
                     
                     // Upload all images to online image-processor
-                    let loadingResponces = try self.imageProcessor.uploadTwoTiles([baseUrl, overlayUrl], cloudinarySessionID, req)
+                    let loadingResponces = try self.imageProcessor.uploadTwoTiles([baseUrl, overlayUrl], cloudinaryID, req)
                     
                     // Redirect to URL of resulting file in image-processor storage
                     return self.imageProcessor.syncTwo(loadingResponces, req) { res in
                         
-                        let newUrl = self.imageProcessor.getUrlOverlay(baseUrl, overlayUrl, cloudinarySessionID)
+                        let newUrl = self.imageProcessor.getUrlOverlay(baseUrl, overlayUrl, cloudinaryID)
                         return self.output.redirect(to: newUrl, with: req)
+                        }
                     }
                 }
             }
@@ -309,7 +322,7 @@ class WebHandler {
     
     
     
-    private func makeMapboxOverlayWithZoomRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: String, _ mapboxSessionId: String, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeMapboxOverlayWithZoomRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: Future<String>, _ mapboxSessionId: String, _ req: Request) throws -> EventLoopFuture<Response> {
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
         
@@ -331,34 +344,36 @@ class WebHandler {
             // Synchronization Futrure to data object.
             return baseMapData.flatMap(to: Response.self) { baseObject  in
                 return overlayMapData.flatMap(to: Response.self) { overObject  in
+                    return cloudinarySessionID.flatMap(to: Response.self) { cloudinaryID  in
                     
-                    let index = Int(mapboxSessionId) ?? 0
-                    
-                    let baseUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, baseObject.backgroundUrl, baseObject.backgroundServerName)
-                    
-                    
-                    // To make one image with offset I need four nearest to crop.
-                    let fourTilesInNextZoomUrls = self.urlPatchCreator.calculateFourNextZoomTilesUrls(tileNumbers.x, tileNumbers.y, zoom, overObject[index].url, "")
-                    
-                    
-                    
-                    // Upload all images to online image-processor
-                    let loadingBaseResponce = try self.imageProcessor.uploadOneTile(baseUrl, cloudinarySessionID, req)
-                    
-                    let loadingOverResponces = try self.imageProcessor.uploadFourTiles(fourTilesInNextZoomUrls, cloudinarySessionID, req)
-                    
-                    
-                    
-                    // Get URL of resulting file in image-processor storage
-                    return self.imageProcessor.syncFour(loadingOverResponces, req) { res1 in
+                        let index = Int(mapboxSessionId) ?? 0
                         
-                        return self.imageProcessor.syncOne(loadingBaseResponce, req) { res2 in
+                        let baseUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, baseObject.backgroundUrl, baseObject.backgroundServerName)
+                        
+                        
+                        // To make one image with offset I need four nearest to crop.
+                        let fourTilesInNextZoomUrls = self.urlPatchCreator.calculateFourNextZoomTilesUrls(tileNumbers.x, tileNumbers.y, zoom, overObject[index].url, "")
+                        
+                        
+                        
+                        // Upload all images to online image-processor
+                        let loadingBaseResponce = try self.imageProcessor.uploadOneTile(baseUrl, cloudinaryID, req)
+                        
+                        let loadingOverResponces = try self.imageProcessor.uploadFourTiles(fourTilesInNextZoomUrls, cloudinaryID, req)
+                        
+                        
+                        
+                        // Get URL of resulting file in image-processor storage
+                        return self.imageProcessor.syncFour(loadingOverResponces, req) { res1 in
                             
-                            
-                            
-                            let processedImageUrl = self.imageProcessor.getUrlWithZoomingAndOverlay(baseUrl, fourTilesInNextZoomUrls, tileNumbers.x, tileNumbers.y, cloudinarySessionID)
-                            
-                            return self.output.redirect(to: processedImageUrl, with: req)
+                            return self.imageProcessor.syncOne(loadingBaseResponce, req) { res2 in
+                                
+                                
+                                
+                                let processedImageUrl = self.imageProcessor.getUrlWithZoomingAndOverlay(baseUrl, fourTilesInNextZoomUrls, tileNumbers.x, tileNumbers.y, cloudinaryID)
+                                
+                                return self.output.redirect(to: processedImageUrl, with: req)
+                            }
                         }
                     }
                 }
@@ -422,7 +437,7 @@ class WebHandler {
     
     // MARK: WGS-84 transformation functions
     
-    private func makeWgs84RedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeWgs84RedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: Future<String>, _ req: Request) throws -> EventLoopFuture<Response> {
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
         let coordinates = coordinateTransformer.tileNumberToCoordinates(tileNumbers.x, tileNumbers.y, zoom)
@@ -430,32 +445,36 @@ class WebHandler {
         let tilePosition = coordinateTransformer.getWGS84Position(coordinates.lat_deg, coordinates.lon_deg, withZoom: zoom)
         
         
-        // To make image with offset I'm cropping one image from four nearest images.
-        let fourTilesAroundUrls = urlPatchCreator.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
+        return cloudinarySessionID.flatMap(to: Response.self) { cloudinaryID  in
         
-        // Upload all images to online image-processor
-        let loadingResponces = try imageProcessor.uploadFourTiles(fourTilesAroundUrls, cloudinarySessionID, req)
+            // To make image with offset I'm cropping one image from four nearest images.
+            let fourTilesAroundUrls = self.urlPatchCreator.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
+        
+            // Upload all images to online image-processor
+            let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesAroundUrls, cloudinaryID, req)
         
         
-        // Get URL of resulting file in image-processor storage
-        let redirectingResponce = imageProcessor.syncFour(loadingResponces, req) { res in
+            // Get URL of resulting file in image-processor storage
+            let redirectingResponce = self.imageProcessor.syncFour(loadingResponces, req) { res in
+                
+                //print(fourTilesAroundUrls)
+                
+                let processedImageUrl = self.imageProcessor.getUrlWithOffset(fourTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY, cloudinaryID)
+                
+                //print(processedImageUrl)
+                
+                return self.output.redirect(to: processedImageUrl, with: req)
+            }
+        
+            return redirectingResponce
             
-            //print(fourTilesAroundUrls)
-            
-            let processedImageUrl = self.imageProcessor.getUrlWithOffset(fourTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY, cloudinarySessionID)
-            
-            //print(processedImageUrl)
-            
-            return self.output.redirect(to: processedImageUrl, with: req)
         }
-        
-        return redirectingResponce
     }
     
     
     
     
-    private func makeWgs84OverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeWgs84OverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: Future<String>, _ req: Request) throws -> EventLoopFuture<Response> {
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
         let coordinates = coordinateTransformer.tileNumberToCoordinates(tileNumbers.x, tileNumbers.y, zoom)
@@ -482,6 +501,8 @@ class WebHandler {
             // Synchronization Futrure to data object.
             return baseMapData.flatMap(to: Response.self) { baseObject  in
                 return overlayMapData.flatMap(to: Response.self) { overObject  in
+                    return cloudinarySessionID.flatMap(to: Response.self) { cloudinaryID  in
+                    
                     
                     // To make one image with offset I need four nearest to crop.
                     let fourTilesAroundUrls = self.urlPatchCreator.calculateFourTilesUrls(tileWGSPosition.x, tileWGSPosition.y, zoom, baseObject.backgroundUrl, baseObject.backgroundServerName)
@@ -492,21 +513,22 @@ class WebHandler {
                     print(overlayUrl)
                     
                     // Upload all images to online image-processor
-                    let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesAroundUrls, cloudinarySessionID, req)
+                    let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesAroundUrls, cloudinaryID, req)
                     
-                    let loadingOverResponce = try self.imageProcessor.uploadOneTile(overlayUrl, cloudinarySessionID, req)
+                    let loadingOverResponce = try self.imageProcessor.uploadOneTile(overlayUrl, cloudinaryID, req)
                     
                     // Get URL of resulting file in image-processor storage
                     return self.imageProcessor.syncFour(loadingResponces, req) { res1 in
                         
                         return self.imageProcessor.syncOne(loadingOverResponce, req) { res2 in
                             
-                            let processedImageUrl = self.imageProcessor.getUrlWithOffsetAndOverlay(fourTilesAroundUrls, overlayUrl, tileWGSPosition.offsetX, tileWGSPosition.offsetY, cloudinarySessionID)
+                            let processedImageUrl = self.imageProcessor.getUrlWithOffsetAndOverlay(fourTilesAroundUrls, overlayUrl, tileWGSPosition.offsetX, tileWGSPosition.offsetY, cloudinaryID)
                             
                             return self.output.redirect(to: processedImageUrl, with: req)
                         }
                     }
                 }
+            }
             }
         }
         
@@ -516,7 +538,7 @@ class WebHandler {
     
     
     
-    private func makeWgs84DoubleOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeWgs84DoubleOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: Future<String>, _ req: Request) throws -> EventLoopFuture<Response> {
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
         let coordinates = coordinateTransformer.tileNumberToCoordinates(tileNumbers.x, tileNumbers.y, zoom)
@@ -540,6 +562,7 @@ class WebHandler {
             // Synchronization Futrure to data object.
             return baseMapData.flatMap(to: Response.self) { baseObject  in
                 return overlayMapData.flatMap(to: Response.self) { overObject  in
+                    return cloudinarySessionID.flatMap(to: Response.self) { cloudinaryID  in
                     
                     // To make one image with offset I need four nearest to crop.
                     let fourTilesAroundUrls = self.urlPatchCreator.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, baseObject.backgroundUrl, baseObject.backgroundServerName)
@@ -547,18 +570,19 @@ class WebHandler {
                     let fourOverTilesAroundUrls = self.urlPatchCreator.calculateFourTilesUrls(tilePosition.x, tilePosition.y, zoom, overObject.backgroundUrl, overObject.backgroundServerName)
                     
                     // Upload all images to online image-processor
-                    let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesAroundUrls, cloudinarySessionID, req)
+                    let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesAroundUrls, cloudinaryID, req)
                     
-                    let loadingOverResponces = try self.imageProcessor.uploadFourTiles(fourOverTilesAroundUrls, cloudinarySessionID, req)
+                    let loadingOverResponces = try self.imageProcessor.uploadFourTiles(fourOverTilesAroundUrls, cloudinaryID, req)
                     
                     // Get URL of resulting file in image-processor storage
                     return self.imageProcessor.syncFour(loadingResponces, req) { res1 in
                         return self.imageProcessor.syncFour(loadingOverResponces, req) { res2 in
                             
-                            let processedImageUrl = self.imageProcessor.getUrlWithOffsetAndDoubleOverlay(fourTilesAroundUrls, fourOverTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY, cloudinarySessionID)
+                            let processedImageUrl = self.imageProcessor.getUrlWithOffsetAndDoubleOverlay(fourTilesAroundUrls, fourOverTilesAroundUrls, tilePosition.offsetX, tilePosition.offsetY, cloudinaryID)
                             
                             return self.output.redirect(to: processedImageUrl, with: req)
                         }
+                    }
                     }
                 }
             }
@@ -574,7 +598,7 @@ class WebHandler {
     
     // MARK: Strava
     
-    private func makeStravaRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeStravaRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: Future<String>, _ req: Request) throws -> EventLoopFuture<Response> {
         
         
         let isInAuthProcessingStausText = "The app is processing Strava authorization. Please reload this map after 2 minutes"
@@ -615,7 +639,7 @@ class WebHandler {
                     
                     let urlWithStoredAuthKey = generatedUrl + storedStravaAuthLine.apiSecret
                     
-                    let checkedStatus = try self.urlChecker.checkUrlStatusAndProxy(urlWithStoredAuthKey, cloudinarySessionID, nil, nil, req)
+                    let checkedStatus = try self.urlChecker.checkUrlStatusAndProxy(urlWithStoredAuthKey, nil, nil, req)
                     
                     
                     // Checking stored AuthKey
@@ -678,7 +702,7 @@ class WebHandler {
     
     // MARK: Url checking multy layer functions
 
-    private func makeMirrorCheckerRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeMirrorCheckerRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: Future<String>, _ req: Request) throws -> EventLoopFuture<Response> {
         
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
@@ -692,7 +716,7 @@ class WebHandler {
     
     
     
-    private func makeMultyLayerRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: String, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeMultyLayerRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: Future<String>, _ req: Request) throws -> EventLoopFuture<Response> {
         
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
