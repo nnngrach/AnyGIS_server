@@ -106,13 +106,15 @@ public func routes(_ router: Router) throws {
     
     
     
-//    router.get("experiments_playground") { req -> Future<Response> in
-//
-//        let handler = CloudinaryAccountsHandler()
-//        //return try handler.writeToDB(title: "test", jsonData: "32dfgg1", req)
-//        //return try handler.readAllFromDB(title: "test", req)
-//        //return try handler.readLastFromDB(title: "test", req)
-//
-//    }
+    router.get("experiments_playground") { req -> String in
+
+        let handler = CloudinaryAccountsHandler()
+        //return try handler.writeToDB(title: "test", jsonData: "32dfgg1", req)
+        //return try handler.readAllFromDB(title: "test", req)
+        //return try handler.readLastFromDB(title: "test", req)
+        try handler.newDayStatusUpdate(req)
+        
+        return "Hello, world!"
+    }
 
 }
