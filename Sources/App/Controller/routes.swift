@@ -69,12 +69,11 @@ public func routes(_ router: Router) throws {
     
     
     // MARK: Storage functions
-    // Start checker for cashe storage. And clean it if needed.
     // Launched by Uptimerobot.com
+    // Start checker for cashe storage. And clean it if needed.
+    // Deactivate unworking accounts.
     router.get("new_day_status_update") { req -> String in
         try cloudinaryHandler.newDayStatusUpdate(req)
-        
-        //try casheHandler.erase(req)
         return "Success: Cloudinary cashe is empty"
     }
     
@@ -109,24 +108,8 @@ public func routes(_ router: Router) throws {
     
     
     
-    router.get("experiments_playground") { req -> String in
-
-        let handler = CloudinaryAccountsHandler()
-        //return try handler.writeToDB(title: "test", jsonData: "32dfgg1", req)
-        //return try handler.readAllFromDB(title: "test", req)
-        //return try handler.readLastFromDB(title: "test", req)
-        //try handler.newDayStatusUpdate(req)
-        
- 
-        
-//        let testJson = """
-//{"plan":"Free","last_updated":"2019-04-26","transformations":{"usage":4588,"credits_usage":4.59},"objects":{"usage":4620},"bandwidth":{"usage":12412231,"credits_usage":0.01},"storage":{"usage":139172203,"credits_usage":0.13},"credits":{"usage":4.73,"limit":25.0,"used_percent":18.92},"requests":1483,"resources":3446,"derived_resources":1174,"media_limits":{"image_max_size_bytes":10485760,"video_max_size_bytes":104857600,"raw_max_size_bytes":10485760,"image_max_px":25000000,"asset_max_total_px":50000000}}
-//"""
-//
-//        let decoded = try JSONDecoder().decode(CloudinaryUsage.self, from: testJson)
-//        print(decoded)
-        
-        return "Hello, world!"
-    }
+//    router.get("experiments_playground") { req -> String in
+//        return "Hello, world!"
+//    }
 
 }
