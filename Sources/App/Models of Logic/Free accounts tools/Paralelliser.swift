@@ -5,91 +5,98 @@
 //  Created by Nnngrach on 06/02/2019.
 //
 
-import Foundation
+import Vapor
 
-// I have 60 free Cloudinary accounts
+// I have 100 free Cloudinary accounts
 // with names like anygis0, anygis1, anygis2 ...etc.
 // So, number of using account equals sessionID.
 
 class FreeAccountsParalleliser {
     
+    let sqlHandler = SQLHandler()
+    let mapboxAccountCount = 30
+    let cloudinaryAccountCount = 100
     
     
     public func getMapboxSessionId() -> String {
-        let accountCount = 30
-        let randomNumber = getRandomByUnixTimeMinutes() / accountCount
-        return String(randomNumber)
-    }
-    
-    
-    public func getCloudinarySessionId() -> String {
-        let accountCount = 30
-        let randomNumber = getRandomByUnixTimeMinutes() / accountCount
-        return String(randomNumber)
-    }
-    
-    
-    
-    
-    private let allCLoudinaryAccountsCount = 100
-    
-    private let endedCloudinryAccounts : [Int] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
-                                                  10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-                                                  20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
-                                                  30]
-    
-    
-    // Every 30 seconds switch to next account.
-    
-    public func getRandomByUnixTimeMinutes() -> Int {
         
-        /*
-        let date = Date()
-        let calendar = Calendar.current
-        let minutes = calendar.component(.minute, from: date)
-        let seconds = calendar.component(.second, from: date)
-        // for 0 to 119
-        var sessionNumber = (minutes * 2) + (seconds / 30)
-        */
+        let randomNumber = getRandomByUnixTimeMinutes() / mapboxAccountCount
+        
+        return String(randomNumber)
+    }
+    
+    
+    //temp
+    public func getCloudinarySessionId() -> String {
+        
+        let accountCount = 100
+        
+        let randomNumber = getRandomByUnixTimeMinutes() / accountCount
+        
+        return String(randomNumber)
+    }
+    
+    
+    
+    public func getCloudinarySessionId2(_ req: Request) throws -> Future<String>{
+        
+        let randomNumber = getRandomByUnixTimeMinutes()
+        
+        let workingAccountsString = try getWorkingAccountsList(req)
+        
+        let firstWorkingAccount = workingAccountsString.map { text -> String in
+            
+            let workingAccounts = text.components(separatedBy: ";")
+        
+            let firstWorkingAccountNumber = try self.findFirstWorkingAccount(randomNumber, workingAccounts)
+            
+            return String(firstWorkingAccountNumber)
+        }
+        
+        return firstWorkingAccount
+    }
+    
+    
+    
+    private func getRandomByUnixTimeMinutes() -> Int {
         
         let hundreedOfMinutes = Int(Date().timeIntervalSince1970) % 10000 / 100
-        var sessionNumber = hundreedOfMinutes
         
+        return hundreedOfMinutes
+    }
+    
+    
+    
+    private func getWorkingAccountsList(_ req: Request) throws -> Future<String> {
         
-        // TODO: Delete this after 1.05.19 =====================
-        if endedCloudinryAccounts.contains(sessionNumber) {
-            /*
-            sessionNumber = findFirstWorkingAccount(currentAccount: sessionNumber)
+        return try sqlHandler.getServiceDataBy(serviceName: "CloudinaryWorkedAccountsList", req)
+            .map { record -> String in
+                
+                return record[0].apiSecret
+        }
+    }
+    
+    
+
+    
+    private func findFirstWorkingAccount(_ randomSessionNumber: Int, _ workingAccountsList: [String]) throws -> Int {
+        
+        for i in randomSessionNumber ..< cloudinaryAccountCount {
             
-            if sessionNumber >= allCLoudinaryAccountsCount {
-                sessionNumber = findFirstWorkingAccount(currentAccount: 0)
+            if workingAccountsList.contains(String(randomSessionNumber)) {
+                return i
             }
-            */
+        }
+        
+        for i in 0 ..< randomSessionNumber {
             
-            sessionNumber = sessionNumber / 69 + 34
-        }
-        // ==================================================
-        
-        return sessionNumber
-    }
-    
-    
-    
-    
-    
-    private func findFirstWorkingAccount(currentAccount: Int) -> Int {
-        
-        var nextAccount = currentAccount
-        
-        while endedCloudinryAccounts.contains(nextAccount) {
-            nextAccount += 1
+            if workingAccountsList.contains(String(randomSessionNumber)) {
+                return i
+            }
         }
         
-        return nextAccount
+        throw GlobalErrors.internalServerError
     }
     
-    
-    
-    
-    
+   
 }
