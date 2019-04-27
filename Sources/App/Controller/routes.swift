@@ -105,34 +105,14 @@ public func routes(_ router: Router) throws {
     
     
     
-//    // TODO: delete this?
-//    router.get("strava_saved_key") { req -> Future<String> in
+    
+//    router.get("experiments_playground") { req -> Future<Response> in
 //
-//        return try sqlHandler
-//            .getServiceDataBy(serviceName: "Strava", req)
-//            .map(to: String.self) { data in
-//                return data[0].apiSecret
-//        }
+//        let handler = CloudinaryAccountsHandler()
+//        //return try handler.writeToDB(title: "test", jsonData: "32dfgg1", req)
+//        //return try handler.readAllFromDB(title: "test", req)
+//        //return try handler.readLastFromDB(title: "test", req)
+//
 //    }
-    
-    
-    
-    
-    router.get("experiments_playground") { req -> Future<Response> in
-        
-        let jsonData = "{ \"email\": \"your_nick3@gmail.com\" , \"password\": \"Your_Password\" }"
-        
-        let timestamp = Int(Date().timeIntervalSince1970)
-
-        
-        
-        let record = HerokuStorage(title: "test", unixTime: timestamp, data: jsonData)
-        
-        let res = try req.client().post("http://localhost:8081/record") { post in
-            try post.content.encode(record)
-        }
-        
-        return res
-    }
 
 }
