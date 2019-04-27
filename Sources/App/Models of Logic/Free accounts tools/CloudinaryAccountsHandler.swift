@@ -12,13 +12,14 @@ class CloudinaryAccountsHandler {
     let sqlHandler = SQLHandler()
     
     let storageApiUrl = "http://localhost:8081/"
+    
     //let storageApiUrl = "https://nnnstorage.herokuapp.com/"
     let allUrlPatameter = "all/"
     let allByTitleUrlParameter = "allByTitle/"
     let lastByTitleUrlParameter = "lastByTitle/"
     let byIDUrlParameter = "byID/"
     let recordUrlParameter = "record/"
-    let title = "CloudinaryStatus_"
+    let titleIntro = "CloudinaryStatus_"
 
     
     
@@ -27,29 +28,28 @@ class CloudinaryAccountsHandler {
         try clearWorkingAccountsList(req)
         
         
-        try getAllAccounts(req)
-            .map { accounts in
+        try getAllAccountsInfo(req).map { accounts in
                 
-                for account in accounts {
+            for account in accounts {
+                
+                let currentTitle = self.titleIntro + account.userName
+                
+                try self.getStatusOf(account: account, req).map { responseJson in
+                        
+                    try self.writeToDB(title: currentTitle, jsonData: responseJson, req)
                     
-                    let currentTitle = self.title + account.userName
+                    let decodedJson = try JSONDecoder().decode(CloudinaryUsage.self, from: responseJson)
                     
-                    let result = try self.getStatusOf(account: account, req)
-                        .map { json in
-                            
-                            try self.writeToDB(title: currentTitle, jsonData: json, req)
-                            
-                            let decodedJson = try JSONDecoder().decode(CloudinaryUsage.self, from: json)
-                            
-                            try self.addWorkedAccount(decodedJson, account, req)
-                    }
+                    try self.addWorkingAccountToList(decodedJson, account, req)
                 }
             }
+        }
     }
     
     
     
-    private func getAllAccounts(_ req: Request) throws -> Future<[ServiceData]> {
+    
+    private func getAllAccountsInfo(_ req: Request) throws -> Future<[ServiceData]> {
         return try sqlHandler.getServiceDataBy(serviceName: "Cloudinary", req)
     }
 
@@ -65,7 +65,8 @@ class CloudinaryAccountsHandler {
     }
     
     
-    private func addWorkedAccount(_ json: CloudinaryUsage, _ account: ServiceData, _ req: Request) throws {
+    
+    private func addWorkingAccountToList(_ json: CloudinaryUsage, _ account: ServiceData, _ req: Request) throws {
 
         if json.credits.used_percent < 75 {
             let accountNumber = account.userName.replacingOccurrences(of: "anygis", with: "")
@@ -75,6 +76,7 @@ class CloudinaryAccountsHandler {
     
     
     private func clearWorkingAccountsList(_ req: Request) throws {
+       
         try sqlHandler.getServiceDataBy(serviceName: "CloudinaryWorkedAccountsList", req)
             .map { record in
                 record[0].apiSecret = ""
@@ -82,7 +84,9 @@ class CloudinaryAccountsHandler {
         }
     }
     
+    
     private func appendToWorkingAccountsList(_ content: String, _ req: Request) throws {
+        
         try sqlHandler.getServiceDataBy(serviceName: "CloudinaryWorkedAccountsList", req)
             .map { record in
                 record[0].apiSecret = record[0].apiSecret + content
@@ -91,8 +95,10 @@ class CloudinaryAccountsHandler {
     }
     
     
+    
     // Read from DB
     private func readAllFromDB(title: String, _ req: Request) throws -> Future<[HerokuStorage]>  {
+        
         let url = storageApiUrl + allByTitleUrlParameter + title
         
         return try req.client()
@@ -101,6 +107,7 @@ class CloudinaryAccountsHandler {
                 return try res.content.decode([HerokuStorage].self)
         }
     }
+    
     
     
     private func readLastFromDB(title: String, _ req: Request) throws -> Future<HerokuStorage> {
@@ -114,6 +121,7 @@ class CloudinaryAccountsHandler {
     }
     
     
+    
     private func writeToDB(title: String, jsonData: String, _ req: Request) throws -> Future<Response> {
         
         let timestamp = Int(Date().timeIntervalSince1970)
@@ -124,6 +132,5 @@ class CloudinaryAccountsHandler {
             try res.content.encode(newRecord)
         }
     }
-    
     
 }
