@@ -510,8 +510,6 @@ class WebHandler {
                     
                     let overlayUrl = self.urlPatchCreator.calculateTileURL(tileOSMNumbers.x, tileOSMNumbers.y, zoom, overObject.backgroundUrl, overObject.backgroundServerName)
                     
-                    print(overlayUrl)
-                    
                     // Upload all images to online image-processor
                     let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesAroundUrls, cloudinaryID, req)
                     

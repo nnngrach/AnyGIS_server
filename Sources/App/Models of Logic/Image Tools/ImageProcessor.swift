@@ -22,8 +22,6 @@ class ImageProcessor {
         let serverPartOffset = 13
         let prefix = "img"
         
-        print(sourceUrl.count)
-        
         if sourceUrl.count >= yandexNarodMapUrlLenght {
             range = sourceUrl.index(sourceUrl.startIndex, offsetBy: yandexNarodMapUrlLenght)..<sourceUrl.endIndex
             

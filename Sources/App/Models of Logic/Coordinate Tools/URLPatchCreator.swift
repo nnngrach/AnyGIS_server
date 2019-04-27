@@ -29,7 +29,6 @@ class URLPatchCreator {
             }
         }
         
-        print(result)
         return result
     }
     
