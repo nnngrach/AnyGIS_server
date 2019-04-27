@@ -13,6 +13,24 @@ import Foundation
 
 class FreeAccountsParalleliser {
     
+    
+    
+    public func getMapboxSessionId() -> String {
+        let accountCount = 30
+        let randomNumber = getRandomByUnixTimeMinutes() / accountCount
+        return String(randomNumber)
+    }
+    
+    
+    public func getCloudinarySessionId() -> String {
+        let accountCount = 30
+        let randomNumber = getRandomByUnixTimeMinutes() / accountCount
+        return String(randomNumber)
+    }
+    
+    
+    
+    
     private let allCLoudinaryAccountsCount = 100
     
     private let endedCloudinryAccounts : [Int] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
@@ -23,7 +41,7 @@ class FreeAccountsParalleliser {
     
     // Every 30 seconds switch to next account.
     
-    public func splitByMinutes() -> String {
+    public func getRandomByUnixTimeMinutes() -> Int {
         
         /*
         let date = Date()
@@ -52,7 +70,7 @@ class FreeAccountsParalleliser {
         }
         // ==================================================
         
-        return String(sessionNumber)
+        return sessionNumber
     }
     
     
@@ -69,6 +87,9 @@ class FreeAccountsParalleliser {
         
         return nextAccount
     }
+    
+    
+    
     
     
 }
