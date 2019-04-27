@@ -21,7 +21,6 @@ class CloudinaryAccountsHandler {
     let title = "CloudinaryStatus_"
 
     
-    // newDayStatusUpdate
     
     public func newDayStatusUpdate(_ req: Request) throws {
         
@@ -34,6 +33,8 @@ class CloudinaryAccountsHandler {
                     let result = try self.getStatusOf(account: account, req)
                         .map { json in
                             try self.writeToDB(title: currentTitle, jsonData: json, req)
+                            
+                            let decodedJson = try JSONDecoder().decode(CloudinaryUsage.self, from: json)
                     }
                     
                     
