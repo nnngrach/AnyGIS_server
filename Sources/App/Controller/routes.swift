@@ -74,10 +74,21 @@ public func routes(_ router: Router) throws {
     // Deactivate unworking accounts.
     router.get("new_day_status_update") { req -> String in
         try cloudinaryHandler.newDayStatusUpdate(req)
-        return "Success: Cloudinary cashe is empty"
+        return "Success!"
     }
     
     
+    
+    router.get("active_accounts") { req -> Future<[String]> in
+        return try sqlHandler.getServiceDataBy(serviceName: "CloudinaryWorkedAccountsList", req)
+            .map { record -> [String] in
+                
+                var accounts = record[0].apiSecret.components(separatedBy: ";")
+                accounts.removeLast()
+                let sortedList = accounts.sorted(by: { s1, s2 in return Int(s1)! < Int(s2)! })
+                return sortedList
+        }
+    }
 
     
     
