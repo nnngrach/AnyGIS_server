@@ -24,20 +24,25 @@ class CloudinaryAccountsHandler {
     
     public func newDayStatusUpdate(_ req: Request) throws {
         
-        let a = try getAllAccounts(req)
+        try clearWorkingAccountsList(req)
+        
+        
+        try getAllAccounts(req)
             .map { accounts in
+                
                 for account in accounts {
                     
                     let currentTitle = self.title + account.userName
                     
                     let result = try self.getStatusOf(account: account, req)
                         .map { json in
+                            
                             try self.writeToDB(title: currentTitle, jsonData: json, req)
                             
                             let decodedJson = try JSONDecoder().decode(CloudinaryUsage.self, from: json)
+                            
+                            try self.addWorkedAccount(decodedJson, account, req)
                     }
-                    
-                    
                 }
             }
     }
@@ -60,15 +65,32 @@ class CloudinaryAccountsHandler {
     }
     
     
-    // Store JSON in DB
+    private func addWorkedAccount(_ json: CloudinaryUsage, _ account: ServiceData, _ req: Request) throws {
+
+        if json.credits.used_percent < 75 {
+            let accountNumber = account.userName.replacingOccurrences(of: "anygis", with: "")
+            try appendToWorkingAccountsList(accountNumber + ";", req)
+        }
+    }
     
-    // Clean chache if it needed
     
-    // Store all working accounts list in DB
+    private func clearWorkingAccountsList(_ req: Request) throws {
+        try sqlHandler.getServiceDataBy(serviceName: "CloudinaryWorkedAccountsList", req)
+            .map { record in
+                record[0].apiSecret = ""
+                record[0].save(on: req)
+        }
+    }
+    
+    private func appendToWorkingAccountsList(_ content: String, _ req: Request) throws {
+        try sqlHandler.getServiceDataBy(serviceName: "CloudinaryWorkedAccountsList", req)
+            .map { record in
+                record[0].apiSecret = record[0].apiSecret + content
+                record[0].save(on: req)
+        }
+    }
     
     
-    
-    //============
     // Read from DB
     private func readAllFromDB(title: String, _ req: Request) throws -> Future<[HerokuStorage]>  {
         let url = storageApiUrl + allByTitleUrlParameter + title

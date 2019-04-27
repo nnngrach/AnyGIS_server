@@ -116,12 +116,12 @@ public func routes(_ router: Router) throws {
         
  
         
-        let testJson = """
-{"plan":"Free","last_updated":"2019-04-26","transformations":{"usage":4588,"credits_usage":4.59},"objects":{"usage":4620},"bandwidth":{"usage":12412231,"credits_usage":0.01},"storage":{"usage":139172203,"credits_usage":0.13},"credits":{"usage":4.73,"limit":25.0,"used_percent":18.92},"requests":1483,"resources":3446,"derived_resources":1174,"media_limits":{"image_max_size_bytes":10485760,"video_max_size_bytes":104857600,"raw_max_size_bytes":10485760,"image_max_px":25000000,"asset_max_total_px":50000000}}
-"""
-        
-        let decoded = try JSONDecoder().decode(CloudinaryUsage.self, from: testJson)
-        print(decoded)
+//        let testJson = """
+//{"plan":"Free","last_updated":"2019-04-26","transformations":{"usage":4588,"credits_usage":4.59},"objects":{"usage":4620},"bandwidth":{"usage":12412231,"credits_usage":0.01},"storage":{"usage":139172203,"credits_usage":0.13},"credits":{"usage":4.73,"limit":25.0,"used_percent":18.92},"requests":1483,"resources":3446,"derived_resources":1174,"media_limits":{"image_max_size_bytes":10485760,"video_max_size_bytes":104857600,"raw_max_size_bytes":10485760,"image_max_px":25000000,"asset_max_total_px":50000000}}
+//"""
+//
+//        let decoded = try JSONDecoder().decode(CloudinaryUsage.self, from: testJson)
+//        print(decoded)
         
         return "Hello, world!"
     }
