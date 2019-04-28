@@ -19,6 +19,7 @@ class WebHandler {
     
     let processorRedirect = MapProcessorRedirect()
     let processorReferer = MapProcessorReferer()
+    let processorProxy = MapProcessorProxy()
     
     
     
@@ -65,7 +66,7 @@ class WebHandler {
                 return try self.processorReferer.process(mapName, tileNumbers, mapObject, req)
                 
             case "proxy":
-                return try self.makeRedirectingWithProxyResponse(mapObject, mapName, tileNumbers, cloudinarySessionId, req)
+                return try self.processorProxy.process(mapName, tileNumbers, mapObject, req)
                 
             case "overlay":
                 return try self.makeOverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, cloudinarySessionId, req)
@@ -147,7 +148,7 @@ class WebHandler {
     
     
     
-    
+    /*
     private func makeRedirectingWithProxyResponse(_ mapObject: (MapsList), _ mapName:String, _ tileNumbers: (x: Int, y: Int, z: Int), _ cloudinarySessionID: Future<String>, _ req: Request) throws -> EventLoopFuture<Response> {
         
         
@@ -177,7 +178,7 @@ class WebHandler {
         }
         
     }
-    
+    */
     
     
     
