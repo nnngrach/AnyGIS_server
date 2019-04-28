@@ -66,7 +66,7 @@ class CloudinaryAccountsHandler {
     
     private func addWorkingAccountToList(_ json: CloudinaryUsage, _ account: ServiceData, _ req: Request) throws {
 
-        if json.credits.used_percent < 75 {
+        if json.credits.used_percent < 70 {
             let accountNumber = account.userName.replacingOccurrences(of: "anygis", with: "")
             try appendToWorkingAccountsList(accountNumber + ";", req)
         }
