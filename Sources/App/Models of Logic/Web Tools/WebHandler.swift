@@ -23,6 +23,7 @@ class WebHandler {
     let processorOverlay = MapProcessorOverlay()
     let processorMapboxZoom = MapProcessorMapboxZoom()
     let processorMapboxOverlay = MapProcessorMapboxOverlay()
+    let processorMapboxOverlayWithZoom = MapProcessorMapboxOverlayWithZoom()
     
     
     
@@ -80,9 +81,8 @@ class WebHandler {
             case "mapboxOverlay":
                 return try self.processorMapboxOverlay.process(mapName, tileNumbers, mapObject, req)
                 
-                
             case "mapboxOverlayWithZoom":
-                return try self.makeMapboxOverlayWithZoomRedirectingResponse(mapObject, mapName, xText, yText, zoom, cloudinarySessionId, mapboxSessionId, req)
+                return try self.processorMapboxOverlayWithZoom.process(mapName, tileNumbers, mapObject, req)
                 
             case "navionics":
                 return try self.makeNavisonicRedirectingResponse(mapObject, mapName, xText, yText, zoom, req)
@@ -280,7 +280,7 @@ class WebHandler {
     
     
     
-    
+    /*
     private func makeMapboxOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: Future<String>, _ mapboxSessionId: String, _ req: Request) throws -> EventLoopFuture<Response> {
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
@@ -327,11 +327,11 @@ class WebHandler {
         
         return redirectingResponce
     }
+    */
     
     
     
-    
-    
+    /*
     private func makeMapboxOverlayWithZoomRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: Future<String>, _ mapboxSessionId: String, _ req: Request) throws -> EventLoopFuture<Response> {
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
@@ -392,7 +392,7 @@ class WebHandler {
         
         return redirectingResponce
     }
-    
+    */
 
     
     
