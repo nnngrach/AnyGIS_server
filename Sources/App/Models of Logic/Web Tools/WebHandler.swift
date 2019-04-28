@@ -20,6 +20,8 @@ class WebHandler {
     let processorRedirect = MapProcessorRedirect()
     let processorReferer = MapProcessorReferer()
     let processorProxy = MapProcessorProxy()
+    let processorOverlay = MapProcessorOverlay()
+    let processorMapboxZoom = MapProcessorMapboxZoom()
     
     
     
@@ -69,10 +71,10 @@ class WebHandler {
                 return try self.processorProxy.process(mapName, tileNumbers, mapObject, req)
                 
             case "overlay":
-                return try self.makeOverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, cloudinarySessionId, req)
+                return try self.processorOverlay.process(mapName, tileNumbers, mapObject, req)
                 
             case "mapboxZoom":
-                return try self.makeMapboxZoomRedirectingResponse(mapObject, mapName, xText, yText, zoom, cloudinarySessionId, mapboxSessionId, req)
+                return try self.processorMapboxZoom.process(mapName, tileNumbers, mapObject, req)
                 
             case "mapboxOverlay":
                 return try self.makeMapboxOverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, cloudinarySessionId, mapboxSessionId, req)
@@ -185,6 +187,7 @@ class WebHandler {
     
     // MARK: Simple two-layer functions
     
+    /*
     private func makeOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: Future<String>, _ req: Request) throws -> EventLoopFuture<Response> {
         
         
@@ -231,13 +234,14 @@ class WebHandler {
         
         return redirectingResponce
     }
-    
+    */
     
     
     
     
     // MARK: Mapbox transformation functions
     
+    /*
     private func makeMapboxZoomRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: Future<String>, _ mapboxSessionId: String, _ req: Request) throws -> EventLoopFuture<Response> {
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
@@ -270,7 +274,7 @@ class WebHandler {
         
         return redirectingResponce
     }
-    
+    */
     
     
     
