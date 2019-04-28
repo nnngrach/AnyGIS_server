@@ -31,9 +31,39 @@
 <qop></qop>
 </onlinemapsource>
 
+<onlinemapsource uid="468327">
+<name>Google Карта (GLOBALCITY)</name>
+<url><![CDATA[https://mt{$s}.google.com/vt/lyrs=m&hl=en&x={$x}&y={$y}&z={$z}]]></url>
+<servers>0,1,2,3</servers>
+<maxzoom>20</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
 <onlinemapsource uid="10020">
 <name>Google Карта RU (GLOBALCITY)</name>
 <url><![CDATA[https://mt{$s}.google.com/vt/lyrs=m&hl=ru&x={$x}&y={$y}&z={$z}]]></url>
+<servers>0,1,2,3</servers>
+<maxzoom>20</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="468328">
+<name>Google Ландшафт (GLOBALCITY)</name>
+<url><![CDATA[http://mt{$s}.google.com/vt/lyrs=t@130,r@206000000&hl=ru&x={$x}&y={$y}&z={$z}&s=Galileo&scale=1&hl=en]]></url>
 <servers>0,1,2,3</servers>
 <maxzoom>20</maxzoom>
 <minzoom>0</minzoom>
@@ -169,6 +199,21 @@
 <onlinemapsource uid="10021">
 <name>Google Спутник (GLOBALSATELLITES)</name>
 <url><![CDATA[https://mt{$s}.google.com/vt/lyrs=s@176103410&x={$x}&y={$y}&z={$z}&s=Galileo&scale=1&hl=en]]></url>
+<servers>0,1,2,3</servers>
+<maxzoom>20</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="468329">
+<name>Google Спутник (гибрид) (GLOBALSATELLITES)</name>
+<url><![CDATA[http://mt{$s}.google.com/vt/lyrs=y@176103410&x={$x}&y={$y}&z={$z}&s=Galileo&scale=1&hl=en]]></url>
 <servers>0,1,2,3</servers>
 <maxzoom>20</maxzoom>
 <minzoom>0</minzoom>
@@ -334,7 +379,7 @@
 <onlinemapsource uid="6666003">
 <name>Mapnik (PROXY) (GLOBALOSM)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Osm_Mapnik_proxy/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>a,b,c</servers>
 <maxzoom>19</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -529,7 +574,7 @@
 <onlinemapsource uid="190007">
 <name>Navionics Marine Charts (GLOBALNAUTICAL)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Navionics_Marine_Charts/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>h,t,t,p,:,/,/,b,a,c,k,e,n,d,.,n,a,v,i,o,n,i,c,s,.,i,o,/,t,i,l,e,/,g,e,t,_,k,e,y,/,N,a,v,i,o,n,i,c,s,_,i,n,t,e,r,n,a,l,p,u,r,p,o,s,e,_,0,0,0,0,1,/,w,e,b,a,p,p,.,n,a,v,i,o,n,i,c,s,.,c,o,m,?,_,=</servers>
 <maxzoom>19</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -544,7 +589,7 @@
 <onlinemapsource uid="190008">
 <name>Navionics Sonar Charts (GLOBALNAUTICAL)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Navionics_Sonar_Charts/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>h,t,t,p,:,/,/,b,a,c,k,e,n,d,.,n,a,v,i,o,n,i,c,s,.,i,o,/,t,i,l,e,/,g,e,t,_,k,e,y,/,N,a,v,i,o,n,i,c,s,_,i,n,t,e,r,n,a,l,p,u,r,p,o,s,e,_,0,0,0,0,1,/,w,e,b,a,p,p,.,n,a,v,i,o,n,i,c,s,.,c,o,m,?,_,=</servers>
 <maxzoom>19</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -559,7 +604,7 @@
 <onlinemapsource uid="12040">
 <name>Wikimapia.org (GLOBALINFO)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Wikimapia/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>w,i,k,i,m,a,p,i,a</servers>
 <maxzoom>22</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -649,7 +694,7 @@
 <onlinemapsource uid="424003">
 <name>Генштаб (Все масштабы) (EURASIATOPOGENSHTAB)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Combo_Best_Genshtab/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers> </servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -664,7 +709,7 @@
 <onlinemapsource uid="420005">
 <name>Генштаб 1 000 м (EURASIATOPOGENSHTAB)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Locals_Genshtab_01000/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>13</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -679,7 +724,7 @@
 <onlinemapsource uid="420001">
 <name>Генштаб 10 000 м (EURASIATOPOGENSHTAB)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Locals_Genshtab_10000/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>10</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -694,7 +739,7 @@
 <onlinemapsource uid="420003">
 <name>Генштаб 2 000 м (EURASIATOPOGENSHTAB)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Locals_Genshtab_02000/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>12</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -709,7 +754,7 @@
 <onlinemapsource uid="420004">
 <name>Генштаб 2 000 м v2 (EURASIATOPOGENSHTAB)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Locals_Genshtab_02000_new/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>12</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -724,7 +769,7 @@
 <onlinemapsource uid="420000">
 <name>Генштаб 20 000 м (EURASIATOPOGENSHTAB)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Locals_Genshtab_20000/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>9</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -739,7 +784,7 @@
 <onlinemapsource uid="420008">
 <name>Генштаб 250 м (EURASIATOPOGENSHTAB)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Locals_Genshtab_00250/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -754,7 +799,7 @@
 <onlinemapsource uid="420002">
 <name>Генштаб 5 000 м (EURASIATOPOGENSHTAB)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Locals_Genshtab_05000/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>11</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -769,7 +814,7 @@
 <onlinemapsource uid="420006">
 <name>Генштаб 500 м (EURASIATOPOGENSHTAB)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Locals_Genshtab_00500/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -1009,7 +1054,7 @@
 <onlinemapsource uid="354009">
 <name>Абишира-Ахуба (Ляпин В.Г.) (EURASIAHIKINGCAUCASUS)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Local_Kavkaz_09/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -1024,7 +1069,7 @@
 <onlinemapsource uid="354005">
 <name>Западный Кавказ (КОТ ОРИЕНТ) (EURASIAHIKINGCAUCASUS)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Local_Kavkaz_05/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -1039,7 +1084,7 @@
 <onlinemapsource uid="354006">
 <name>Казбек (Geoland) (EURASIAHIKINGCAUCASUS)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Local_Kavkaz_06/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -1054,7 +1099,7 @@
 <onlinemapsource uid="354004">
 <name>Перевалы Западного Кавказа   2014 (EURASIAHIKINGCAUCASUS)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Local_Kavkaz_04/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>14</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -1069,7 +1114,7 @@
 <onlinemapsource uid="354007">
 <name>Перевалы Центрального Кавказа 2014 (EURASIAHIKINGCAUCASUS)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Local_Kavkaz_07/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>14</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -1084,7 +1129,7 @@
 <onlinemapsource uid="354002">
 <name>Перевалы Южного Кавказа 2014 (EURASIAHIKINGCAUCASUS)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Local_Kavkaz_02/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>14</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -1099,7 +1144,7 @@
 <onlinemapsource uid="354003">
 <name>Сводная Госгеодезия 1991г (EURASIAHIKINGCAUCASUS)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Local_Kavkaz_03/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>14</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -1114,7 +1159,7 @@
 <onlinemapsource uid="354001">
 <name>Сводная ФГУ СК АГП (EURASIAHIKINGCAUCASUS)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Local_Kavkaz_01/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -1159,7 +1204,7 @@
 <onlinemapsource uid="354008">
 <name>Хребтовка Приэльбрусья (Ляпин В.Г.) (EURASIAHIKINGCAUCASUS)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Local_Kavkaz_08/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -1174,7 +1219,7 @@
 <onlinemapsource uid="295001">
 <name>Горный Крым (Картография2010) (EURASIAHIKINGCRIMEA)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Local_Krim2/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -1189,7 +1234,7 @@
 <onlinemapsource uid="295000">
 <name>Горный Крым (Союзкарта2011) (EURASIAHIKINGCRIMEA)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Local_Krim1/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -1204,7 +1249,7 @@
 <onlinemapsource uid="185003">
 <name>Горы Хибинской тундры (EURASIAHIKINGKHIBINY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Local_Karelia3/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>14</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -1219,7 +1264,7 @@
 <onlinemapsource uid="185000">
 <name>Хибинские и ловоозерские тундры (Аэрогеодезия 2008) (EURASIAHIKINGKHIBINY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Local_Karelia1/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>14</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -1234,7 +1279,7 @@
 <onlinemapsource uid="185002">
 <name>Хибинские и ловоозерские тундры (СССР) (EURASIAHIKINGKHIBINY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Local_Karelia2/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>14</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -1249,7 +1294,7 @@
 <onlinemapsource uid="720007">
 <name>Карпаты (EURASIAHIKINGOTHER)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Local_Karpaty/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -1264,7 +1309,7 @@
 <onlinemapsource uid="720001">
 <name>Катунский Чуйский хребты.  Алтай (EURASIAHIKINGOTHER)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Local_Altay1/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>14</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -1279,7 +1324,7 @@
 <onlinemapsource uid="720004">
 <name>Киргизский хребет (EURASIAHIKINGOTHER)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Local_Kyrgiz1/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -1294,7 +1339,7 @@
 <onlinemapsource uid="720008">
 <name>Национальный парк Таганай (EURASIAHIKINGOTHER)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Local_Taganay/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>17</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -1309,7 +1354,7 @@
 <onlinemapsource uid="720002">
 <name>Саяны. Ергаки - Арадан (EURASIAHIKINGOTHER)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Local_Sayany1/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -1324,7 +1369,7 @@
 <onlinemapsource uid="720005">
 <name>Тянь-Шань и Памир (EURASIAHIKINGOTHER)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Local_Tyan_shan1/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -1339,7 +1384,7 @@
 <onlinemapsource uid="720006">
 <name>Хребет Аладаглар 2014 (EURASIAHIKINGOTHER)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Local_Turk1/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>s,a,s,P,l,a,n,e,t</servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -2299,7 +2344,7 @@
 <onlinemapsource uid="8888025">
 <name>Navionics Marine Charts (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Navionics_Marine_Charts_layer/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>h,t,t,p,:,/,/,b,a,c,k,e,n,d,.,n,a,v,i,o,n,i,c,s,.,i,o,/,t,i,l,e,/,g,e,t,_,k,e,y,/,N,a,v,i,o,n,i,c,s,_,i,n,t,e,r,n,a,l,p,u,r,p,o,s,e,_,0,0,0,0,1,/,w,e,b,a,p,p,.,n,a,v,i,o,n,i,c,s,.,c,o,m,?,_,=</servers>
 <maxzoom>19</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -2314,7 +2359,7 @@
 <onlinemapsource uid="8888026">
 <name>Navionics Sonar Charts (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Navionics_Sonar_Charts_layer/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>h,t,t,p,:,/,/,b,a,c,k,e,n,d,.,n,a,v,i,o,n,i,c,s,.,i,o,/,t,i,l,e,/,g,e,t,_,k,e,y,/,N,a,v,i,o,n,i,c,s,_,i,n,t,e,r,n,a,l,p,u,r,p,o,s,e,_,0,0,0,0,1,/,w,e,b,a,p,p,.,n,a,v,i,o,n,i,c,s,.,c,o,m,?,_,=</servers>
 <maxzoom>19</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -2389,7 +2434,22 @@
 <onlinemapsource uid="8888031">
 <name>Strava Heatmap - All (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_All/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>a,b,c</servers>
+<maxzoom>15</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="8888043">
+<name>Strava Heatmap - All (Bluered) (OVERLAY)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_All_Bluered/{$x}/{$y}/{$z}]]></url>
+<servers>a,b,c</servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -2404,7 +2464,22 @@
 <onlinemapsource uid="8888032">
 <name>Strava Heatmap - Ride (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Ride/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>a,b,c</servers>
+<maxzoom>15</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="8888044">
+<name>Strava Heatmap - Ride (Bluered) (OVERLAY)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Ride_Bluered/{$x}/{$y}/{$z}]]></url>
+<servers>a,b,c</servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -2419,7 +2494,22 @@
 <onlinemapsource uid="8888033">
 <name>Strava Heatmap - Run (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Run/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>a,b,c</servers>
+<maxzoom>15</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="8888045">
+<name>Strava Heatmap - Run (Bluered) (OVERLAY)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Run_Bluered/{$x}/{$y}/{$z}]]></url>
+<servers>a,b,c</servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -2434,7 +2524,22 @@
 <onlinemapsource uid="8888034">
 <name>Strava Heatmap - Water (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Water/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>a,b,c</servers>
+<maxzoom>15</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="8888046">
+<name>Strava Heatmap - Water (Bluered) (OVERLAY)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Water_Bluered/{$x}/{$y}/{$z}]]></url>
+<servers>a,b,c</servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
@@ -2449,7 +2554,22 @@
 <onlinemapsource uid="8888035">
 <name>Strava Heatmap - Winter (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Winter/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
+<servers>a,b,c</servers>
+<maxzoom>15</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="8888047">
+<name>Strava Heatmap - Winter (Bluered) (OVERLAY)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Winter_Bluered/{$x}/{$y}/{$z}]]></url>
+<servers>a,b,c</servers>
 <maxzoom>15</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>

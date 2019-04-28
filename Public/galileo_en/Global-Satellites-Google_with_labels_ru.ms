@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <customMapSource>
-<name>Google Спутник (гибрид) RU</name>
+<name>Google Satellite + labels RU</name>
 <layers>
 
 <layer>
