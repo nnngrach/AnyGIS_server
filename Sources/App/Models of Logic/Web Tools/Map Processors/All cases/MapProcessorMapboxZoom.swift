@@ -15,12 +15,13 @@ class MapProcessorMapboxZoom: AbstractMapProcessorSession {
         guard cloudinarySessionID != nil && mapboxSessionId != nil else {return try output.serverErrorResponce("MapProcessor unwarping error", req)}
         
         
+        
         // Load layers info from data base in Future format
         let mapList = try self.sqlHandler.getMirrorsListBy(setName: mapName, req)
         
         return mapList.flatMap(to: Response.self) { mapListData  in
             
-            let mapboxIndex = Int(mapboxSessionId!) ?? 0
+            let mapboxIndex = Int(self.paralleliser.getMapboxSessionId()) ?? 0
             
             let fourTilesInNextZoomUrls = self.urlPatchCreator.calculateFourNextZoomTilesUrls(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapListData[mapboxIndex].url, "")
             

@@ -22,6 +22,7 @@ class WebHandler {
     let processorProxy = MapProcessorProxy()
     let processorOverlay = MapProcessorOverlay()
     let processorMapboxZoom = MapProcessorMapboxZoom()
+    let processorMapboxOverlay = MapProcessorMapboxOverlay()
     
     
     
@@ -77,7 +78,8 @@ class WebHandler {
                 return try self.processorMapboxZoom.process(mapName, tileNumbers, mapObject, req)
                 
             case "mapboxOverlay":
-                return try self.makeMapboxOverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, cloudinarySessionId, mapboxSessionId, req)
+                return try self.processorMapboxOverlay.process(mapName, tileNumbers, mapObject, req)
+                
                 
             case "mapboxOverlayWithZoom":
                 return try self.makeMapboxOverlayWithZoomRedirectingResponse(mapObject, mapName, xText, yText, zoom, cloudinarySessionId, mapboxSessionId, req)
