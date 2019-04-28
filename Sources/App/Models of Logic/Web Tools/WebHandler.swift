@@ -17,6 +17,9 @@ class WebHandler {
     let paralleliser = FreeAccountsParalleliser()
     let coordinateTransformer = CoordinateTransformer()
     
+    let processorRedirect = MapProcessorRedirect()
+    let processorReferer = MapProcessorReferer()
+    
     
     
     let output = OutputResponceGenerator()
@@ -35,10 +38,6 @@ class WebHandler {
         // Load map informarion from database in Future format
         let mapData = try sqlHandler.getBy(mapName: mapName, req)
         
-        // Generate Session mumber to use with multy channel processing
-        let cloudinarySessionId = try paralleliser.getCloudinarySessionId(req)
-        let mapboxSessionId = paralleliser.getMapboxSessionId()
-        
         
         // Synchronizing map information
         let responce = mapData.flatMap(to: Response.self) { mapObject  in
@@ -46,19 +45,27 @@ class WebHandler {
             guard zoom <= mapObject.zoomMax else {return self.output.notFoundResponce(req)}
             guard zoom >= mapObject.zoomMin else {return self.output.notFoundResponce(req)}
             
+            let tileNumbers = try self.coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
+            
+            // Generate Session mumber to use with multy channel processing
+            let cloudinarySessionId = try self.paralleliser.getCloudinarySessionId(req)
+            let mapboxSessionId = self.paralleliser.getMapboxSessionId()
+            
+            
+            
             
             
             // Select processing mode
             switch mapObject.mode {
                 
             case "redirect":
-                return try self.makeSimpleRedirectingResponse(mapObject, mapName, xText, yText, zoom, req)
+                return try self.processorRedirect.process(mapName, tileNumbers, mapObject, req)
                 
             case "loadWithReferer":
-                return try self.makeLoadWithRefererResponse(mapObject, mapName, xText, yText, zoom, req)
+                return try self.processorReferer.process(mapName, tileNumbers, mapObject, req)
                 
             case "proxy":
-                return try self.makeRedirectingWithProxyResponse(mapObject, mapName, xText, yText, zoom, cloudinarySessionId, req)
+                return try self.makeRedirectingWithProxyResponse(mapObject, mapName, tileNumbers, cloudinarySessionId, req)
                 
             case "overlay":
                 return try self.makeOverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, cloudinarySessionId, req)
@@ -112,27 +119,23 @@ class WebHandler {
     
     
     // MARK: Simple one-layer functions
-    
-    private func makeSimpleRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
+  
+    /*
+    private func makeSimpleRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ tileNumbers: (x: Int, y: Int, z: Int), _ req: Request) throws -> EventLoopFuture<Response> {
         
-        
-        let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
-        
-        let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
+        let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapObject.backgroundUrl, mapObject.backgroundServerName)
         
         return output.redirect(to: newUrl, with: req)
     }
+ */
     
     
     
     
-    
-    private func makeLoadWithRefererResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
+    /*
+    private func makeLoadWithRefererResponse(_ mapObject: (MapsList), _ mapName:String, _ tileNumbers: (x: Int, y: Int, z: Int), _ req: Request) throws -> EventLoopFuture<Response> {
         
-        
-        let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
-        
-        let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
+        let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapObject.backgroundUrl, mapObject.backgroundServerName)
         
         let userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.110 Safari/537.36"
        
@@ -140,17 +143,17 @@ class WebHandler {
         
         return try req.client().get(newUrl, headers: headers)
     }
+    */
     
     
     
     
-    
-    private func makeRedirectingWithProxyResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: Future<String>, _ req: Request) throws -> EventLoopFuture<Response> {
+    private func makeRedirectingWithProxyResponse(_ mapObject: (MapsList), _ mapName:String, _ tileNumbers: (x: Int, y: Int, z: Int), _ cloudinarySessionID: Future<String>, _ req: Request) throws -> EventLoopFuture<Response> {
         
         
-        let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
         
-        let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, zoom, mapObject.backgroundUrl, mapObject.backgroundServerName)
+        
+        let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapObject.backgroundUrl, mapObject.backgroundServerName)
         
         
         return cloudinarySessionID.flatMap(to: Response.self) { cloudinaryID  in
