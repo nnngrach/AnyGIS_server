@@ -27,7 +27,6 @@ class UrlFIleChecker {
     public func checkMultyLayerList(_ maps: [PriorityMapsList], _ index: Int, _ x: Int, _ y: Int, _ z: Int, _ req: Request) throws -> Future<Response> {
 
         let currentMapName = maps[index].mapName
-
         
         // Quick redirect for maps with global coverage
         guard !maps[index].notChecking else {
