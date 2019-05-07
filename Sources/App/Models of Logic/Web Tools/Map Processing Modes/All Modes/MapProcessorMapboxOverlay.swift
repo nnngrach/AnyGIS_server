@@ -7,10 +7,10 @@
 
 import Vapor
 
-class MapProcessorMapboxOverlay: AbstractMapProcessorOverlay {
+class MapProcessorMapboxOverlay: AbstractMapProcessorMapboxOverlay {
     
     
-    override func makeCustomActions(_ mapName:String, _ tileNumbers: (x: Int, y: Int, z: Int), _ tilePosition: (x: Int, y: Int, offsetX: Int, offsetY: Int)?, _ mapObject: (MapsList), _ baseObject: (MapsList)?, _ overlayObject: (MapsList)?,   _ cloudinarySessionID: String?, _ mapboxSessionId: String?, _ req: Request) throws -> EventLoopFuture<Response> {
+    override func makeCustomActions(_ mapName:String, _ tileNumbers: (x: Int, y: Int, z: Int), _ tilePosition: (x: Int, y: Int, offsetX: Int, offsetY: Int)?, _ mapObject: (MapsList), _ baseObject: (MapsList)?, _ overlayObject: (MapsList)?,   _ cloudinarySessionID: String?, _ req: Request) throws -> EventLoopFuture<Response> {
         
         guard baseObject != nil && overlayObject != nil  && cloudinarySessionID != nil else {return try output.serverErrorResponce("MapProcessor unwarping error", req)}
         
@@ -18,6 +18,7 @@ class MapProcessorMapboxOverlay: AbstractMapProcessorOverlay {
         let baseUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, baseObject!.backgroundUrl, baseObject!.backgroundServerName)
         
         let overlayUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, overlayObject!.backgroundUrl, "")
+        
         
         
         // Upload all images to online image-processor

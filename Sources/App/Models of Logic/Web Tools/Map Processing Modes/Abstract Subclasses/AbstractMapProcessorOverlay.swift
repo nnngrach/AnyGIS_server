@@ -34,7 +34,7 @@ class AbstractMapProcessorOverlay: AbstractMapProcessorSimple  {
                 return overlayMapData.flatMap(to: Response.self) { overlayObject  in
                     return futureCloudinaryId.flatMap(to: Response.self) { cloudinaryId  in
                         
-                        return try self.makeCustomActions(mapName, tileNumbers, nil, mapObject, baseObject, overlayObject, cloudinaryId, nil, req)
+                        return try self.makeCustomActions(mapName, tileNumbers, nil, mapObject, baseObject, overlayObject, cloudinaryId, req)
                     }
                 }
             }

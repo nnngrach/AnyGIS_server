@@ -38,7 +38,7 @@ class AbstractMapProcessorMapboxOverlay: AbstractMapProcessorSimple  {
                         
                         let overlayUrlObject = MapsList(name: "", mode: "", backgroundUrl: overlaysObject[mapboxIndex].url, backgroundServerName: "", referer: "", zoomMin: 0, zoomMax: 0, description: "")
                         
-                        return try self.makeCustomActions(mapName, tileNumbers, nil, mapObject, baseObject, overlayUrlObject, cloudinaryId, nil, req)
+                        return try self.makeCustomActions(mapName, tileNumbers, nil, mapObject, baseObject, overlayUrlObject, cloudinaryId, req)
                     }
                 }
             }

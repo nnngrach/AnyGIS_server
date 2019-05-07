@@ -38,7 +38,7 @@ class AbstractMapProcessorWgs84Double: AbstractMapProcessorSimple  {
                 return overlayMapData.flatMap(to: Response.self) { overObject  in
                     return futureCloudinaryId.flatMap(to: Response.self) { cloudinarySessionId  in
                         
-                        return try self.makeCustomActions(mapName, tileNumbers, tilePosition, mapObject, nil, nil, cloudinarySessionId, nil, req)
+                        return try self.makeCustomActions(mapName, tileNumbers, tilePosition, mapObject, baseObject, overObject, cloudinarySessionId, req)
                     }
                 }
             }

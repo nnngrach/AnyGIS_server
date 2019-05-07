@@ -29,6 +29,9 @@ class FreeAccountsParalleliser {
     
     public func getCloudinarySessionId(_ req: Request) throws -> Future<String>{
         
+        return req.future("99")
+        
+        
         let randomNumber = getRandomByUnixTimeMinutes()
         
         let workingAccountsString = try getWorkingAccountsList(req)
