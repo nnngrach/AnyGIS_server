@@ -7,7 +7,7 @@
 
 import Vapor
 
-class AbstractMapProcessorOverlay: AbstractMapProcessorSession  {
+class AbstractMapProcessorOverlay: AbstractMapProcessorSimple  {
     
     
     override func process(_ mapName:String, _ tileNumbers: (x: Int, y: Int, z: Int),  _ mapObject: (MapsList), _ req: Request) throws -> Future<Response> {
@@ -33,7 +33,7 @@ class AbstractMapProcessorOverlay: AbstractMapProcessorSession  {
                 return overlayMapData.flatMap(to: Response.self) { overlayObject  in
                     return futureCloudinaryId.flatMap(to: Response.self) { cloudinaryId  in
                         
-                        return try self.makeCustomActions(mapName, tileNumbers, mapObject, baseObject, overlayObject, cloudinaryId, nil, req)
+                        return try self.makeCustomActions(mapName, tileNumbers, nil, mapObject, baseObject, overlayObject, cloudinaryId, nil, req)
                         
                     }
                 }

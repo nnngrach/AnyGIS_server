@@ -24,7 +24,10 @@ class WebHandler {
     let processorMapboxZoom = MapProcessorMapboxZoom()
     let processorMapboxOverlay = MapProcessorMapboxOverlay()
     let processorMapboxOverlayWithZoom = MapProcessorMapboxOverlayWithZoom()
-    
+    let processorNavionics = MapProcessorNavionics()
+    let processorWgs84 = MapProcessorWgs84()
+    let processorWgs84Overlay = MapProcessorWgs84Overlay()
+    let processorWgs84DoubleOverlay = MapProcessorWgs84DoubleOverlay()
     
     
     let output = OutputResponceGenerator()
@@ -85,16 +88,17 @@ class WebHandler {
                 return try self.processorMapboxOverlayWithZoom.process(mapName, tileNumbers, mapObject, req)
                 
             case "navionics":
-                return try self.makeNavisonicRedirectingResponse(mapObject, mapName, xText, yText, zoom, req)
+                return try self.processorNavionics.process(mapName, tileNumbers, mapObject, req)
                 
             case "wgs84":
-                return try self.makeWgs84RedirectingResponse(mapObject, mapName, xText, yText, zoom, cloudinarySessionId, req)
+                return try self.processorWgs84.process(mapName, tileNumbers, mapObject, req)
+
                 
             case "wgs84_overlay":
-                return try self.makeWgs84OverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, cloudinarySessionId, req)
+                return try self.processorWgs84Overlay.process(mapName, tileNumbers, mapObject, req)
                 
             case "wgs84_double_overlay":
-                return try self.makeWgs84DoubleOverlayRedirectingResponse(mapObject, mapName, xText, yText, zoom, cloudinarySessionId, req)
+                return try self.processorWgs84DoubleOverlay.process(mapName, tileNumbers, mapObject, req)
                 
             case "strava":
                 return try self.makeStravaRedirectingResponse(mapObject, mapName, xText, yText, zoom, cloudinarySessionId, req)
@@ -398,7 +402,7 @@ class WebHandler {
     
     
     // MARK: Navionics
-    
+    /*
     private func makeNavisonicRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ req: Request) throws -> EventLoopFuture<Response> {
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
@@ -442,11 +446,11 @@ class WebHandler {
         
         return resultResponse
     }
-    
+    */
     
     
     // MARK: WGS-84 transformation functions
-    
+    /*
     private func makeWgs84RedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: Future<String>, _ req: Request) throws -> EventLoopFuture<Response> {
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
@@ -480,10 +484,10 @@ class WebHandler {
             
         }
     }
+    */
     
     
-    
-    
+    /*
     private func makeWgs84OverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: Future<String>, _ req: Request) throws -> EventLoopFuture<Response> {
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
@@ -542,10 +546,10 @@ class WebHandler {
         
         return redirectingResponce
     }
+    */
     
     
-    
-    
+    /*
     private func makeWgs84DoubleOverlayRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: Future<String>, _ req: Request) throws -> EventLoopFuture<Response> {
         
         let tileNumbers = try coordinateTransformer.calculateTileNumbers(xText, yText, zoom)
@@ -598,7 +602,7 @@ class WebHandler {
         
         return redirectingResponce
     }
-    
+    */
     
     
     
