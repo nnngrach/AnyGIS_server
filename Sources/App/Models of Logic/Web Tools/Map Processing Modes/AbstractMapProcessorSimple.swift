@@ -15,6 +15,7 @@ class AbstractMapProcessorSimple {
     let paralleliser = FreeAccountsParalleliser()
     let imageProcessor = ImageProcessor()
     let coordinateTransformer = CoordinateTransformer()
+    let urlChecker = UrlFIleChecker()
     
     public func process(_ mapName:String, _ tileNumbers: (x: Int, y: Int, z: Int), _ mapObject: (MapsList), _ req: Request) throws -> EventLoopFuture<Response> {
         

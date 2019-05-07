@@ -28,6 +28,9 @@ class WebHandler {
     let processorWgs84 = MapProcessorWgs84()
     let processorWgs84Overlay = MapProcessorWgs84Overlay()
     let processorWgs84DoubleOverlay = MapProcessorWgs84DoubleOverlay()
+    let processorStrava = MapProcessorStrava()
+    let processorMirrors = MapProcessorMirrors()
+    let processorMultyLayers = MapProcessorMultyLayers()
     
     
     let output = OutputResponceGenerator()
@@ -101,14 +104,14 @@ class WebHandler {
                 return try self.processorWgs84DoubleOverlay.process(mapName, tileNumbers, mapObject, req)
                 
             case "strava":
-                return try self.makeStravaRedirectingResponse(mapObject, mapName, xText, yText, zoom, cloudinarySessionId, req)
+                return try self.processorStrava.process(mapName, tileNumbers, mapObject, req)
                 
                 
             case "checkAllMirrors":
-                return try self.makeMirrorCheckerRedirectingResponse(mapObject, mapName, xText, yText, zoom, cloudinarySessionId, req)
+                return try self.processorMirrors.process(mapName, tileNumbers, mapObject, req)
                 
             case "multyLayer":
-                return try self.makeMultyLayerRedirectingResponse(mapObject, mapName, xText, yText, zoom, cloudinarySessionId, req)
+                return try self.processorMultyLayers.process(mapName, tileNumbers, mapObject, req)
                 
             default:
                 return try self.output.serverErrorResponce("Unknown value MapMode in data base", req)
@@ -609,7 +612,7 @@ class WebHandler {
     
     
     // MARK: Strava
-    
+    /*
     private func makeStravaRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: Future<String>, _ req: Request) throws -> EventLoopFuture<Response> {
         
         
@@ -703,6 +706,7 @@ class WebHandler {
         
         return resultResponse
     }
+    */
     
     
     
@@ -710,8 +714,7 @@ class WebHandler {
     
     
     
-    
-    
+    /*
     // MARK: Url checking multy layer functions
 
     private func makeMirrorCheckerRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: Future<String>, _ req: Request) throws -> EventLoopFuture<Response> {
@@ -724,10 +727,10 @@ class WebHandler {
         return redirectingResponce
         //return try req.client().get(newUrl, headers: HTTPHeaders(dictionaryLiteral: ("referer",mapObject.referer)))
     }
+    */
     
     
-    
-    
+    /*
     private func makeMultyLayerRedirectingResponse(_ mapObject: (MapsList), _ mapName:String, _ xText: String, _ yText: String, _ zoom: Int, _ cloudinarySessionID: Future<String>, _ req: Request) throws -> EventLoopFuture<Response> {
         
         
@@ -751,7 +754,7 @@ class WebHandler {
         
         return redirectingResponce
     }
-    
+    */
     
 }
 
