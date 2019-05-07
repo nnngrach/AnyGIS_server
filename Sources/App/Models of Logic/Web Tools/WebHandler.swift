@@ -5,15 +5,14 @@
 //  Created by Nnngrach on 31/12/2018.
 //
 
-import Foundation
 import Vapor
 
 class WebHandler {
     
     let sqlHandler = SQLHandler()
-    let stravaParser = StravaParser()
-    let imageProcessor = ImageProcessor()
-    let urlPatchCreator = URLPatchCreator()
+//    let stravaParser = StravaParser()
+//    let imageProcessor = ImageProcessor()
+//    let urlPatchCreator = URLPatchCreator()
     let paralleliser = FreeAccountsParalleliser()
     let coordinateTransformer = CoordinateTransformer()
     

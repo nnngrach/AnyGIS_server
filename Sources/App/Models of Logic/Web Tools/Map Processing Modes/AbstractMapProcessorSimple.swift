@@ -9,13 +9,14 @@ import Vapor
 
 class AbstractMapProcessorSimple {
     
+    let coordinateTransformer = CoordinateTransformer()
+    let paralleliser = FreeAccountsParalleliser()
     let urlPatchCreator =  URLPatchCreator()
     let output = OutputResponceGenerator()
-    let sqlHandler = SQLHandler()
-    let paralleliser = FreeAccountsParalleliser()
     let imageProcessor = ImageProcessor()
-    let coordinateTransformer = CoordinateTransformer()
     let urlChecker = UrlFIleChecker()
+    let sqlHandler = SQLHandler()
+    
     
     public func process(_ mapName:String, _ tileNumbers: (x: Int, y: Int, z: Int), _ mapObject: (MapsList), _ req: Request) throws -> EventLoopFuture<Response> {
         

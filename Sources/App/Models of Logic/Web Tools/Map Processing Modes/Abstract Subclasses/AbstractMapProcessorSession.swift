@@ -14,7 +14,7 @@ class AbstractMapProcessorSession: AbstractMapProcessorSimple  {
         
         let futureCloudinaryId = try self.paralleliser.getCloudinarySessionId(req)
 
-        return try futureCloudinaryId.flatMap { cloudinarySessionId -> Future<Response> in
+        return futureCloudinaryId.flatMap { cloudinarySessionId -> Future<Response> in
             return try self.makeCustomActions(mapName, tileNumbers, nil, mapObject, nil, nil, cloudinarySessionId, nil, req)
         }
     }

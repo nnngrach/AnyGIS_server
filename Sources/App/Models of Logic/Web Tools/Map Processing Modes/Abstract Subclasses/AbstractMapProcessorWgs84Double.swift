@@ -21,6 +21,7 @@ class AbstractMapProcessorWgs84Double: AbstractMapProcessorSimple  {
         // Load layers info from data base in Future format
         let mapList = try sqlHandler.getOverlayBy(setName: mapName, req)
         
+        
         // Synchronization Futrure to data object.
         // Generating redirect URL-response to processed image.
         let redirectingResponce = mapList.flatMap(to: Response.self) { mapListData  in
@@ -38,7 +39,6 @@ class AbstractMapProcessorWgs84Double: AbstractMapProcessorSimple  {
                     return futureCloudinaryId.flatMap(to: Response.self) { cloudinarySessionId  in
                         
                         return try self.makeCustomActions(mapName, tileNumbers, tilePosition, mapObject, nil, nil, cloudinarySessionId, nil, req)
-                        
                     }
                 }
             }

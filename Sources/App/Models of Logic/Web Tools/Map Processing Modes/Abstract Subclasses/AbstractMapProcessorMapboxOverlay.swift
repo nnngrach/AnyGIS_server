@@ -17,6 +17,7 @@ class AbstractMapProcessorMapboxOverlay: AbstractMapProcessorSimple  {
         
         let futureCloudinaryId = try self.paralleliser.getCloudinarySessionId(req)
         
+        
         // Synchronization Futrure to data object.
         // Generating redirect URL-response to processed image.
         return layers.flatMap(to: Response.self) { layersData  in
@@ -38,7 +39,6 @@ class AbstractMapProcessorMapboxOverlay: AbstractMapProcessorSimple  {
                         let overlayUrlObject = MapsList(name: "", mode: "", backgroundUrl: overlaysObject[mapboxIndex].url, backgroundServerName: "", referer: "", zoomMin: 0, zoomMax: 0, description: "")
                         
                         return try self.makeCustomActions(mapName, tileNumbers, nil, mapObject, baseObject, overlayUrlObject, cloudinaryId, nil, req)
-                        
                     }
                 }
             }

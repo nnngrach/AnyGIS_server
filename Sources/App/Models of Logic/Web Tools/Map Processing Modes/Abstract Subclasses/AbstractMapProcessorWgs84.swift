@@ -22,7 +22,6 @@ class AbstractMapProcessorWgs84: AbstractMapProcessorSimple  {
         return futureCloudinaryId.flatMap(to: Response.self) { cloudinarySessionId  in
             
             return try self.makeCustomActions(mapName, tileNumbers, tilePosition, mapObject, nil, nil, cloudinarySessionId, nil, req)
-            
         }
     }
     

@@ -36,9 +36,7 @@ class MapProcessorWgs84: AbstractMapProcessorWgs84 {
             return self.output.redirect(to: processedImageUrl, with: req)
         }
         
-        return redirectingResponce
-        
-        
+        return redirectingResponce    
     }
     
 }

@@ -29,10 +29,7 @@ class MapProcessorMapboxOverlayWithZoom: AbstractMapProcessorOverlay {
         
         // Get URL of resulting file in image-processor storage
         return self.imageProcessor.syncFour(loadingOverResponces, req) { res1 in
-            
             return self.imageProcessor.syncOne(loadingBaseResponce, req) { res2 in
-                
-                
                 
                 let processedImageUrl = self.imageProcessor.getUrlWithZoomingAndOverlay(baseUrl, fourTilesInNextZoomUrls, tileNumbers.x, tileNumbers.y, cloudinarySessionID!)
                 

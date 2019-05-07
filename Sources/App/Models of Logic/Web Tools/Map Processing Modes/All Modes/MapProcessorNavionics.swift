@@ -52,7 +52,6 @@ class MapProcessorNavionics: AbstractMapProcessorSimple {
         }
         
         return resultResponse
-
     }
     
 }

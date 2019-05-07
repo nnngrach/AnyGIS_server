@@ -18,6 +18,7 @@ class MapProcessorProxy: AbstractMapProcessorSession {
         
         let checkedStatus = try self.urlChecker.checkUrlStatusAndProxy(newUrl, nil, nil, req)
         
+        
         let resultResponse = checkedStatus.map(to: Response.self) { status in
             
             var url = ""
