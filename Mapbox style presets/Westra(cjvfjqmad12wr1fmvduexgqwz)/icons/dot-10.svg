@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 11 11">
+  <title>dot-10</title>
+<circle opacity="0.25" fill="#fff" cx="5.5" cy="5.5" r="4"/>
+<circle opacity="0.5" fill="#fff" cx="5.5" cy="5.5" r="3.5"/>
+<circle opacity="0.75" fill="#fff" cx="5.5" cy="5.5" r="3"/>
+<circle fill="#fff" cx="5.5" cy="5.5" r="2.5"/>
+<circle cx="5.5" cy="5.5" r="2"/>
+</svg>
