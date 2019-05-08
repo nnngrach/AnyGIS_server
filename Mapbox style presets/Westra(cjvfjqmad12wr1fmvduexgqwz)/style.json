@@ -9,27 +9,7 @@
             "398ab32d004e4a76113301fe1ced36ce": {
                 "name": "Westra",
                 "collapsed": false
-            },
-            "643140ef58065df2a8c39e36073c8676": {
-                "name": "Service roads",
-                "collapsed": true
-            },
-            "1444855786460.0557": {"name": "Roads", "collapsed": true},
-            "cfb4e5c7169a17b846038d140b8f1b26": {
-                "name": "Labels",
-                "collapsed": true
-            },
-            "1444934295202.7542": {
-                "name": "Admin boundaries",
-                "collapsed": true
-            },
-            "fcdb0484169814c5d1e95a0f81e5b531": {"name": "Walking roads"},
-            "3fbef678489db8d6a5ee3eb3e0b634ec": {
-                "name": "Car Roads",
-                "collapsed": true
-            },
-            "1444855799204.86": {"name": "Bridges", "collapsed": true},
-            "1444855769305.6016": {"name": "Tunnels", "collapsed": true}
+            }
         },
         "mapbox:sdk-support": {
             "js": "0.50.0",
@@ -37,8 +17,8 @@
             "ios": "4.6.0"
         }
     },
-    "center": [72.1662314163334, 38.93286799445255],
-    "zoom": 10.222480337999205,
+    "center": [78.89836736249003, 42.08659434722125],
+    "zoom": 12.025189701104603,
     "bearing": 0,
     "pitch": 0,
     "sources": {
@@ -47,9 +27,55 @@
             "type": "vector"
         }
     },
-    "sprite": "mapbox://sprites/anygis2/cjvfkny710mdq1fmj8swjyiky/a5tr9zx5s98xut7pkrfe6kdh7",
-    "glyphs": "mapbox://fonts/anygis2/{fontstack}/{range}.pbf",
+    "sprite": "mapbox://sprites/anygis0/cjvfjqmad12wr1fmvduexgqwz/10976ttqcb0uveyvj2irqtq9i",
+    "glyphs": "mapbox://fonts/anygis0/{fontstack}/{range}.pbf",
     "layers": [
+        {
+            "id": "westrapasses Names",
+            "type": "symbol",
+            "metadata": {"mapbox:group": "398ab32d004e4a76113301fe1ced36ce"},
+            "source": "composite",
+            "source-layer": "WestraPasses",
+            "layout": {
+                "text-offset": [0, 2],
+                "text-field": ["to-string", ["get", "name"]],
+                "text-font": [
+                    "Open Sans ExtraBold",
+                    "Arial Unicode MS Regular"
+                ],
+                "text-letter-spacing": 0,
+                "text-size": 10
+            },
+            "paint": {
+                "text-color": "hsl(0, 2%, 0%)",
+                "icon-opacity": [
+                    "interpolate",
+                    ["linear"],
+                    ["zoom"],
+                    0,
+                    0,
+                    9.5,
+                    0,
+                    10,
+                    1,
+                    22,
+                    1
+                ],
+                "text-opacity": [
+                    "interpolate",
+                    ["linear"],
+                    ["zoom"],
+                    0,
+                    0,
+                    11,
+                    0,
+                    12,
+                    1,
+                    22,
+                    1
+                ]
+            }
+        },
         {
             "id": "westrapasses Unknown",
             "type": "symbol",
@@ -447,55 +473,12 @@
                     1
                 ]
             }
-        },
-        {
-            "id": "westrapasses Names",
-            "type": "symbol",
-            "metadata": {"mapbox:group": "398ab32d004e4a76113301fe1ced36ce"},
-            "source": "composite",
-            "source-layer": "WestraPasses",
-            "layout": {
-                "text-size": 9,
-                "text-field": ["to-string", ["get", "name"]],
-                "text-font": ["Open Sans SemiBold", "Arial Unicode MS Regular"],
-                "text-letter-spacing": 0,
-                "text-offset": [0, 2.5]
-            },
-            "paint": {
-                "text-color": "hsl(0, 2%, 0%)",
-                "icon-opacity": [
-                    "interpolate",
-                    ["linear"],
-                    ["zoom"],
-                    0,
-                    0,
-                    9.5,
-                    0,
-                    10,
-                    1,
-                    22,
-                    1
-                ],
-                "text-opacity": [
-                    "interpolate",
-                    ["linear"],
-                    ["zoom"],
-                    0,
-                    0,
-                    11,
-                    0,
-                    12,
-                    1,
-                    22,
-                    1
-                ]
-            }
         }
     ],
-    "created": "2019-05-08T18:44:32.628Z",
-    "id": "cjvfkny710mdq1fmj8swjyiky",
-    "modified": "2019-05-08T18:47:25.195Z",
-    "owner": "anygis2",
+    "created": "2019-05-08T18:18:37.632Z",
+    "id": "cjvfjqmad12wr1fmvduexgqwz",
+    "modified": "2019-05-08T19:40:10.067Z",
+    "owner": "anygis0",
     "visibility": "public",
     "draft": false
 }
