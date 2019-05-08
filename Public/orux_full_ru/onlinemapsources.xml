@@ -2626,6 +2626,21 @@
 <qop></qop>
 </onlinemapsource>
 
+<onlinemapsource uid="8888054">
+<name>Перевалы Вестра (OVERLAY)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Osm_Mapbox_Westra/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>19</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
 <onlinemapsource uid="8888030">
 <name>Рельеф Mapbox (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Osm_Mapnik_Mapbox_Hillshades/{$x}/{$y}/{$z}]]></url>
