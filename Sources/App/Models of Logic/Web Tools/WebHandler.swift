@@ -67,7 +67,7 @@ class WebHandler {
                 return try self.processorProxy.process(mapName, tileNumbers, mapObject, req)
                 
             case "proxyUpload":
-                return try self.processorProxy.process(mapName, tileNumbers, mapObject, req)
+                return try self.processorProxyUpload.process(mapName, tileNumbers, mapObject, req)
                 
             case "overlay":
                 return try self.processorOverlay.process(mapName, tileNumbers, mapObject, req)
