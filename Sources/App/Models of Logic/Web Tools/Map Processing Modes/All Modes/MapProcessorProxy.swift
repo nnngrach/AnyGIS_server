@@ -24,7 +24,8 @@ class MapProcessorProxy: AbstractMapProcessorSession {
             var url = ""
             
             if status.code == 200 {
-                url = newUrl
+                //url = newUrl
+                url = self.imageProcessor.getDirectUrl(newUrl, cloudinarySessionID!)
             } else {
                 url = self.imageProcessor.getDirectUrl(newUrl, cloudinarySessionID!)
             }
