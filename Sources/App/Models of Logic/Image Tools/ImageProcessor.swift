@@ -152,6 +152,13 @@ class ImageProcessor {
     }
     
     
+    public func getUrl(_ baseUrl: String, _ sessionID: String) -> String {
+        let baseImgName = makeName(baseUrl)
+        
+        return "https://res.cloudinary.com/anygis\(sessionID)/image/upload/\(baseImgName)"
+    }
+    
+    
     
     public func getUrlOverlay(_ baseUrl: String, _ overlayUrl: String, _ sessionID: String) -> String {
         let baseImgName = makeName(baseUrl)
