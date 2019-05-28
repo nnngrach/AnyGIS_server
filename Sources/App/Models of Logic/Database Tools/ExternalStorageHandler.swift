@@ -11,7 +11,7 @@ class ExternalStorageHandler {
     
     //let storageApiUrl = "http://localhost:8081/"
     
-    let storageApiUrl = "https://nnnstorage.herokuapp.com/"
+    let storageApiUrl = "https://nnnnstorage.herokuapp.com/"
     let allUrlPatameter = "all/"
     let allByTitleUrlParameter = "allByTitle/"
     let lastByTitleUrlParameter = "lastByTitle/"
