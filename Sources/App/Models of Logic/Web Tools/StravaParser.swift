@@ -14,7 +14,9 @@ class StravaParser {
     
     //private let fetchedDataUrl = "https://api.apify.com/v2/acts/nnngrach~strava-auth/runs/last/dataset/items?token=ATnnxbF6sE7zEZDmMbZTTppKo"
     
-    // temp urls
+    
+    // for temporary urls bugfix
+    // don'd use after 1.08.19
     private let startCookieExtractorScriptUrl = "https://api.apify.com/v2/acts/9qaEDAaykK4zDQiHd/run-sync?token=kbcPyhW2wGwoj86ADpwW8b4WZ&outputRecordKey=OUTPUT&timeout=120"
     
     private let fetchedDataUrl = "https://api.apify.com/v2/acts/9qaEDAaykK4zDQiHd/runs/last/dataset/items?token=kbcPyhW2wGwoj86ADpwW8b4WZ"
@@ -22,11 +24,13 @@ class StravaParser {
 
     
     
-    public func getAuthParameters(login: String, password: String, _ req: Request) throws -> Future<String> {
+    public func getAuthParameters(login: String, password: String, id: String, _ req: Request) throws -> Future<String> {
         
         var httpParameters = ""
         
-        let loginRequest = StravaLoginRequest(email: login, password: password)
+        let currentLogin = loginParalelliser(login: login, cloudinaryID: id)
+        
+        let loginRequest = StravaLoginRequest(email: currentLogin, password: password)
         
         
         let starterCookieExtractResponse = try req.client().post(startCookieExtractorScriptUrl) { loginReq in
@@ -69,6 +73,21 @@ class StravaParser {
         
         
         return resultingHttpParameters
+    }
+    
+    
+    
+    
+    // for temporary urls bugfix
+    private func loginParalelliser(login: String, cloudinaryID: String) -> String {
+        
+        let cloudinaryAccountsCount = 60.0
+        let apifyAccountsCount = 4.0
+        
+        let currentId = Int(Double(cloudinaryID)! / cloudinaryAccountsCount * apifyAccountsCount)
+        let currentLogin = login.replacingOccurrences(of: "0@", with: String(currentId)+"@")
+        
+        return currentLogin
     }
     
 }

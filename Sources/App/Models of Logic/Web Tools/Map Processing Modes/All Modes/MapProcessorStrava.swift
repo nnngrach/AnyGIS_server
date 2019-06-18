@@ -8,14 +8,15 @@
 
 import Vapor
 
-class MapProcessorStrava: AbstractMapProcessorSimple {
+class MapProcessorStrava: AbstractMapProcessorSession {
     
     let stravaParser = StravaParser()
     
     
     override func makeCustomActions(_ mapName:String, _ tileNumbers: (x: Int, y: Int, z: Int), _ tilePosition: (x: Int, y: Int, offsetX: Int, offsetY: Int)?, _ mapObject: (MapsList), _ baseObject: (MapsList)?, _ overlayObject: (MapsList)?,   _ cloudinarySessionID: String?, _ req: Request) throws -> EventLoopFuture<Response> {
         
-        
+        guard cloudinarySessionID != nil else {return try output.serverErrorResponce("MapProcessor unwarping error", req)}
+
         let isInAuthProcessingStausText = "The app is processing Strava authorization. Please reload this map after 2 minutes"
         
         
@@ -24,7 +25,6 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
         let storedStravaAuthData = try sqlHandler.getServiceDataBy(serviceName: "Strava", req)
         
         var futureUrl: Future<String> = req.future("")
-        
         
         
         let resultResponse = storedStravaAuthData.flatMap(to: Response.self) { data in
@@ -71,7 +71,7 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                             storedStravaAuthLine.save(on: req)
                             
                             
-                            let stravaAuthParams = try self.stravaParser.getAuthParameters(login: storedStravaAuthLine.userName, password: storedStravaAuthLine.apiKey, req)
+                            let stravaAuthParams = try self.stravaParser.getAuthParameters(login: storedStravaAuthLine.userName, password: storedStravaAuthLine.apiKey, id: cloudinarySessionID!, req)
                             
                             let futureUrlWithNewAuthKey = stravaAuthParams.map(to: String.self) { newParams in
                                 
