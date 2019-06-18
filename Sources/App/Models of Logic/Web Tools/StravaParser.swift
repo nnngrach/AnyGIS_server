@@ -10,9 +10,14 @@ import Vapor
 
 class StravaParser {
     
-    private let startCookieExtractorScriptUrl = "https://api.apify.com/v2/acts/nnngrach~strava-auth/run-sync?token=ATnnxbF6sE7zEZDmMbZTTppKo&outputRecordKey=OUTPUT&timeout=120"
+    //private let startCookieExtractorScriptUrl = "https://api.apify.com/v2/acts/nnngrach~strava-auth/run-sync?token=ATnnxbF6sE7zEZDmMbZTTppKo&outputRecordKey=OUTPUT&timeout=120"
     
-    private let fetchedDataUrl = "https://api.apify.com/v2/acts/nnngrach~strava-auth/runs/last/dataset/items?token=ATnnxbF6sE7zEZDmMbZTTppKo"
+    //private let fetchedDataUrl = "https://api.apify.com/v2/acts/nnngrach~strava-auth/runs/last/dataset/items?token=ATnnxbF6sE7zEZDmMbZTTppKo"
+    
+    // temp urls
+    private let startCookieExtractorScriptUrl = "https://api.apify.com/v2/acts/9qaEDAaykK4zDQiHd/run-sync?token=kbcPyhW2wGwoj86ADpwW8b4WZ&outputRecordKey=OUTPUT&timeout=120"
+    
+    private let fetchedDataUrl = "https://api.apify.com/v2/acts/9qaEDAaykK4zDQiHd/runs/last/dataset/items?token=kbcPyhW2wGwoj86ADpwW8b4WZ"
     
 
     

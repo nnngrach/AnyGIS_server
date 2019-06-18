@@ -1820,7 +1820,7 @@
 <name>Ukraine - Кадастровая карта (EUROPEEASTERN)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Other_Ukr_Kadastr_layer/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
-<maxzoom>22</maxzoom>
+<maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
@@ -2056,7 +2056,7 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="11007">
+<onlinemapsource uid="110070">
 <name>Skoterleder (EUROPENORTHERN)</name>
 <url><![CDATA[https://tiles.skoterleder.org/tiles/{$z}/{$x}/{$y}.png]]></url>
 <servers></servers>
