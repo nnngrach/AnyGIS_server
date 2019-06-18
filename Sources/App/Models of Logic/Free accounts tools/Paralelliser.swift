@@ -88,5 +88,17 @@ class FreeAccountsParalleliser {
         throw GlobalErrors.internalServerError
     }
     
+    
+    
+    
+    
+    // Switch to next Strava account every 25000 sec
+    // (This is about every 7 hours)
+    public func getStravaSessionId() -> String {
+        
+        let sessionNumber = Int((Double(Int(Date().timeIntervalSince1970) % 100000) / 100000) * 4.0)
+        
+        return "Strava" + String(sessionNumber)
+    }
    
 }

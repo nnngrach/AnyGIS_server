@@ -28,9 +28,7 @@ class StravaParser {
         
         var httpParameters = ""
         
-        let currentLogin = loginParalelliser(login: login, cloudinaryID: id)
-        
-        let loginRequest = StravaLoginRequest(email: currentLogin, password: password)
+        let loginRequest = StravaLoginRequest(email: login, password: password)
         
         
         let starterCookieExtractResponse = try req.client().post(startCookieExtractorScriptUrl) { loginReq in
@@ -77,17 +75,5 @@ class StravaParser {
     
     
     
-    
-    // for temporary urls bugfix
-    private func loginParalelliser(login: String, cloudinaryID: String) -> String {
-        
-        let cloudinaryAccountsCount = 60.0
-        let apifyAccountsCount = 4.0
-        
-        let currentId = Int(Double(cloudinaryID)! / cloudinaryAccountsCount * apifyAccountsCount)
-        let currentLogin = login.replacingOccurrences(of: "0@", with: String(currentId)+"@")
-        
-        return currentLogin
-    }
     
 }
