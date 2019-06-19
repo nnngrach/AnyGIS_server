@@ -24,6 +24,7 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
         
         
         let currentStravaSession = paralelliser.getStravaSessionId()
+
         
         let storedStravaAuthData = try sqlHandler.getServiceDataBy(serviceName: currentStravaSession, req)
         
@@ -49,9 +50,9 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                     // Load map with auth parameters (/tiles-auth/)
                 } else {
                     
+                    
                     // Stop if is in auth processing now
                     guard storedStravaAuthLine.apiSecret != isInAuthProcessingStausText else {return req.future(isInAuthProcessingStausText)}
-                    
                     
                     let urlWithStoredAuthKey = generatedUrl + storedStravaAuthLine.apiSecret
                     
@@ -74,7 +75,7 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                             storedStravaAuthLine.save(on: req)
                             
                             
-                            let stravaAuthParams = try self.stravaParser.getAuthParameters(login: storedStravaAuthLine.userName, password: storedStravaAuthLine.apiKey, id: cloudinarySessionID!, req)
+                            let stravaAuthParams = try self.stravaParser.getAuthParameters(login: storedStravaAuthLine.userName, password: storedStravaAuthLine.apiKey, req)
                             
                             let futureUrlWithNewAuthKey = stravaAuthParams.map(to: String.self) { newParams in
                                 

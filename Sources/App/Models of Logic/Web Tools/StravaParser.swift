@@ -24,12 +24,11 @@ class StravaParser {
 
     
     
-    public func getAuthParameters(login: String, password: String, id: String, _ req: Request) throws -> Future<String> {
+    public func getAuthParameters(login: String, password: String, _ req: Request) throws -> Future<String> {
         
         var httpParameters = ""
         
         let loginRequest = StravaLoginRequest(email: login, password: password)
-        
         
         let starterCookieExtractResponse = try req.client().post(startCookieExtractorScriptUrl) { loginReq in
             try loginReq.content.encode(loginRequest)
