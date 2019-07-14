@@ -118,6 +118,22 @@ public func routes(_ router: Router) throws {
     
     
     
+    // For loading test purposes
+    router.get("test", Int.parameter) { req -> String in
+        
+        let count = try req.parameters.next(Int.self)
+        //let basicUrl = "http://165.227.131.115:5050/overpass/68141/44000/17?script=s/Jto"
+        let basicUrl = "http://localhost:5050/overpass/68141/44000/17?script=s/Jto"
+        
+        for i in 0 ..< count {
+            let yTileNumber = 44000 + i
+            let checkingUrl = basicUrl.replacingOccurrences(of: "44000", with: String(yTileNumber))
+            try req.client().get(checkingUrl)
+        }
+        
+        return "Checked url: " + String(count)
+    }
+    
     
 //    router.get("experiments_playground") { req -> String in
 //        return "Hello, world!"
