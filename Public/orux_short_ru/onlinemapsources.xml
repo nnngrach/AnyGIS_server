@@ -18,7 +18,7 @@
 
 <onlinemapsource uid="10020">
 <name>Google Карта RU (GLOBALCITY)</name>
-<url><![CDATA[https://mt{$s}.google.com/vt/lyrs=m&hl=ru&x={$x}&y={$y}&z={$z}]]></url>
+<url><![CDATA[http://mt.google.com/vt/lyrs=m&hl=ru&x={$x}&y={$y}&z={$z}]]></url>
 <servers>0,1,2,3</servers>
 <maxzoom>20</maxzoom>
 <minzoom>0</minzoom>
@@ -302,7 +302,7 @@
 </onlinemapsource>
 
 <onlinemapsource uid="8888032">
-<name>Strava Heatmap - Ride (OVERLAY)</name>
+<name>Strava Heatmap - Ride 256 (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Ride/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>15</maxzoom>
@@ -317,7 +317,7 @@
 </onlinemapsource>
 
 <onlinemapsource uid="8888033">
-<name>Strava Heatmap - Run (OVERLAY)</name>
+<name>Strava Heatmap - Run 256 (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Run/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>15</maxzoom>
@@ -332,7 +332,7 @@
 </onlinemapsource>
 
 <onlinemapsource uid="8888034">
-<name>Strava Heatmap - Water (OVERLAY)</name>
+<name>Strava Heatmap - Water 256 (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Water/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>15</maxzoom>
@@ -347,7 +347,7 @@
 </onlinemapsource>
 
 <onlinemapsource uid="8888035">
-<name>Strava Heatmap - Winter (OVERLAY)</name>
+<name>Strava Heatmap - Winter 256 (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Winter/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>15</maxzoom>
@@ -363,7 +363,7 @@
 
 <onlinemapsource uid="8888024">
 <name>Waymarkedtrails.org - Cycling (OVERLAY)</name>
-<url><![CDATA[https://tile.waymarkedtrails.org/cycling/{$z}/{$x}/{$y}.png]]></url>
+<url><![CDATA[http://tile.waymarkedtrails.org/cycling/{$z}/{$x}/{$y}.png]]></url>
 <servers></servers>
 <maxzoom>19</maxzoom>
 <minzoom>0</minzoom>
@@ -378,9 +378,24 @@
 
 <onlinemapsource uid="8888023">
 <name>Waymarkedtrails.org - Hiking (OVERLAY)</name>
-<url><![CDATA[https://tile.waymarkedtrails.org/hiking/{$z}/{$x}/{$y}.png]]></url>
+<url><![CDATA[http://tile.waymarkedtrails.org/hiking/{$z}/{$x}/{$y}.png]]></url>
 <servers></servers>
 <maxzoom>19</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="8888027">
+<name>Wikimapia.org (OVERLAY)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Wikimapia_layer/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>22</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>

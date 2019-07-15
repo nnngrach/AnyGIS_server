@@ -33,7 +33,7 @@
 
 <onlinemapsource uid="10020">
 <name>Google Карта RU (GLOBALCITY)</name>
-<url><![CDATA[https://mt{$s}.google.com/vt/lyrs=m&hl=ru&x={$x}&y={$y}&z={$z}]]></url>
+<url><![CDATA[http://mt.google.com/vt/lyrs=m&hl=ru&x={$x}&y={$y}&z={$z}]]></url>
 <servers>0,1,2,3</servers>
 <maxzoom>20</maxzoom>
 <minzoom>0</minzoom>
@@ -78,7 +78,7 @@
 
 <onlinemapsource uid="117595">
 <name>Here Ландшафт (GLOBALCITY)</name>
-<url><![CDATA[https://{$s}.traffic.maps.api.here.com/maptile/2.1/traffictile/newest/normal.day/{$z}/{$x}/{$y}/256/png8?app_id=bC4fb9WQfCCZfkxspD4z&app_code=K2Cpd_EKDzrZb1tz0zdpeQ&lg=rus&ppi=72&pview=RUS&tprof=PrtlHere]]></url>
+<url><![CDATA[https://{$s}.aerial.maps.api.here.com/maptile/2.1/maptile/newest/terrain.day/{$z}/{$x}/{$y}/256/png8?app_id=bC4fb9WQfCCZfkxspD4z&app_code=K2Cpd_EKDzrZb1tz0zdpeQ&lg=rus&ppi=72&pview=RUS&tprof=PrtlHere]]></url>
 <servers>1,2,3,4</servers>
 <maxzoom>19</maxzoom>
 <minzoom>0</minzoom>
@@ -168,7 +168,7 @@
 
 <onlinemapsource uid="10021">
 <name>Google Спутник (GLOBALSATELLITES)</name>
-<url><![CDATA[https://mt{$s}.google.com/vt/lyrs=s@176103410&x={$x}&y={$y}&z={$z}&s=Galileo&scale=1&hl=en]]></url>
+<url><![CDATA[http://mt.google.com/vt/lyrs=s@176103410&x={$x}&y={$y}&z={$z}&s=Galileo&scale=1&hl=en]]></url>
 <servers>0,1,2,3</servers>
 <maxzoom>20</maxzoom>
 <minzoom>0</minzoom>
@@ -288,7 +288,7 @@
 
 <onlinemapsource uid="6666002">
 <name>Hike and bike (GLOBALOSM)</name>
-<url><![CDATA[http://toolserver.org/tiles/hikebike/{$z}/{$x}/{$y}.png]]></url>
+<url><![CDATA[https://tiles.wmflabs.org/hikebike/{$z}/{$x}/{$y}.png]]></url>
 <servers></servers>
 <maxzoom>19</maxzoom>
 <minzoom>0</minzoom>
@@ -2283,7 +2283,7 @@
 
 <onlinemapsource uid="8888018">
 <name>Here Пробки (OVERLAY)</name>
-<url><![CDATA[https://tiles.traffic.cit.api.here.com/traffic/6.0/tiles/{$z}/{$x}/{$y}/256/png8?app_id=xWVIueSv6JL0aJ5xqTxb&app_code=djPZyynKsbTjIUDOBcHZ2g]]></url>
+<url><![CDATA[http://tiles.traffic.cit.api.here.com/traffic/6.0/tiles/{$z}/{$x}/{$y}/256/png8?app_id=xWVIueSv6JL0aJ5xqTxb&app_code=djPZyynKsbTjIUDOBcHZ2g]]></url>
 <servers></servers>
 <maxzoom>19</maxzoom>
 <minzoom>0</minzoom>
@@ -2402,7 +2402,7 @@
 </onlinemapsource>
 
 <onlinemapsource uid="8888031">
-<name>Strava Heatmap - All (OVERLAY)</name>
+<name>Strava Heatmap - All 256 (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_All/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>15</maxzoom>
@@ -2417,7 +2417,7 @@
 </onlinemapsource>
 
 <onlinemapsource uid="8888043">
-<name>Strava Heatmap - All (Bluered) (OVERLAY)</name>
+<name>Strava Heatmap - All 256 (Bluered) (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_All_Bluered/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>15</maxzoom>
@@ -2432,7 +2432,7 @@
 </onlinemapsource>
 
 <onlinemapsource uid="8888032">
-<name>Strava Heatmap - Ride (OVERLAY)</name>
+<name>Strava Heatmap - Ride 256 (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Ride/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>15</maxzoom>
@@ -2447,7 +2447,7 @@
 </onlinemapsource>
 
 <onlinemapsource uid="8888044">
-<name>Strava Heatmap - Ride (Bluered) (OVERLAY)</name>
+<name>Strava Heatmap - Ride 256 (Bluered) (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Ride_Bluered/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>15</maxzoom>
@@ -2462,7 +2462,7 @@
 </onlinemapsource>
 
 <onlinemapsource uid="8888033">
-<name>Strava Heatmap - Run (OVERLAY)</name>
+<name>Strava Heatmap - Run 256 (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Run/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>15</maxzoom>
@@ -2477,7 +2477,7 @@
 </onlinemapsource>
 
 <onlinemapsource uid="8888045">
-<name>Strava Heatmap - Run (Bluered) (OVERLAY)</name>
+<name>Strava Heatmap - Run 256 (Bluered) (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Run_Bluered/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>15</maxzoom>
@@ -2492,7 +2492,7 @@
 </onlinemapsource>
 
 <onlinemapsource uid="8888034">
-<name>Strava Heatmap - Water (OVERLAY)</name>
+<name>Strava Heatmap - Water 256 (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Water/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>15</maxzoom>
@@ -2507,7 +2507,7 @@
 </onlinemapsource>
 
 <onlinemapsource uid="8888046">
-<name>Strava Heatmap - Water (Bluered) (OVERLAY)</name>
+<name>Strava Heatmap - Water 256 (Bluered) (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Water_Bluered/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>15</maxzoom>
@@ -2522,7 +2522,7 @@
 </onlinemapsource>
 
 <onlinemapsource uid="8888035">
-<name>Strava Heatmap - Winter (OVERLAY)</name>
+<name>Strava Heatmap - Winter 256 (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Winter/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>15</maxzoom>
@@ -2537,7 +2537,7 @@
 </onlinemapsource>
 
 <onlinemapsource uid="8888047">
-<name>Strava Heatmap - Winter (Bluered) (OVERLAY)</name>
+<name>Strava Heatmap - Winter 256 (Bluered) (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Winter_Bluered/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>15</maxzoom>
@@ -2553,7 +2553,7 @@
 
 <onlinemapsource uid="8888024">
 <name>Waymarkedtrails.org - Cycling (OVERLAY)</name>
-<url><![CDATA[https://tile.waymarkedtrails.org/cycling/{$z}/{$x}/{$y}.png]]></url>
+<url><![CDATA[http://tile.waymarkedtrails.org/cycling/{$z}/{$x}/{$y}.png]]></url>
 <servers></servers>
 <maxzoom>19</maxzoom>
 <minzoom>0</minzoom>
@@ -2568,7 +2568,7 @@
 
 <onlinemapsource uid="8888023">
 <name>Waymarkedtrails.org - Hiking (OVERLAY)</name>
-<url><![CDATA[https://tile.waymarkedtrails.org/hiking/{$z}/{$x}/{$y}.png]]></url>
+<url><![CDATA[http://tile.waymarkedtrails.org/hiking/{$z}/{$x}/{$y}.png]]></url>
 <servers></servers>
 <maxzoom>19</maxzoom>
 <minzoom>0</minzoom>
@@ -2586,6 +2586,21 @@
 <url><![CDATA[http://wigle.net/tile?tileX={$x}&tileY={$y}&tileZoom={$z}&coloring=density]]></url>
 <servers></servers>
 <maxzoom>19</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="8888027">
+<name>Wikimapia.org (OVERLAY)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Wikimapia_layer/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>22</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
