@@ -67,6 +67,34 @@ public func routes(_ router: Router) throws {
     
     
     
+    // Redirect to one of Mapshoter Api mirrors
+    router.get("mapshoter", String.parameter, Int.parameter, Int.parameter, Int.parameter, Int.parameter) { request -> Response in
+        
+        // Extracting values from URL parameters
+        let mode = try request.parameters.next(String.self)
+        let x = try request.parameters.next(Int.self)
+        let y = try request.parameters.next(Int.self)
+        let z = try request.parameters.next(Int.self)
+        let crossZ = try request.parameters.next(Int.self)
+        
+        guard let script = request.query[String.self, at: "script"] else {
+            throw Abort(.badRequest)
+        }
+        
+        let serverNames = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
+        let randomValue = randomNubmerForHeroku(serverNames.count)
+        let serverName = serverNames[randomValue]
+        
+        let mirrorUrl = "https://\(serverName)-mapshoter.herokuapp.com/\(mode)/\(x)/\(y)/\(z)/\(crossZ)?script=\(script)"
+        
+        print(mirrorUrl)
+        
+        return request.redirect(to: mirrorUrl)
+    }
+
+    
+    
+    
     
     // MARK: Storage functions
     // Launched by Uptimerobot.com
