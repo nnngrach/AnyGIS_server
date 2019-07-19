@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <customMapSource>
-<name>Yandex Satellite</name>
+<name>Nakarte.me - Геокэшинг</name>
 <layers>
 
 <layer>
     <minZoom>0</minZoom>
     <maxZoom>18</maxZoom>
-    <url>https://anygis.herokuapp.com/Yandex_sat_clean/{$x}/{$y}/{$z}</url>
+    <url>https://anygis.herokuapp.com/Nakarte_Geocashing/{$x}/{$y}/{$z}</url>
 </layer>
 
 </layers>

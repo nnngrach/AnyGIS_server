@@ -91,6 +91,21 @@
 <qop></qop>
 </onlinemapsource>
 
+<onlinemapsource uid="468332">
+<name>Waze (GLOBALCITY)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Waze/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>18</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
 <onlinemapsource uid="10080">
 <name>Yandex Карта (GLOBALCITY)</name>
 <url><![CDATA[https://vec0{$s}.maps.yandex.net/tiles?l=map&x={$x}&y={$y}&z={$z}]]></url>
@@ -546,6 +561,36 @@
 <url><![CDATA[https://anygis.herokuapp.com/Navionics_Sonar_Charts/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>19</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="12044">
+<name>Nakarte.me - Геокэшинг (GLOBALINFO)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Nakarte_Geocashing/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>18</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="12043">
+<name>Nakarte.me - Перевалы Вестра (GLOBALINFO)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Nakarte_Westra/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>18</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
@@ -2641,21 +2686,6 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="8888054">
-<name>Перевалы Вестра (OVERLAY)</name>
-<url><![CDATA[https://anygis.herokuapp.com/Osm_Mapbox_Westra/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
-<maxzoom>19</maxzoom>
-<minzoom>0</minzoom>
-<projection>MERCATORESFERICA</projection>
-<downloadable>1</downloadable>
-<cacheable>1</cacheable>
-<xop></xop>
-<yop></yop>
-<zop></zop>
-<qop></qop>
-</onlinemapsource>
-
 <onlinemapsource uid="8888030">
 <name>Рельеф Mapbox (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Osm_Mapnik_Mapbox_Hillshades/{$x}/{$y}/{$z}]]></url>
@@ -2706,6 +2736,51 @@
 <url><![CDATA[https://anygis.herokuapp.com/Rosreestr_kadaster/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>20</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="8899000">
+<name>OverpassTurbo: Гравийные дорожки для бега (OVERPASS)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Mapshoter_GravelRunTrails/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>18</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="8899001">
+<name>OverpassTurbo: Мусорные баки (OVERPASS)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Mapshoter_Waste/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>18</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="8899002">
+<name>OverpassTurbo: Питьевая вода (OVERPASS)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Mapshoter_Water/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>18</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>

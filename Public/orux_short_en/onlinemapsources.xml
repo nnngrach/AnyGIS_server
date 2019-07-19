@@ -31,6 +31,21 @@
 <qop></qop>
 </onlinemapsource>
 
+<onlinemapsource uid="468332">
+<name>Waze (GLOBALCITY)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Waze/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>18</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
 <onlinemapsource uid="468322">
 <name>Bing Bird's Eye (GLOBALSATELLITES)</name>
 <url><![CDATA[http://ak.dynamic.t{$s}.tiles.virtualearth.net/comp/ch/{$q}?mkt=en-us&it=A,G,L&shading=hill&og=8&n=z]]></url>

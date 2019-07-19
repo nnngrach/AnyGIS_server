@@ -181,6 +181,21 @@
 <qop></qop>
 </onlinemapsource>
 
+<onlinemapsource uid="12043">
+<name>Nakarte.me - Перевалы Вестра (GLOBALINFO)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Nakarte_Westra/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>18</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
 <onlinemapsource uid="12040">
 <name>Wikimapia.org (GLOBALINFO)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Wikimapia/{$x}/{$y}/{$z}]]></url>
@@ -430,21 +445,6 @@
 <projection>MERCATORELIPSOIDAL</projection>
 <downloadable>1</downloadable>
 <cacheable>0</cacheable>
-<xop></xop>
-<yop></yop>
-<zop></zop>
-<qop></qop>
-</onlinemapsource>
-
-<onlinemapsource uid="8888054">
-<name>Перевалы Вестра (OVERLAY)</name>
-<url><![CDATA[https://anygis.herokuapp.com/Osm_Mapbox_Westra/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
-<maxzoom>19</maxzoom>
-<minzoom>0</minzoom>
-<projection>MERCATORESFERICA</projection>
-<downloadable>1</downloadable>
-<cacheable>1</cacheable>
 <xop></xop>
 <yop></yop>
 <zop></zop>
