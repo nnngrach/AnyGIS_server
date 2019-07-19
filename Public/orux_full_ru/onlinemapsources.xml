@@ -92,14 +92,14 @@
 </onlinemapsource>
 
 <onlinemapsource uid="468332">
-<name>Waze (GLOBALCITY)</name>
+<name>Waze Пробки (GLOBALCITY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Waze/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>18</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
-<cacheable>1</cacheable>
+<cacheable>0</cacheable>
 <xop></xop>
 <yop></yop>
 <zop></zop>

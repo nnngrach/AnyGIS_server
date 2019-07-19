@@ -99,7 +99,7 @@
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
-<cacheable>1</cacheable>
+<cacheable>0</cacheable>
 <xop></xop>
 <yop></yop>
 <zop></zop>
