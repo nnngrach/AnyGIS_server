@@ -123,11 +123,11 @@
 
 <onlinemapsource uid="468330">
 <name>Yandex Карта (proxy) (GLOBALCITY)</name>
-<url><![CDATA[https://anygis.herokuapp.com/Yandex_map_WGS84_proxy/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[https://anygis.herokuapp.com/Yandex_map/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
-<maxzoom>19</maxzoom>
+<maxzoom>18</maxzoom>
 <minzoom>0</minzoom>
-<projection>MERCATORELIPSOIDAL</projection>
+<projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
 <cacheable>1</cacheable>
 <xop></xop>
@@ -303,11 +303,11 @@
 
 <onlinemapsource uid="468331">
 <name>Yandex Спутник (proxy) (GLOBALSATELLITES)</name>
-<url><![CDATA[https://anygis.herokuapp.com/Yandex_sat_clean_WGS84_proxy/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[https://anygis.herokuapp.com/Yandex_sat_clean/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
-<maxzoom>19</maxzoom>
+<maxzoom>18</maxzoom>
 <minzoom>0</minzoom>
-<projection>MERCATORELIPSOIDAL</projection>
+<projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
 <cacheable>1</cacheable>
 <xop></xop>
@@ -2510,7 +2510,7 @@
 <name>Strava Heatmap - All 256 (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_All/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
-<maxzoom>15</maxzoom>
+<maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
@@ -2525,7 +2525,7 @@
 <name>Strava Heatmap - All 256 (Bluered) (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_All_Bluered/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
-<maxzoom>15</maxzoom>
+<maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
@@ -2540,7 +2540,7 @@
 <name>Strava Heatmap - Ride 256 (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Ride/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
-<maxzoom>15</maxzoom>
+<maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
@@ -2555,7 +2555,7 @@
 <name>Strava Heatmap - Ride 256 (Bluered) (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Ride_Bluered/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
-<maxzoom>15</maxzoom>
+<maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
@@ -2570,7 +2570,7 @@
 <name>Strava Heatmap - Run 256 (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Run/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
-<maxzoom>15</maxzoom>
+<maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
@@ -2585,7 +2585,7 @@
 <name>Strava Heatmap - Run 256 (Bluered) (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Run_Bluered/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
-<maxzoom>15</maxzoom>
+<maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
@@ -2600,7 +2600,7 @@
 <name>Strava Heatmap - Water 256 (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Water/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
-<maxzoom>15</maxzoom>
+<maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
@@ -2615,7 +2615,7 @@
 <name>Strava Heatmap - Water 256 (Bluered) (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Water_Bluered/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
-<maxzoom>15</maxzoom>
+<maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
@@ -2630,7 +2630,7 @@
 <name>Strava Heatmap - Winter 256 (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Winter/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
-<maxzoom>15</maxzoom>
+<maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
@@ -2645,7 +2645,7 @@
 <name>Strava Heatmap - Winter 256 (Bluered) (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Winter_Bluered/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
-<maxzoom>15</maxzoom>
+<maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>

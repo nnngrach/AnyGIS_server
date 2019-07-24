@@ -138,11 +138,11 @@
 
 <onlinemapsource uid="468331">
 <name>Yandex Satellite (proxy) (GLOBALSATELLITES)</name>
-<url><![CDATA[https://anygis.herokuapp.com/Yandex_sat_clean_WGS84_proxy/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[https://anygis.herokuapp.com/Yandex_sat_clean/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
-<maxzoom>19</maxzoom>
+<maxzoom>18</maxzoom>
 <minzoom>0</minzoom>
-<projection>MERCATORELIPSOIDAL</projection>
+<projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
 <cacheable>1</cacheable>
 <xop></xop>
@@ -376,11 +376,26 @@
 <qop></qop>
 </onlinemapsource>
 
+<onlinemapsource uid="8888031">
+<name>Strava Heatmap - All (OVERLAY)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_All/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>16</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
 <onlinemapsource uid="8888032">
 <name>Strava Heatmap - Ride (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Ride/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
-<maxzoom>15</maxzoom>
+<maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
@@ -395,7 +410,7 @@
 <name>Strava Heatmap - Run (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Run/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
-<maxzoom>15</maxzoom>
+<maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
@@ -410,7 +425,7 @@
 <name>Strava Heatmap - Water (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Water/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
-<maxzoom>15</maxzoom>
+<maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
@@ -425,7 +440,7 @@
 <name>Strava Heatmap - Winter (OVERLAY)</name>
 <url><![CDATA[https://anygis.herokuapp.com/Tracks_Strava_Winter/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
-<maxzoom>15</maxzoom>
+<maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
