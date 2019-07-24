@@ -301,6 +301,21 @@
 <qop></qop>
 </onlinemapsource>
 
+<onlinemapsource uid="468335">
+<name>Sentinel (GLOBALSATELLITES)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Sentinel/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>15</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
 <onlinemapsource uid="10081">
 <name>Yandex Satellite (GLOBALSATELLITES)</name>
 <url><![CDATA[http://sat0{$s}.maps.yandex.net/tiles?l=sat&x={$x}&y={$y}&z={$z}]]></url>
