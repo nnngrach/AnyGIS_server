@@ -136,6 +136,21 @@
 <qop></qop>
 </onlinemapsource>
 
+<onlinemapsource uid="468331">
+<name>Yandex Satellite (proxy) (GLOBALSATELLITES)</name>
+<url><![CDATA[https://anygis.herokuapp.com/Yandex_sat_clean_WGS84_proxy/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>19</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORELIPSOIDAL</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
 <onlinemapsource uid="10015">
 <name>4U maps (GLOBALOSM)</name>
 <url><![CDATA[http://www.4umaps.eu/{$z}/{$x}/{$y}.png]]></url>
