@@ -2282,7 +2282,7 @@
 </onlinemapsource>
 
 <onlinemapsource uid="12003">
-<name>Чехия - Зимниие тропы (EUROPECENTRAL)</name>
+<name>Чехия - Зимние тропы (EUROPECENTRAL)</name>
 <url><![CDATA[https://m{$s}.mapserver.mapy.cz/winter-m/{$z}-{$x}-{$y}]]></url>
 <servers>1,2,3,4</servers>
 <maxzoom>19</maxzoom>
