@@ -436,6 +436,21 @@
 <qop></qop>
 </onlinemapsource>
 
+<onlinemapsource uid="6666060">
+<name>Mapnik (no labels) (GLOBALOSM)</name>
+<url><![CDATA[https://tiles.wmflabs.org/osm-no-labels/{$z}/{$x}/{$y}.png]]></url>
+<servers></servers>
+<maxzoom>19</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
 <onlinemapsource uid="6666016">
 <name>Mapy Tourists (GLOBALOSM)</name>
 <url><![CDATA[https://m{$s}.mapserver.mapy.cz/base-m/{$z}-{$x}-{$y}]]></url>
