@@ -47,11 +47,11 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                     return req.future(generatedUrl)
                     
                     
-                    // Load map with auth parameters (/tiles-auth/)
+                // Load map with auth parameters (/tiles-auth/)
                 } else {
                     
                     
-                    // Stop if is in auth processing now
+                    // Break connection If is in auth processing now
                     guard storedStravaAuthLine.apiSecret != isInAuthProcessingStausText else {return req.future(isInAuthProcessingStausText)}
                     
                     let urlWithStoredAuthKey = generatedUrl + storedStravaAuthLine.apiSecret

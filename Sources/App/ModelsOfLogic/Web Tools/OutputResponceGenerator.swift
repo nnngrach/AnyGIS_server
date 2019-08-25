@@ -33,7 +33,7 @@ class OutputResponceGenerator {
     
     
     public func redirectWithReferer(to url: String, referer: String?, with req: Request) -> Future<Response>  {
-        let resultReferer = referer ?? "https://anygis.herokuapp.com/"
+        let resultReferer = referer ?? SERVER_HOST
         
         return try! req.client().get(url, headers: HTTPHeaders(dictionaryLiteral: ("referer",resultReferer)))
     }

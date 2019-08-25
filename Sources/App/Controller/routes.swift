@@ -3,6 +3,7 @@ import FluentSQLite
 
 
 
+
 /// Register your application's routes here.
 public func routes(_ router: Router) throws {
     
@@ -14,14 +15,17 @@ public func routes(_ router: Router) throws {
     
     
     // MARK: Html pages
+    router.get { req -> Response in
+        return req.redirect(to: SITE_HOST)
+    }
+    
     
     // Show welcome "index" page.
     // Here I'm using "Leaf" Html-page generator.
     // Patch:  ...\Resources\Views\*.leaf
-    router.get { req -> Future<View> in
+    router.get("api") { req -> Future<View> in
         return try req.view().render("home")
     }
-    
     
     // Show html table with list of all maps
     router.get("list") { req -> Future<View> in
@@ -66,6 +70,7 @@ public func routes(_ router: Router) throws {
     }
     
     
+    //TODO: REDONE!
     
     // Redirect to one of Mapshoter Api mirrors
     router.get("mapshoter", String.parameter, Int.parameter, Int.parameter, Int.parameter, Int.parameter) { request -> Response in
@@ -100,23 +105,23 @@ public func routes(_ router: Router) throws {
     // Launched by Uptimerobot.com
     // Start checker for cashe storage. And clean it if needed.
     // Deactivate unworking accounts.
-    router.get("new_day_status_update") { req -> String in
-        try cloudinaryHandler.newDayStatusUpdate(req)
-        return "Success!"
-    }
+//    router.get("new_day_status_update") { req -> String in
+//        try cloudinaryHandler.newDayStatusUpdate(req)
+//        return "Success!"
+//    }
     
     
     
-    router.get("active_accounts") { req -> Future<[String]> in
-        return try sqlHandler.getServiceDataBy(serviceName: "CloudinaryWorkedAccountsList", req)
-            .map { record -> [String] in
-                
-                var accounts = record[0].apiSecret.components(separatedBy: ";")
-                accounts.removeLast()
-                let sortedList = accounts.sorted(by: { s1, s2 in return Int(s1)! < Int(s2)! })
-                return sortedList
-        }
-    }
+//    router.get("active_accounts") { req -> Future<[String]> in
+//        return try sqlHandler.getServiceDataBy(serviceName: "CloudinaryWorkedAccountsList", req)
+//            .map { record -> [String] in
+//
+//                var accounts = record[0].apiSecret.components(separatedBy: ";")
+//                accounts.removeLast()
+//                let sortedList = accounts.sorted(by: { s1, s2 in return Int(s1)! < Int(s2)! })
+//                return sortedList
+//        }
+//    }
 
     
     
@@ -127,7 +132,7 @@ public func routes(_ router: Router) throws {
         let folder = try req.parameters.next(String.self)
         let filename = try req.parameters.next(String.self)
 
-        let url = "https://anygis.herokuapp.com/" + folder + "/" + filename
+        let url = SERVER_HOST + folder + "/" + filename
 
         let futureContent = try req.client().get(url)
 
@@ -146,21 +151,21 @@ public func routes(_ router: Router) throws {
     
     
     
-    // For loading test purposes
-    router.get("test", Int.parameter) { req -> String in
-        
-        let count = try req.parameters.next(Int.self)
-        //let basicUrl = "http://165.227.131.115:5050/overpass/68141/44000/17?script=s/Jto"
-        let basicUrl = "http://localhost:5050/overpass/68141/44000/17?script=s/Jto"
-        
-        for i in 0 ..< count {
-            let yTileNumber = 44000 + i
-            let checkingUrl = basicUrl.replacingOccurrences(of: "44000", with: String(yTileNumber))
-            try req.client().get(checkingUrl)
-        }
-        
-        return "Checked url: " + String(count)
-    }
+//    // For loading test purposes
+//    router.get("test", Int.parameter) { req -> String in
+//
+//        let count = try req.parameters.next(Int.self)
+//        //let basicUrl = "http://165.227.131.115:5050/overpass/68141/44000/17?script=s/Jto"
+//        let basicUrl = "http://localhost:5050/overpass/68141/44000/17?script=s/Jto"
+//
+//        for i in 0 ..< count {
+//            let yTileNumber = 44000 + i
+//            let checkingUrl = basicUrl.replacingOccurrences(of: "44000", with: String(yTileNumber))
+//            try req.client().get(checkingUrl)
+//        }
+//
+//        return "Checked url: " + String(count)
+//    }
     
     
 //    router.get("experiments_playground") { req -> String in
