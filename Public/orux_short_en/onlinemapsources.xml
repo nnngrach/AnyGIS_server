@@ -33,7 +33,7 @@
 
 <onlinemapsource uid="468332">
 <name>Waze (GLOBALCITY)</name>
-<url><![CDATA[http://server.anygis.ru/Waze/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[http://anygis.ru/server/Waze/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>18</maxzoom>
 <minzoom>0</minzoom>
@@ -138,7 +138,7 @@
 
 <onlinemapsource uid="468331">
 <name>Yandex Satellite (proxy) (GLOBALSATELLITES)</name>
-<url><![CDATA[http://server.anygis.ru/Yandex_sat_clean/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[http://anygis.ru/server/Yandex_sat_clean/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>18</maxzoom>
 <minzoom>0</minzoom>
@@ -258,7 +258,7 @@
 
 <onlinemapsource uid="190007">
 <name>Navionics Marine Charts (GLOBALNAUTICAL)</name>
-<url><![CDATA[http://server.anygis.ru/Navionics_Marine_Charts/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[http://anygis.ru/server/Navionics_Marine_Charts/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>19</maxzoom>
 <minzoom>0</minzoom>
@@ -273,7 +273,7 @@
 
 <onlinemapsource uid="12040">
 <name>Wikimapia.org (GLOBALINFO)</name>
-<url><![CDATA[http://server.anygis.ru/Wikimapia/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[http://anygis.ru/server/Wikimapia/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>22</maxzoom>
 <minzoom>0</minzoom>
@@ -303,7 +303,7 @@
 
 <onlinemapsource uid="8888041">
 <name>Hillshade Waymarkedtrails.org (OVERLAY)</name>
-<url><![CDATA[http://server.anygis.ru/Hillshade_Waymarkedtrails/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[http://anygis.ru/server/Hillshade_Waymarkedtrails/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>19</maxzoom>
 <minzoom>0</minzoom>
@@ -333,7 +333,7 @@
 
 <onlinemapsource uid="8888025">
 <name>Navionics Marine Charts (OVERLAY)</name>
-<url><![CDATA[http://server.anygis.ru/Navionics_Marine_Charts_layer/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[http://anygis.ru/server/Navionics_Marine_Charts_layer/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>19</maxzoom>
 <minzoom>0</minzoom>
@@ -378,7 +378,7 @@
 
 <onlinemapsource uid="8888031">
 <name>Strava Heatmap - All (OVERLAY)</name>
-<url><![CDATA[http://server.anygis.ru/Tracks_Strava_All/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[http://anygis.ru/server/Tracks_Strava_All/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
@@ -393,7 +393,7 @@
 
 <onlinemapsource uid="8888032">
 <name>Strava Heatmap - Ride (OVERLAY)</name>
-<url><![CDATA[http://server.anygis.ru/Tracks_Strava_Ride/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[http://anygis.ru/server/Tracks_Strava_Ride/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
@@ -408,7 +408,7 @@
 
 <onlinemapsource uid="8888033">
 <name>Strava Heatmap - Run (OVERLAY)</name>
-<url><![CDATA[http://server.anygis.ru/Tracks_Strava_Run/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[http://anygis.ru/server/Tracks_Strava_Run/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
@@ -423,7 +423,7 @@
 
 <onlinemapsource uid="8888034">
 <name>Strava Heatmap - Water (OVERLAY)</name>
-<url><![CDATA[http://server.anygis.ru/Tracks_Strava_Water/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[http://anygis.ru/server/Tracks_Strava_Water/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
@@ -438,7 +438,7 @@
 
 <onlinemapsource uid="8888035">
 <name>Strava Heatmap - Winter (OVERLAY)</name>
-<url><![CDATA[http://server.anygis.ru/Tracks_Strava_Winter/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[http://anygis.ru/server/Tracks_Strava_Winter/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
@@ -483,7 +483,7 @@
 
 <onlinemapsource uid="8888027">
 <name>Wikimapia.org (OVERLAY)</name>
-<url><![CDATA[http://server.anygis.ru/Wikimapia_layer/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[http://anygis.ru/server/Wikimapia_layer/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>22</maxzoom>
 <minzoom>0</minzoom>
