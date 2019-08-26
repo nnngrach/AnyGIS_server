@@ -17,7 +17,7 @@
         
         #for(map in databaseMaps) {
             <tr>
-                <td><a href= #("/#(map.name)/56.103490/37.700556/10")>#(map.name)</a></td>
+                <td><a href= #("server/#(map.name)/56.103490/37.700556/10")>#(map.name)</a></td>
                 <td>#(map.description)</td>
                 <td>#(map.zoomMax)</td>
             </tr>
