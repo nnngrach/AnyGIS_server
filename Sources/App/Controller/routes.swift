@@ -14,48 +14,34 @@ public func routes(_ router: Router) throws {
     
     
     
-    // MARK: Html pages
-    router.get { req -> Response in
-        return req.redirect(to: SITE_HOST)
-    }
-    
-    
-    router.get("server") { req -> String in
-        return "server!"
-    }
-    
-    router.get("server", "test") { req -> String in
-        return "Hello, world!"
-    }
 
-    
     // Show welcome "index" page.
     // Here I'm using "Leaf" Html-page generator.
     // Patch:  ...\Resources\Views\*.leaf
-    router.get("api") { req -> Future<View> in
+    router.get("server") { req -> Future<View> in
         return try req.view().render("home")
     }
     
     // Show html table with list of all maps
-    router.get("list") { req -> Future<View> in
+    router.get("server", "list") { req -> Future<View> in
         let databaseMaps = sqlHandler.fetchAllMapsList(req)
         return try req.view().render("tableMaps", ["databaseMaps": databaseMaps])
     }
     
     // Show html table with list of mirrors for some maps
-    router.get("mirrors_list") { req -> Future<View> in
+    router.get("server", "mirrors_list") { req -> Future<View> in
         let databaseMaps = sqlHandler.fetchMirrorsMapsList(req)
         return try req.view().render("tableMirrors", ["databaseMaps": databaseMaps])
     }
     
     // Show html table with layers for overlay maps
-    router.get("overlay_list") { req -> Future<View> in
+    router.get("server", "overlay_list") { req -> Future<View> in
         let databaseMaps = sqlHandler.fetchOverlayMapsList(req)
         return try req.view().render("tableOverlay", ["databaseMaps": databaseMaps])
     }
     
     // Show html table with layers for "Combo-mode" maps
-    router.get("priority_list") { req -> Future<View> in
+    router.get("server", "priority_list") { req -> Future<View> in
         let databaseMaps = sqlHandler.fetchPriorityMapsList(req)
         return try req.view().render("tablePriority", ["databaseMaps": databaseMaps])
     }
@@ -65,7 +51,7 @@ public func routes(_ router: Router) throws {
     
     
     // MARK: Main request to get tile image
-    router.get(String.parameter, String.parameter, String.parameter,Int.parameter) { request -> Future<Response> in
+    router.get("server", String.parameter, String.parameter, String.parameter,Int.parameter) { request -> Future<Response> in
         
         // Extracting values from URL parameters
         let mapName = try request.parameters.next(String.self)
@@ -82,7 +68,7 @@ public func routes(_ router: Router) throws {
     //TODO: REDONE!
     
     // Redirect to one of Mapshoter Api mirrors
-    router.get("mapshoter", String.parameter, Int.parameter, Int.parameter, Int.parameter, Int.parameter) { request -> Response in
+    router.get("server", "mapshoter", String.parameter, Int.parameter, Int.parameter, Int.parameter, Int.parameter) { request -> Response in
         
         // Extracting values from URL parameters
         let mode = try request.parameters.next(String.self)
@@ -135,7 +121,7 @@ public func routes(_ router: Router) throws {
     
     
     // To force download file (don't open as text)
-    router.get("download", String.parameter, String.parameter) { req -> Future<Response> in
+    router.get("server", "download", String.parameter, String.parameter) { req -> Future<Response> in
         
         // Extracting values from URL parameters
         let folder = try req.parameters.next(String.self)
@@ -177,7 +163,7 @@ public func routes(_ router: Router) throws {
 //    }
     
     
-//    router.get("experiments_playground") { req -> String in
+//    router.get("server", "experiments_playground") { req -> String in
 //        return "Hello, world!"
 //    }
 

@@ -33,7 +33,7 @@ class OutputResponceGenerator {
     
     
     public func redirectWithReferer(to url: String, referer: String?, with req: Request) -> Future<Response>  {
-        let resultReferer = referer ?? SERVER_HOST
+        let resultReferer = referer ?? SITE_HOST
         
         return try! req.client().get(url, headers: HTTPHeaders(dictionaryLiteral: ("referer",resultReferer)))
     }
