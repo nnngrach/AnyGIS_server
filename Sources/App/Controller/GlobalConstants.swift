@@ -8,5 +8,5 @@
 import Foundation
 
 let SITE_HOST = "http://www.anygis.ru"
-let SERVER_HOST = "http://157.230.120.146/"
+let SERVER_HOST = "http://www.anygis.ru/server/"
 //let HOST = "https://anygis.herokuapp.com/
