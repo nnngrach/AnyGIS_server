@@ -128,6 +128,8 @@ public func routes(_ router: Router) throws {
         let filename = try req.parameters.next(String.self)
 
         let url = SERVER_HOST + folder + "/" + filename
+        
+        print(url)
 
         let futureContent = try req.client().get(url)
 
