@@ -20,6 +20,15 @@ public func routes(_ router: Router) throws {
     }
     
     
+    router.get("server") { req -> String in
+        return "server!"
+    }
+    
+    router.get("server", "test") { req -> String in
+        return "Hello, world!"
+    }
+
+    
     // Show welcome "index" page.
     // Here I'm using "Leaf" Html-page generator.
     // Patch:  ...\Resources\Views\*.leaf
