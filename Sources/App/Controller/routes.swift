@@ -68,7 +68,7 @@ public func routes(_ router: Router) throws {
     //TODO: REDONE!
     
     // Redirect to one of Mapshoter Api mirrors
-    router.get("server", "mapshoter", String.parameter, Int.parameter, Int.parameter, Int.parameter, Int.parameter) { request -> Response in
+    router.get("server", "mapshooter", String.parameter, Int.parameter, Int.parameter, Int.parameter, Int.parameter) { request -> Response in
         
         // Extracting values from URL parameters
         let mode = try request.parameters.next(String.self)

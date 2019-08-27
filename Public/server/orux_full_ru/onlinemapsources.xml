@@ -2853,7 +2853,7 @@
 
 <onlinemapsource uid="8899000">
 <name>OverpassTurbo: Гравийные дорожки для бега (OVERPASS)</name>
-<url><![CDATA[https://anygis.ru/server/Mapshoter_GravelRunTrails/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[https://anygis.ru/server/Mapshooter_GravelRunTrails/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>18</maxzoom>
 <minzoom>0</minzoom>
@@ -2868,7 +2868,7 @@
 
 <onlinemapsource uid="8899001">
 <name>OverpassTurbo: Мусорные баки (OVERPASS)</name>
-<url><![CDATA[https://anygis.ru/server/Mapshoter_Waste/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[https://anygis.ru/server/Mapshooter_Waste/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>18</maxzoom>
 <minzoom>0</minzoom>
@@ -2883,7 +2883,7 @@
 
 <onlinemapsource uid="8899002">
 <name>OverpassTurbo: Питьевая вода (OVERPASS)</name>
-<url><![CDATA[https://anygis.ru/server/Mapshoter_Water/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[https://anygis.ru/server/Mapshooter_Water/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>18</maxzoom>
 <minzoom>0</minzoom>
