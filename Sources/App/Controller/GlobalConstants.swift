@@ -7,5 +7,5 @@
 
 import Foundation
 
-let SITE_HOST = "http://anygis.ru"
-let SERVER_HOST = "http://anygis.ru/server/"
+let SITE_HOST = "https://anygis.ru"
+let SERVER_HOST = "https://anygis.ru/server/"
