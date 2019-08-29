@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <onlinemapsources>
 
-<onlinemapsource uid="12060">
+<onlinemapsource uid="468060">
 <name>2Gis (GLOBALCITY)</name>
 <url><![CDATA[https://tile{$s}.maps.2gis.com/tiles?x={$x}&y={$y}&z={$z}&v=1.5&r=g&ts=online_sd]]></url>
 <servers>0,1,2,3</servers>
@@ -106,7 +106,7 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="10080">
+<onlinemapsource uid="468080">
 <name>Yandex Map (GLOBALCITY)</name>
 <url><![CDATA[https://vec0{$s}.maps.yandex.net/tiles?l=map&x={$x}&y={$y}&z={$z}]]></url>
 <servers>1,2,3,4</servers>
@@ -136,7 +136,7 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="10083">
+<onlinemapsource uid="468083">
 <name>Yandex MapEditor (GLOBALCITY)</name>
 <url><![CDATA[https://0{$s}.rdr.um.maps.yandex.net/?l=mpmap&sl=104,210342,210370,211777,211818,211939,211993,212001,212015,212019,212026,212032,212081,212216,300024,300026,300028,300198,300270,300285,300292,300330,300336,300337,300344,300350,300351,300358,300364,300365,300371,300372,300379,300386,300392,300393,300400,300406,300407,300468,300472,300523,300641,300651,300661,300671,300931,300939,300954,300969,300993,301050,301084,301125,301135,301155,301164,301183,301275,301383,301388,301494,301501,301520,301596,301676,301685,301700,301773,302544&token=1444545311:18482354:core.1444545311:10507329:trunk&x={$x}&y={$y}&z={$z}]]></url>
 <servers>1,2,3,4</servers>
@@ -151,7 +151,7 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="424001">
+<onlinemapsource uid="468001">
 <name>AnyGIS Satellites compilation (GLOBALSATELLITES)</name>
 <url><![CDATA[https://anygis.ru/server/Combo_All_Satellites/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
@@ -181,7 +181,7 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="10610">
+<onlinemapsource uid="468610">
 <name>ESRI World Imagenary (GLOBALSATELLITES)</name>
 <url><![CDATA[https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{$z}/{$y}/{$x}]]></url>
 <servers></servers>
@@ -196,7 +196,7 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="10021">
+<onlinemapsource uid="468021">
 <name>Google Satellite (GLOBALSATELLITES)</name>
 <url><![CDATA[http://mt.google.com/vt/lyrs=s@176103410&x={$x}&y={$y}&z={$z}&s=Galileo&scale=1&hl=en]]></url>
 <servers>0,1,2,3</servers>
@@ -226,7 +226,7 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="10605">
+<onlinemapsource uid="468605">
 <name>Here Satellite (GLOBALSATELLITES)</name>
 <url><![CDATA[https://{$s}.aerial.maps.api.here.com/maptile/2.1/maptile/newest/hybrid.day/{$z}/{$x}/{$y}/256/png8?app_id=xWVIueSv6JL0aJ5xqTxb&app_code=djPZyynKsbTjIUDOBcHZ2g&lg=rus&ppi=72&pview=RUS]]></url>
 <servers>1,2,3,4</servers>
@@ -256,7 +256,7 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="10615">
+<onlinemapsource uid="468615">
 <name>Mapbox Satellite (GLOBALSATELLITES)</name>
 <url><![CDATA[https://{$s}.tiles.mapbox.com/v3/tmcw.map-j5fsp01s/{$z}/{$x}/{$y}.png]]></url>
 <servers>a,b,c</servers>
@@ -316,7 +316,7 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="10081">
+<onlinemapsource uid="468081">
 <name>Yandex Satellite (GLOBALSATELLITES)</name>
 <url><![CDATA[http://sat0{$s}.maps.yandex.net/tiles?l=sat&x={$x}&y={$y}&z={$z}]]></url>
 <servers>1,2,3,4</servers>
@@ -346,7 +346,7 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="10015">
+<onlinemapsource uid="410015">
 <name>4U maps (GLOBALOSM)</name>
 <url><![CDATA[http://www.4umaps.eu/{$z}/{$x}/{$y}.png]]></url>
 <servers></servers>
@@ -406,7 +406,7 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="10201">
+<onlinemapsource uid="6666201">
 <name>Mapnik (GLOBALOSM)</name>
 <url><![CDATA[http://{$s}.tile.openstreetmap.org/{$z}/{$x}/{$y}.png]]></url>
 <servers>a,b,c</servers>
@@ -481,7 +481,7 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="10207">
+<onlinemapsource uid="6666207">
 <name>OpenTopoMap (GLOBALOSM)</name>
 <url><![CDATA[https://{$s}.tile.opentopomap.org/{$z}/{$x}/{$y}.png]]></url>
 <servers>a,b,c</servers>
@@ -496,7 +496,7 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="10016">
+<onlinemapsource uid="410016">
 <name>Opnvkarte.de (GLOBALOSM)</name>
 <url><![CDATA[http://tile.memomaps.de/tilegen/{$z}/{$x}/{$y}.png]]></url>
 <servers></servers>
@@ -511,7 +511,7 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="10210">
+<onlinemapsource uid="6666210">
 <name>Sputnik.ru (GLOBALOSM)</name>
 <url><![CDATA[http://tiles.maps.sputnik.ru/tiles/kmt2/{$z}/{$x}/{$y}.png]]></url>
 <servers></servers>
@@ -526,7 +526,7 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="10203">
+<onlinemapsource uid="6666203">
 <name>Thunderforest Transport (GLOBALOSM)</name>
 <url><![CDATA[http://{$s}.tile.thunderforest.com/transport/{$z}/{$x}/{$y}.png?apikey=6170aad10dfd42a38d4d8c709a536f38]]></url>
 <servers>a,b,c</servers>
@@ -586,7 +586,7 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="10202">
+<onlinemapsource uid="6666202">
 <name>Thunderforest Cycle (GLOBALOSMWAYS)</name>
 <url><![CDATA[http://{$s}.tile.thunderforest.com/cycle/{$z}/{$x}/{$y}.png?apikey=6170aad10dfd42a38d4d8c709a536f38]]></url>
 <servers>a,b,c</servers>
@@ -601,7 +601,7 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="10204">
+<onlinemapsource uid="6666204">
 <name>Thunderforest Outdoor (GLOBALOSMWAYS)</name>
 <url><![CDATA[http://{$s}.tile.thunderforest.com/outdoors/{$z}/{$x}/{$y}.png?apikey=6170aad10dfd42a38d4d8c709a536f38]]></url>
 <servers>a,b,c</servers>
@@ -661,7 +661,7 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="12044">
+<onlinemapsource uid="412044">
 <name>Nakarte.me - Geocashing (GLOBALINFO)</name>
 <url><![CDATA[https://anygis.ru/server/Nakarte_Geocashing/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
@@ -676,7 +676,7 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="12043">
+<onlinemapsource uid="412043">
 <name>Nakarte.me - Westra passes (GLOBALINFO)</name>
 <url><![CDATA[https://anygis.ru/server/Nakarte_Westra/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
@@ -691,7 +691,7 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="12040">
+<onlinemapsource uid="412040">
 <name>Wikimapia.org (GLOBALINFO)</name>
 <url><![CDATA[https://anygis.ru/server/Wikimapia/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
@@ -2386,7 +2386,7 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="10023">
+<onlinemapsource uid="8888123">
 <name>Google Labels (OVERLAY)</name>
 <url><![CDATA[https://mt{$s}.google.com/vt/lyrs=h&hl=ru&x={$x}&y={$y}&z={$z}]]></url>
 <servers>0,1,2,3</servers>
@@ -2566,7 +2566,7 @@
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="10650">
+<onlinemapsource uid="8888650">
 <name>OpenStreetMap GPS Tracks (OVERLAY)</name>
 <url><![CDATA[https://gps-{$s}.tile.openstreetmap.org/lines/{$z}/{$x}/{$y}.png]]></url>
 <servers>a,b,c</servers>
