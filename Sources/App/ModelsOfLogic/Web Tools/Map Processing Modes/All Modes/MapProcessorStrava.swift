@@ -19,22 +19,19 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
 
         let isInAuthProcessingStausText = "The app is processing Strava authorization. Please reload this map after 2 minutes"
         
+        var futureUrl: Future<String> = req.future("")
         
         var generatedUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapObject.backgroundUrl, mapObject.backgroundServerName)
         
         
-        let currentStravaSession = paralelliser.getStravaSessionId()
-
+        let storedStravaAuthData = try sqlHandler.getServiceDataBy(serviceName: "Backup_Strava", req)
         
-        let storedStravaAuthData = try sqlHandler.getServiceDataBy(serviceName: currentStravaSession, req)
-        
-        var futureUrl: Future<String> = req.future("")
-        
+       
         
         let resultResponse = storedStravaAuthData.flatMap(to: Response.self) { data in
             
             let storedStravaAuthLine = data[0]
-            
+
             
             // Final URL as a future
             futureUrl = futureUrl.flatMap(to: String.self) {_ in
@@ -66,18 +63,29 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                         if status.code == 200 {
                             
                             return req.future(urlWithStoredAuthKey)
+                        
                             
-                            // Key is invalid. Fetching new key. Return URL with new key
+                        // Key is invalid. Fetching new key. Return URL with new key
                         } else {
                             
                             // Add stopper-flag
                             storedStravaAuthLine.apiSecret = isInAuthProcessingStausText
                             storedStravaAuthLine.save(on: req)
+ 
+                           
+                            let accountsData = try self.sqlHandler.fetchServiceList(req)
                             
-                            
-                            let stravaAuthParams = try self.stravaParser.getAuthParameters(login: storedStravaAuthLine.userName, password: storedStravaAuthLine.apiKey, req)
-                            
-                            let futureUrlWithNewAuthKey = stravaAuthParams.map(to: String.self) { newParams in
+        
+                            let authedParams = accountsData.flatMap(to: String.self) { accounts in
+                                
+                                let stravaAccouts = accounts.filter {$0.serviceName.hasPrefix("Strava")}
+                                
+                                return try self.recursiveStravaAuth(interanionNumber: 0, accounts: stravaAccouts, req: req)
+                            }
+                                
+                                
+                        
+                            let futureUrlWithNewAuthKey = authedParams.map(to: String.self) { newParams in
                                 
                                 storedStravaAuthLine.apiSecret = newParams
                                 storedStravaAuthLine.save(on: req)
@@ -87,6 +95,7 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                             
                             return futureUrlWithNewAuthKey
                         }
+
                     }
                     
                     return futureUrlWithWorkingAuthKey
@@ -107,7 +116,44 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
         
         
         return resultResponse
+     }
+    
+    
+    
+    
+    
+    // Try to log in with all Strava accounts
+    // Some of them can be blocked
+    
+    func recursiveStravaAuth(interanionNumber: Int, accounts: [ServiceData], req: Request) throws -> Future<String> {
+        
+        guard interanionNumber <= accounts.count else { return req.future("All_Strava_accounts_can't_log_in") }
+        
+        let randomNumber = 2
+        let randomAccount = accounts[randomNumber]
+        
+        
+        do {
+            
+            let stravaAuthParams = try stravaParser.getAuthParameters(login: randomAccount.userName, password: randomAccount.apiKey, req)
+            
+            let checkedResult = stravaAuthParams.flatMap(to: String.self) { params in
+                
+                //correct cookie has "Signature" field
+                if params.hasPrefix("&Signature") {
+                    return req.future(params)
+                    
+                } else {
+                    return try self.recursiveStravaAuth(interanionNumber: interanionNumber + 1, accounts: accounts, req: req)
+                }
+            }
+            
+            return checkedResult
+            
+        } catch {
+            
+            return try self.recursiveStravaAuth(interanionNumber: interanionNumber + 1, accounts: accounts, req: req)
+        }
     }
     
 }
-

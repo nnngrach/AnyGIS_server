@@ -10,6 +10,9 @@ import Vapor
 
 class StravaParser {
     
+    private let cookieExtractorApi = "http://68.183.65.138:5050/StravaAuth/"
+    
+    
     //private let startCookieExtractorScriptUrl = "https://api.apify.com/v2/acts/nnngrach~strava-auth/run-sync?token=ATnnxbF6sE7zEZDmMbZTTppKo&outputRecordKey=OUTPUT&timeout=120"
     
     //private let fetchedDataUrl = "https://api.apify.com/v2/acts/nnngrach~strava-auth/runs/last/dataset/items?token=ATnnxbF6sE7zEZDmMbZTTppKo"
@@ -17,62 +20,62 @@ class StravaParser {
     
     // for temporary urls bugfix
     // don'd use after 1.08.19
-    private let startCookieExtractorScriptUrl = "https://api.apify.com/v2/acts/9qaEDAaykK4zDQiHd/run-sync?token=kbcPyhW2wGwoj86ADpwW8b4WZ&outputRecordKey=OUTPUT&timeout=120"
+//    private let startCookieExtractorScriptUrl = "https://api.apify.com/v2/acts/9qaEDAaykK4zDQiHd/run-sync?token=kbcPyhW2wGwoj86ADpwW8b4WZ&outputRecordKey=OUTPUT&timeout=120"
+//
+//    private let fetchedDataUrl = "https://api.apify.com/v2/acts/9qaEDAaykK4zDQiHd/runs/last/dataset/items?token=kbcPyhW2wGwoj86ADpwW8b4WZ"
     
-    private let fetchedDataUrl = "https://api.apify.com/v2/acts/9qaEDAaykK4zDQiHd/runs/last/dataset/items?token=kbcPyhW2wGwoj86ADpwW8b4WZ"
     
-
+    
+    
+    
     
     
     public func getAuthParameters(login: String, password: String, _ req: Request) throws -> Future<String> {
         
-        var httpParameters = ""
+        var resultHttpParameters = ""
         
-        let loginRequest = StravaLoginRequest(email: login, password: password)
-        
-        let starterCookieExtractResponse = try req.client().post(startCookieExtractorScriptUrl) { loginReq in
-            try loginReq.content.encode(loginRequest)
-        }
-        
-        
-        let loaderSavedCookieResponse = starterCookieExtractResponse.flatMap(to: Response.self) { res in
-            return try req.client().get(self.fetchedDataUrl)
-        }
+        let stravaAutherUrl = cookieExtractorApi + login + "/" + password
+       
+        let authedCookieResponse = try req.client().get(stravaAutherUrl)
+       
         
         
         
-        let resultingHttpParameters = loaderSavedCookieResponse.map(to: String.self) { res in
+        let resultingHttpParameters = authedCookieResponse.map(to: String.self) { res in
             
             let resonseWithCookies = "\(res.http.body)"
             
-            
+        
             if let decodedCookies = try? JSONDecoder().decode([StravaOutputJson].self, from: resonseWithCookies) {
+                
+                var isFoundedCloudFront = false
                 
                 for cookie in decodedCookies {
                     
                     if cookie.name.hasPrefix("CloudFront") {
                         
+                        isFoundedCloudFront = true
+ 
                         let parametrName = cookie.name.replacingOccurrences(of: "CloudFront-", with: "")
                         
-                        httpParameters.append("&" + parametrName + "=" + cookie.value)
+                        resultHttpParameters.append("&" + parametrName + "=" + cookie.value)
                     }
                 }
                 
+                if !isFoundedCloudFront { return "Error: wrong parsing cookies" }
+                
+                
             } else {
-                
                 fatalError("Error with Strava JSON decoding")
-                
             }
             
-            
-            return httpParameters
+            return resultHttpParameters
         }
         
-        
         return resultingHttpParameters
+        
     }
     
     
-    
-    
+
 }
