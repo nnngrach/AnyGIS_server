@@ -23,12 +23,12 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
         
         var generatedUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapObject.backgroundUrl, mapObject.backgroundServerName)
         
-        
-        let storedStravaAuthData = try sqlHandler.getServiceDataBy(serviceName: "Backup_Strava", req)
+    
+        let storedStravaAuthCookies = try sqlHandler.getTempStorageBy(name: "StravaCookies", req)
         
        
         
-        let resultResponse = storedStravaAuthData.flatMap(to: Response.self) { data in
+        let resultResponse = storedStravaAuthCookies.flatMap(to: Response.self) { data in
             
             let storedStravaAuthLine = data[0]
 
@@ -49,9 +49,10 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                     
                     
                     // Break connection If is in auth processing now
-                    guard storedStravaAuthLine.apiSecret != isInAuthProcessingStausText else {return req.future(isInAuthProcessingStausText)}
+                    guard !self.isNeedToWaitFrom(scrtiptStartTime: storedStravaAuthLine.value) else {return req.future(isInAuthProcessingStausText)}
                     
-                    let urlWithStoredAuthKey = generatedUrl + storedStravaAuthLine.apiSecret
+                    
+                    let urlWithStoredAuthKey = generatedUrl + storedStravaAuthLine.value
                     
                     let checkedStatus = try self.urlChecker.checkUrlStatusAndProxy(urlWithStoredAuthKey, nil, nil, req)
                     
@@ -69,7 +70,7 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                         } else {
                             
                             // Add stopper-flag
-                            storedStravaAuthLine.apiSecret = isInAuthProcessingStausText
+                            storedStravaAuthLine.value = String(Date().timeIntervalSince1970)
                             storedStravaAuthLine.save(on: req)
  
                            
@@ -87,7 +88,7 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                         
                             let futureUrlWithNewAuthKey = authedParams.map(to: String.self) { newParams in
                                 
-                                storedStravaAuthLine.apiSecret = newParams
+                                storedStravaAuthLine.value = newParams
                                 storedStravaAuthLine.save(on: req)
                                 
                                 return generatedUrl + newParams
@@ -129,7 +130,7 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
         
         guard interanionNumber <= accounts.count else { return req.future("All_Strava_accounts_can't_log_in") }
         
-        let randomNumber = 2
+        let randomNumber = randomNubmerForHeroku(accounts.count)
         let randomAccount = accounts[randomNumber]
         
         
@@ -156,4 +157,18 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
         }
     }
     
+    
+    
+    func isNeedToWaitFrom(scrtiptStartTime: String) -> Bool {
+        
+        let periodToWait = 120 // sec
+        
+        // check on text or empty value
+        guard let storedTime = Double(scrtiptStartTime) else { return false }
+
+        let currentTimeStamp = Double(Date().timeIntervalSince1970)
+        let currentPeriod = currentTimeStamp - storedTime
+        
+        return Int(currentPeriod) < Int(periodToWait)
+    }
 }

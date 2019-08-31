@@ -5,6 +5,8 @@
 //  Created by HR_book on 21/04/2019.
 //
 
+/// DEPRECATED!
+
 import FluentSQLite
 import Vapor
 
