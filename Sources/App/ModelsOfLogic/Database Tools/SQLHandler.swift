@@ -97,12 +97,12 @@ class SQLHandler {
     }
     
     
-    public func getTempStorageBy (name: String, _ request: Request) throws -> Future<[TempStorage]>  {
-        
-        return TempStorage.query(on: request)
-            .filter(\.name == name)
-            .all()
-    }
+//    public func getTempStorageBy (name: String, _ request: Request) throws -> Future<[TempStorage]>  {
+//        
+//        return TempStorage.query(on: request)
+//            .filter(\.name == name)
+//            .all()
+//    }
     
     
 }

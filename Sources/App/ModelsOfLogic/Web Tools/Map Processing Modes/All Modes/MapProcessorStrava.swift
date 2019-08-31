@@ -24,7 +24,8 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
         var generatedUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapObject.backgroundUrl, mapObject.backgroundServerName)
         
     
-        let storedStravaAuthCookies = try sqlHandler.getTempStorageBy(name: "StravaCookies", req)
+        //let storedStravaAuthCookies = try sqlHandler.getTempStorageBy(name: "StravaCookies", req)
+        let storedStravaAuthCookies = try sqlHandler.getServiceDataBy(serviceName: "TempCookieStrava", req)
         
        
         
@@ -49,10 +50,10 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                     
                     
                     // Break connection If is in auth processing now
-                    guard !self.isNeedToWaitFrom(scrtiptStartTime: storedStravaAuthLine.value) else {return req.future(isInAuthProcessingStausText)}
+                    guard !self.isNeedToWaitFrom(scrtiptStartTime: storedStravaAuthLine.apiSecret) else {return req.future(isInAuthProcessingStausText)}
                     
                     
-                    let urlWithStoredAuthKey = generatedUrl + storedStravaAuthLine.value
+                    let urlWithStoredAuthKey = generatedUrl + storedStravaAuthLine.apiSecret
                     
                     let checkedStatus = try self.urlChecker.checkUrlStatusAndProxy(urlWithStoredAuthKey, nil, nil, req)
                     
@@ -70,7 +71,7 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                         } else {
                             
                             // Add stopper-flag
-                            storedStravaAuthLine.value = String(Date().timeIntervalSince1970)
+                            storedStravaAuthLine.apiSecret = String(Date().timeIntervalSince1970)
                             storedStravaAuthLine.save(on: req)
  
                            
@@ -88,7 +89,7 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                         
                             let futureUrlWithNewAuthKey = authedParams.map(to: String.self) { newParams in
                                 
-                                storedStravaAuthLine.value = newParams
+                                storedStravaAuthLine.apiSecret = newParams
                                 storedStravaAuthLine.save(on: req)
                                 
                                 return generatedUrl + newParams

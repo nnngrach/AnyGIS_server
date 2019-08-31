@@ -35,7 +35,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     /// Register the configured SQLite database to the database config.
     var databases = DatabasesConfig()
     databases.add(database: sqlite, as: .sqlite)
-    databases.add(database: tempStorage, as: .tempStorage)
+    //databases.add(database: tempStorage, as: .tempStorage)
     services.register(databases)
 
     /// Configure migrations
@@ -46,6 +46,6 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     migrations.add(model: MirrorsMapsList.self, database: .sqlite)
     migrations.add(model: ServiceData.self, database: .sqlite)
     
-    migrations.add(model: TempStorage.self, database: .tempStorage)
+    //migrations.add(model: TempStorage.self, database: .tempStorage)
     services.register(migrations)
 }
