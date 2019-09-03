@@ -23,7 +23,15 @@ class MapProcessorProxy: AbstractMapProcessorSession {
         let tile = try req.client().get(newUrl)
         print("tile loaded")
         
-        return tile
+        let a = tile.flatMap(to: Response.self) { b in
+            let c = b.http.body
+            print(c)
+            let d = Response(http: HTTPResponse(status: HTTPResponseStatus(statusCode: 200), body: c), using: req)
+            return req.future(d)
+        }
+        
+        return a
+        //return tile
         
     }
     

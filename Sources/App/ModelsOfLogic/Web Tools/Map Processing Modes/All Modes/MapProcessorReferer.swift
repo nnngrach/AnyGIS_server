@@ -27,9 +27,22 @@ class MapProcessorReferer: AbstractMapProcessorSimple {
         
         let tile = try req.client().get(newUrl, headers: headers)
         
+//        let a = tile.map { b in
+//            let c = b
+//            print(c)
+//        }
+        
+        let a = tile.flatMap(to: Response.self) { b in
+            let c = b.http.body
+            print(c)
+            let d = Response(http: HTTPResponse(status: HTTPResponseStatus(statusCode: 200), body: c), using: req)
+            return req.future(d)
+        }
+        
         print("tile loaded")
         
-        return tile
+        //return tile
+        return a
         
         //return try req.client().get(newUrl, headers: headers)
     }
