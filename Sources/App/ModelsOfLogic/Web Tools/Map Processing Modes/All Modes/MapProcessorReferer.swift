@@ -12,37 +12,28 @@ class MapProcessorReferer: AbstractMapProcessorSimple {
     
     override func makeCustomActions(_ mapName:String, _ tileNumbers: (x: Int, y: Int, z: Int), _ tilePosition: (x: Int, y: Int, offsetX: Int, offsetY: Int)?, _ mapObject: (MapsList), _ baseObject: (MapsList)?, _ overlayObject: (MapsList)?,   _ cloudinarySessionID: String?, _ req: Request) throws -> EventLoopFuture<Response> {
         
-        print("==========================")
-        print("proxy")
-        
         let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapObject.backgroundUrl, mapObject.backgroundServerName)
         
         let userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.110 Safari/537.36"
         
         let headers = HTTPHeaders([("referer", mapObject.referer), ("User-Agent", userAgent)])
         
-        print(newUrl)
         
-        print(headers)
+
+        let fullResponce = try req.client().get(newUrl, headers: headers)
         
-        let tile = try req.client().get(newUrl, headers: headers)
+        // Some original headers making errors. Erase it.
         
-//        let a = tile.map { b in
-//            let c = b
-//            print(c)
-//        }
-        
-        let a = tile.flatMap(to: Response.self) { b in
-            let c = b.http.body
-            print(c)
-            let d = Response(http: HTTPResponse(status: HTTPResponseStatus(statusCode: 200), body: c), using: req)
-            return req.future(d)
+        let bodyResponce = fullResponce.flatMap(to: Response.self) { res in
+            
+            let body = res.http.body
+ 
+            let response = Response(http: HTTPResponse(status: HTTPResponseStatus(statusCode: 200), body: body), using: req)
+            
+            return req.future(response)
         }
-        
-        print("tile loaded")
-        
-        //return tile
-        return a
+       
+        return bodyResponce
         
         //return try req.client().get(newUrl, headers: headers)
     }
