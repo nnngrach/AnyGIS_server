@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <onlinemapsources>
 
+<!--
+Map pack from AnyGIS.ru
+Updated: 03-09-2019 17:00
+-->
+
 <onlinemapsource uid="468060">
 <name>2Gis (GLOBALCITY)</name>
 <url><![CDATA[https://tile{$s}.maps.2gis.com/tiles?x={$x}&y={$y}&z={$z}&v=1.5&r=g&ts=online_sd]]></url>

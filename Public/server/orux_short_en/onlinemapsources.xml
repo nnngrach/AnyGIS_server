@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <onlinemapsources>
 
+<!--
+Map pack from AnyGIS.ru
+Updated: 03-09-2019 17:00
+-->
+
 <onlinemapsource uid="468327">
 <name>Google Map (GLOBALCITY)</name>
 <url><![CDATA[https://mt{$s}.google.com/vt/lyrs=m&hl=en&x={$x}&y={$y}&z={$z}]]></url>
@@ -138,9 +143,9 @@
 
 <onlinemapsource uid="468331">
 <name>Yandex Satellite (proxy) (GLOBALSATELLITES)</name>
-<url><![CDATA[https://anygis.ru/server/Yandex_sat_clean/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[https://anygis.ru/server/Yandex_sat_clean_WGS84_referer/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
-<maxzoom>18</maxzoom>
+<maxzoom>19</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
