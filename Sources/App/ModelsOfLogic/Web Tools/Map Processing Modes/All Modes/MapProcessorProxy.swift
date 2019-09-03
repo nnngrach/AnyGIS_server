@@ -16,24 +16,10 @@ class MapProcessorProxy: AbstractMapProcessorSession {
         
         let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapObject.backgroundUrl, mapObject.backgroundServerName)
         
-        let checkedStatus = try self.urlChecker.checkUrlStatusAndProxy(newUrl, nil, nil, req)
+                let tile = try req.client().get(newUrl)
         
+        return tile
         
-        let resultResponse = checkedStatus.map(to: Response.self) { status in
-            
-            var url = ""
-            
-            if status.code == 200 {
-                url = newUrl
-            } else {
-                url = self.imageProcessor.getDirectUrl(newUrl, cloudinarySessionID!)
-            }
-            
-            return req.redirect(to: url)
-        }
-        
-        return resultResponse
-    
     }
     
 }

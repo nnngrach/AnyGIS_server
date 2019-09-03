@@ -7,6 +7,8 @@
 
 import Vapor
 
+// TODO: DEPRECATED
+
 class MapProcessorProxyUpload: AbstractMapProcessorSession {
     
     
