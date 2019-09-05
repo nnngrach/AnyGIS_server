@@ -13,6 +13,7 @@ class AbstractMapProcessorSimple {
     let paralleliser = FreeAccountsParalleliser()
     let urlPatchCreator =  URLPatchCreator()
     let output = OutputResponceGenerator()
+    let cloudinaryImageProcessor = CloudinaryImageProcessor()
     let imageProcessor = ImageProcessor()
     let urlChecker = UrlFIleChecker()
     let sqlHandler = SQLHandler()

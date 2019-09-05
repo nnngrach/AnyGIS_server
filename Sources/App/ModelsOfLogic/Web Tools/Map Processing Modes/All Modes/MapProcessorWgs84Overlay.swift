@@ -24,17 +24,17 @@ class MapProcessorWgs84Overlay: AbstractMapProcessorWgs84Double {
         let overlayUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, overlayObject!.backgroundUrl, overlayObject!.backgroundServerName)
         
         // Upload all images to online image-processor
-        let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesAroundUrls, cloudinarySessionID!, req)
+        let loadingResponces = try self.cloudinaryImageProcessor.uploadFourTiles(fourTilesAroundUrls, cloudinarySessionID!, req)
         
-        let loadingOverResponce = try self.imageProcessor.uploadOneTile(overlayUrl, cloudinarySessionID!, req)
+        let loadingOverResponce = try self.cloudinaryImageProcessor.uploadOneTile(overlayUrl, cloudinarySessionID!, req)
         
         
         // Get URL of resulting file in image-processor storage
-        return self.imageProcessor.syncFour(loadingResponces, req) { res1 in
+        return self.cloudinaryImageProcessor.syncFour(loadingResponces, req) { res1 in
             
-            return self.imageProcessor.syncOne(loadingOverResponce, req) { res2 in
+            return self.cloudinaryImageProcessor.syncOne(loadingOverResponce, req) { res2 in
                 
-                let processedImageUrl = self.imageProcessor.getUrlWithOffsetAndOverlay(fourTilesAroundUrls, overlayUrl, tilePosition!.offsetX, tilePosition!.offsetY, cloudinarySessionID!)
+                let processedImageUrl = self.cloudinaryImageProcessor.getUrlWithOffsetAndOverlay(fourTilesAroundUrls, overlayUrl, tilePosition!.offsetX, tilePosition!.offsetY, cloudinarySessionID!)
                 
                 return self.output.redirect(to: processedImageUrl, with: req)
             }

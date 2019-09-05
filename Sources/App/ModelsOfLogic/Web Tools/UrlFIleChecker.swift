@@ -16,7 +16,7 @@ class UrlFIleChecker {
     let output = OutputResponceGenerator()
     let urlPatchCreator = URLPatchCreator()
     let coordinateTransformer = CoordinateTransformer()
-    let imageHandler = ImageProcessor() // I use Cloudinary like a proxy
+    let imageHandler = CloudinaryImageProcessor() // I use Cloudinary like a proxy
     
     var delegate: WebHandlerDelegate?
     

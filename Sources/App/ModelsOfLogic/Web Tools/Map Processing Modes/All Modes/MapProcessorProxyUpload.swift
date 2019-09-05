@@ -20,11 +20,11 @@ class MapProcessorProxyUpload: AbstractMapProcessorSession {
         
         let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapObject.backgroundUrl, mapObject.backgroundServerName)
         
-        let loadingResponces = try imageProcessor.uploadOneTile(newUrl, cloudinarySessionID!, req)
+        let loadingResponces = try cloudinaryImageProcessor.uploadOneTile(newUrl, cloudinarySessionID!, req)
         
         
-        return self.imageProcessor.syncOne(loadingResponces, req) {res in
-            let url = self.imageProcessor.getUrl(newUrl, cloudinarySessionID!)
+        return self.cloudinaryImageProcessor.syncOne(loadingResponces, req) {res in
+            let url = self.cloudinaryImageProcessor.getUrl(newUrl, cloudinarySessionID!)
             return self.output.redirect(to: url, with: req)
         }
     }

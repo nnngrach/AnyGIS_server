@@ -27,12 +27,12 @@ class MapProcessorMapboxZoom: AbstractMapProcessorSession {
             
             let fourTilesInNextZoomUrls = self.urlPatchCreator.calculateFourNextZoomTilesUrls(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapListData[mapboxIndex].url, "")
             
-            let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesInNextZoomUrls, cloudinarySessionID!, req)
+            let loadingResponces = try self.cloudinaryImageProcessor.uploadFourTiles(fourTilesInNextZoomUrls, cloudinarySessionID!, req)
             
             // Get URL of resulting file in image-processor storage
-            return self.imageProcessor.syncFour(loadingResponces, req) { res1 in
+            return self.cloudinaryImageProcessor.syncFour(loadingResponces, req) { res1 in
                 
-                let processedImageUrl = self.imageProcessor.getUrlWithZooming(fourTilesInNextZoomUrls, tileNumbers.x, tileNumbers.y, cloudinarySessionID!)
+                let processedImageUrl = self.cloudinaryImageProcessor.getUrlWithZooming(fourTilesInNextZoomUrls, tileNumbers.x, tileNumbers.y, cloudinarySessionID!)
                 
                 return self.output.redirect(to: processedImageUrl, with: req)
                 

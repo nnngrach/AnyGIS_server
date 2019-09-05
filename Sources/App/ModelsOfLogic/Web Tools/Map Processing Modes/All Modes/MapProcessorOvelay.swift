@@ -21,13 +21,13 @@ class MapProcessorOverlay: AbstractMapProcessorOverlay {
 
         
         // Upload all images to online image-processor
-        let loadingResponces = try self.imageProcessor.uploadTwoTiles([baseUrl, overlayUrl], cloudinarySessionID!, req)
+        let loadingResponces = try self.cloudinaryImageProcessor.uploadTwoTiles([baseUrl, overlayUrl], cloudinarySessionID!, req)
         
         
         // Redirect to URL of resulting file in image-processor storage
-        return self.imageProcessor.syncTwo(loadingResponces, req) { res in
+        return self.cloudinaryImageProcessor.syncTwo(loadingResponces, req) { res in
             
-            let newUrl = self.imageProcessor.getUrlOverlay(baseUrl, overlayUrl, cloudinarySessionID!)
+            let newUrl = self.cloudinaryImageProcessor.getUrlOverlay(baseUrl, overlayUrl, cloudinarySessionID!)
             return self.output.redirect(to: newUrl, with: req)
         }
     }

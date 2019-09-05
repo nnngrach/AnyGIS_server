@@ -24,16 +24,16 @@ class MapProcessorWgs84DoubleOverlay: AbstractMapProcessorWgs84Double {
         
         
         // Upload all images to online image-processor
-        let loadingResponces = try self.imageProcessor.uploadFourTiles(fourTilesAroundUrls, cloudinarySessionID!, req)
+        let loadingResponces = try self.cloudinaryImageProcessor.uploadFourTiles(fourTilesAroundUrls, cloudinarySessionID!, req)
 
-        let loadingOverResponces = try self.imageProcessor.uploadFourTiles(fourOverTilesAroundUrls, cloudinarySessionID!, req)
+        let loadingOverResponces = try self.cloudinaryImageProcessor.uploadFourTiles(fourOverTilesAroundUrls, cloudinarySessionID!, req)
         
         
         // Get URL of resulting file in image-processor storage
-        return self.imageProcessor.syncFour(loadingResponces, req) { res1 in
-            return self.imageProcessor.syncFour(loadingOverResponces, req) { res2 in
+        return self.cloudinaryImageProcessor.syncFour(loadingResponces, req) { res1 in
+            return self.cloudinaryImageProcessor.syncFour(loadingOverResponces, req) { res2 in
                 
-                let processedImageUrl = self.imageProcessor.getUrlWithOffsetAndDoubleOverlay(fourTilesAroundUrls, fourOverTilesAroundUrls, tilePosition!.offsetX, tilePosition!.offsetY, cloudinarySessionID!)
+                let processedImageUrl = self.cloudinaryImageProcessor.getUrlWithOffsetAndDoubleOverlay(fourTilesAroundUrls, fourOverTilesAroundUrls, tilePosition!.offsetX, tilePosition!.offsetY, cloudinarySessionID!)
                 
                 return self.output.redirect(to: processedImageUrl, with: req)
             }

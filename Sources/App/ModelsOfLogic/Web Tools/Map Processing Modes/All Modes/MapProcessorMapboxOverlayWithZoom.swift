@@ -21,17 +21,17 @@ class MapProcessorMapboxOverlayWithZoom: AbstractMapProcessorMapboxOverlay {
         let fourTilesInNextZoomUrls = self.urlPatchCreator.calculateFourNextZoomTilesUrls(tileNumbers.x, tileNumbers.y, tileNumbers.z, overlayObject!.backgroundUrl, "")
         
         // Upload all images to online image-processor
-        let loadingBaseResponce = try self.imageProcessor.uploadOneTile(baseUrl, cloudinarySessionID!, req)
+        let loadingBaseResponce = try self.cloudinaryImageProcessor.uploadOneTile(baseUrl, cloudinarySessionID!, req)
         
-        let loadingOverResponces = try self.imageProcessor.uploadFourTiles(fourTilesInNextZoomUrls, cloudinarySessionID!, req)
+        let loadingOverResponces = try self.cloudinaryImageProcessor.uploadFourTiles(fourTilesInNextZoomUrls, cloudinarySessionID!, req)
         
         
         
         // Get URL of resulting file in image-processor storage
-        return self.imageProcessor.syncFour(loadingOverResponces, req) { res1 in
-            return self.imageProcessor.syncOne(loadingBaseResponce, req) { res2 in
+        return self.cloudinaryImageProcessor.syncFour(loadingOverResponces, req) { res1 in
+            return self.cloudinaryImageProcessor.syncOne(loadingBaseResponce, req) { res2 in
                 
-                let processedImageUrl = self.imageProcessor.getUrlWithZoomingAndOverlay(baseUrl, fourTilesInNextZoomUrls, tileNumbers.x, tileNumbers.y, cloudinarySessionID!)
+                let processedImageUrl = self.cloudinaryImageProcessor.getUrlWithZoomingAndOverlay(baseUrl, fourTilesInNextZoomUrls, tileNumbers.x, tileNumbers.y, cloudinarySessionID!)
                 
                 return self.output.redirect(to: processedImageUrl, with: req)
             }
