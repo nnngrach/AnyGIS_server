@@ -18,8 +18,10 @@ class MapProcessorOverlay: AbstractMapProcessorOverlay {
         let baseUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, baseObject!.backgroundUrl, baseObject!.backgroundServerName)
         
         let overlayUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, overlayObject!.backgroundUrl, overlayObject!.backgroundServerName)
-
         
+        return try imageProcessor.overlay(backgroundUrl: baseUrl, overlayUrl: overlayUrl, req: req)
+
+        /*
         // Upload all images to online image-processor
         let loadingResponces = try self.cloudinaryImageProcessor.uploadTwoTiles([baseUrl, overlayUrl], cloudinarySessionID!, req)
         
@@ -30,6 +32,7 @@ class MapProcessorOverlay: AbstractMapProcessorOverlay {
             let newUrl = self.cloudinaryImageProcessor.getUrlOverlay(baseUrl, overlayUrl, cloudinarySessionID!)
             return self.output.redirect(to: newUrl, with: req)
         }
+        */
     }
     
 }

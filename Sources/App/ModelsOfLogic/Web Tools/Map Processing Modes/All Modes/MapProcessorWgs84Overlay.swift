@@ -23,6 +23,9 @@ class MapProcessorWgs84Overlay: AbstractMapProcessorWgs84Double {
         
         let overlayUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, overlayObject!.backgroundUrl, overlayObject!.backgroundServerName)
         
+        return try imageProcessor.moveAndOverlay(tilesUrl: fourTilesAroundUrls, xOffset: tilePosition!.offsetX, yOffset: tilePosition!.offsetY, overlayUrl: overlayUrl, req: req)
+        
+        /*
         // Upload all images to online image-processor
         let loadingResponces = try self.cloudinaryImageProcessor.uploadFourTiles(fourTilesAroundUrls, cloudinarySessionID!, req)
         
@@ -39,6 +42,7 @@ class MapProcessorWgs84Overlay: AbstractMapProcessorWgs84Double {
                 return self.output.redirect(to: processedImageUrl, with: req)
             }
         }
+         */
     }
     
 }

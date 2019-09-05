@@ -18,3 +18,18 @@ struct ImageProcessorMoveMessage: Content {
     var xOffset: String
     var yOffset: String
 }
+
+struct ImageProcessorOverlayMessage: Content {
+    var backgroundUrl: String
+    var overlayUrl: String
+}
+
+struct ImageProcessorMoveAndOverlayMessage: Content {
+    var urlTL: String
+    var urlTR: String
+    var urlBR: String
+    var urlBL: String
+    var xOffset: String
+    var yOffset: String
+    var overlayUrl: String
+}
