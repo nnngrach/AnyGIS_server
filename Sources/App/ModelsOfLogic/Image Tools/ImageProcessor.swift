@@ -10,8 +10,8 @@ import Vapor
 class ImageProcessor {
     
     // My DigitalOcean droplet with Image processing service
-    let host = "http://localhost:5000/"
-    //let host = "http://68.183.65.138:3000/"
+    //let host = "http://localhost:5000/"
+    let host = "http://68.183.65.138:3000/"
     
     
     func move(tilesUrl: [String], xOffset: Int, yOffset: Int, req: Request) throws -> Future<Response> {
