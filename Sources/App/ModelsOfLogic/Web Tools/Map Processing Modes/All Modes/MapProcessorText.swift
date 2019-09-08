@@ -15,8 +15,9 @@ class MapProcessorText: AbstractMapProcessorSimple {
         
         let message = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapObject.backgroundUrl, mapObject.backgroundServerName)
         
+        let isWhite = mapObject.parameters > 0.5
         
-        return try imageProcessor.text(message: message, req: req)
+        return try imageProcessor.text(message: message, isWhite: isWhite, req: req)
     }
     
 }

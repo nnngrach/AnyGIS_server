@@ -85,11 +85,12 @@ class ImageProcessor {
     
     
     
-    func text(message: String, req: Request) throws -> Future<Response> {
+    func text(message: String, isWhite: Bool, req: Request) throws -> Future<Response> {
         
         let apiUrl = host + "text"
         
-        let message = ImageProcessorTextMessage(message: message)
+        print(isWhite)
+        let message = ImageProcessorTextMessage(message: message, isWhite: String(isWhite))
         
         let postResponse = try req.client().post(apiUrl) { postReq in
             try postReq.content.encode(message)

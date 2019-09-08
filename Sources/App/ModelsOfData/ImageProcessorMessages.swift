@@ -44,4 +44,5 @@ struct ImageProcessorOpacityMessage: Content {
 
 struct ImageProcessorTextMessage: Content {
     var message: String
+    var isWhite: String
 }
