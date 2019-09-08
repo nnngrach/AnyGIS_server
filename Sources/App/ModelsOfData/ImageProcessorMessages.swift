@@ -19,10 +19,6 @@ struct ImageProcessorMoveMessage: Content {
     var yOffset: String
 }
 
-struct ImageProcessorOverlayMessage: Content {
-    var backgroundUrl: String
-    var overlayUrl: String
-}
 
 struct ImageProcessorMoveAndOverlayMessage: Content {
     var urlTL: String
@@ -32,4 +28,20 @@ struct ImageProcessorMoveAndOverlayMessage: Content {
     var xOffset: String
     var yOffset: String
     var overlayUrl: String
+}
+
+
+struct ImageProcessorOverlayMessage: Content {
+    var backgroundUrl: String
+    var overlayUrl: String
+}
+
+
+struct ImageProcessorOpacityMessage: Content {
+    var url: String
+    var value: String
+}
+
+struct ImageProcessorTextMessage: Content {
+    var message: String
 }

@@ -9,8 +9,9 @@ import Vapor
 
 class ImageProcessor {
     
-    let host = "http://localhost:5000/"
-
+    // My DigitalOcean droplet with Image processing service
+    let host = "http://68.183.65.138:3000/"
+    
     
     func move(tilesUrl: [String], xOffset: Int, yOffset: Int, req: Request) throws -> Future<Response> {
         
@@ -38,7 +39,6 @@ class ImageProcessor {
         
         let message = ImageProcessorOverlayMessage(backgroundUrl: backgroundUrl,
                                                    overlayUrl: overlayUrl)
-        
         let postResponse = try req.client().post(apiUrl) { postReq in
             try postReq.content.encode(message)
         }
@@ -66,4 +66,37 @@ class ImageProcessor {
         
         return postResponse
     }
+    
+    
+    
+    func opacity(value: Double, url: String, req: Request) throws -> Future<Response> {
+        
+        let apiUrl = host + "opacity"
+        
+        let message = ImageProcessorOpacityMessage(url: url,
+                                                   value: String(value))
+        
+        let postResponse = try req.client().post(apiUrl) { postReq in
+            try postReq.content.encode(message)
+        }
+        
+        return postResponse
+    }
+    
+    
+    
+    func text(message: String, req: Request) throws -> Future<Response> {
+        
+        let apiUrl = host + "text"
+        
+        let message = ImageProcessorTextMessage(message: message)
+        
+        let postResponse = try req.client().post(apiUrl) { postReq in
+            try postReq.content.encode(message)
+        }
+        
+        return postResponse
+    }
+    
+ 
 }

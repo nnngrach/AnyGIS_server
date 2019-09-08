@@ -20,19 +20,6 @@ class MapProcessorOverlay: AbstractMapProcessorOverlay {
         let overlayUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, overlayObject!.backgroundUrl, overlayObject!.backgroundServerName)
         
         return try imageProcessor.overlay(backgroundUrl: baseUrl, overlayUrl: overlayUrl, req: req)
-
-        /*
-        // Upload all images to online image-processor
-        let loadingResponces = try self.cloudinaryImageProcessor.uploadTwoTiles([baseUrl, overlayUrl], cloudinarySessionID!, req)
-        
-        
-        // Redirect to URL of resulting file in image-processor storage
-        return self.cloudinaryImageProcessor.syncTwo(loadingResponces, req) { res in
-            
-            let newUrl = self.cloudinaryImageProcessor.getUrlOverlay(baseUrl, overlayUrl, cloudinarySessionID!)
-            return self.output.redirect(to: newUrl, with: req)
-        }
-        */
     }
     
 }

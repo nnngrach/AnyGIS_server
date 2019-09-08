@@ -36,7 +36,7 @@ class AbstractMapProcessorMapboxOverlay: AbstractMapProcessorSimple  {
                         
                         let mapboxIndex = Int(self.paralleliser.getMapboxSessionId()) ?? 0
                         
-                        let overlayUrlObject = MapsList(name: "", mode: "", backgroundUrl: overlaysObject[mapboxIndex].url, backgroundServerName: "", referer: "", zoomMin: 0, zoomMax: 0, description: "")
+                        let overlayUrlObject = MapsList(name: "", mode: "", backgroundUrl: overlaysObject[mapboxIndex].url, backgroundServerName: "", referer: "", zoomMin: 0, zoomMax: 0, parameters: 0, description: "")
                         
                         return try self.makeCustomActions(mapName, tileNumbers, nil, mapObject, baseObject, overlayUrlObject, cloudinaryId, req)
                     }

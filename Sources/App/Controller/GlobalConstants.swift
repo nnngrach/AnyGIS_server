@@ -8,4 +8,4 @@
 import Foundation
 
 let SITE_HOST = "https://anygis.ru"
-let SERVER_HOST = "https://anygis.ru/server/"
+let SERVER_HOST = "https://anygis.ru/api/v1/"

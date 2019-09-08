@@ -20,32 +20,32 @@
     
     <H4>For example let's load a Wikimapia tile:</H4>
     
-    <p>thisSiteName    = https://anygis.ru/server/</p>
+    <p>thisSiteName    = https://anygis.ru/api/v1/</p>
     <p>MapName         = Wikimapia</p>
     <p>xTileNumber     = 619</p>
     <p>yTileNumber     = 320</p>
     <p>zoomLevel       = 10</p><br>
     
     <H4>Result URL to load this tile will looking like this:</H4>
-    <p><a href="/server/Wikimapia/619/320/10">https://anygis.ru/server/Wikimapia/619/320/10</a></p><br>
+    <p><a href="/api/v1/Wikimapia/619/320/10">https://anygis.ru/api/v1/Wikimapia/619/320/10</a></p><br>
     
     
     
     
     <H4>You can also find tile by coordinates:</H4>
     <p>thisSiteName / MapName / longitude / latitude / zoomLevel</p>
-    <p><a href="/server/Wikimapia/56.062293/37.708244/10">https://anygis.ru/server/Wikimapia/56.062293/37.708244/10</a></p><br>
+    <p><a href="/api/v1/Wikimapia/56.062293/37.708244/10">https://anygis.ru/api/v1/Wikimapia/56.062293/37.708244/10</a></p><br>
     
     
     
     <H4>To get full list of maps sources follow this:</H4>
-    <p><a href="/server/list">https://anygis.ru/server/list</a></p>
-    #//<p><a href="server/overlay_list">https://anygis.ru/server/overlay_list</a></p>
-    #//<p><a href="server/priority_list">https://anygis.ru/server/priority_list</a></p>
+    <p><a href="/api/v1/list">https://anygis.ru/api/v1/list</a></p>
+    #//<p><a href="api/v1/overlay_list">https://anygis.ru/api/v1/overlay_list</a></p>
+    #//<p><a href="api/v1/priority_list">https://anygis.ru/api/v1/priority_list</a></p>
     <br>
 
     <H4>Contacts:</H4>
-    <p><a href="https://nnngrach.github.io/AnyGIS_maps/index_en">Web page</a> <br>
+    <p><a href="https://anygis.ru/index_en">Web page</a> <br>
     <a href="https://github.com/nnngrach/AnyGIS_server">GitHub</a> <br>
     <a href="mailto:anygis@bk.ru">Email</a></p>
 

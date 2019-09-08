@@ -25,24 +25,6 @@ class MapProcessorWgs84Overlay: AbstractMapProcessorWgs84Double {
         
         return try imageProcessor.moveAndOverlay(tilesUrl: fourTilesAroundUrls, xOffset: tilePosition!.offsetX, yOffset: tilePosition!.offsetY, overlayUrl: overlayUrl, req: req)
         
-        /*
-        // Upload all images to online image-processor
-        let loadingResponces = try self.cloudinaryImageProcessor.uploadFourTiles(fourTilesAroundUrls, cloudinarySessionID!, req)
-        
-        let loadingOverResponce = try self.cloudinaryImageProcessor.uploadOneTile(overlayUrl, cloudinarySessionID!, req)
-        
-        
-        // Get URL of resulting file in image-processor storage
-        return self.cloudinaryImageProcessor.syncFour(loadingResponces, req) { res1 in
-            
-            return self.cloudinaryImageProcessor.syncOne(loadingOverResponce, req) { res2 in
-                
-                let processedImageUrl = self.cloudinaryImageProcessor.getUrlWithOffsetAndOverlay(fourTilesAroundUrls, overlayUrl, tilePosition!.offsetX, tilePosition!.offsetY, cloudinarySessionID!)
-                
-                return self.output.redirect(to: processedImageUrl, with: req)
-            }
-        }
-         */
     }
     
 }

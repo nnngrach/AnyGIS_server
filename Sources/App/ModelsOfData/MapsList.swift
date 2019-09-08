@@ -18,9 +18,10 @@ final class MapsList: SQLiteModel {
     var referer: String
     var zoomMin: Int
     var zoomMax: Int
+    var parameters: Double
     var description: String
     
-    init(id: Int? = nil, name: String, mode: String, backgroundUrl: String, backgroundServerName: String, referer: String, zoomMin: Int, zoomMax: Int, description: String) {
+    init(id: Int? = nil, name: String, mode: String, backgroundUrl: String, backgroundServerName: String, referer: String, zoomMin: Int, zoomMax: Int, parameters: Double, description: String) {
         self.name = name
         self.mode = mode
         self.backgroundUrl = backgroundUrl
@@ -28,6 +29,7 @@ final class MapsList: SQLiteModel {
         self.referer = referer
         self.zoomMin = zoomMin
         self.zoomMax = zoomMax
+        self.parameters = parameters
         self.description = description
     }
 }
