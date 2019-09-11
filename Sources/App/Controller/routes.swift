@@ -144,9 +144,8 @@ public func routes(_ router: Router) throws {
         let folder = try req.parameters.next(String.self)
         let filename = try req.parameters.next(String.self)
 
-        let url = SERVER_HOST + folder + "/" + filename
+        let url = SITE_HOST + "/server/" + folder + "/" + filename
         
-        print(url)
 
         let futureContent = try req.client().get(url)
 
