@@ -98,13 +98,13 @@ public func routes(_ router: Router) throws {
             throw Abort(.badRequest)
         }
         
-        let serverNames = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
+        let serverNames = ["a", "b"]
         let randomValue = randomNubmerForHeroku(serverNames.count)
         let serverName = serverNames[randomValue]
         
-        let mirrorUrl = "https://\(serverName)-mapshoter.herokuapp.com/\(mode)/\(x)/\(y)/\(z)/\(crossZ)?script=\(script)"
+        let mirrorUrl = "https://\(serverName)-mapshooter.herokuapp.com/\(mode)/\(x)/\(y)/\(z)/\(crossZ)?script=\(script)"
         
-        print(mirrorUrl)
+        //print(mirrorUrl)
         
         return request.redirect(to: mirrorUrl)
     }
