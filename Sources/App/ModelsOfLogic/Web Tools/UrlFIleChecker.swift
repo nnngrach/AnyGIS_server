@@ -101,6 +101,7 @@ class UrlFIleChecker {
             let hosts = mirrorsListData.map {$0.host}
             let patchs = mirrorsListData.map {$0.patch}
             let ports = mirrorsListData.map {$0.port}
+            let isHttps = mirrorsListData.map {$0.isHttps}
             
             var firstFoundedUrlResponse : Future<Response>
             
@@ -121,7 +122,7 @@ class UrlFIleChecker {
                 
             } else {
                 // Local maps. Start checking of file existing for all mirrors URLs
-                firstFoundedUrlResponse = self.findExistingMirrorNumber(index: startIndex, hosts, ports, patchs, urls, x, y, z, shuffledOrder, req: req)
+                firstFoundedUrlResponse = self.findExistingMirrorNumber(index: startIndex, hosts, ports, patchs, urls, isHttps, x, y, z, shuffledOrder, req: req)
             }
             
             return firstFoundedUrlResponse
@@ -136,14 +137,14 @@ class UrlFIleChecker {
 
     
     // Mirrors mode recursive checker sub function
-    private func findExistingMirrorNumber(index: Int, _ hosts: [String], _ ports: [String], _ patchs: [String], _ urls: [String], _ x: Int, _ y: Int, _ z: Int, _ order: [Int:Int], req: Request) -> Future<Response> {
+    private func findExistingMirrorNumber(index: Int, _ hosts: [String], _ ports: [String], _ patchs: [String], _ urls: [String], _ protocols: [Bool], _ x: Int, _ y: Int, _ z: Int, _ order: [Int:Int], req: Request) -> Future<Response> {
         
         guard let currentShuffledIndex = order[index] else {return output.notFoundResponce(req)}
         
         
         let currentPatchUrl = self.urlPatchCreator.calculateTileURL(x, y, z, patchs[currentShuffledIndex], "")
         
-        let responceStatus = checkUrlStatus(hosts[currentShuffledIndex], ports[currentShuffledIndex], currentPatchUrl, req: req)
+        let responceStatus = checkUrlStatus(hosts[currentShuffledIndex], ports[currentShuffledIndex], currentPatchUrl, protocols[currentShuffledIndex], req: req)
         
         
         let firstFoundedFileResponce = responceStatus.flatMap{ (status) -> Future<Response> in
@@ -156,7 +157,7 @@ class UrlFIleChecker {
                 
             } else if (index + 1) < hosts.count {
                 //print ("Recursive find for next index: ", hosts[index], currentUrl, response.status.code)
-                return self.findExistingMirrorNumber(index: index+1, hosts, ports, patchs, urls, x, y, z, order, req: req)
+                return self.findExistingMirrorNumber(index: index+1, hosts, ports, patchs, urls, protocols, x, y, z, order, req: req)
                 
             } else {
                 //print("Fail: All URLs checked and file not founded. ", response.status.code)
@@ -171,15 +172,19 @@ class UrlFIleChecker {
     
     
     
-    private func checkUrlStatus(_ host: String, _ port: String, _ url: String, req: Request) -> Future<HTTPResponseStatus> {
+    private func checkUrlStatus(_ host: String, _ port: String, _ url: String, _ isHttps: Bool, req: Request) -> Future<HTTPResponseStatus> {
         
         let timeout = 500       //TODO: I need to increase this speed
-        let defaultPort = 8080
+        let defaultPort = 80
         var connection: EventLoopFuture<HTTPClient>
 
         // Connect to Host URL with correct port
         if port == "any" {
-            connection = HTTPClient.connect(hostname: host, on: req)
+            if isHttps {
+                connection = HTTPClient.connect(scheme: .https, hostname: host, on: req)
+            } else {
+                connection = HTTPClient.connect(hostname: host, on: req)
+            }
             
         } else {
             let portNumber = Int(port) ?? defaultPort
@@ -190,6 +195,7 @@ class UrlFIleChecker {
         // Synchronization: Waiting, while coonection will be started
         let responseStatus = connection.flatMap { client -> Future<HTTPResponseStatus> in
             
+            print(url)
             let request = HTTPRequest(method: .HEAD, url: url)
             
             let response = client.send(request)
