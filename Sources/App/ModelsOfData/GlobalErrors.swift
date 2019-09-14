@@ -10,4 +10,5 @@ import Foundation
 enum GlobalErrors: Error {
     case internalServerError
     case incorrectResponse
+    case parsingFail
 }

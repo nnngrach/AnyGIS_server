@@ -9,6 +9,9 @@ import Foundation
 
 class CoordinateTransformer {
     
+    let bingHandler = BingTileNumberTransformer()
+    
+    
     // MARK: Web Mercator transformations
     
     public func calculateTileNumbers(_ xText: String, _ yText: String, _ zoom: Int) throws -> (x: Int, y: Int, z: Int) {
@@ -85,5 +88,14 @@ class CoordinateTransformer {
         return (Int(xTileNumber), Int(yTileNumber), Int(offsetX), Int(offsetY))
     }
     
+    
+    
+    
+    // MARK: Bing "quad" tile system
+    
+    public func tileNumberToQuad(_ tileX : Int, _ tileY : Int, _ mapZoom: Int) -> String {
+        
+        return bingHandler.tileXYToQuadKey(tileX: tileX, tileY: tileY, levelOfDetail: mapZoom)
+    }
     
 }

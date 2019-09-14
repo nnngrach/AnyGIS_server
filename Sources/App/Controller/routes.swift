@@ -184,5 +184,27 @@ public func routes(_ router: Router) throws {
 //    router.get("server", "experiments_playground") { req -> String in
 //        return "Hello, world!"
 //    }
+    
+    
+/*
+    router.get("api", "v1", "experiments_playground") { req -> String in
+        
+        let a = BingTileNumberTransformer()
+        
+        let b = try a.quadKeyToTileXY(quadKey: "122")
+        //let b = try a.quadKeyToTileXY(quadKey: "21")
+        //let b = try a.quadKeyToTileXY(quadKey: "0")
+        print(b)
+        
+        
+        //let c = a.tileXYToQuadKey(tileX: 4, tileY: 3, levelOfDetail: 3) //122
+        //let c = a.tileXYToQuadKey(tileX: 1, tileY: 2, levelOfDetail: 2) //21
+        //let c = a.tileXYToQuadKey(tileX: 0, tileY: 0, levelOfDetail: 1) //0
+        //print(c)
+        
+        return "Hello, world!"
+    }
+*/
+
 
 }
