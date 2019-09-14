@@ -11,7 +11,7 @@ public func routes(_ router: Router) throws {
     let sqlHandler = SQLHandler()
     let casheHandler = CloudinaryCasheHandler()
     let cloudinaryHandler = CloudinaryAccountsHandler()
-    
+    let previewHandler = PreviewHandler()
     
     
 
@@ -47,6 +47,18 @@ public func routes(_ router: Router) throws {
     }
     
     
+    
+  /*
+    // Preview my maps with Nakarte.me
+    router.get("api", "v1", "preview", String.parameter) { req -> Future<String> in
+        
+        let mapName = try request.parameters.next(String.self)
+        
+        let url = try previewHandler.generateLinkFor(mapName: mapName, req: req)
+        
+        return Url
+    }
+    */
     
     
     

@@ -41,6 +41,11 @@ class SQLHandler {
             .all()
     }
     
+    public func fetchCoordinatesList(_ request: Request) -> Future<[CoordinatesMapList]> {
+        return CoordinatesMapList.query(on: request)
+            .all()
+    }
+    
     
     
     
@@ -95,6 +100,17 @@ class SQLHandler {
             .filter(\.serviceName == serviceName)
             .all()
     }
+    
+    
+    public func getCoordinatesDataBy (name: String, _ request: Request) throws -> Future<[CoordinatesMapList]>  {
+        
+        return CoordinatesMapList.query(on: request)
+            .filter(\.name == name)
+            .all()
+    }
+    
+    
+    
     
     
 //    public func getTempStorageBy (name: String, _ request: Request) throws -> Future<[TempStorage]>  {

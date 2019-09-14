@@ -11,6 +11,7 @@ import Vapor
 class URLPatchCreator {
     
     
+    
     public func calculateTileURL(_ x: Int, _ y: Int, _ z: Int, _ url:String, _ serverName:String) -> String {
         
         var result = url
@@ -237,12 +238,23 @@ class URLPatchCreator {
     
     
     
+    private let getQuad: ([Int], String) -> String = {
+        coordinates, serverName in
+        
+        let geoTransformer = BingTileNumberTransformer()
+        
+        let quad = geoTransformer.tileXYToQuadKey(tileX: coordinates[0], tileY: coordinates[1], levelOfDetail: coordinates[2])
+        
+        return quad
+    }
+    
+    
     
     // Two arrays for quick and short iterating of all this functions
     
-    private let urlPlaceholders = ["{x}", "{y}", "{z}", "{z-6}", "{s}", "{googleZ}", "{invY}", "{sasZ}", "{folderX}", "{folderY}", "{yandexX}", "{yandexY}", "{timeStamp}", "{kosmosnimkiX}", "{kosmosnimkiY}", "{left}", "{right}", "{top}", "{bottom}"]
+    private let urlPlaceholders = ["{x}", "{y}", "{z}", "{z-6}", "{s}", "{googleZ}", "{invY}", "{sasZ}", "{folderX}", "{folderY}", "{yandexX}", "{yandexY}", "{timeStamp}", "{kosmosnimkiX}", "{kosmosnimkiY}", "{left}", "{right}", "{top}", "{bottom}", "{q}"]
     
-    private lazy var urlTransformers = [getX, getY, getZ, getZMinus6, getS, getGoogleZ, getInvY, getSasZ, getFolderX, getFolderY, getYandexX, getYandexY, getYandexTimestamp, getKosmosnimkiX, getKosmosnimkiY, getMetersL, getMetersR, getMetersT, getMetersB]
+    private lazy var urlTransformers = [getX, getY, getZ, getZMinus6, getS, getGoogleZ, getInvY, getSasZ, getFolderX, getFolderY, getYandexX, getYandexY, getYandexTimestamp, getKosmosnimkiX, getKosmosnimkiY, getMetersL, getMetersR, getMetersT, getMetersB, getQuad]
     
     
     
