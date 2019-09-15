@@ -7,6 +7,8 @@
 
 import Vapor
 
+// Deprecated
+
 class CloudinaryImageProcessor {
     
     let paralleliser = FreeAccountsParalleliser()

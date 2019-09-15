@@ -10,7 +10,7 @@ import FluentSQLite
 import Vapor
 
 
-final class CoordinatesMapList: SQLiteModel {
+final class CoordinateMapList: SQLiteModel {
     
     var id: Int?
     var name: String
@@ -18,10 +18,12 @@ final class CoordinatesMapList: SQLiteModel {
     var isTesting: Bool
     var hasPrewiew: Bool
     
+    var isOverlay: Bool
+    
     var previewLat: Double
     var previewLon: Double
     var previewZoom: Int
-    var previewUrl: Double
+    var previewUrl: String
     
     var isGlobal: Bool
     var bboxL: Double
@@ -31,10 +33,11 @@ final class CoordinatesMapList: SQLiteModel {
 
     
     
-    init(id: Int? = nil, name: String, isTesting: Bool, hasPrewiew: Bool, previewLat: Double, previewLon: Double, previewZoom: Int, previewUrl: Double, isGlobal: Bool, bboxL: Double, bboxT: Double, bboxR: Double, bboxB: Double) {
+    init(id: Int? = nil, name: String, isTesting: Bool, hasPrewiew: Bool, isOverlay: Bool, previewLat: Double, previewLon: Double, previewZoom: Int, previewUrl: String, isGlobal: Bool, bboxL: Double, bboxT: Double, bboxR: Double, bboxB: Double) {
         self.name = name
         self.isTesting = isTesting
         self.hasPrewiew = hasPrewiew
+        self.isOverlay = isOverlay
         self.previewLat = previewLat
         self.previewLon = previewLon
         self.previewZoom = previewZoom
@@ -49,9 +52,9 @@ final class CoordinatesMapList: SQLiteModel {
 }
 
 
-extension CoordinatesMapList: Migration { }
+extension CoordinateMapList: Migration { }
 
-extension CoordinatesMapList: Content { }
+extension CoordinateMapList: Content { }
 
-extension CoordinatesMapList: Parameter { }
+extension CoordinateMapList: Parameter { }
 

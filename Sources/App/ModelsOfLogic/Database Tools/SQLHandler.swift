@@ -41,8 +41,8 @@ class SQLHandler {
             .all()
     }
     
-    public func fetchCoordinatesList(_ request: Request) -> Future<[CoordinatesMapList]> {
-        return CoordinatesMapList.query(on: request)
+    public func fetchCoordinatesList(_ request: Request) -> Future<[CoordinateMapList]> {
+        return CoordinateMapList.query(on: request)
             .all()
     }
     
@@ -102,13 +102,27 @@ class SQLHandler {
     }
     
     
-    public func getCoordinatesDataBy (name: String, _ request: Request) throws -> Future<[CoordinatesMapList]>  {
+    
+    
+    
+    public func getCoordinatesDataBy (name: String, _ request: Request) throws -> Future<CoordinateMapList>  {
+        return CoordinateMapList.query(on: request)
+            .filter(\CoordinateMapList.name == name)
+            .first()
+            .unwrap(or: Abort.init(
+                HTTPResponseStatus.custom(code: 501, reasonPhrase: "Uwarping CoordinateMapList error")))
+    }
+    
+    
+    /*
+    public func getCoordinatesDataBy (name: String, _ request: Request) throws -> Future<[CoordinateMapList]>  {
         
-        return CoordinatesMapList.query(on: request)
+        
+        return CoordinateMapList.query(on: request)
             .filter(\.name == name)
             .all()
     }
-    
+    */
     
     
     

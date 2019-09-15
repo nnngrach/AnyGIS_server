@@ -48,17 +48,26 @@ public func routes(_ router: Router) throws {
     
     
     
-  /*
+  
     // Preview my maps with Nakarte.me
-    router.get("api", "v1", "preview", String.parameter) { req -> Future<String> in
+    router.get("api", "v1", "preview", String.parameter) { req -> Future<Response> in
         
-        let mapName = try request.parameters.next(String.self)
+        let mapName = try req.parameters.next(String.self)
         
-        let url = try previewHandler.generateLinkFor(mapName: mapName, req: req)
-        
-        return Url
+        do {
+            
+            let url = try previewHandler.generateLinkFor(mapName: mapName, req: req)
+            
+            return url.map { urlText in
+                return req.redirect(to: urlText)
+            }
+            
+        } catch {
+            print("catch")
+            return req.future(error: GlobalErrors.parsingFail)
+        }
     }
-    */
+ 
     
     
     
