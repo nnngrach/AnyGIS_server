@@ -32,25 +32,27 @@ class PreviewHandler {
                 return req.future(specialUrl)
             }
             
-            // else generate url with current map parameters
+            // else generate url with current custom map parameters
             return mapListData.map(to: String.self) { mapListRecord in
                 
-                let maxZoom = mapListRecord.zoomMax <= 18 ? mapListRecord.zoomMax : 18
+                let nakarteMaxZoom = 18
                 
-                let customMapJson = self.getNakarteJson(dbMapName: mapName,
+                let maxZoom = (mapListRecord.zoomMax <= nakarteMaxZoom) ? mapListRecord.zoomMax : nakarteMaxZoom
+                
+                let mapParametersInJson = self.getNakarteJson(dbMapName: mapName,
                                           descriptionName: mapListRecord.description,
                                           maxZoom: maxZoom,
                                           isOverlay: previewRecord.isOverlay)
                 
-                let customMapBase64Code = self.convertToBase64(customMapJson)
+                let mapParametersInBase64 = self.convertToBase64(mapParametersInJson)
                 
                 let nakartePrefix = "https://nakarte.me/#m="
                 
                 let overlayPrefix = previewRecord.isOverlay ? "O/" : ""
                 
-                let previewUrl = nakartePrefix + String(previewRecord.previewZoom) + "/" + String(previewRecord.previewLat) + "/" + String(previewRecord.previewLon) + "&l=" + overlayPrefix + "-cs" + customMapBase64Code!
+                let previewUrl = nakartePrefix + String(previewRecord.previewZoom) + "/" + String(previewRecord.previewLat) + "/" + String(previewRecord.previewLon) + "&l=" + overlayPrefix + "-cs" + mapParametersInBase64!
                 
-                
+    
                 return previewUrl
             }
         }
@@ -104,7 +106,7 @@ class PreviewHandler {
     
     
     
-    let letters = ["а", "б", "в",
+    private let letters = ["а", "б", "в",
                    "г", "д", "е", "ё", "ж", "з", "и",
                    "й", "к", "л", "м", "н", "о", "п",
                    "р", "с", "т", "у", "ф", "х", "ц",
@@ -119,7 +121,7 @@ class PreviewHandler {
                    "»", "°", "1", "2", "3", "4", "5",
                    "6", "7", "8", "9", "0", "№", " "]
     
-    let codes = [
+    private let codes = [
          "\\u0430", "\\u0431", "\\u0432",
          "\\u0433", "\\u0434", "\\u0435", "\\u0451", "\\u0436", "\\u0437", "\\u0438",
          "\\u0439", "\\u043A", "\\u043B", "\\u043C", "\\u043D", "\\uU043E", "\\u043F",

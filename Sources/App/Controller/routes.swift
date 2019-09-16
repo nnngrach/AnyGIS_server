@@ -12,6 +12,7 @@ public func routes(_ router: Router) throws {
     let casheHandler = CloudinaryCasheHandler()
     let cloudinaryHandler = CloudinaryAccountsHandler()
     let previewHandler = PreviewHandler()
+    let mapTester = MapTester()
     
     
 
@@ -47,6 +48,11 @@ public func routes(_ router: Router) throws {
     }
     
     
+    
+    // Ping all testing maps from database
+    router.get("api", "v1", "test") { req -> Future<Response> in
+        return mapTester.testAllMaps(req: req)
+    }
     
   
     // Preview my maps with Nakarte.me
@@ -226,6 +232,11 @@ public func routes(_ router: Router) throws {
         return "Hello, world!"
     }
 */
+    
+//    router.get("api", "v1", "experiments_playground") { req -> Response in
+//
+//        return "Hello, world!"
+//    }
 
 
 }

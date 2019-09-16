@@ -31,9 +31,9 @@ class UrlFIleChecker {
         // Quick redirect for maps with global coverage
         guard !maps[index].notChecking else {
             
-            let response1 = try delegate!.startSearchingForMap(currentMapName, xText: String(x), String(y), z, req)
+            let fastResponse = try delegate!.startSearchingForMap(currentMapName, xText: String(x), String(y), z, req)
             
-            return try resultChecker(response1, maps, index, x, y, z, req)
+            return try resultChecker(fastResponse, maps, index, x, y, z, req)
         }
 
         
@@ -172,7 +172,7 @@ class UrlFIleChecker {
     
     
     
-    private func checkUrlStatus(_ host: String, _ port: String, _ url: String, _ isHttps: Bool, req: Request) -> Future<HTTPResponseStatus> {
+    public func checkUrlStatus(_ host: String, _ port: String, _ url: String, _ isHttps: Bool, req: Request) -> Future<HTTPResponseStatus> {
         
         let timeout = 500       //TODO: I need to increase this speed
         let defaultPort = 80
@@ -195,7 +195,6 @@ class UrlFIleChecker {
         // Synchronization: Waiting, while coonection will be started
         let responseStatus = connection.flatMap { client -> Future<HTTPResponseStatus> in
             
-            print(url)
             let request = HTTPRequest(method: .HEAD, url: url)
             
             let response = client.send(request)
