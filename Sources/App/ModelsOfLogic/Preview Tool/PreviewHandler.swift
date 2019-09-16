@@ -16,12 +16,23 @@ class PreviewHandler {
 
     public func generateLinkFor(mapName: String, req: Request) throws -> Future<String> {
         
-
+        // Load records from db
         let mapListData = try baseHandler.getBy(mapName: mapName, req)
         let coordinatesData = try baseHandler.getCoordinatesDataBy(name: mapName, req)
         
-        
+        // synchronize
         return coordinatesData.flatMap(to: String.self) { previewRecord in
+            
+            // if record already have url for previw
+            // (specialUrl field not empty), then just return it
+            var specialUrl = previewRecord.previewUrl
+            specialUrl = specialUrl.replacingOccurrences(of: " ", with: "")
+           
+            if specialUrl != "" {
+                return req.future(specialUrl)
+            }
+            
+            // else generate url with current map parameters
             return mapListData.map(to: String.self) { mapListRecord in
                 
                 let maxZoom = mapListRecord.zoomMax <= 18 ? mapListRecord.zoomMax : 18
@@ -44,6 +55,7 @@ class PreviewHandler {
             }
         }
     }
+    
     
     
     
