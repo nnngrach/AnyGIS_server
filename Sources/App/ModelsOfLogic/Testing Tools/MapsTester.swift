@@ -99,14 +99,14 @@ class MapTester {
         //return urlChecker.anotherChecker(url: anygisMapUrl, req: req)
         
         
-//        do {
-//            return try urlChecker.checkUrlStatusAndProxy(anygisMapUrl, nil, nil, req)
-//        } catch {
-//            return req.future(HTTPResponseStatus(statusCode: 502))
-//        }
+        do {
+            return try urlChecker.checkUrlStatusAndProxy(anygisMapUrl, nil, nil, req)
+        } catch {
+            return req.future(HTTPResponseStatus(statusCode: 502))
+        }
         
        
-        return urlChecker.checkUrlStatus("anygis.ru", "any", anygisMapUrl, false, req: req)
+        //return urlChecker.checkUrlStatus("anygis.ru", "any", anygisMapUrl, false, req: req)
     }
     
     
