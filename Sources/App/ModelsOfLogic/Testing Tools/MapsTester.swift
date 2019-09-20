@@ -59,7 +59,7 @@ class MapTester {
                 unallowedMapsList.append("\(status.code) - " + currentMap.name)
             }
             
-            //print(iteration, "/", mapsRecords.count, "  ", status.code, currentMap.name)
+            
             
             // To next iteration
             let nextIterationResult = self.recursiveMapsTesting(iteration: iteration+1, mapsRecords: mapsRecords, resultList: unallowedMapsList, req: req)
@@ -94,9 +94,6 @@ class MapTester {
         let anygisMapUrl = SERVER_HOST + mapName + "/" + String(x) + "/" + String(y) + "/" + String(z)
         
         //let anygisMapUrl = "http://localhost:8080/api/v1/" + mapName + "/" + String(x) + "/" + String(y) + "/" + String(z)
-        
-        //print(anygisMapUrl)
-        //return urlChecker.anotherChecker(url: anygisMapUrl, req: req)
         
         
         do {
