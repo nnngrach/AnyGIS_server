@@ -3,7 +3,7 @@
 
 <!--
 Map pack from AnyGIS.ru
-Updated: 20-09-2019 16:39
+Updated: 20-09-2019 17:05
 -->
 
 <onlinemapsource uid="468060">
@@ -2436,21 +2436,6 @@ Updated: 20-09-2019 16:39
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="8888053">
-<name>Hillshade Карта уклонов (OVERLAY)</name>
-<url><![CDATA[https://anygis.ru/api/v1/Hillshade_VotEtoVid/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
-<maxzoom>13</maxzoom>
-<minzoom>0</minzoom>
-<projection>MERCATORESFERICA</projection>
-<downloadable>1</downloadable>
-<cacheable>1</cacheable>
-<xop></xop>
-<yop></yop>
-<zop></zop>
-<qop></qop>
-</onlinemapsource>
-
 <onlinemapsource uid="8888025">
 <name>Navionics Marine Charts (OVERLAY)</name>
 <url><![CDATA[https://anygis.ru/api/v1/Navionics_Marine_Charts_layer/{$x}/{$y}/{$z}]]></url>
@@ -2796,6 +2781,21 @@ Updated: 20-09-2019 16:39
 <qop></qop>
 </onlinemapsource>
 
+<onlinemapsource uid="8888058">
+<name>Рельеф SRTM (OVERLAY)</name>
+<url><![CDATA[https://tiles.wmflabs.org/hillshading/{$z}/{$x}/{$y}.png]]></url>
+<servers></servers>
+<maxzoom>15</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
 <onlinemapsource uid="8888041">
 <name>Рельеф Waymarkedtrails.org (OVERLAY)</name>
 <url><![CDATA[https://anygis.ru/api/v1/Hillshade_Waymarkedtrails/{$x}/{$y}/{$z}]]></url>
@@ -2816,6 +2816,21 @@ Updated: 20-09-2019 16:39
 <url><![CDATA[https://tiles.windy.com/tiles/v8.1/darkmap/{$z}/{$x}/{$y}.png]]></url>
 <servers></servers>
 <maxzoom>11</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="8888053">
+<name>Рельеф Карта уклонов (OVERLAY)</name>
+<url><![CDATA[https://anygis.ru/api/v1/Hillshade_VotEtoVid/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>13</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
