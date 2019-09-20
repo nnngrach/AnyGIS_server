@@ -243,4 +243,34 @@ class UrlFIleChecker {
     
     
     
+ /*
+    public func anotherChecker(url: String, req: Request) -> Future<HTTPResponseStatus> {
+        
+//        print("=================================================")
+//        print("=================================================")
+//        print("=================================================")
+        print(url)
+        do {
+            let checkingResponse = try req.client().get(url)
+            
+            let futureCode = checkingResponse.map(to: HTTPResponseStatus.self) { res in
+                let status = res.http.status
+                //print(status.code)
+                //print(res.http.body.count)
+                
+                return status
+            }
+            
+            return futureCode
+            
+        } catch {
+            print("catch")
+            //return req.future(500)
+            return req.future(HTTPResponseStatus(statusCode: 500))
+        }
+        
+        
+    }
+   */
+    
 }

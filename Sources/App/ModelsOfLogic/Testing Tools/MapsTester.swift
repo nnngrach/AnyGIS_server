@@ -40,13 +40,12 @@ class MapTester {
     private func recursiveMapsTesting(iteration: Int, mapsRecords: [CoordinateMapList], resultList: [String], req: Request) -> Future<[String]> {
         
         // Exit from recursion
-        guard iteration < mapsRecords.count else {return req.future(resultList)}
-        
+        guard iteration < mapsRecords.count  else {return req.future(resultList)}
         
         // New iteration
         var unallowedMapsList: [String] = resultList
         let currentMap = mapsRecords[iteration]
-            
+        
         let mapStatusFuture = pingMap(mapName: currentMap.name,
                                             x: currentMap.previewLat,
                                             y: currentMap.previewLon,
@@ -56,8 +55,11 @@ class MapTester {
         let unallowedMapsListFuture = mapStatusFuture.flatMap(to: [String].self) { status in
             
             if !self.correctHtmlStatuses.contains(status.code) {
+                
                 unallowedMapsList.append("\(status.code) - " + currentMap.name)
             }
+            
+            //print(iteration, "/", mapsRecords.count, "  ", status.code, currentMap.name)
             
             // To next iteration
             let nextIterationResult = self.recursiveMapsTesting(iteration: iteration+1, mapsRecords: mapsRecords, resultList: unallowedMapsList, req: req)
@@ -91,6 +93,19 @@ class MapTester {
         
         let anygisMapUrl = SERVER_HOST + mapName + "/" + String(x) + "/" + String(y) + "/" + String(z)
         
+        //let anygisMapUrl = "http://localhost:8080/api/v1/" + mapName + "/" + String(x) + "/" + String(y) + "/" + String(z)
+        
+        //print(anygisMapUrl)
+        //return urlChecker.anotherChecker(url: anygisMapUrl, req: req)
+        
+        
+//        do {
+//            return try urlChecker.checkUrlStatusAndProxy(anygisMapUrl, nil, nil, req)
+//        } catch {
+//            return req.future(HTTPResponseStatus(statusCode: 502))
+//        }
+        
+       
         return urlChecker.checkUrlStatus("anygis.ru", "any", anygisMapUrl, false, req: req)
     }
     
@@ -100,7 +115,7 @@ class MapTester {
     
     private func sendResponse(_ status: Int, _ text: String, _ req: Request) -> Response {
         
-        let errorResponse = HTTPResponse(status: HTTPResponseStatus(statusCode: 500), body: text)
+        let errorResponse = HTTPResponse(status: HTTPResponseStatus(statusCode: status), body: text)
         
         return Response(http: errorResponse, using: req)
     }
