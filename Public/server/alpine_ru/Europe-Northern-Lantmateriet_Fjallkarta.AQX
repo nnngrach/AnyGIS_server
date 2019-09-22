@@ -3,7 +3,7 @@
 
 <!--
 Map pack from AnyGIS.ru
-Updated: 20-09-2019 18:20
+Updated: 23-09-2019 00:26
 -->
 
 
@@ -12,19 +12,23 @@ Updated: 20-09-2019 18:20
 
     <source id="11011">
         <name>Lantmäteriets Fjällkarta</name>
-        <copyright>Lantmäteriets Fjällkarta</copyright>
+        <copyright>Lantmäteriets</copyright>
         <data-source></data-source>
         <region>OTHE</region>
         <type>TOPO</type>
-        <preview-location>5.90,44.80,10</preview-location>
+
+        <outline>11.1,69.1 21.55,69.1 21.55,60.9 11.1,60.9</outline>
+        <preview-location>18.38395,67.91592,12</preview-location>
 
         <level>
             
             <zoom-values>5,6,7,8,9,10,11,12</zoom-values>
 
+            <update-delay>30D</update-delay>
+
             <servers>
                 
-                <server><![CDATA[https://johanberonius.github.io/Lantmateriets-Fjallkarta/tiles/{z}/{x}/{y}.jpg]]></server>
+                <server><![CDATA[http://johanberonius.github.io/Lantmateriets-Fjallkarta/tiles/{z}/{x}/{y}.jpg]]></server>
             </servers>
         </level>
     </source>

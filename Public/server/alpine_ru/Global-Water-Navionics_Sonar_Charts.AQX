@@ -3,7 +3,7 @@
 
 <!--
 Map pack from AnyGIS.ru
-Updated: 20-09-2019 18:20
+Updated: 23-09-2019 00:26
 -->
 
 
@@ -12,19 +12,23 @@ Updated: 20-09-2019 18:20
 
     <source id="190008">
         <name>Navionics Sonar Charts</name>
-        <copyright>Navionics Sonar Charts</copyright>
+        <copyright>Navionics</copyright>
         <data-source></data-source>
         <region>WRLD</region>
         <type>NAUT</type>
-        <preview-location>5.90,44.80,10</preview-location>
+
+        
+        <preview-location>29.92,60.08,14</preview-location>
 
         <level>
             
             <zoom-values>0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19</zoom-values>
 
+            <update-delay>30D</update-delay>
+
             <servers>
                 <referer><![CDATA[http://webapp.navionics.com/]]></referer>
-                <server><![CDATA[https://anygis.ru/api/v1/Navionics_Sonar_Charts/{x}/{y}/{z}]]></server>
+                <server><![CDATA[http://anygis.ru/api/v1/Navionics_Sonar_Charts/{x}/{y}/{z}]]></server>
             </servers>
         </level>
     </source>

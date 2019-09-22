@@ -3,7 +3,7 @@
 
 <!--
 Map pack from AnyGIS.ru
-Updated: 20-09-2019 18:20
+Updated: 23-09-2019 00:26
 -->
 
 
@@ -12,19 +12,23 @@ Updated: 20-09-2019 18:20
 
     <source id="354005">
         <name>Caucasus West</name>
-        <copyright>Caucasus West</copyright>
+        
         <data-source></data-source>
         <region>OTHE</region>
         <type>TOPO</type>
-        <preview-location>5.90,44.80,10</preview-location>
+
+        <outline>38.53,44.86 41.13,44.86 41.13,43.52 38.53,43.52</outline>
+        <preview-location>40.51,43.83,10</preview-location>
 
         <level>
             
             <zoom-values>0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15</zoom-values>
 
+            <update-delay>4166D</update-delay>
+
             <servers>
                 <referer><![CDATA[https://anygis.ru/]]></referer>
-                <server><![CDATA[https://anygis.ru/api/v1/Local_Kavkaz_05/{x}/{y}/{z}]]></server>
+                <server><![CDATA[http://anygis.ru/api/v1/Local_Kavkaz_05/{x}/{y}/{z}]]></server>
             </servers>
         </level>
     </source>

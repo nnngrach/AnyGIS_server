@@ -3,7 +3,7 @@
 
 <!--
 Map pack from AnyGIS.ru
-Updated: 20-09-2019 18:20
+Updated: 23-09-2019 00:26
 -->
 
 
@@ -12,19 +12,23 @@ Updated: 20-09-2019 18:20
 
     <source id="190006">
         <name>Volga and Kama rivers location</name>
-        <copyright>Volga and Kama rivers location</copyright>
+        
         <data-source></data-source>
         <region>OTHE</region>
         <type>NAUT</type>
-        <preview-location>5.90,44.80,10</preview-location>
+
+        <outline>43.9,56.2 51.97,56.2 51.97,48.65 43.9,48.65</outline>
+        <preview-location>47.64,52.03,12</preview-location>
 
         <level>
             
             <zoom-values>7,8,9,10,11,12,13,14,15</zoom-values>
 
+            <update-delay>4166D</update-delay>
+
             <servers>
                 <referer><![CDATA[https://gmap.camapka.ru/]]></referer>
-                <server><![CDATA[https://anygis.ru/api/v1/Local_River_Volga/{x}/{y}/{z}]]></server>
+                <server><![CDATA[http://anygis.ru/api/v1/Local_River_Volga/{x}/{y}/{z}]]></server>
             </servers>
         </level>
     </source>

@@ -3,7 +3,7 @@
 
 <!--
 Map pack from AnyGIS.ru
-Updated: 20-09-2019 18:20
+Updated: 23-09-2019 00:26
 -->
 
 
@@ -12,19 +12,23 @@ Updated: 20-09-2019 18:20
 
     <source id="5555018">
         <name>Belarus WIG 1km</name>
-        <copyright>Belarus WIG 1km</copyright>
+        
         <data-source></data-source>
         <region>OTHE</region>
         <type>ROAD</type>
-        <preview-location>5.90,44.80,10</preview-location>
+
+        <outline>22.6,56.1 30.5,56.1 30.5,51.5 22.6,51.5</outline>
+        <preview-location>27.6,53.9,12</preview-location>
 
         <level>
             
             <zoom-values>6,7,8,9,10,11,12,13,14</zoom-values>
 
+            <update-delay>4166D</update-delay>
+
             <servers>
                 
-                <server><![CDATA[https://globus.tut.by/.tiles/wig_v2/Z{z}/{y}/{x}.jpg]]></server>
+                <server><![CDATA[http://globus.tut.by/.tiles/wig_v2/Z{z}/{y}/{x}.jpg]]></server>
             </servers>
         </level>
     </source>

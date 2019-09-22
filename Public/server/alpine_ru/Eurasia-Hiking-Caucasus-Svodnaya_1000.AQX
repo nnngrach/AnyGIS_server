@@ -3,7 +3,7 @@
 
 <!--
 Map pack from AnyGIS.ru
-Updated: 20-09-2019 18:20
+Updated: 23-09-2019 00:26
 -->
 
 
@@ -12,19 +12,23 @@ Updated: 20-09-2019 18:20
 
     <source id="354010">
         <name>Сводная карта Кавказа 1 000м</name>
-        <copyright>Сводная карта Кавказа 1 000м</copyright>
+        
         <data-source></data-source>
         <region>OTHE</region>
         <type>TOPO</type>
-        <preview-location>5.90,44.80,10</preview-location>
+
+        <outline>36.4992,45.6665 45.4985,45.6665 45.4985,42.3334 36.4992,42.3334</outline>
+        <preview-location>42.35,43.38,12</preview-location>
 
         <level>
             <expression set="invY" type="int">0-y</expression>
             <zoom-values>0,1,2,3,4,5,6,7,8,9,10,11,12,13,14</zoom-values>
 
+            <update-delay>4166D</update-delay>
+
             <servers>
                 <referer><![CDATA[http://tiles.nakarte.tk/]]></referer>
-                <server><![CDATA[https://tiles.nakarte.me/new_gsh_100k/{z}/{x}/{invY}]]></server>
+                <server><![CDATA[http://anygis.ru/api/v1/Local_Kavkaz_10/{x}/{y}/{z}]]></server>
             </servers>
         </level>
     </source>

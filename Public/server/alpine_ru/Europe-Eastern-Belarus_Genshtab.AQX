@@ -3,7 +3,7 @@
 
 <!--
 Map pack from AnyGIS.ru
-Updated: 20-09-2019 18:20
+Updated: 23-09-2019 00:26
 -->
 
 
@@ -12,19 +12,23 @@ Updated: 20-09-2019 18:20
 
     <source id="5555021">
         <name>Беларусь Генштаб</name>
-        <copyright>Беларусь Генштаб</copyright>
+        
         <data-source></data-source>
         <region>OTHE</region>
         <type>ROAD</type>
-        <preview-location>5.90,44.80,10</preview-location>
+
+        <outline>22.9,56.3 32.9,56.3 32.9,51.1 22.9,51.1</outline>
+        <preview-location>27.6,53.9,12</preview-location>
 
         <level>
             
             <zoom-values>5,6,7,8,9,10,11,12,13,14</zoom-values>
 
+            <update-delay>4166D</update-delay>
+
             <servers>
                 
-                <server><![CDATA[https://globus.tut.by/.tiles/ev/Z{z}/{y}/{x}.png]]></server>
+                <server><![CDATA[http://globus.tut.by/.tiles/ev/Z{z}/{y}/{x}.png]]></server>
             </servers>
         </level>
     </source>

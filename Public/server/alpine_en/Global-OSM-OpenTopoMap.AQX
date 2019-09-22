@@ -3,7 +3,7 @@
 
 <!--
 Map pack from AnyGIS.ru
-Updated: 20-09-2019 18:20
+Updated: 23-09-2019 00:26
 -->
 
 
@@ -16,18 +16,22 @@ Updated: 20-09-2019 18:20
         <data-source></data-source>
         <region>WRLD</region>
         <type>TOPO</type>
-        <preview-location>5.90,44.80,10</preview-location>
+
+        
+        <preview-location>37.7,56.1,13</preview-location>
 
         <level>
             
             <zoom-values>0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17</zoom-values>
 
+            <update-delay>30D</update-delay>
+
             <servers>
                 
                 
-                <server><![CDATA[https://a.tile.opentopomap.org/{z}/{x}/{y}.png]]></server>
-                <server><![CDATA[https://b.tile.opentopomap.org/{z}/{x}/{y}.png]]></server>
-                <server><![CDATA[https://c.tile.opentopomap.org/{z}/{x}/{y}.png]]></server>
+                <server><![CDATA[http://a.tile.opentopomap.org/{z}/{x}/{y}.png]]></server>
+                <server><![CDATA[http://b.tile.opentopomap.org/{z}/{x}/{y}.png]]></server>
+                <server><![CDATA[http://c.tile.opentopomap.org/{z}/{x}/{y}.png]]></server>
 
             </servers>
         </level>
