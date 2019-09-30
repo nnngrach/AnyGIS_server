@@ -106,11 +106,21 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
             
             
             // Redirecting user to checked URL
-            let response = futureUrl.map(to: Response.self){ resultUrl in
+            let response = futureUrl.flatMap(to: Response.self){ resultUrl in
                 
-                guard resultUrl != isInAuthProcessingStausText else {return self.output.customErrorResponce(501, isInAuthProcessingStausText, req)}
+                guard resultUrl != isInAuthProcessingStausText else {
+                    return req.future(self.output.customErrorResponce(501, isInAuthProcessingStausText, req))
+                }
                 
-                return req.redirect(to: resultUrl)
+                // AlpineQuest app can't handle 303 redirect.
+                // So, maps for it marked with suffix "proxy"
+                // to use special mode
+                if mapName.hasSuffix("proxy") {
+                    return try req.client().get(resultUrl)
+                } else {
+                // Regular mode
+                    return req.future(req.redirect(to: resultUrl))
+                }
             }
             
             return response
