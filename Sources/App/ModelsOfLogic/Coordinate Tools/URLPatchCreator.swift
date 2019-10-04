@@ -22,7 +22,7 @@ class URLPatchCreator {
             let transformerClosure = urlTransformers[i]
             
             if result.contains(replacedText) {
-                let newText = transformerClosure(coordinates, mapObject.backgroundServerName)
+                let newText = transformerClosure(coordinates, mapObject)
                 result = result.replacingOccurrences(of: replacedText, with: newText)
                 
             } else {
@@ -72,37 +72,39 @@ class URLPatchCreator {
     // (I can't call any functions of this class from closures)
     // ("self" does't works. So i using dependency injection)
     
-    private let getX: ([Int], String) -> String = {
-        coordinates, serverName in
+    private let getX: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
         
         return "\(coordinates[0])"
     }
     
     
-    private let getY: ([Int], String) -> String = {
-        coordinates, serverName in
+    private let getY: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
         
         return "\(coordinates[1])"
     }
     
     
-    private let getZ: ([Int], String) -> String = {
-        coordinates, serverName in
+    private let getZ: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
         
         return "\(coordinates[2])"
     }
     
     
-    private let getZMinus6: ([Int], String) -> String = {
-        coordinates, serverName in
+    private let getZMinus6: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
         
         let result = coordinates[2] - 6
         return "\(result)"
     }
     
     
-    private let getS: ([Int], String) -> String = {
-        coordinates, serverName in
+    private let getS: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let serverName = mapObject.backgroundServerName
         
         switch serverName {
         case "wikimapia":
@@ -120,16 +122,16 @@ class URLPatchCreator {
     }
     
     
-    private let getGoogleZ: ([Int], String) -> String = {
-        coordinates, serverName in
+    private let getGoogleZ: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
         
         let result = 17 - coordinates[2]
         return "\(result)"
     }
     
     
-    private let getInvY: ([Int], String) -> String = {
-        coordinates, serverName in
+    private let getInvY: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
         
         let z = Double(coordinates[2])
         let result = Int(pow(2.0, z)) - coordinates[1] - 1
@@ -137,45 +139,45 @@ class URLPatchCreator {
     }
     
     
-    private let getSasZ: ([Int], String) -> String = {
-        coordinates, serverName in
+    private let getSasZ: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
         
         let result = 1 + coordinates[2]
         return "\(result)"
     }
     
     
-    private let getFolderX: ([Int], String) -> String = {
-        coordinates, serverName in
+    private let getFolderX: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
         
         let result = Int(coordinates[0] / 1024)
         return "\(result)"
     }
     
     
-    private let getFolderY: ([Int], String) -> String = {
-        coordinates, serverName in
+    private let getFolderY: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
         
         let result = Int(coordinates[1] / 1024)
         return "\(result)"
     }
     
     
-    private let getYandexX: ([Int], String) -> String = {
-        coordinates, serverName in
+    private let getYandexX: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
         
         return "\(coordinates[0])"
     }
     
     
-    private let getYandexY: ([Int], String) -> String = {
-        coordinates, serverName in
+    private let getYandexY: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
         
         return "\(coordinates[1])"
     }
     
-    private let getYandexTimestamp: ([Int], String) -> String = {
-        coordinates, serverName in
+    private let getYandexTimestamp: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
         
         let timeInterval = Int( NSDate().timeIntervalSince1970 )
         return "\(timeInterval)"
@@ -183,8 +185,8 @@ class URLPatchCreator {
     
     
     
-    private let getKosmosnimkiX: ([Int], String) -> String = {
-        coordinates, serverName in
+    private let getKosmosnimkiX: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
         
         let zPow = Int(pow(2.0, Double(coordinates[2])))
         let newX = coordinates[0] - zPow / 2
@@ -193,8 +195,8 @@ class URLPatchCreator {
     }
     
     
-    private let getKosmosnimkiY: ([Int], String) -> String = {
-        coordinates, serverName in
+    private let getKosmosnimkiY: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
         
         let zPow = Int(pow(2.0, Double(coordinates[2])))
         let newY = (zPow - coordinates[1] - 1) - zPow / 2
@@ -203,8 +205,8 @@ class URLPatchCreator {
     }
     
     
-    private let getMetersL: ([Int], String) -> String = {
-        coordinates, serverName in
+    private let getMetersL: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
         
         let xPlanetDistance = 40075016.6855784878
         let tileCounsPerZoom = pow(2.0, Double(coordinates[2]))
@@ -214,8 +216,8 @@ class URLPatchCreator {
     }
     
     
-    private let getMetersR: ([Int], String) -> String = {
-        coordinates, serverName in
+    private let getMetersR: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
         
         let xPlanetDistance = 40075016.6855784878
         let tileCounsPerZoom = pow(2.0, Double(coordinates[2]))
@@ -225,8 +227,8 @@ class URLPatchCreator {
     }
     
     
-    private let getMetersT: ([Int], String) -> String = {
-        coordinates, serverName in
+    private let getMetersT: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
         
         let yPlanetDistance = 40075016.6855784804
         let tileCounsPerZoom = pow(2.0, Double(coordinates[2]))
@@ -236,8 +238,8 @@ class URLPatchCreator {
     }
     
     
-    private let getMetersB: ([Int], String) -> String = {
-        coordinates, serverName in
+    private let getMetersB: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
         
         let yPlanetDistance = 40075016.6855784804
         let tileCounsPerZoom = pow(2.0, Double(coordinates[2]))
@@ -248,8 +250,8 @@ class URLPatchCreator {
     
     
     
-    private let getQuad: ([Int], String) -> String = {
-        coordinates, serverName in
+    private let getQuad: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
         
         let geoTransformer = BingTileNumberTransformer()
         
@@ -259,19 +261,19 @@ class URLPatchCreator {
     }
     
     
-    private let getResolution: ([Int], String) -> String = {
-        coordinates, serverName in
+    private let getResolution: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
         
-        let result = 17 - coordinates[2]
-        return "\(result)"
+        let defauldDpi = mapObject.dpiSD
+        return "\(defauldDpi)"
     }
     
     
     // Two arrays for quick and short iterating of all this functions
     
-    private let urlPlaceholders = ["{x}", "{y}", "{z}", "{z-6}", "{s}", "{googleZ}", "{invY}", "{sasZ}", "{folderX}", "{folderY}", "{yandexX}", "{yandexY}", "{timeStamp}", "{kosmosnimkiX}", "{kosmosnimkiY}", "{left}", "{right}", "{top}", "{bottom}", "{q}"]
+    private let urlPlaceholders = ["{x}", "{y}", "{z}", "{z-6}", "{s}", "{googleZ}", "{invY}", "{sasZ}", "{folderX}", "{folderY}", "{yandexX}", "{yandexY}", "{timeStamp}", "{kosmosnimkiX}", "{kosmosnimkiY}", "{left}", "{right}", "{top}", "{bottom}", "{q}", "{ts}"]
     
-    private lazy var urlTransformers = [getX, getY, getZ, getZMinus6, getS, getGoogleZ, getInvY, getSasZ, getFolderX, getFolderY, getYandexX, getYandexY, getYandexTimestamp, getKosmosnimkiX, getKosmosnimkiY, getMetersL, getMetersR, getMetersT, getMetersB, getQuad]
+    private lazy var urlTransformers = [getX, getY, getZ, getZMinus6, getS, getGoogleZ, getInvY, getSasZ, getFolderX, getFolderY, getYandexX, getYandexY, getYandexTimestamp, getKosmosnimkiX, getKosmosnimkiY, getMetersL, getMetersR, getMetersT, getMetersB, getQuad, getResolution]
     
     
     
