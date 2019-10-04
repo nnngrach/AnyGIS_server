@@ -16,12 +16,23 @@ class MapProcessorWgs84: AbstractMapProcessorWgs84 {
         
         guard tilePosition != nil && cloudinarySessionID != nil else {return try output.serverErrorResponce("MapProcessor unwarping error", req)}
         
+        
         // To make image with offset I'm cropping one image from four nearest images.
         let fourTilesAroundUrls = self.urlPatchCreator.calculateFourTilesUrls(tilePosition!.x, tilePosition!.y, tileNumbers.z, mapObject.backgroundUrl, mapObject.backgroundServerName)
         
-        let response = try imageProcessor.move(tilesUrl: fourTilesAroundUrls, xOffset: tilePosition!.offsetX, yOffset: tilePosition!.offsetY, req: req)
+       
+        let isNoNeedToMoveImage = (tilePosition!.offsetX == 0) && (tilePosition!.offsetY == 0)
         
-        return response
+        
+        if isNoNeedToMoveImage {
+            return output.redirect(to: fourTilesAroundUrls[0], with: req)
+        
+        } else {
+            let response = try imageProcessor.move(tilesUrl: fourTilesAroundUrls, xOffset: tilePosition!.offsetX, yOffset: tilePosition!.offsetY, req: req)
+            
+            return response
+        }
+        
     }
     
 }

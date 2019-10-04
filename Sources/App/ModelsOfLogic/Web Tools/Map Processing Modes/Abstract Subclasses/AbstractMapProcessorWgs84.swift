@@ -12,6 +12,16 @@ class AbstractMapProcessorWgs84: AbstractMapProcessorSimple  {
     
     override func process(_ mapName:String, _ tileNumbers: (x: Int, y: Int, z: Int),  _ mapObject: (MapsList), _ req: Request) throws -> Future<Response> {
         
+
+        // Zoom levels from 0 to 4 looks very similar
+        guard tileNumbers.z > 4 else {
+
+            let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapObject.backgroundUrl, mapObject.backgroundServerName)
+
+            return output.redirect(to: newUrl, with: req)
+        }
+        
+    
         let coordinates = coordinateTransformer.tileNumberToCoordinates(tileNumbers.x, tileNumbers.y, tileNumbers.z)
         
         let tilePosition = coordinateTransformer.getWGS84Position(coordinates.lat_deg, coordinates.lon_deg, withZoom: tileNumbers.z)

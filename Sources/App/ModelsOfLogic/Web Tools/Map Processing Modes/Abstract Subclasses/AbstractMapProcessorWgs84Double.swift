@@ -12,6 +12,13 @@ class AbstractMapProcessorWgs84Double: AbstractMapProcessorSimple  {
     
     override func process(_ mapName:String, _ tileNumbers: (x: Int, y: Int, z: Int),  _ mapObject: (MapsList), _ req: Request) throws -> Future<Response> {
         
+        // To make this script more simplie
+        // I just turned off processing tiles with low zoom levels
+        guard tileNumbers.z > 4 else {
+            return req.future(output.customErrorResponce(500, "Can't process tiles at zoom 0 - 4", req))
+        }
+        
+        
         let coordinates = coordinateTransformer.tileNumberToCoordinates(tileNumbers.x, tileNumbers.y, tileNumbers.z)
         
         let tilePosition = coordinateTransformer.getWGS84Position(coordinates.lat_deg, coordinates.lon_deg, withZoom: tileNumbers.z)

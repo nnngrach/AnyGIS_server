@@ -51,7 +51,7 @@ class ImageProcessor {
     
     func moveAndOverlay(tilesUrl: [String], xOffset: Int, yOffset: Int, overlayUrl: String, req: Request) throws -> Future<Response> {
         
-        let apiUrl = host + "move_and_overlay"
+        let apiUrl = host + "move_background_and_overlay"
         
         let message = ImageProcessorMoveAndOverlayMessage(urlTL: tilesUrl[0],
                                                 urlTR: tilesUrl[1],

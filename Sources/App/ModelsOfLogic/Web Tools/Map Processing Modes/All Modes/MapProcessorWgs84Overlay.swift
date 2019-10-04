@@ -20,10 +20,19 @@ class MapProcessorWgs84Overlay: AbstractMapProcessorWgs84Double {
         // To make one image with offset I need four nearest to crop.
         let fourTilesAroundUrls = self.urlPatchCreator.calculateFourTilesUrls(tilePosition!.x, tilePosition!.y, tileNumbers.z, baseObject!.backgroundUrl, baseObject!.backgroundServerName)
         
-        
         let overlayUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, overlayObject!.backgroundUrl, overlayObject!.backgroundServerName)
         
-        return try imageProcessor.moveAndOverlay(tilesUrl: fourTilesAroundUrls, xOffset: tilePosition!.offsetX, yOffset: tilePosition!.offsetY, overlayUrl: overlayUrl, req: req)
+        
+        
+        let isNoNeedToMoveImage = (tilePosition!.offsetX == 0) && (tilePosition!.offsetY == 0)
+        
+        
+        if isNoNeedToMoveImage {
+            return try imageProcessor.overlay(backgroundUrl: fourTilesAroundUrls[0], overlayUrl: overlayUrl, req: req)
+            
+        } else {
+            return try imageProcessor.moveAndOverlay(tilesUrl: fourTilesAroundUrls, xOffset: tilePosition!.offsetX, yOffset: tilePosition!.offsetY, overlayUrl: overlayUrl, req: req)
+        }
         
     }
     

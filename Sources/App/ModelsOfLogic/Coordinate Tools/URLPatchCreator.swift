@@ -36,16 +36,26 @@ class URLPatchCreator {
     
     
     public func calculateFourTilesUrls (_ x: Int, _ y: Int, _ z: Int, _ url:String, _ serverName:String) -> [String] {
+        
+        let maxTileNumber = Int(pow(2.0, Double(z))) - 1
+        let rightTileNumber = (x == maxTileNumber) ? 0 : x+1
+        let bottomTileNumber = (y == maxTileNumber) ? 0 : y+1
+        
         let topLeftTileUrl = calculateTileURL(x, y, z, url, serverName)
-        let topRightTileUrl = calculateTileURL(x+1, y, z, url, serverName)
-        let bottomRightTileUrl = calculateTileURL(x+1, y+1, z, url, serverName)
-        let bottomLeftTileUrl = calculateTileURL(x, y+1, z, url, serverName)
+        let topRightTileUrl = calculateTileURL(rightTileNumber, y, z, url, serverName)
+        let bottomRightTileUrl = calculateTileURL(rightTileNumber, bottomTileNumber, z, url, serverName)
+        let bottomLeftTileUrl = calculateTileURL(x, bottomTileNumber, z, url, serverName)
         
         return [topLeftTileUrl, topRightTileUrl, bottomRightTileUrl, bottomLeftTileUrl]
     }
     
     
     public func calculateFourNextZoomTilesUrls (_ x: Int, _ y: Int, _ z: Int, _ url:String, _ serverName:String) -> [String] {
+        
+        // let maxTileNumber = Int(pow(2.0, Double(z+1))) - 1
+        // let rightTileNumber = (x == maxTileNumber) ? 0 : x*2+1
+        // let bottomTileNumber = (y == maxTileNumber) ? 0 : y*2+1
+        
         let topLeftTileUrl = calculateTileURL(x*2, y*2, z+1, url, serverName)
         let topRightTileUrl = calculateTileURL(x*2+1, y*2, z+1, url, serverName)
         let bottomRightTileUrl = calculateTileURL(x*2+1, y*2+1, z+1, url, serverName)
