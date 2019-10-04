@@ -115,7 +115,10 @@ class UrlFIleChecker {
             
             if hosts[firstCheckingIndex] == "dont't need to check" {
                 // Global maps. Dont't need to check it
-                let newUrl = self.urlPatchCreator.calculateTileURL(x, y, z, urls[firstCheckingIndex], "")
+                
+                let mapTemplate = MapsList(name: "", mode: "", backgroundUrl: urls[firstCheckingIndex], backgroundServerName: "", referer: "", zoomMin: 0, zoomMax: 0, dpiSD: "", dpiHD: "", parameters: 0, description: "")
+                
+                let newUrl = self.urlPatchCreator.calculateTileURL(x, y, z, mapTemplate)
                 
                 //firstFoundedUrlResponse = self.output.redirect(to: newUrl, with: req)
                 firstFoundedUrlResponse = self.output.redirectWithReferer(to: newUrl, referer: nil, with: req)
@@ -141,8 +144,9 @@ class UrlFIleChecker {
         
         guard let currentShuffledIndex = order[index] else {return output.notFoundResponce(req)}
         
+        let mapTemplate = MapsList(name: "", mode: "", backgroundUrl: patchs[currentShuffledIndex], backgroundServerName: "", referer: "", zoomMin: 0, zoomMax: 0, dpiSD: "", dpiHD: "", parameters: 0, description: "")
         
-        let currentPatchUrl = self.urlPatchCreator.calculateTileURL(x, y, z, patchs[currentShuffledIndex], "")
+        let currentPatchUrl = self.urlPatchCreator.calculateTileURL(x, y, z, mapTemplate)
         
         let responceStatus = checkUrlStatus(hosts[currentShuffledIndex], ports[currentShuffledIndex], currentPatchUrl, protocols[currentShuffledIndex], req: req)
         
@@ -151,7 +155,9 @@ class UrlFIleChecker {
             
             if status.code != 403 && status.code != 404 {
                 //print ("Success: File founded! ", hosts[index], currentUrl, response.status.code)
-                let newUrl = self.urlPatchCreator.calculateTileURL(x, y, z, urls[currentShuffledIndex], "")
+                let mapTemplate = MapsList(name: "", mode: "", backgroundUrl: urls[currentShuffledIndex], backgroundServerName: "", referer: "", zoomMin: 0, zoomMax: 0, dpiSD: "", dpiHD: "", parameters: 0, description: "")
+                
+                let newUrl = self.urlPatchCreator.calculateTileURL(x, y, z, mapTemplate)
                 //return self.output.redirect(to: newUrl, with: req)
                 return self.output.redirectWithReferer(to: newUrl, referer: nil, with: req)
                 

@@ -16,7 +16,7 @@ class AbstractMapProcessorWgs84: AbstractMapProcessorSimple  {
         // Zoom levels from 0 to 4 looks very similar
         guard tileNumbers.z > 4 else {
 
-            let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapObject.backgroundUrl, mapObject.backgroundServerName)
+            let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapObject)
 
             return output.redirect(to: newUrl, with: req)
         }

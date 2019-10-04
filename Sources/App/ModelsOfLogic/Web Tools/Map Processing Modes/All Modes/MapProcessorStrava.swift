@@ -21,7 +21,7 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
         
         var futureUrl: Future<String> = req.future("")
         
-        var generatedUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapObject.backgroundUrl, mapObject.backgroundServerName)
+        var generatedUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapObject)
         
     
         //let storedStravaAuthCookies = try sqlHandler.getTempStorageBy(name: "StravaCookies", req)

@@ -18,7 +18,7 @@ class MapProcessorProxyUpload: AbstractMapProcessorSession {
         guard cloudinarySessionID != nil else {return try output.serverErrorResponce("MapProcessor unwarping error", req)}
         
         
-        let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapObject.backgroundUrl, mapObject.backgroundServerName)
+        let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapObject)
         
         let loadingResponces = try cloudinaryImageProcessor.uploadOneTile(newUrl, cloudinarySessionID!, req)
         

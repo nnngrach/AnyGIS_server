@@ -18,9 +18,9 @@ class MapProcessorWgs84DoubleOverlay: AbstractMapProcessorWgs84Double {
         
         
         // To make one image with offset I need four nearest to crop.
-        let fourTilesAroundUrls = self.urlPatchCreator.calculateFourTilesUrls(tilePosition!.x, tilePosition!.y, tileNumbers.z, baseObject!.backgroundUrl, baseObject!.backgroundServerName)
+        let fourTilesAroundUrls = self.urlPatchCreator.calculateFourTilesUrls(tilePosition!.x, tilePosition!.y, tileNumbers.z, baseObject!)
         
-        let fourOverTilesAroundUrls = self.urlPatchCreator.calculateFourTilesUrls(tilePosition!.x, tilePosition!.y, tileNumbers.z, overlayObject!.backgroundUrl, overlayObject!.backgroundServerName)
+        let fourOverTilesAroundUrls = self.urlPatchCreator.calculateFourTilesUrls(tilePosition!.x, tilePosition!.y, tileNumbers.z, overlayObject!)
         
         
         // Upload all images to online image-processor

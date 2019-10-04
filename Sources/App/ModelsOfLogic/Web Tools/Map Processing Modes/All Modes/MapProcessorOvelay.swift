@@ -15,9 +15,9 @@ class MapProcessorOverlay: AbstractMapProcessorOverlay {
         guard baseObject != nil && overlayObject != nil && cloudinarySessionID != nil else {return try output.serverErrorResponce("MapProcessor unwarping error", req)}
         
         
-        let baseUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, baseObject!.backgroundUrl, baseObject!.backgroundServerName)
+        let baseUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, baseObject!)
         
-        let overlayUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, overlayObject!.backgroundUrl, overlayObject!.backgroundServerName)
+        let overlayUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, overlayObject!)
         
         return try imageProcessor.overlay(backgroundUrl: baseUrl, overlayUrl: overlayUrl, req: req)
     }

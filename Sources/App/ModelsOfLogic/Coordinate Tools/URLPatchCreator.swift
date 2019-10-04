@@ -12,9 +12,9 @@ class URLPatchCreator {
     
     
     
-    public func calculateTileURL(_ x: Int, _ y: Int, _ z: Int, _ url:String, _ serverName:String) -> String {
+    public func calculateTileURL(_ x: Int, _ y: Int, _ z: Int, _ mapObject: MapsList) -> String {
         
-        var result = url
+        var result = mapObject.backgroundUrl
         let coordinates = [x, y, z]
         
         for i in 0 ..< urlPlaceholders.count {
@@ -22,7 +22,7 @@ class URLPatchCreator {
             let transformerClosure = urlTransformers[i]
             
             if result.contains(replacedText) {
-                let newText = transformerClosure(coordinates, serverName)
+                let newText = transformerClosure(coordinates, mapObject.backgroundServerName)
                 result = result.replacingOccurrences(of: replacedText, with: newText)
                 
             } else {
@@ -35,31 +35,31 @@ class URLPatchCreator {
     
     
     
-    public func calculateFourTilesUrls (_ x: Int, _ y: Int, _ z: Int, _ url:String, _ serverName:String) -> [String] {
+    public func calculateFourTilesUrls (_ x: Int, _ y: Int, _ z: Int, _ mapObject: MapsList) -> [String] {
         
         let maxTileNumber = Int(pow(2.0, Double(z))) - 1
         let rightTileNumber = (x == maxTileNumber) ? 0 : x+1
         let bottomTileNumber = (y == maxTileNumber) ? 0 : y+1
         
-        let topLeftTileUrl = calculateTileURL(x, y, z, url, serverName)
-        let topRightTileUrl = calculateTileURL(rightTileNumber, y, z, url, serverName)
-        let bottomRightTileUrl = calculateTileURL(rightTileNumber, bottomTileNumber, z, url, serverName)
-        let bottomLeftTileUrl = calculateTileURL(x, bottomTileNumber, z, url, serverName)
+        let topLeftTileUrl = calculateTileURL(x, y, z, mapObject)
+        let topRightTileUrl = calculateTileURL(rightTileNumber, y, z, mapObject)
+        let bottomRightTileUrl = calculateTileURL(rightTileNumber, bottomTileNumber, z, mapObject)
+        let bottomLeftTileUrl = calculateTileURL(x, bottomTileNumber, z, mapObject)
         
         return [topLeftTileUrl, topRightTileUrl, bottomRightTileUrl, bottomLeftTileUrl]
     }
     
     
-    public func calculateFourNextZoomTilesUrls (_ x: Int, _ y: Int, _ z: Int, _ url:String, _ serverName:String) -> [String] {
+    public func calculateFourNextZoomTilesUrls (_ x: Int, _ y: Int, _ z: Int, _ mapObject: MapsList) -> [String] {
         
         // let maxTileNumber = Int(pow(2.0, Double(z+1))) - 1
         // let rightTileNumber = (x == maxTileNumber) ? 0 : x*2+1
         // let bottomTileNumber = (y == maxTileNumber) ? 0 : y*2+1
         
-        let topLeftTileUrl = calculateTileURL(x*2, y*2, z+1, url, serverName)
-        let topRightTileUrl = calculateTileURL(x*2+1, y*2, z+1, url, serverName)
-        let bottomRightTileUrl = calculateTileURL(x*2+1, y*2+1, z+1, url, serverName)
-        let bottomLeftTileUrl = calculateTileURL(x*2, y*2+1, z+1, url, serverName)
+        let topLeftTileUrl = calculateTileURL(x*2, y*2, z+1, mapObject)
+        let topRightTileUrl = calculateTileURL(x*2+1, y*2, z+1, mapObject)
+        let bottomRightTileUrl = calculateTileURL(x*2+1, y*2+1, z+1, mapObject)
+        let bottomLeftTileUrl = calculateTileURL(x*2, y*2+1, z+1, mapObject)
         
         return [topLeftTileUrl, topRightTileUrl, bottomRightTileUrl, bottomLeftTileUrl]
     }
@@ -258,6 +258,13 @@ class URLPatchCreator {
         return quad
     }
     
+    
+    private let getResolution: ([Int], String) -> String = {
+        coordinates, serverName in
+        
+        let result = 17 - coordinates[2]
+        return "\(result)"
+    }
     
     
     // Two arrays for quick and short iterating of all this functions

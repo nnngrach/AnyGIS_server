@@ -15,10 +15,12 @@ class MapProcessorMapboxOverlayWithZoom: AbstractMapProcessorMapboxOverlay {
         guard baseObject != nil && overlayObject != nil  && cloudinarySessionID != nil else {return try output.serverErrorResponce("MapProcessor unwarping error", req)}
         
         
-        let baseUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, baseObject!.backgroundUrl, baseObject!.backgroundServerName)
+        let baseUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, baseObject!)
+        
+        let mapTemplate = MapsList(name: "", mode: "", backgroundUrl: overlayObject!.backgroundUrl, backgroundServerName: "", referer: "", zoomMin: 0, zoomMax: 0, dpiSD: "", dpiHD: "", parameters: 0, description: "")
         
         // To make one image with offset I need four nearest to crop.
-        let fourTilesInNextZoomUrls = self.urlPatchCreator.calculateFourNextZoomTilesUrls(tileNumbers.x, tileNumbers.y, tileNumbers.z, overlayObject!.backgroundUrl, "")
+        let fourTilesInNextZoomUrls = self.urlPatchCreator.calculateFourNextZoomTilesUrls(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapTemplate)
         
         // Upload all images to online image-processor
         let loadingBaseResponce = try self.cloudinaryImageProcessor.uploadOneTile(baseUrl, cloudinarySessionID!, req)

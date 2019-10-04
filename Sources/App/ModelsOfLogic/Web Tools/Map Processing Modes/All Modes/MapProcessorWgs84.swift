@@ -18,7 +18,7 @@ class MapProcessorWgs84: AbstractMapProcessorWgs84 {
         
         
         // To make image with offset I'm cropping one image from four nearest images.
-        let fourTilesAroundUrls = self.urlPatchCreator.calculateFourTilesUrls(tilePosition!.x, tilePosition!.y, tileNumbers.z, mapObject.backgroundUrl, mapObject.backgroundServerName)
+        let fourTilesAroundUrls = self.urlPatchCreator.calculateFourTilesUrls(tilePosition!.x, tilePosition!.y, tileNumbers.z, mapObject)
         
        
         let isNoNeedToMoveImage = (tilePosition!.offsetX == 0) && (tilePosition!.offsetY == 0)

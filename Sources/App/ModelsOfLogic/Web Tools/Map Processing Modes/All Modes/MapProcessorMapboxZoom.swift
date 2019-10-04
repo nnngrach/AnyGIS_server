@@ -25,7 +25,9 @@ class MapProcessorMapboxZoom: AbstractMapProcessorSession {
             
             let mapboxIndex = Int(self.paralleliser.getMapboxSessionId()) ?? 0
             
-            let fourTilesInNextZoomUrls = self.urlPatchCreator.calculateFourNextZoomTilesUrls(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapListData[mapboxIndex].url, "")
+            let mapTemplate = MapsList(name: "", mode: "", backgroundUrl: mapListData[mapboxIndex].url, backgroundServerName: "", referer: "", zoomMin: 0, zoomMax: 0, dpiSD: "", dpiHD: "", parameters: 0, description: "")
+            
+            let fourTilesInNextZoomUrls = self.urlPatchCreator.calculateFourNextZoomTilesUrls(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapTemplate)
             
             let loadingResponces = try self.cloudinaryImageProcessor.uploadFourTiles(fourTilesInNextZoomUrls, cloudinarySessionID!, req)
             
