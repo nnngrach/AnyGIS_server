@@ -100,6 +100,13 @@ class URLPatchCreator {
         return "\(result)"
     }
     
+    private let getZMinus2: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let result = coordinates[2] - 2
+        return "\(result)"
+    }
+    
     
     private let getS: ([Int], MapsList) -> String = {
         coordinates, mapObject in
@@ -271,9 +278,9 @@ class URLPatchCreator {
     
     // Two arrays for quick and short iterating of all this functions
     
-    private let urlPlaceholders = ["{x}", "{y}", "{z}", "{z-6}", "{s}", "{googleZ}", "{invY}", "{sasZ}", "{folderX}", "{folderY}", "{yandexX}", "{yandexY}", "{timeStamp}", "{kosmosnimkiX}", "{kosmosnimkiY}", "{left}", "{right}", "{top}", "{bottom}", "{q}", "{ts}"]
+    private let urlPlaceholders = ["{x}", "{y}", "{z}", "{z-2}", "{z-6}", "{s}", "{googleZ}", "{invY}", "{sasZ}", "{folderX}", "{folderY}", "{yandexX}", "{yandexY}", "{timeStamp}", "{kosmosnimkiX}", "{kosmosnimkiY}", "{left}", "{right}", "{top}", "{bottom}", "{q}", "{ts}"]
     
-    private lazy var urlTransformers = [getX, getY, getZ, getZMinus6, getS, getGoogleZ, getInvY, getSasZ, getFolderX, getFolderY, getYandexX, getYandexY, getYandexTimestamp, getKosmosnimkiX, getKosmosnimkiY, getMetersL, getMetersR, getMetersT, getMetersB, getQuad, getResolution]
+    private lazy var urlTransformers = [getX, getY, getZ, getZMinus2, getZMinus6, getS, getGoogleZ, getInvY, getSasZ, getFolderX, getFolderY, getYandexX, getYandexY, getYandexTimestamp, getKosmosnimkiX, getKosmosnimkiY, getMetersL, getMetersR, getMetersT, getMetersB, getQuad, getResolution]
     
     
     

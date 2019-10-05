@@ -19,6 +19,7 @@ class WebHandler {
     let processorProxyUpload = MapProcessorProxyUpload()
     let processorOpacity = MapProcessorOpacity()
     let processorOverlay = MapProcessorOverlay()
+    let processorAddictiveOverlay = MapProcessorAddictiveOverlay()
     let processorText = MapProcessorText()
     let processorMapboxZoom = MapProcessorMapboxZoom()
     let processorMapboxOverlay = MapProcessorMapboxOverlay()
@@ -76,6 +77,9 @@ class WebHandler {
                 
             case "overlay":
                 return try self.processorOverlay.process(mapName, tileNumbers, mapObject, req)
+                
+            case "addictiveOverlay":
+                return try self.processorAddictiveOverlay.process(mapName, tileNumbers, mapObject, req)
                 
             case "text":
                 return try self.processorText.process(mapName, tileNumbers, mapObject, req)

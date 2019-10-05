@@ -10,8 +10,8 @@ import Vapor
 class ImageProcessor {
     
     // My DigitalOcean droplet with Image processing service
-    //let host = "http://localhost:5000/"
-    let host = "http://68.183.65.138:3000/"
+    let host = "http://localhost:5000/"
+//    let host = "http://68.183.65.138:3000/"
     
     
     func move(tilesUrl: [String], xOffset: Int, yOffset: Int, req: Request) throws -> Future<Response> {
@@ -37,6 +37,21 @@ class ImageProcessor {
     func overlay(backgroundUrl: String, overlayUrl: String, req: Request) throws -> Future<Response> {
         
         let apiUrl = host + "overlay"
+        
+        let message = ImageProcessorOverlayMessage(backgroundUrl: backgroundUrl,
+                                                   overlayUrl: overlayUrl)
+        let postResponse = try req.client().post(apiUrl) { postReq in
+            try postReq.content.encode(message)
+        }
+        
+        return postResponse
+    }
+    
+    
+    
+    func addictiveOverlay(backgroundUrl: String, overlayUrl: String, req: Request) throws -> Future<Response> {
+        
+        let apiUrl = host + "addictive_overlay"
         
         let message = ImageProcessorOverlayMessage(backgroundUrl: backgroundUrl,
                                                    overlayUrl: overlayUrl)
