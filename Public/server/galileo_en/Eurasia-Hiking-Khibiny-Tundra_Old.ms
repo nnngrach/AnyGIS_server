@@ -2,18 +2,18 @@
 
 <!--
 Map pack from AnyGIS.ru
-Updated: 07-10-2019 00:13
+Updated: 07-10-2019 02:55
 -->
 
 
 <customMapSource>
-<name>Горы Хибинской тундры</name>
+<name>Khibiny's Tundra (Old)</name>
 <layers>
 
 <layer>
     <minZoom>0</minZoom>
     <maxZoom>14</maxZoom>
-    <url>https://anygis.ru/api/v1/Local_Karelia3/{$x}/{$y}/{$z}</url>
+    <url>https://anygis.ru/api/v1/Local_Karelia2/{$x}/{$y}/{$z}</url>
 </layer>
 
 </layers>

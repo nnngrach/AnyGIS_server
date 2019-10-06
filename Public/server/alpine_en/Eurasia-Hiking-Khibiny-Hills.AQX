@@ -3,22 +3,22 @@
 
 <!--
 Map pack from AnyGIS.ru
-Updated: 07-10-2019 00:13
+Updated: 07-10-2019 02:56
 -->
 
 
-<name>Евразия - Туристические - Хибины</name>
+<name>Eurasia - Hiking - Khibiny</name>
 <description></description>
 
-    <source id="185002">
-        <name>Хибинские и ловоозерские тундры (СССР)</name>
+    <source id="185003">
+        <name>Khibiny's Mountains</name>
         
         <data-source></data-source>
         <region>OTHE</region>
         <type>TOPO</type>
 
-        <preview-location>33.62,67.76,11</preview-location>
-        <outline>33.07,67.98 35.25,67.98 35.25,67.5 33.07,67.5</outline>
+        <preview-location>33.62,67.76,10</preview-location>
+        <outline>33.1591,67.9145 34.1891,67.9145 34.1891,67.6429 33.1591,67.6429</outline>
 
         <level>
             <zoom-values>0,1,2,3,4,5,6,7,8,9,10,11,12,13,14</zoom-values>
@@ -27,9 +27,7 @@ Updated: 07-10-2019 00:13
 
             <servers>
                 <referer><![CDATA[https://anygis.ru/]]></referer>
-                
-                <server><![CDATA[http://maps.melda.ru/pub/tourism/karelia/hibin1lp/z{sasZ}/{folderX}/x{x}/{folderY}/y{y}.jpg]]></server>
-
+                <server><![CDATA[http://anygis.ru/api/v1/Local_Karelia3/{x}/{y}/{z}]]></server>
             </servers>
         </level>
     </source>

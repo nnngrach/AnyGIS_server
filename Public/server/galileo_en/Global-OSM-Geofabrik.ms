@@ -2,18 +2,18 @@
 
 <!--
 Map pack from AnyGIS.ru
-Updated: 07-10-2019 00:13
+Updated: 07-10-2019 02:55
 -->
 
 
 <customMapSource>
-<name>Mapbox Terrain</name>
+<name>Geofabrik</name>
 <layers>
 
 <layer>
     <minZoom>0</minZoom>
     <maxZoom>18</maxZoom>
-    <url>http://{$serverpart}.tiles.mapbox.com/v4/matt.72ef5189/{$z}/{$x}/{$y}.png?access_token=pk.eyJ1IjoiZHVuY2FuZ3JhaGFtIiwiYSI6IlJJcWdFczQifQ.9HUpTV1es8IjaGAf_s64VQ</url>
+    <url>http://{$serverpart}.tile.geofabrik.de/15173cf79060ee4a66573954f6017ab0/{$z}/{$x}/{$y}.png</url>
     <serverParts>a b c</serverParts>
 </layer>
 

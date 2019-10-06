@@ -2,12 +2,12 @@
 
 <!--
 Map pack from AnyGIS.ru
-Updated: 07-10-2019 00:13
+Updated: 07-10-2019 02:55
 -->
 
 
 <customMapSource>
-<name>Khibiny's Mountains</name>
+<name>Горы Хибинской тундры</name>
 <layers>
 
 <layer>

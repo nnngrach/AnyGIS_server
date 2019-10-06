@@ -3,15 +3,15 @@
 
 <!--
 Map pack from AnyGIS.ru
-Updated: 07-10-2019 00:14
+Updated: 07-10-2019 02:56
 -->
 
 
-<name>Евразия - Туристические - Хибины</name>
+<name>Eurasia - Hiking - Khibiny</name>
 <description></description>
 
     <source id="185002">
-        <name>Хибинские и ловоозерские тундры (СССР)</name>
+        <name>Khibiny's Tundra (Old)</name>
         
         <data-source></data-source>
         <region>OTHE</region>

@@ -2,18 +2,18 @@
 
 <!--
 Map pack from AnyGIS.ru
-Updated: 07-10-2019 00:13
+Updated: 07-10-2019 02:55
 -->
 
 
 <customMapSource>
-<name>Refuges.info Горные приюты</name>
+<name>Komoot</name>
 <layers>
 
 <layer>
     <minZoom>0</minZoom>
     <maxZoom>18</maxZoom>
-    <url>https://maps.refuges.info/hiking/{$z}/{$x}/{$y}.png</url>
+    <url>http://{$serverpart}.tile.hosted.thunderforest.com/komoot-2/{$z}/{$x}/{$y}.png</url>
     <serverParts>a b c</serverParts>
 </layer>
 
