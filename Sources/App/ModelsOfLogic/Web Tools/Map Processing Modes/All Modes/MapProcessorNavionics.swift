@@ -17,7 +17,7 @@ class MapProcessorNavionics: AbstractMapProcessorSimple {
         let tileUrlBase = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapObject)
         
         
-        let autherUrl = mapObject.backgroundServerName + String(Int(NSDate().timeIntervalSince1970))
+        let autherUrl = mapObject.backgroundServerName + String(Int(NSDate().timeIntervalSince1970)) + "123"
         
         let headers: HTTPHeaders = ["Origin": "https://webapp.navionics.com",
                                     "Referer": "https://webapp.navionics.com/",
@@ -33,7 +33,15 @@ class MapProcessorNavionics: AbstractMapProcessorSimple {
                 
                 let tileUrlWithCode = tileUrlBase + secretCode
                 
-                return try req.client().get(tileUrlWithCode, headers: headers)
+                // return try req.client().get(tileUrlWithCode, headers: headers)
+                
+                let a = try req.client().get(tileUrlWithCode, headers: headers)
+                
+                a.map { b in
+                    print(b)
+                }
+                
+                return a
         }
         
         return fullResponce
