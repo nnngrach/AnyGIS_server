@@ -13,8 +13,7 @@ class MapProcessorNavionics: AbstractMapProcessorSimple {
     
     override func makeCustomActions(_ mapName:String, _ tileNumbers: (x: Int, y: Int, z: Int), _ tilePosition: (x: Int, y: Int, offsetX: Int, offsetY: Int)?, _ mapObject: (MapsList), _ baseObject: (MapsList)?, _ overlayObject: (MapsList)?,   _ cloudinarySessionID: String?, _ req: Request) throws -> EventLoopFuture<Response> {
         
-        print("======================")
-        
+
         let tileUrlBase = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapObject)
         
         
@@ -24,32 +23,24 @@ class MapProcessorNavionics: AbstractMapProcessorSimple {
                                     "Referer": "https://webapp.navionics.com/",
                                     "User-Agent": USER_AGENT]
         
-        print(autherUrl)
-        
+
         let fullResponce = try req.client()
             .get(autherUrl, headers: headers)
             .flatMap(to: Response.self) { authAnswer in
                 
                 let secretCode = "\(authAnswer.http.body)"
-                
-                print(secretCode)
-                
+            
                 let tileUrlWithCode = tileUrlBase + secretCode
                 
-                print(tileUrlWithCode)
                 
-                // return try req.client().get(tileUrlWithCode, headers: headers)
+                let rawRespose = try req.client().get(tileUrlWithCode, headers: headers)
                 
-                let a = try req.client().get(tileUrlWithCode, headers: headers)
-                
-                return a.map(to: Response.self) { res in
+                let cleanResponse = rawRespose.map(to: Response.self) { res in
                     
-                    let c = Response(http: HTTPResponse(status: HTTPResponseStatus(statusCode: 200), body: res.http.body), using: req)
-                    
-                    return c
+                    return Response(http: HTTPResponse(status: HTTPResponseStatus(statusCode: 200), body: res.http.body), using: req)
                 }
                 
-                //return a
+                return cleanResponse
         }
         
         return fullResponce
