@@ -23,7 +23,7 @@ class MapProcessorNavionics: AbstractMapProcessorSimple {
                                     "Referer": "https://webapp.navionics.com/",
                                     "User-Agent": USER_AGENT]
         
-
+        print(autherUrl)
         
         let fullResponce = try req.client()
             .get(autherUrl, headers: headers)
@@ -31,7 +31,11 @@ class MapProcessorNavionics: AbstractMapProcessorSimple {
                 
                 let secretCode = "\(authAnswer.http.body)"
                 
+                print(secretCode)
+                
                 let tileUrlWithCode = tileUrlBase + secretCode
+                
+                print(tileUrlWithCode)
                 
                 // return try req.client().get(tileUrlWithCode, headers: headers)
                 
