@@ -42,14 +42,14 @@ class MapProcessorNavionics: AbstractMapProcessorSimple {
                 
                 let a = try req.client().get(tileUrlWithCode, headers: headers)
                 
-                a.map(to: Response.self) { res in
+                return a.map(to: Response.self) { res in
                     
                     let c = Response(http: HTTPResponse(status: HTTPResponseStatus(statusCode: 200), body: res.http.body), using: req)
                     
                     return c
                 }
                 
-                return a
+                //return a
         }
         
         return fullResponce
