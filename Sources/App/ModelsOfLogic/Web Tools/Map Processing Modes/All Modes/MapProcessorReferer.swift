@@ -14,7 +14,7 @@ class MapProcessorReferer: AbstractMapProcessorSimple {
         
         let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapObject)
         
-        let userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Safari/605.1.15"
+        let userAgent = USER_AGENT
         
         let headers = HTTPHeaders([("referer", mapObject.referer), ("User-Agent", userAgent)])
         

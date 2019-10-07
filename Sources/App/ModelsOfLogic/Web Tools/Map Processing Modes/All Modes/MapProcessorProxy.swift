@@ -11,10 +11,28 @@ class MapProcessorProxy: AbstractMapProcessorSession {
     
     
     override func makeCustomActions(_ mapName:String, _ tileNumbers: (x: Int, y: Int, z: Int), _ tilePosition: (x: Int, y: Int, offsetX: Int, offsetY: Int)?, _ mapObject: (MapsList), _ baseObject: (MapsList)?, _ overlayObject: (MapsList)?,   _ cloudinarySessionID: String?, _ req: Request) throws -> EventLoopFuture<Response> {
-      
+        
         let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapObject)
        
-        let fullResponce = try req.client().get(newUrl)
+        let isRefererFilled = mapObject.referer.replacingOccurrences(of: " ", with: "") != ""
+        
+        var fullResponce: Future<Response>
+        
+        
+        if isRefererFilled {
+            
+            let userAgent = USER_AGENT
+            
+            let headers = HTTPHeaders([("referer", mapObject.referer), ("User-Agent", userAgent)])
+            
+            fullResponce = try req.client().get(newUrl, headers: headers)
+            
+        } else {
+            
+            fullResponce = try req.client().get(newUrl)
+        }
+        
+
         
         // Some original headers making errors. Erase it.
         
