@@ -2,18 +2,18 @@
 
 <!--
 Map pack from AnyGIS.ru
-Updated: 07-10-2019 22:55
+Updated: 12-10-2019 00:48
 -->
 
 
 <customMapSource>
-<name>Yandex MapEditor</name>
+<name>OSM Tile Grid</name>
 <layers>
 
 <layer>
     <minZoom>0</minZoom>
     <maxZoom>22</maxZoom>
-    <url>https://anygis.ru/api/v1/Yandex_narod/{$x}/{$y}/{$z}</url>
+    <url>https://anygis.ru/api/v1/TILE_GRID/{$x}/{$y}/{$z}</url>
 </layer>
 
 </layers>

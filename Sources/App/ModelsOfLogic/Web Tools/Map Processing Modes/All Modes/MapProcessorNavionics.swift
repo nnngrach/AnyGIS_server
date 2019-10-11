@@ -19,6 +19,9 @@ class MapProcessorNavionics: AbstractMapProcessorSimple {
         
         let autherUrl = mapObject.backgroundServerName + String(Int(NSDate().timeIntervalSince1970)) + "123"
         
+        
+        print(autherUrl)
+        
         let headers: HTTPHeaders = ["Origin": "https://webapp.navionics.com",
                                     "Referer": "https://webapp.navionics.com/",
                                     "User-Agent": USER_AGENT]
@@ -32,7 +35,8 @@ class MapProcessorNavionics: AbstractMapProcessorSimple {
             
                 let tileUrlWithCode = tileUrlBase + secretCode
                 
-                
+                print(autherUrl)
+                print(tileUrlWithCode)
                 let rawRespose = try req.client().get(tileUrlWithCode, headers: headers)
                 
                 let cleanResponse = rawRespose.map(to: Response.self) { res in
