@@ -122,7 +122,8 @@ class URLPatchCreator {
             return "http://91.237.82.95:8088/"
             
         default:
-            let serverLetters = Array(serverName)
+            //let serverLetters = Array(serverName)
+            let serverLetters = serverName.split(separator: ";")
             let randomNumber = randomNubmerForHeroku(serverLetters.count)
             return String(serverLetters[randomNumber])
         }

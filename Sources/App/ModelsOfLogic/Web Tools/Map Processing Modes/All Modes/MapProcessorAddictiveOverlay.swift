@@ -30,8 +30,8 @@ class MapProcessorAddictiveOverlay: AbstractMapProcessorOverlay {
         let overlayUrl = self.urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, template)
         
         
-        print(baseUrl)
-        print(overlayUrl)
+        //print(baseUrl)
+        //print(overlayUrl)
         
         // Not need to process Url at this step.
         // Just send to external ImageProcessor Url

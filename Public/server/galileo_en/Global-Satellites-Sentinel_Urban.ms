@@ -2,18 +2,18 @@
 
 <!--
 Map pack from AnyGIS.ru
-Updated: 12-10-2019 00:48
+Updated: 14-10-2019 01:18
 -->
 
 
 <customMapSource>
-<name>Sentinel</name>
+<name>Sentinel Urban</name>
 <layers>
 
 <layer>
     <minZoom>0</minZoom>
-    <maxZoom>15</maxZoom>
-    <url>https://anygis.ru/api/v1/Sentinel/{$x}/{$y}/{$z}</url>
+    <maxZoom>14</maxZoom>
+    <url>https://anygis.ru/api/v1/Sentinel_Urban/{$x}/{$y}/{$z}</url>
 </layer>
 
 </layers>
