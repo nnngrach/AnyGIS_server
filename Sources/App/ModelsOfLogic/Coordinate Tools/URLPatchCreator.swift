@@ -30,6 +30,7 @@ class URLPatchCreator {
             }
         }
         
+        print(result)
         return result
     }
     
@@ -104,6 +105,14 @@ class URLPatchCreator {
         coordinates, mapObject in
         
         let result = coordinates[2] - 2
+        return "\(result)"
+    }
+    
+    
+    private let get18MinusZ: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let result = 18 - coordinates[2]
         return "\(result)"
     }
     
@@ -277,11 +286,29 @@ class URLPatchCreator {
     }
     
     
+    private let getFonectaY: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let z = Double(coordinates[2])
+        let offset = Int(pow(2.0, z) / 2)
+        return String(offset - 1 - coordinates[1])
+    }
+    
+    
+    private let getFonectaX: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let z = Double(coordinates[2])
+        let offset = Int(pow(2.0, z) / 2)
+        return String(coordinates[0] - offset)
+    }
+    
+    
     // Two arrays for quick and short iterating of all this functions
     
-    private let urlPlaceholders = ["{x}", "{y}", "{z}", "{z-2}", "{z-6}", "{s}", "{googleZ}", "{invY}", "{sasZ}", "{folderX}", "{folderY}", "{yandexX}", "{yandexY}", "{timeStamp}", "{kosmosnimkiX}", "{kosmosnimkiY}", "{left}", "{right}", "{top}", "{bottom}", "{q}", "{ts}"]
+    private let urlPlaceholders = ["{x}", "{y}", "{z}", "{z-2}", "{z-6}", "{18-z}", "{s}", "{googleZ}", "{invY}", "{sasZ}", "{folderX}", "{folderY}", "{yandexX}", "{yandexY}", "{timeStamp}", "{kosmosnimkiX}", "{kosmosnimkiY}", "{left}", "{right}", "{top}", "{bottom}", "{q}", "{ts}", "{fonectaX}", "{fonectaY}"]
     
-    private lazy var urlTransformers = [getX, getY, getZ, getZMinus2, getZMinus6, getS, getGoogleZ, getInvY, getSasZ, getFolderX, getFolderY, getYandexX, getYandexY, getYandexTimestamp, getKosmosnimkiX, getKosmosnimkiY, getMetersL, getMetersR, getMetersT, getMetersB, getQuad, getResolution]
+    private lazy var urlTransformers = [getX, getY, getZ, getZMinus2, getZMinus6, get18MinusZ, getS, getGoogleZ, getInvY, getSasZ, getFolderX, getFolderY, getYandexX, getYandexY, getYandexTimestamp, getKosmosnimkiX, getKosmosnimkiY, getMetersL, getMetersR, getMetersT, getMetersB, getQuad, getResolution, getFonectaX, getFonectaY]
     
     
     
