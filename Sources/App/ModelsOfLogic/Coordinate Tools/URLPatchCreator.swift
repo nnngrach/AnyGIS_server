@@ -281,7 +281,7 @@ class URLPatchCreator {
     private let getResolution: ([Int], MapsList) -> String = {
         coordinates, mapObject in
         
-        let defauldDpi = mapObject.dpiSD
+        let defauldDpi = mapObject.dpiHD
         return "\(defauldDpi)"
     }
     
