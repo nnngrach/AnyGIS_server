@@ -304,11 +304,159 @@ class URLPatchCreator {
     }
     
     
+    
+    // unfortunately, i can't use functions
+    // for making month code a little shorter
+    
+    private let getSentinelJanuary: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let monthNumber = 1
+        let date = Date()
+        let calendar = Calendar.current
+        let currentYear = calendar.component(.year, from: date)
+        let currentMonth = calendar.component(.month, from: date)
+        let requestYear = (currentMonth <= monthNumber) ? currentYear-1 : currentYear
+        return "\(requestYear)-\(monthNumber)-1%2F\(requestYear)-\(monthNumber+1)-1"
+    }
+    
+    private let getSentinelFebruary: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let monthNumber = 2
+        let date = Date()
+        let calendar = Calendar.current
+        let currentYear = calendar.component(.year, from: date)
+        let currentMonth = calendar.component(.month, from: date)
+        let requestYear = (currentMonth <= monthNumber) ? currentYear-1 : currentYear
+        return "\(requestYear)-\(monthNumber)-1%2F\(requestYear)-\(monthNumber+1)-1"
+    }
+    
+    private let getSentinelMarch: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let monthNumber = 3
+        let date = Date()
+        let calendar = Calendar.current
+        let currentYear = calendar.component(.year, from: date)
+        let currentMonth = calendar.component(.month, from: date)
+        let requestYear = (currentMonth <= monthNumber) ? currentYear-1 : currentYear
+        return "\(requestYear)-\(monthNumber)-1%2F\(requestYear)-\(monthNumber+1)-1"
+    }
+    
+    private let getSentinelApril: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let monthNumber = 4
+        let date = Date()
+        let calendar = Calendar.current
+        let currentYear = calendar.component(.year, from: date)
+        let currentMonth = calendar.component(.month, from: date)
+        let requestYear = (currentMonth <= monthNumber) ? currentYear-1 : currentYear
+        return "\(requestYear)-\(monthNumber)-1%2F\(requestYear)-\(monthNumber+1)-1"
+    }
+    
+    private let getSentinelMay: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let monthNumber = 5
+        let date = Date()
+        let calendar = Calendar.current
+        let currentYear = calendar.component(.year, from: date)
+        let currentMonth = calendar.component(.month, from: date)
+        let requestYear = (currentMonth <= monthNumber) ? currentYear-1 : currentYear
+        return "\(requestYear)-\(monthNumber)-1%2F\(requestYear)-\(monthNumber+1)-1"
+    }
+    
+    private let getSentinelJune: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let monthNumber = 6
+        let date = Date()
+        let calendar = Calendar.current
+        let currentYear = calendar.component(.year, from: date)
+        let currentMonth = calendar.component(.month, from: date)
+        let requestYear = (currentMonth <= monthNumber) ? currentYear-1 : currentYear
+        return "\(requestYear)-\(monthNumber)-1%2F\(requestYear)-\(monthNumber+1)-1"
+    }
+    
+    private let getSentinelJuly: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let monthNumber = 7
+        let date = Date()
+        let calendar = Calendar.current
+        let currentYear = calendar.component(.year, from: date)
+        let currentMonth = calendar.component(.month, from: date)
+        let requestYear = (currentMonth <= monthNumber) ? currentYear-1 : currentYear
+        return "\(requestYear)-\(monthNumber)-1%2F\(requestYear)-\(monthNumber+1)-1"
+    }
+    
+    private let getSentinelAugust: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let monthNumber = 8
+        let date = Date()
+        let calendar = Calendar.current
+        let currentYear = calendar.component(.year, from: date)
+        let currentMonth = calendar.component(.month, from: date)
+        let requestYear = (currentMonth <= monthNumber) ? currentYear-1 : currentYear
+        return "\(requestYear)-\(monthNumber)-1%2F\(requestYear)-\(monthNumber+1)-1"
+    }
+    
+    private let getSentinelSeptember: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let monthNumber = 9
+        let date = Date()
+        let calendar = Calendar.current
+        let currentYear = calendar.component(.year, from: date)
+        let currentMonth = calendar.component(.month, from: date)
+        let requestYear = (currentMonth <= monthNumber) ? currentYear-1 : currentYear
+        return "\(requestYear)-\(monthNumber)-1%2F\(requestYear)-\(monthNumber+1)-1"
+    }
+    
+    private let getSentinelOctober: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let monthNumber = 10
+        let date = Date()
+        let calendar = Calendar.current
+        let currentYear = calendar.component(.year, from: date)
+        let currentMonth = calendar.component(.month, from: date)
+        let requestYear = (currentMonth <= monthNumber) ? currentYear-1 : currentYear
+        return "\(requestYear)-\(monthNumber)-1%2F\(requestYear)-\(monthNumber+1)-1"
+    }
+    
+    private let getSentinelNovember: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let monthNumber = 11
+        let date = Date()
+        let calendar = Calendar.current
+        let currentYear = calendar.component(.year, from: date)
+        let currentMonth = calendar.component(.month, from: date)
+        let requestYear = (currentMonth <= monthNumber) ? currentYear-1 : currentYear
+        return "\(requestYear)-\(monthNumber)-1%2F\(requestYear)-\(monthNumber+1)-1"
+    }
+    
+    private let getSentinelDecember: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let monthNumber = 12
+        let date = Date()
+        let calendar = Calendar.current
+        let currentYear = calendar.component(.year, from: date)
+        return "\(currentYear-1)-\(monthNumber)-1%2F\(currentYear)-\(1)-1"
+    }
+    
+
+    
     // Two arrays for quick and short iterating of all this functions
     
-    private let urlPlaceholders = ["{x}", "{y}", "{z}", "{z-2}", "{z-6}", "{18-z}", "{s}", "{googleZ}", "{invY}", "{sasZ}", "{folderX}", "{folderY}", "{yandexX}", "{yandexY}", "{timeStamp}", "{kosmosnimkiX}", "{kosmosnimkiY}", "{left}", "{right}", "{top}", "{bottom}", "{q}", "{ts}", "{fonectaX}", "{fonectaY}"]
+    private let urlPlaceholders = ["{x}", "{y}", "{z}", "{z-2}", "{z-6}", "{18-z}", "{s}", "{googleZ}", "{invY}", "{sasZ}", "{folderX}", "{folderY}", "{yandexX}", "{yandexY}", "{timeStamp}", "{kosmosnimkiX}", "{kosmosnimkiY}", "{left}", "{right}", "{top}", "{bottom}", "{q}", "{ts}", "{fonectaX}", "{fonectaY}", "{sentinelJanuary}", "{sentinelFebruary}", "{sentinelMarch}", "{sentinelApril}", "{sentinelMay}", "{sentinelJune}", "{sentinelJuly}", "{sentinelAugust}", "{sentinelSeptember}", "{sentinelOctober}", "{sentinelNovember}", "{sentinelDecember}"]
     
-    private lazy var urlTransformers = [getX, getY, getZ, getZMinus2, getZMinus6, get18MinusZ, getS, getGoogleZ, getInvY, getSasZ, getFolderX, getFolderY, getYandexX, getYandexY, getYandexTimestamp, getKosmosnimkiX, getKosmosnimkiY, getMetersL, getMetersR, getMetersT, getMetersB, getQuad, getResolution, getFonectaX, getFonectaY]
+    private lazy var urlTransformers = [getX, getY, getZ, getZMinus2, getZMinus6, get18MinusZ, getS, getGoogleZ, getInvY, getSasZ, getFolderX, getFolderY, getYandexX, getYandexY, getYandexTimestamp, getKosmosnimkiX, getKosmosnimkiY, getMetersL, getMetersR, getMetersT, getMetersB, getQuad, getResolution, getFonectaX, getFonectaY, getSentinelJanuary, getSentinelFebruary, getSentinelMarch, getSentinelApril, getSentinelMay, getSentinelJune, getSentinelJuly, getSentinelAugust, getSentinelSeptember, getSentinelOctober, getSentinelNovember, getSentinelDecember]
     
     
     

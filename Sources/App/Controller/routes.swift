@@ -91,26 +91,10 @@ public func routes(_ router: Router) throws {
         return httpResponse
     }
     
-    // Old version of API
-    router.get("server", String.parameter, String.parameter, String.parameter,Int.parameter) { request -> Future<Response> in
-        
-        // Extracting values from URL parameters
-        let mapName = try request.parameters.next(String.self)
-        let xText = try request.parameters.next(String.self)
-        let yText = try request.parameters.next(String.self)
-        let zoom = try request.parameters.next(Int.self)
-        
-        let httpResponse =  try webHandler.startSearchingForMap(mapName, xText: xText, yText, zoom, request)
-        
-        return httpResponse
-    }
+
     
     
-    
-    
-    
-    //TODO: REDONE!
-    
+  
     // Redirect to one of Mapshoter Api mirrors
     router.get("api", "v1", "mapshooter", String.parameter, Int.parameter, Int.parameter, Int.parameter, Int.parameter) { request -> Response in
         
@@ -125,43 +109,16 @@ public func routes(_ router: Router) throws {
             throw Abort(.badRequest)
         }
         
-        let serverNames = ["a", "b"]
-        let randomValue = randomNubmerForHeroku(serverNames.count)
-        let serverName = serverNames[randomValue]
+        //let serverNames = ["a", "b"]
+        //let randomValue = randomNubmerForHeroku(serverNames.count)
+        //let serverName = serverNames[randomValue]
         
-        let mirrorUrl = "https://\(serverName)-mapshooter.herokuapp.com/\(mode)/\(x)/\(y)/\(z)/\(crossZ)?script=\(script)"
-        
-        //print(mirrorUrl)
+        let mirrorUrl = "http://68.183.65.138:5500\(mode)/\(x)/\(y)/\(z)/\(crossZ)?script=\(script)"
         
         return request.redirect(to: mirrorUrl)
     }
 
     
-    
-    
-    
-    // MARK: Storage functions
-    // Launched by Uptimerobot.com
-    // Start checker for cashe storage. And clean it if needed.
-    // Deactivate unworking accounts.
-//    router.get("new_day_status_update") { req -> String in
-//        try cloudinaryHandler.newDayStatusUpdate(req)
-//        return "Success!"
-//    }
-    
-    
-    
-//    router.get("active_accounts") { req -> Future<[String]> in
-//        return try sqlHandler.getServiceDataBy(serviceName: "CloudinaryWorkedAccountsList", req)
-//            .map { record -> [String] in
-//
-//                var accounts = record[0].apiSecret.components(separatedBy: ";")
-//                accounts.removeLast()
-//                let sortedList = accounts.sorted(by: { s1, s2 in return Int(s1)! < Int(s2)! })
-//                return sortedList
-//        }
-//    }
-
     
     
     // To force download file (don't open as text)
@@ -191,49 +148,10 @@ public func routes(_ router: Router) throws {
     
     
     
-//    // For loading test purposes
-//    router.get("test", Int.parameter) { req -> String in
-//
-//        let count = try req.parameters.next(Int.self)
-//        //let basicUrl = "http://165.227.131.115:5050/overpass/68141/44000/17?script=s/Jto"
-//        let basicUrl = "http://localhost:5050/overpass/68141/44000/17?script=s/Jto"
-//
-//        for i in 0 ..< count {
-//            let yTileNumber = 44000 + i
-//            let checkingUrl = basicUrl.replacingOccurrences(of: "44000", with: String(yTileNumber))
-//            try req.client().get(checkingUrl)
-//        }
-//
-//        return "Checked url: " + String(count)
-//    }
     
+
     
-//    router.get("server", "experiments_playground") { req -> String in
-//        return "Hello, world!"
-//    }
-    
-    
-/*
-    router.get("api", "v1", "experiments_playground") { req -> String in
-        
-        let a = BingTileNumberTransformer()
-        
-        let b = try a.quadKeyToTileXY(quadKey: "122")
-        //let b = try a.quadKeyToTileXY(quadKey: "21")
-        //let b = try a.quadKeyToTileXY(quadKey: "0")
-        print(b)
-        
-        
-        //let c = a.tileXYToQuadKey(tileX: 4, tileY: 3, levelOfDetail: 3) //122
-        //let c = a.tileXYToQuadKey(tileX: 1, tileY: 2, levelOfDetail: 2) //21
-        //let c = a.tileXYToQuadKey(tileX: 0, tileY: 0, levelOfDetail: 1) //0
-        //print(c)
-        
-        return "Hello, world!"
-    }
-*/
-    
-//    router.get("api", "v1", "experiments_playground") { req -> Response in
+//    router.get("api", "v1", "experiments_playground") { req -> String in
 //
 //        return "Hello, world!"
 //    }
