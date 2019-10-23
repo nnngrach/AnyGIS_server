@@ -21,8 +21,7 @@ class UrlFIleChecker {
     var delegate: WebHandlerDelegate?
     
     
-    // Checker for MultyLayer mode
-    
+    // MARK: Checker for MultyLayer mode
     
     public func checkMultyLayerList(_ maps: [PriorityMapsList], _ index: Int, _ x: Int, _ y: Int, _ z: Int, _ req: Request) throws -> Future<Response> {
 
@@ -76,6 +75,10 @@ class UrlFIleChecker {
                 // print("Fail ")
                 return self.output.notFoundResponce(req)
                 
+            } else if self.isTileWithErrorText(res: res) {
+                // print("Recursive find next ")
+                return try self.checkMultyLayerList(maps, index+1, x, y, z, req)
+                
             } else {
                 // print("Success ")
                 return req.future(res)
@@ -86,7 +89,16 @@ class UrlFIleChecker {
     
     
     
-    // Checker for Mirrors mode
+    private func isTileWithErrorText (res: Response) -> Bool {
+        
+        let sizeOfMarshrutyRuErrorTile = 7500
+        let httpBodySize = res.http.body.count ?? 0
+        return httpBodySize < sizeOfMarshrutyRuErrorTile
+    }
+    
+    
+    
+    // MARK: Checker for Mirrors mode
     public func checkMirrorsList(_ mirrorName: String, _ x: Int, _ y: Int, _ z: Int, _ req: Request) throws -> Future<Response> {
         
         // Load info for every mirrors from data base in Future format
@@ -139,7 +151,7 @@ class UrlFIleChecker {
     
 
     
-    // Mirrors mode recursive checker sub function
+    // MARK: Mirrors mode recursive checker sub function
     private func findExistingMirrorNumber(index: Int, _ hosts: [String], _ ports: [String], _ patchs: [String], _ urls: [String], _ protocols: [Bool], _ x: Int, _ y: Int, _ z: Int, _ order: [Int:Int], req: Request) -> Future<Response> {
         
         guard let currentShuffledIndex = order[index] else {return output.notFoundResponce(req)}
