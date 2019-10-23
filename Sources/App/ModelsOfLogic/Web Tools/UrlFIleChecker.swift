@@ -82,17 +82,25 @@ class UrlFIleChecker {
                 
             } else {
                 
-                let responseWithImage = try self.isTileEmpry(req: req, res: res)
-                
-                return responseWithImage.flatMap(to: Response.self) { res in
-                    if (res.http.status.code == 404) {
-                        // print("Tile is empty ")
-                        return try self.checkMultyLayerList(maps, index+1, x, y, z, req)
-                    } else {
-                        // print("Success ")
-                        return req.future(res)
-                    }
+                if try self.isTileEmpry(req: req, res: res) {
+                    // print("Tile is empty ")
+                    return try self.checkMultyLayerList(maps, index+1, x, y, z, req)
+                } else {
+                    // print("Success ")
+                    return req.future(res)
                 }
+                
+//                let responseWithImage = try self.isTileEmpry(req: req, res: res)
+//
+//                return responseWithImage.flatMap(to: Response.self) { res in
+//                    if (res.http.status.code == 404) {
+//                        // print("Tile is empty ")
+//                        return try self.checkMultyLayerList(maps, index+1, x, y, z, req)
+//                    } else {
+//                        // print("Success ")
+//                        return req.future(res)
+//                    }
+//                }
             }
         }
     }
@@ -100,7 +108,7 @@ class UrlFIleChecker {
     
     
     // Is this tile empry or with error text message
-    private func isTileEmpry (req: Request, res: Response) throws -> Future<Response> {
+    private func isTileEmpry (req: Request, res: Response) throws -> Bool {
         
         //print("isTileEmpry")
         
@@ -122,25 +130,28 @@ class UrlFIleChecker {
             }
         }
        
-        guard isCurrentMapInList else {return output.redirect(to: checkedUrl, with: req)}
+        guard isCurrentMapInList else {return false}
+        //guard isCurrentMapInList else {return output.redirect(to: checkedUrl, with: req)}
         
         
         
         // for problem maps
+        let currentHttpBodySize = res.http.body.count ?? 0
+        return currentHttpBodySize < sizeOfErrorTile
         
-        let responseWithImage = try req.client().get(checkedUrl)
-        
-        let resultResponse = responseWithImage.flatMap(to: Response.self) { response in
-            let currentHttpBodySize = response.http.body.count ?? 0
-            
-            if currentHttpBodySize < sizeOfErrorTile {
-                return self.output.notFoundResponce(req)
-            } else {
-                return req.future(res)
-            }
-        }
-        
-        return resultResponse
+//        let responseWithImage = try req.client().get(checkedUrl)
+//
+//        let resultResponse = responseWithImage.flatMap(to: Response.self) { response in
+//            let currentHttpBodySize = response.http.body.count ?? 0
+//
+//            if currentHttpBodySize < sizeOfErrorTile {
+//                return self.output.notFoundResponce(req)
+//            } else {
+//                return req.future(res)
+//            }
+//        }
+//
+//        return resultResponse
         
         //print(checkedUrl)
         //print(currentHttpBodySize)
