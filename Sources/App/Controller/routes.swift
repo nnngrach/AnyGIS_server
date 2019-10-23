@@ -152,10 +152,12 @@ public func routes(_ router: Router) throws {
 
     
 //    router.get("api", "v1", "experiments_playground") { req -> String in
-//        
+//
 //        try req.client()
 //        //.get("http://ingreelab.net/A52CEA6D090B666F0A2C6A85A53832F128B6CAED/15/17920/10763.png")
-//        .get("http://ingreelab.net/A52CEA6D090B666F0A2C6A85A53832F128B6CAED/18/167482/78211.png")
+//        //.get("http://ingreelab.net/A52CEA6D090B666F0A2C6A85A53832F128B6CAED/18/167482/78211.png")
+//        .get("http://ingreelab.net/A52CEA6D090B666F0A2C6A85A53832F128B6CAED/14/10470/4888.png")
+//            
 //            .map { res in
 //                print(res.http.body.count)
 //        }

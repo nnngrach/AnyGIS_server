@@ -114,8 +114,9 @@ class UrlFIleChecker {
         
         let problemMapsList =
             [(url: "http://maps.marshruty.ru", errorTileSize: 7600),
-            (url: "http://ingreelab.net", errorTileSize: 103),
-            (url: "https://services.sentinel-hub.com", errorTileSize: 800)]
+            //(url: "http://ingreelab.net", errorTileSize: 103),
+            //(url: "https://services.sentinel-hub.com", errorTileSize: 800)
+        ]
         
         var sizeOfErrorTile = 0
         
