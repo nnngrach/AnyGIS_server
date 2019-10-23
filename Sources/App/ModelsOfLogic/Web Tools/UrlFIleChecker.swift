@@ -75,9 +75,9 @@ class UrlFIleChecker {
                 // print("Fail ")
                 return self.output.notFoundResponce(req)
                 
-            } else if self.isTileWithErrorText(res: res) {
-                // print("Recursive find next ")
-                return try self.checkMultyLayerList(maps, index+1, x, y, z, req)
+//            } else if self.isTileWithErrorText(res: res) {
+//                // print("Recursive find next ")
+//                return try self.checkMultyLayerList(maps, index+1, x, y, z, req)
                 
             } else {
                 // print("Success ")
