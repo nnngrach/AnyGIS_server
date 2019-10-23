@@ -25,7 +25,6 @@ class UrlFIleChecker {
     
     public func checkMultyLayerList(_ maps: [PriorityMapsList], _ index: Int, _ x: Int, _ y: Int, _ z: Int, _ req: Request) throws -> Future<Response> {
         
-        
         guard index < maps.count else {return self.output.notFoundResponce(req)}
         
         
@@ -81,13 +80,19 @@ class UrlFIleChecker {
                 // print("Fail ")
                 return self.output.notFoundResponce(req)
                 
-            } else if self.isTileWithErrorText(res: res) {
-                // print("Recursive find next (text tile) ")
-                return try self.checkMultyLayerList(maps, index+1, x, y, z, req)
-                
             } else {
-                // print("Success ")
-                return req.future(res)
+                
+                let responseWithImage = try self.isTileEmpry(req: req, res: res)
+                
+                return responseWithImage.flatMap(to: Response.self) { res in
+                    if (res.http.status.code == 404) {
+                        // print("Tile is empty ")
+                        return try self.checkMultyLayerList(maps, index+1, x, y, z, req)
+                    } else {
+                        // print("Success ")
+                        return req.future(res)
+                    }
+                }
             }
         }
     }
@@ -95,26 +100,51 @@ class UrlFIleChecker {
     
     
     // Is this tile empry or with error text message
-    private func isTileWithErrorText (res: Response) -> Bool {
+    private func isTileEmpry (req: Request, res: Response) throws -> Future<Response> {
         
-        let problemMapsUrlList = ["http://maps.marshruty.ru",
-                                  "http://ingreelab.net"]
+        //print("isTileEmpry")
+        
+        let problemMapsList =
+            [(url: "http://maps.marshruty.ru", errorTileSize: 7600),
+            (url: "http://ingreelab.net", errorTileSize: 7600),
+            (url: "https://services.sentinel-hub.com", errorTileSize: 800)]
+        
+        var sizeOfErrorTile = 0
         
         // filter off regular maps
         var isCurrentMapInList = false
         let checkedUrl = res.http.headers.firstValue(name: HTTPHeaderName("location")) ?? ""
         
-        for problemMapUrl in problemMapsUrlList {
-            if checkedUrl.hasPrefix(problemMapUrl) {isCurrentMapInList = true}
+        for problemMap in problemMapsList {
+            if checkedUrl.hasPrefix(problemMap.url) {
+                isCurrentMapInList = true
+                sizeOfErrorTile = problemMap.errorTileSize
+            }
         }
        
-        guard isCurrentMapInList else {return false}
+        guard isCurrentMapInList else {return output.redirect(to: checkedUrl, with: req)}
+        
         
         
         // for problem maps
-        let sizeOfMarshrutyRuErrorTile = 7600
-        let currentHttpBodySize = res.http.body.count ?? 0
-        return currentHttpBodySize < sizeOfMarshrutyRuErrorTile
+        
+        let responseWithImage = try req.client().get(checkedUrl)
+        
+        let resultResponse = responseWithImage.flatMap(to: Response.self) { response in
+            let currentHttpBodySize = response.http.body.count ?? 0
+            
+            if currentHttpBodySize < sizeOfErrorTile {
+                return self.output.notFoundResponce(req)
+            } else {
+                return req.future(res)
+            }
+        }
+        
+        return resultResponse
+        
+        //print(checkedUrl)
+        //print(currentHttpBodySize)
+        //print(currentHttpBodySize < sizeOfMarshrutyRuErrorTile)
     }
     
     
