@@ -114,7 +114,7 @@ class UrlFIleChecker {
         
         let problemMapsList =
             [(url: "http://maps.marshruty.ru", errorTileSize: 7600),
-            (url: "http://ingreelab.net", errorTileSize: 7600),
+            (url: "http://ingreelab.net", errorTileSize: 103),
             (url: "https://services.sentinel-hub.com", errorTileSize: 800)]
         
         var sizeOfErrorTile = 0
@@ -137,7 +137,7 @@ class UrlFIleChecker {
         
         // for problem maps
         let currentHttpBodySize = res.http.body.count ?? 0
-        return currentHttpBodySize < sizeOfErrorTile
+        return currentHttpBodySize <= sizeOfErrorTile
         
 //        let responseWithImage = try req.client().get(checkedUrl)
 //
