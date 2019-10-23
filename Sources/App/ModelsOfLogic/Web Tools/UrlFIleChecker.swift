@@ -25,13 +25,6 @@ class UrlFIleChecker {
     
     public func checkMultyLayerList(_ maps: [PriorityMapsList], _ index: Int, _ x: Int, _ y: Int, _ z: Int, _ req: Request) throws -> Future<Response> {
         
-//        print("====")
-//        for map in maps {
-//            print(map.mapName, map.priority)
-//        }
-//        print("====")
-        
-        print("checkMultyLayerList")
         
         guard index < maps.count else {return self.output.notFoundResponce(req)}
         
@@ -78,22 +71,22 @@ class UrlFIleChecker {
         
         return response.flatMap(to: Response.self) { res in
             
-            print(res.http.status.code, res.http.headers.firstValue(name: HTTPHeaderName("location")))
+            //print(res.http.status.code, res.http.headers.firstValue(name: HTTPHeaderName("location")))
             
             if (res.http.status.code == 404) && (maps.count > index+1) {
-                 print("Recursive find next ")
+                // print("Recursive find next ")
                 return try self.checkMultyLayerList(maps, index+1, x, y, z, req)
                 
             } else if(res.http.status.code == 404) {
-                 print("Fail ")
+                // print("Fail ")
                 return self.output.notFoundResponce(req)
                 
             } else if self.isTileWithErrorText(res: res) {
-                 print("Recursive find next (text tile) ")
+                // print("Recursive find next (text tile) ")
                 return try self.checkMultyLayerList(maps, index+1, x, y, z, req)
                 
             } else {
-                 print("Success ")
+                // print("Success ")
                 return req.future(res)
             }
         }
@@ -101,12 +94,18 @@ class UrlFIleChecker {
     
     
     
-    // Filter off MatshrutyRU tiles with error text
+    // Filter off tiles with error text
     private func isTileWithErrorText (res: Response) -> Bool {
         
-        print("isTileWithErrorText")
+        let problemMapsUrlList = ["http://maps.marshruty.ru",
+                                  "http://ingreelab.net"]
+        
         let checkedUrl = res.http.headers.firstValue(name: HTTPHeaderName("location")) ?? ""
-        guard checkedUrl.hasPrefix("http://maps.marshruty.ru") else {return false}
+        
+        for problemMapUrl in problemMapsUrlList {
+             guard checkedUrl.hasPrefix(problemMapUrl) else {return false}
+        }
+       
         
         let sizeOfMarshrutyRuErrorTile = 7600
         let httpBodySize = res.http.body.count ?? 0
