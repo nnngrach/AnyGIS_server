@@ -94,22 +94,27 @@ class UrlFIleChecker {
     
     
     
-    // Filter off tiles with error text
+    // Is this tile empry or with error text message
     private func isTileWithErrorText (res: Response) -> Bool {
         
         let problemMapsUrlList = ["http://maps.marshruty.ru",
                                   "http://ingreelab.net"]
         
+        // filter off regular maps
+        var isCurrentMapInList = false
         let checkedUrl = res.http.headers.firstValue(name: HTTPHeaderName("location")) ?? ""
         
         for problemMapUrl in problemMapsUrlList {
-             guard checkedUrl.hasPrefix(problemMapUrl) else {return false}
+            if checkedUrl.hasPrefix(problemMapUrl) {isCurrentMapInList = true}
         }
        
+        guard isCurrentMapInList else {return false}
         
+        
+        // for problem maps
         let sizeOfMarshrutyRuErrorTile = 7600
-        let httpBodySize = res.http.body.count ?? 0
-        return httpBodySize < sizeOfMarshrutyRuErrorTile
+        let currentHttpBodySize = res.http.body.count ?? 0
+        return currentHttpBodySize < sizeOfMarshrutyRuErrorTile
     }
     
     
