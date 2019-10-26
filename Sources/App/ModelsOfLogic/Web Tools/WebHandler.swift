@@ -31,6 +31,7 @@ class WebHandler {
     let processorStrava = MapProcessorStrava()
     let processorMirrors = MapProcessorMirrors()
     let processorMultyLayers = MapProcessorMultyLayers()
+    let processorCookies = MapProcessorCookies()
     
     
     init() {
@@ -71,6 +72,9 @@ class WebHandler {
                 
             case "proxyUpload":
                 return try self.processorProxyUpload.process(mapName, tileNumbers, mapObject, req)
+                
+            case "loadWithCookies":
+                return try self.processorCookies.process(mapName, tileNumbers, mapObject, req)
                 
             case "opacity":
                 return try self.processorOpacity.process(mapName, tileNumbers, mapObject, req)

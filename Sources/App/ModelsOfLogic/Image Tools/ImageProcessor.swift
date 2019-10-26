@@ -25,6 +25,7 @@ class ImageProcessor {
                                                 xOffset: String(xOffset),
                                                 yOffset: String(yOffset))
         
+        
         let postResponse = try req.client().post(apiUrl) { postReq in
             try postReq.content.encode(message)
         }
