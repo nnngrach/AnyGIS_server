@@ -91,6 +91,20 @@ public func routes(_ router: Router) throws {
         return httpResponse
     }
     
+    // Old version of API
+    router.get("server", String.parameter, String.parameter, String.parameter,Int.parameter) { request -> Future<Response> in
+        
+        // Extracting values from URL parameters
+        let mapName = try request.parameters.next(String.self)
+        let xText = try request.parameters.next(String.self)
+        let yText = try request.parameters.next(String.self)
+        let zoom = try request.parameters.next(Int.self)
+        
+        let httpResponse =  try webHandler.startSearchingForMap(mapName, xText: xText, yText, zoom, request)
+        
+        return httpResponse
+    }
+    
 
     
     
