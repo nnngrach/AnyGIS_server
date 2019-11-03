@@ -94,6 +94,13 @@ class URLPatchCreator {
     }
     
     
+    private let getZMinus7: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let result = coordinates[2] - 7
+        return "\(result)"
+    }
+    
     private let getZMinus6: ([Int], MapsList) -> String = {
         coordinates, mapObject in
         
@@ -450,13 +457,45 @@ class URLPatchCreator {
         return "\(currentYear-1)-\(monthNumber)-1%2F\(currentYear)-\(1)-1"
     }
     
+    
+    
+    private let getEightZeroX: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let xString = String(coordinates[0])
+        var prefixOfZeroes = ""
+        
+        for i in 0 ..< (8 - xString.count) {
+            prefixOfZeroes.append("0")
+        }
+        
+        return prefixOfZeroes + xString
+    }
+    
+    
+    private let getEightZeroInvY: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let z = Double(coordinates[2])
+        let invYString = String(Int(pow(2.0, z)) - coordinates[1] - 1)
+        
+        var prefixOfZeroes = ""
+        
+        for i in 0 ..< (8 - invYString.count) {
+            prefixOfZeroes.append("0")
+        }
+        
+        return prefixOfZeroes + invYString
+    }
+    
+    
 
     
     // Two arrays for quick and short iterating of all this functions
     
-    private let urlPlaceholders = ["{x}", "{y}", "{z}", "{z-2}", "{z-6}", "{18-z}", "{s}", "{googleZ}", "{invY}", "{sasZ}", "{folderX}", "{folderY}", "{yandexX}", "{yandexY}", "{timeStamp}", "{kosmosnimkiX}", "{kosmosnimkiY}", "{left}", "{right}", "{top}", "{bottom}", "{q}", "{ts}", "{fonectaX}", "{fonectaY}", "{sentinelJanuary}", "{sentinelFebruary}", "{sentinelMarch}", "{sentinelApril}", "{sentinelMay}", "{sentinelJune}", "{sentinelJuly}", "{sentinelAugust}", "{sentinelSeptember}", "{sentinelOctober}", "{sentinelNovember}", "{sentinelDecember}"]
+    private let urlPlaceholders = ["{x}", "{y}", "{z}", "{z-2}", "{z-6}", "{z-7}", "{18-z}", "{s}", "{googleZ}", "{invY}", "{sasZ}", "{folderX}", "{folderY}", "{yandexX}", "{yandexY}", "{timeStamp}", "{kosmosnimkiX}", "{kosmosnimkiY}", "{left}", "{right}", "{top}", "{bottom}", "{q}", "{ts}", "{fonectaX}", "{fonectaY}", "{sentinelJanuary}", "{sentinelFebruary}", "{sentinelMarch}", "{sentinelApril}", "{sentinelMay}", "{sentinelJune}", "{sentinelJuly}", "{sentinelAugust}", "{sentinelSeptember}", "{sentinelOctober}", "{sentinelNovember}", "{sentinelDecember}", "{eightZeroX}", "{eightZeroInvY}"]
     
-    private lazy var urlTransformers = [getX, getY, getZ, getZMinus2, getZMinus6, get18MinusZ, getS, getGoogleZ, getInvY, getSasZ, getFolderX, getFolderY, getYandexX, getYandexY, getYandexTimestamp, getKosmosnimkiX, getKosmosnimkiY, getMetersL, getMetersR, getMetersT, getMetersB, getQuad, getResolution, getFonectaX, getFonectaY, getSentinelJanuary, getSentinelFebruary, getSentinelMarch, getSentinelApril, getSentinelMay, getSentinelJune, getSentinelJuly, getSentinelAugust, getSentinelSeptember, getSentinelOctober, getSentinelNovember, getSentinelDecember]
+    private lazy var urlTransformers = [getX, getY, getZ, getZMinus2, getZMinus6, getZMinus7, get18MinusZ, getS, getGoogleZ, getInvY, getSasZ, getFolderX, getFolderY, getYandexX, getYandexY, getYandexTimestamp, getKosmosnimkiX, getKosmosnimkiY, getMetersL, getMetersR, getMetersT, getMetersB, getQuad, getResolution, getFonectaX, getFonectaY, getSentinelJanuary, getSentinelFebruary, getSentinelMarch, getSentinelApril, getSentinelMay, getSentinelJune, getSentinelJuly, getSentinelAugust, getSentinelSeptember, getSentinelOctober, getSentinelNovember, getSentinelDecember, getEightZeroX, getEightZeroInvY]
     
     
     
