@@ -94,6 +94,21 @@ class URLPatchCreator {
     }
     
     
+    private let getBbox: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        return "{left},{bottom},{right},{top}"
+    }
+    
+    
+    private let getZPlus1: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let result = 1 + coordinates[2]
+        return "\(result)"
+    }
+    
+    
     private let getZMinus7: ([Int], MapsList) -> String = {
         coordinates, mapObject in
         
@@ -146,7 +161,7 @@ class URLPatchCreator {
     }
     
     
-    private let getGoogleZ: ([Int], MapsList) -> String = {
+    private let get17MinusZ: ([Int], MapsList) -> String = {
         coordinates, mapObject in
         
         let result = 17 - coordinates[2]
@@ -163,15 +178,10 @@ class URLPatchCreator {
     }
     
     
-    private let getSasZ: ([Int], MapsList) -> String = {
-        coordinates, mapObject in
-        
-        let result = 1 + coordinates[2]
-        return "\(result)"
-    }
     
     
-    private let getFolderX: ([Int], MapsList) -> String = {
+    
+    private let getXDiv1024: ([Int], MapsList) -> String = {
         coordinates, mapObject in
         
         let result = Int(coordinates[0] / 1024)
@@ -179,7 +189,7 @@ class URLPatchCreator {
     }
     
     
-    private let getFolderY: ([Int], MapsList) -> String = {
+    private let getYDiv1024: ([Int], MapsList) -> String = {
         coordinates, mapObject in
         
         let result = Int(coordinates[1] / 1024)
@@ -285,7 +295,7 @@ class URLPatchCreator {
     }
     
     
-    private let getResolution: ([Int], MapsList) -> String = {
+    private let getTileSize: ([Int], MapsList) -> String = {
         coordinates, mapObject in
         
         let defauldDpi = mapObject.dpiHD
@@ -493,9 +503,9 @@ class URLPatchCreator {
     
     // Two arrays for quick and short iterating of all this functions
     
-    private let urlPlaceholders = ["{x}", "{y}", "{z}", "{z-2}", "{z-6}", "{z-7}", "{18-z}", "{s}", "{googleZ}", "{invY}", "{sasZ}", "{folderX}", "{folderY}", "{yandexX}", "{yandexY}", "{timeStamp}", "{kosmosnimkiX}", "{kosmosnimkiY}", "{left}", "{right}", "{top}", "{bottom}", "{q}", "{ts}", "{fonectaX}", "{fonectaY}", "{sentinelJanuary}", "{sentinelFebruary}", "{sentinelMarch}", "{sentinelApril}", "{sentinelMay}", "{sentinelJune}", "{sentinelJuly}", "{sentinelAugust}", "{sentinelSeptember}", "{sentinelOctober}", "{sentinelNovember}", "{sentinelDecember}", "{eightZeroX}", "{eightZeroInvY}"]
+    private let urlPlaceholders = ["{x}", "{y}", "{z}", "{bbox}", "{s}", "{-y}", "{z+1}", "{z-2}", "{z-6}", "{z-7}", "{18-z}", "{17-z}", "{x/1024}", "{y/1024}", "{yandexX}", "{yandexY}", "{timeStamp}", "{kosmosnimkiX}", "{kosmosnimkiY}", "{left}", "{right}", "{top}", "{bottom}", "{q}", "{tileSize}", "{fonectaX}", "{fonectaY}", "{sentinelJanuary}", "{sentinelFebruary}", "{sentinelMarch}", "{sentinelApril}", "{sentinelMay}", "{sentinelJune}", "{sentinelJuly}", "{sentinelAugust}", "{sentinelSeptember}", "{sentinelOctober}", "{sentinelNovember}", "{sentinelDecember}", "{eightZeroesX}", "{eightZeroesInvY}"]
     
-    private lazy var urlTransformers = [getX, getY, getZ, getZMinus2, getZMinus6, getZMinus7, get18MinusZ, getS, getGoogleZ, getInvY, getSasZ, getFolderX, getFolderY, getYandexX, getYandexY, getYandexTimestamp, getKosmosnimkiX, getKosmosnimkiY, getMetersL, getMetersR, getMetersT, getMetersB, getQuad, getResolution, getFonectaX, getFonectaY, getSentinelJanuary, getSentinelFebruary, getSentinelMarch, getSentinelApril, getSentinelMay, getSentinelJune, getSentinelJuly, getSentinelAugust, getSentinelSeptember, getSentinelOctober, getSentinelNovember, getSentinelDecember, getEightZeroX, getEightZeroInvY]
+    private lazy var urlTransformers = [getX, getY, getZ, getBbox, getS, getInvY, getZPlus1, getZMinus2, getZMinus6, getZMinus7, get18MinusZ, get17MinusZ, getXDiv1024, getYDiv1024, getYandexX, getYandexY, getYandexTimestamp, getKosmosnimkiX, getKosmosnimkiY, getMetersL, getMetersR, getMetersT, getMetersB, getQuad, getTileSize, getFonectaX, getFonectaY, getSentinelJanuary, getSentinelFebruary, getSentinelMarch, getSentinelApril, getSentinelMay, getSentinelJune, getSentinelJuly, getSentinelAugust, getSentinelSeptember, getSentinelOctober, getSentinelNovember, getSentinelDecember, getEightZeroX, getEightZeroInvY]
     
     
     
