@@ -223,14 +223,12 @@ class UrlFIleChecker {
         
         let currentPatchUrl = self.urlPatchCreator.calculateTileURL(x, y, z, mapTemplate)
         
-        print(currentPatchUrl)
         
         let responceStatus = checkUrlStatus(hosts[currentShuffledIndex], ports[currentShuffledIndex], currentPatchUrl, protocols[currentShuffledIndex], req: req)
         
         
         let firstFoundedFileResponce = responceStatus.flatMap{ (status) -> Future<Response> in
             
-            print(status)
             
             if status.code != 403 && status.code != 404 {
                 //print ("Success: File founded! ", hosts[index], currentUrl, response.status.code)
