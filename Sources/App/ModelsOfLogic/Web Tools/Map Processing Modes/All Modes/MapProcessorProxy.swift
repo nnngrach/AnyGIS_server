@@ -23,7 +23,10 @@ class MapProcessorProxy: AbstractMapProcessorSession {
             
             let userAgent = USER_AGENT
             
-            let headers = HTTPHeaders([("referer", mapObject.referer), ("User-Agent", userAgent)])
+            let headers = HTTPHeaders(
+                [("referer", mapObject.referer),
+                 ("origin", mapObject.referer),
+                 ("User-Agent", userAgent)])
             
             fullResponce = try req.client().get(newUrl, headers: headers)
             
