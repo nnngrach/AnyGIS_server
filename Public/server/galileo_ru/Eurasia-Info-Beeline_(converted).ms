@@ -2,18 +2,18 @@
 
 <!--
 Map pack from AnyGIS.ru
-Updated: 16-01-2020 21:55
+Updated: 17-01-2020 16:04
 -->
 
 
 <customMapSource>
-<name>Mobile MTS</name>
+<name>Зоны покрытия Билайн (с конвертацией)</name>
 <layers>
 
 <layer>
     <minZoom>0</minZoom>
     <maxZoom>12</maxZoom>
-    <url>https://maps.melda.ru/mobile/mts/{$z}/{$x}/{$y}.png</url>
+    <url>https://maps.melda.ru/mobile/beeline/{$z}/{$x}/{$y}.png</url>
 </layer>
 
 </layers>

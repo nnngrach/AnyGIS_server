@@ -2,12 +2,12 @@
 
 <!--
 Map pack from AnyGIS.ru
-Updated: 16-01-2020 21:55
+Updated: 17-01-2020 16:04
 -->
 
 
 <customMapSource>
-<name>Mobile Tele2</name>
+<name>Mobile Tele2 (with convertation)</name>
 <layers>
 
 <layer>
