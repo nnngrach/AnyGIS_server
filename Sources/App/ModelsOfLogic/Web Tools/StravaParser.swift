@@ -13,22 +13,6 @@ class StravaParser {
     private let cookieExtractorApi = "http://68.183.65.138:5050/StravaAuth/"
     
     
-    //private let startCookieExtractorScriptUrl = "https://api.apify.com/v2/acts/nnngrach~strava-auth/run-sync?token=ATnnxbF6sE7zEZDmMbZTTppKo&outputRecordKey=OUTPUT&timeout=120"
-    
-    //private let fetchedDataUrl = "https://api.apify.com/v2/acts/nnngrach~strava-auth/runs/last/dataset/items?token=ATnnxbF6sE7zEZDmMbZTTppKo"
-    
-    
-    // for temporary urls bugfix
-    // don'd use after 1.08.19
-//    private let startCookieExtractorScriptUrl = "https://api.apify.com/v2/acts/9qaEDAaykK4zDQiHd/run-sync?token=kbcPyhW2wGwoj86ADpwW8b4WZ&outputRecordKey=OUTPUT&timeout=120"
-//
-//    private let fetchedDataUrl = "https://api.apify.com/v2/acts/9qaEDAaykK4zDQiHd/runs/last/dataset/items?token=kbcPyhW2wGwoj86ADpwW8b4WZ"
-    
-    
-    
-    
-    
-    
     
     public func getAuthParameters(login: String, password: String, _ req: Request) throws -> Future<String> {
         
@@ -66,7 +50,12 @@ class StravaParser {
                 
                 
             } else {
-                fatalError("Error with Strava JSON decoding")
+
+                print("Error with Strava JSON decoding")
+                print(login)
+                print(resonseWithCookies)
+                throw(GlobalErrors.parsingFail)
+                //fatalError("Error with Strava JSON decoding")
             }
             
             return resultHttpParameters

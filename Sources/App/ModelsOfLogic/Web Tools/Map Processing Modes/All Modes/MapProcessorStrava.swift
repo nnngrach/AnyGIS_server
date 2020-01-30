@@ -152,7 +152,7 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
             let checkedResult = stravaAuthParams.flatMap(to: String.self) { params in
                 
                 //correct cookie has "Signature" field
-                if params.hasPrefix("&Signature") {
+                if params.contains("&Signature") {
                     return req.future(params)
                     
                 } else {
