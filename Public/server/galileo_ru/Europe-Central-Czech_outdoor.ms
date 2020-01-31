@@ -2,12 +2,12 @@
 
 <!--
 Map pack from AnyGIS.ru
-Updated: 18-01-2020 18:58
+Updated: 31-01-2020 17:03
 -->
 
 
 <customMapSource>
-<name>Czech tourist</name>
+<name>Чехия - Mapy.cz Outdoor</name>
 <layers>
 
 <layer>
