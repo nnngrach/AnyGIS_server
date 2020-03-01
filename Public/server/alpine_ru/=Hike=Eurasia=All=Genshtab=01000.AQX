@@ -3,22 +3,22 @@
 
 <!--
 Map pack from AnyGIS.ru
-Updated: 01-03-2020 14:10
+Updated: 01-03-2020 20:56
 -->
 
 
-<name>Исторические - Евразия - Кубань</name>
+<name>Туризм - Евразия - Вся - Генштаб</name>
 <description></description>
 
-    <source id="1111308">
-        <name>Немецкие Военные 1942 2км</name>
+    <source id="1052207">
+        <name>Генштаб 1000 м</name>
         
         <data-source></data-source>
         <region>OTHE</region>
-        <type>ROAD</type>
+        <type>TOPO</type>
 
-        <preview-location>38.9,45.001,10</preview-location>
-        <outline>36.3,49.1 46.75,49.1 46.75,43.9 36.3,43.9</outline>
+        <preview-location>37.7,56.1,12</preview-location>
+        <outline>17.9,72.01 119.9,72.01 119.9,39.9 17.9,39.9</outline>
 
         <level>
             <zoom-values>0,1,2,3,4,5,6,7,8,9,10,11,12,13,14</zoom-values>
@@ -27,7 +27,7 @@ Updated: 01-03-2020 14:10
 
             <servers>
                 <referer><![CDATA[https://anygis.ru/]]></referer>
-                <server><![CDATA[http://anygis.ru/api/v1/Historic_German_Genshtab_3km/{x}/{y}/{z}]]></server>
+                <server><![CDATA[http://anygis.ru/api/v1/Locals_Genshtab_01000/{x}/{y}/{z}]]></server>
             </servers>
         </level>
     </source>
