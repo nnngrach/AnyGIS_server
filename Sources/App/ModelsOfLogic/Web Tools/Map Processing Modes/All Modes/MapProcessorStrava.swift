@@ -50,7 +50,12 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                     
                     
                     // Break connection If is in auth processing now
-                    guard !self.isNeedToWaitFrom(scrtiptStartTime: storedStravaAuthLine.apiSecret) else {return req.future(isInAuthProcessingStausText)}
+                    guard !self.isNeedToWaitFrom(scrtiptStartTime: storedStravaAuthLine.apiSecret) else {
+                        return req.future(self.getMirrorUrl(tileNumbers: tileNumbers, urlTemplate: mapObject.backgroundUrl))
+                    }
+                    
+                    // TODO: Delete this old method if all is ok
+                    // guard !self.isNeedToWaitFrom(scrtiptStartTime: storedStravaAuthLine.apiSecret) else {return req.future(isInAuthProcessingStausText)}
                     
                     
                     let urlWithStoredAuthKey = generatedUrl + storedStravaAuthLine.apiSecret
@@ -182,4 +187,46 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
         
         return Int(currentPeriod) < Int(periodToWait)
     }
+    
+    
+    
+    private func getMirrorUrl(tileNumbers: (x: Int, y: Int, z: Int), urlTemplate: String) -> String {
+        
+        let mirrorUrl = "https://proxy.nakarte.me/https/heatmap-external-b.strava.com/tiles-auth/all/hot/{z}/{x}/{y}.png?px=512"
+        
+        var resultUrl = mirrorUrl.replacingOccurrences(of: "/all/hot/{", with: getMapMode(urlTemplate))
+
+        resultUrl = resultUrl.replacingOccurrences(of: "{z}/{x}/{y}", with: "\(tileNumbers.z)/\(tileNumbers.x)/\(tileNumbers.y)")
+        
+        resultUrl = resultUrl.replacingOccurrences(of: "=512", with: getTileSize(urlTemplate))
+                
+        return resultUrl
+    }
+    
+    
+    
+    private func getMapMode(_ urlTemplate: String) -> String {
+        do {
+            
+            let regex = try NSRegularExpression(pattern: "tiles-auth(.*)z", options: NSRegularExpression.Options.caseInsensitive)
+            let matches = regex.matches(in: urlTemplate, options: [], range: NSRange(location: 0, length: urlTemplate.utf16.count))
+
+            if let match = matches.first {
+                let range = match.range(at:1)
+                if let swiftRange = Range(range, in: urlTemplate) {
+                    return String(urlTemplate[swiftRange])
+                }
+            }
+            
+        } catch {}
+        
+        return urlTemplate
+    }
+    
+    
+    private func getTileSize(_ urlTemplate: String) -> String {
+        let tileSizeIndex = urlTemplate.firstIndex(of: "=")!
+        return String(urlTemplate[tileSizeIndex...])
+    }
+    
 }
