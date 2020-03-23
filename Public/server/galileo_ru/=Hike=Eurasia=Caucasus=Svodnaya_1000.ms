@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:51
--->
 
 
 <customMapSource>
-<name>Туризм - Евразия - Кавказ - Сводная карта Кавказа 1000м</name>
+<name>🥾 = 🇷🇺Кавказ - Сводная 1000м</name>
 <layers>
 
 <layer>
