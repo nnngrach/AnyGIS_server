@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <aqx version="9">
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:52
--->
 
 
-<name>Hystoric - Eurasia - Southern</name>
+<name>Hystoric</name>
 <description></description>
 
     <source id="1111309">
-        <name>RKKA 1932-42 2km</name>
+        <name>🏛 = 🇷🇺 Kuban - RKKA 1932-42 2km</name>
         
         <data-source></data-source>
         <region>OTHE</region>

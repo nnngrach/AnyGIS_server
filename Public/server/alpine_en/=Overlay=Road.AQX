@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <aqx version="9">
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:51
--->
 
 
 <name>Overlay - Road</name>
 <description></description>
 
     <source id="2030001" layer="true">
-        <name>Bing - Traffic</name>
+        <name>⏹️ 🚗 = 🌍 - Bing - Traffic</name>
         <copyright>Bing</copyright>
         <data-source></data-source>
         <region>WRLD</region>
@@ -38,7 +34,7 @@ Updated: 02-03-2020 20:51
 
 
     <source id="2030002" layer="true">
-        <name>Google - Traffic</name>
+        <name>⏹️ 🚗 = 🌍 - Google - Traffic</name>
         <copyright>Google & others</copyright>
         <data-source></data-source>
         <region>WRLD</region>
@@ -66,7 +62,7 @@ Updated: 02-03-2020 20:51
 
 
     <source id="2030003" layer="true">
-        <name>Google - Traffic</name>
+        <name>⏹️ 🚗 = 🌍 - Google - Traffic</name>
         <copyright>Google & others</copyright>
         <data-source></data-source>
         <region>WRLD</region>
@@ -94,7 +90,7 @@ Updated: 02-03-2020 20:51
 
 
     <source id="2030004" layer="true">
-        <name>Here - Flow</name>
+        <name>⏹️ 🚗 = 🌍 - Here - Flow</name>
         <copyright>Here</copyright>
         <data-source></data-source>
         <region>WRLD</region>
@@ -122,7 +118,7 @@ Updated: 02-03-2020 20:51
 
 
     <source id="2030005" layer="true">
-        <name>Here - Traffic</name>
+        <name>⏹️ 🚗 = 🌍 - Here - Traffic</name>
         <copyright>Here</copyright>
         <data-source></data-source>
         <region>WRLD</region>
@@ -145,7 +141,7 @@ Updated: 02-03-2020 20:51
 
 
     <source id="2030007" layer="true">
-        <name>Navizor - Roads quality</name>
+        <name>⏹️ 🚗 = 🌍 - Navizor - Roads quality</name>
         <copyright>@ Navizor</copyright>
         <data-source></data-source>
         <region>WRLD</region>
@@ -168,7 +164,7 @@ Updated: 02-03-2020 20:51
 
 
     <source id="2030008" layer="true">
-        <name>TomTom - Incidents</name>
+        <name>⏹️ 🚗 = 🌍 - TomTom - Incidents</name>
         <copyright>TomTom</copyright>
         <data-source></data-source>
         <region>WRLD</region>
@@ -196,7 +192,7 @@ Updated: 02-03-2020 20:51
 
 
     <source id="2030009" layer="true">
-        <name>TomTom - Traffic</name>
+        <name>⏹️ 🚗 = 🌍 - TomTom - Traffic</name>
         <copyright>TomTom</copyright>
         <data-source></data-source>
         <region>WRLD</region>

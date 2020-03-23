@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <aqx version="9">
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:52
--->
 
 
-<name>Городские - Евразия</name>
+<name>Городские</name>
 <description></description>
 
     <source id="1021002">
-        <name>OSM Sputnik.ru</name>
+        <name>🏠 = 🇷🇺 - OSM Sputnik.ru</name>
         <copyright>OpenStreetMap, Ростелеком</copyright>
         <data-source></data-source>
-        <region>OTHE</region>
+        <region>WRLD</region>
         <type>ROAD</type>
 
         <preview-location>37.7,56.1,13</preview-location>

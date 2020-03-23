@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <aqx version="9">
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:52
--->
 
 
 <name>Road</name>
 <description></description>
 
     <source id="1030001">
-        <name>Garmin.ru (navicom)</name>
+        <name>🚗 = 🌍 - Garmin.ru (navicom)</name>
         <copyright>ЗАО Навиком</copyright>
         <data-source></data-source>
         <region>WRLD</region>

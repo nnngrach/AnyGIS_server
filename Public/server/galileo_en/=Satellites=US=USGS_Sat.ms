@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:51
--->
 
 
 <customMapSource>
-<name>Satellites - America - USGS National Map - Satellite</name>
+<name>🛰 = 🇺🇸 - USGS National Map - Satellite</name>
 <layers>
 
 <layer>

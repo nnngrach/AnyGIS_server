@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <aqx version="9">
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:52
--->
 
 
-<name>Разное - Overpass Turbo</name>
+<name>Разное</name>
 <description></description>
 
     <source id="1148001">
-        <name>Гравийные дорожки для бега</name>
+        <name>🧩 = OverpassTurbo - Гравийные дорожки для бега</name>
         <copyright>OpenStreetMap</copyright>
         <data-source></data-source>
         <region>WRLD</region>

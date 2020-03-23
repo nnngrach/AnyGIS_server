@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <aqx version="9">
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:51
--->
 
 
 <name>Road</name>
 <description></description>
 
     <source id="1030001">
-        <name>Garmin.ru (navicom)</name>
+        <name>🚗 = 🌍 - Garmin.ru (navicom)</name>
         <copyright>ЗАО Навиком</copyright>
         <data-source></data-source>
         <region>WRLD</region>
@@ -34,7 +30,7 @@ Updated: 02-03-2020 20:51
 
 
     <source id="1030004">
-        <name>OSM Michelin transport</name>
+        <name>🚗 = 🌍 - OSM Michelin transport</name>
         <copyright>OpenStreetMap, Michelin</copyright>
         <data-source></data-source>
         <region>WRLD</region>
@@ -62,7 +58,7 @@ Updated: 02-03-2020 20:51
 
 
     <source id="1030007">
-        <name>TomTom Day</name>
+        <name>🚗 = 🌍 - TomTom Day</name>
         <copyright>TomTom</copyright>
         <data-source></data-source>
         <region>WRLD</region>
@@ -90,7 +86,7 @@ Updated: 02-03-2020 20:51
 
 
     <source id="1030008">
-        <name>TomTom Night</name>
+        <name>🚗 = 🌍 - TomTom Night</name>
         <copyright>TomTom</copyright>
         <data-source></data-source>
         <region>WRLD</region>

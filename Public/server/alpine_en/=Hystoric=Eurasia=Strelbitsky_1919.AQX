@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <aqx version="9">
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:52
--->
 
 
-<name>Hystoric - Eurasia</name>
+<name>Hystoric</name>
 <description></description>
 
     <source id="1111003">
-        <name>Strelbitsky 1919</name>
+        <name>🏛 = 🇷🇺 - Strelbitsky 1919</name>
         
         <data-source></data-source>
         <region>OTHE</region>

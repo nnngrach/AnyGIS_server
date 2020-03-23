@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <aqx version="9">
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:52
--->
 
 
-<name>Hike - Europe - Western</name>
+<name>Hike</name>
 <description></description>
 
-    <source id="1054402">
-        <name>Great Britain Topo</name>
+    <source id="1054502">
+        <name>🥾 = 🇬🇧 - GB Topo</name>
         
         <data-source></data-source>
         <region>OTHE</region>

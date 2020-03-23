@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <onlinemapsources>
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:51
--->
 
 <onlinemapsource uid="1010002">
-<name>Bing Bird's Eye (SATELLITES)</name>
+<name>Bing Birds Eye (SATELLITES)</name>
 <url><![CDATA[http://ak.dynamic.t{$s}.tiles.virtualearth.net/comp/ch/{q}?mkt=en-us&it=A,G,L&shading=hill&og=8&n=z]]></url>
 <servers>1,2,3</servers>
 <maxzoom>19</maxzoom>
@@ -97,7 +93,7 @@ Updated: 02-03-2020 20:51
 </onlinemapsource>
 
 <onlinemapsource uid="1020014">
-<name>OSM Mapnik HD (from OsmAnd) (CITY)</name>
+<name>OSM Mapnik HD (OsmAnd) (CITY)</name>
 <url><![CDATA[http://tile.osmand.net/{$z}/{$x}/{$y}.png]]></url>
 <servers></servers>
 <maxzoom>19</maxzoom>
@@ -231,21 +227,6 @@ Updated: 02-03-2020 20:51
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="1050020">
-<name>Nakarte.me - Перевалы Вестра (HIKE)</name>
-<url><![CDATA[https://anygis.ru/api/v1/Nakarte_Westra/{$x}/{$y}/{$z}]]></url>
-<servers></servers>
-<maxzoom>18</maxzoom>
-<minzoom>0</minzoom>
-<projection>MERCATORESFERICA</projection>
-<downloadable>1</downloadable>
-<cacheable>1</cacheable>
-<xop></xop>
-<yop></yop>
-<zop></zop>
-<qop></qop>
-</onlinemapsource>
-
 <onlinemapsource uid="1050003">
 <name>OSM 4U maps (HIKE)</name>
 <url><![CDATA[http://www.4umaps.eu/{$z}/{$x}/{$y}.png]]></url>
@@ -306,7 +287,22 @@ Updated: 02-03-2020 20:51
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="1051001">
+<onlinemapsource uid="1051020">
+<name>Перевалы Вестра (nakarte) (HIKE)</name>
+<url><![CDATA[https://anygis.ru/api/v1/Nakarte_Westra/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>18</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="1052001">
 <name>OSM OpenTopoMap.RU (HIKERUALL)</name>
 <url><![CDATA[https://tile-{$s}.opentopomap.ru/{$z}/{$x}/{$y}.png]]></url>
 <servers>a,b,c</servers>
@@ -321,8 +317,8 @@ Updated: 02-03-2020 20:51
 <qop></qop>
 </onlinemapsource>
 
-<onlinemapsource uid="1052101">
-<name>ГосГисЦентр (Все масштабы) (HIKERUALLGGC)</name>
+<onlinemapsource uid="1058101">
+<name>ГГЦ (Все масштабы) (HIKERUALLGGC)</name>
 <url><![CDATA[https://anygis.ru/api/v1/Combo_Best_GGC/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>15</maxzoom>
@@ -562,7 +558,7 @@ Updated: 02-03-2020 20:51
 </onlinemapsource>
 
 <onlinemapsource uid="2040004">
-<name>Strava Heatmap - Вело (OVERLAYBIKE)</name>
+<name>Strava - Вело (OVERLAYBIKE)</name>
 <url><![CDATA[https://anygis.ru/api/v1/Tracks_Strava_Ride/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>16</maxzoom>
@@ -607,7 +603,7 @@ Updated: 02-03-2020 20:51
 </onlinemapsource>
 
 <onlinemapsource uid="2050012">
-<name>Strava Heatmap - Бег (OVERLAYHIKE)</name>
+<name>Strava - Бег (OVERLAYHIKE)</name>
 <url><![CDATA[https://anygis.ru/api/v1/Tracks_Strava_Run/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>16</maxzoom>
@@ -622,7 +618,7 @@ Updated: 02-03-2020 20:51
 </onlinemapsource>
 
 <onlinemapsource uid="2050007">
-<name>Strava Heatmap - Вело и Бег (beta) (OVERLAYHIKE)</name>
+<name>Strava - Вело и Бег (beta) (OVERLAYHIKE)</name>
 <url><![CDATA[https://anygis.ru/api/v1/Tracks_Strava_RunAndRide/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>16</maxzoom>
@@ -637,7 +633,7 @@ Updated: 02-03-2020 20:51
 </onlinemapsource>
 
 <onlinemapsource uid="2050006">
-<name>Strava Heatmap - Все слои (OVERLAYHIKE)</name>
+<name>Strava - Все слои (OVERLAYHIKE)</name>
 <url><![CDATA[https://anygis.ru/api/v1/Tracks_Strava_All/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>16</maxzoom>
@@ -667,7 +663,7 @@ Updated: 02-03-2020 20:51
 </onlinemapsource>
 
 <onlinemapsource uid="2060000">
-<name>Strava Heatmap - Зимние (OVERLAYWINTER)</name>
+<name>Strava - Зимние (OVERLAYWINTER)</name>
 <url><![CDATA[https://anygis.ru/api/v1/Tracks_Strava_Winter/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>16</maxzoom>
@@ -712,7 +708,7 @@ Updated: 02-03-2020 20:51
 </onlinemapsource>
 
 <onlinemapsource uid="2070008">
-<name>Strava Heatmap - Водные (OVERLAYWATER)</name>
+<name>Strava - Водные (OVERLAYWATER)</name>
 <url><![CDATA[https://anygis.ru/api/v1/Tracks_Strava_Water/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>16</maxzoom>
@@ -742,7 +738,7 @@ Updated: 02-03-2020 20:51
 </onlinemapsource>
 
 <onlinemapsource uid="2090002">
-<name>OSM OpenPTMap - Общественный транспорт (OVERLAYINFOSTRUCT)</name>
+<name>OSM OpenPTMap - Общ.транспорт (OVERLAYINFOSTRUCT)</name>
 <url><![CDATA[https://anygis.ru/api/v1/Osm_Public_Transport_Layer/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>19</maxzoom>

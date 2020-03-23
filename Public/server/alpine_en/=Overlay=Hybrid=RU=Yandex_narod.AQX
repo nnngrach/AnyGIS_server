@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <aqx version="9">
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:52
--->
 
 
-<name>Overlay - Labels - Eurasia</name>
+<name>Overlay - Labels</name>
 <description></description>
 
     <source id="2021002" layer="true">
-        <name>Yandex - Hybrid Map Editor</name>
+        <name>⏹️ 🏷 = 🇷🇺 - Yandex - Hybrid Map Editor</name>
         <copyright>Яндекс</copyright>
         <data-source></data-source>
         <region>WRLD</region>

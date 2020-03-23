@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <aqx version="9">
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:52
--->
 
 
-<name>Городские - Европа - Северная</name>
+<name>Городские</name>
 <description></description>
 
     <source id="1022203">
-        <name>Hitta</name>
+        <name>🏠 = 🇸🇪 - Hitta</name>
         <copyright>Hitta</copyright>
         <data-source></data-source>
         <region>OTHE</region>

@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <aqx version="9">
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:52
--->
 
 
-<name>Водные - Евразия</name>
+<name>Водные</name>
 <description></description>
 
     <source id="1071001">
-        <name>Схема реки Чусовой (Пермь. Чусовой-Новоуткинск)</name>
+        <name>⚓️ = 🇷🇺 - Река Чусовая-Новоуткинск</name>
         
         <data-source></data-source>
         <region>OTHE</region>

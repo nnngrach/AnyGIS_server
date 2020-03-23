@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <aqx version="9">
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:52
--->
 
 
 <name>Слои - Инфраструктура</name>
 <description></description>
 
     <source id="2090001">
-        <name>OSM OpenFireMap</name>
+        <name>⏹️ 🚥 = OSM OpenFireMap</name>
         <copyright>OpenFireMap</copyright>
         <data-source></data-source>
         <region>WRLD</region>

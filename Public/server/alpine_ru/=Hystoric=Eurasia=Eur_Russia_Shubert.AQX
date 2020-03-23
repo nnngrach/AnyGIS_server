@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <aqx version="9">
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:52
--->
 
 
-<name>Исторические - Евразия</name>
+<name>Исторические</name>
 <description></description>
 
     <source id="1111001">
-        <name>Европейская Россия Шуберт 3-х верстовая</name>
+        <name>🏛 = 🇷🇺 - Европейская Россия Шуберт 3-х верстовая</name>
         
         <data-source></data-source>
         <region>OTHE</region>

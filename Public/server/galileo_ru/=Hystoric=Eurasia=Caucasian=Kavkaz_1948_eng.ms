@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:51
--->
 
 
 <customMapSource>
-<name>Исторические - Евразия - Кавказ - Кавказ 1941-48 5-верстовая (ENG)</name>
+<name>🏛 = 🇷🇺 Кавказ - Кавказ 1941-48 5-верстовая (ENG)</name>
 <layers>
 
 <layer>

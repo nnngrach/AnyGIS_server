@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:51
--->
 
 
 <customMapSource>
-<name>Спутниковые - Америка - USGS National Map - Satellite Plus</name>
+<name>🛰 = 🇺🇸 - USGS National Map - Plus</name>
 <layers>
 
 <layer>

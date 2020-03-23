@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <aqx version="9">
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:52
--->
 
 
 <name>Слои - Справочные</name>
 <description></description>
 
     <source id="2080007">
-        <name>Wigle.net - Точки Wi-fi (proxy)</name>
+        <name>⏹️ 📖 = Wigle.net - Wi-fi (proxy)</name>
         <copyright>Wiggle.net</copyright>
         <data-source></data-source>
         <region>WRLD</region>

@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:51
--->
 
 
 <customMapSource>
-<name>Hike - Asia - Central - Kyrgyz Ala-Too Range</name>
+<name>🥾 = 🇰🇬 - Kyrgyz Ala-Too Range</name>
 <layers>
 
 <layer>

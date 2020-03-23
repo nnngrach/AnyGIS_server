@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <aqx version="9">
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:52
--->
 
 
-<name>Исторические - Евразия - Центр</name>
+<name>Исторические</name>
 <description></description>
 
     <source id="1111101">
-        <name>Москва - Хотевский план 1852</name>
+        <name>🏛 = 🇷🇺 Центр - Москва - Хотевский план 1852</name>
         <copyright>Retromap.ru</copyright>
         <data-source></data-source>
         <region>OTHE</region>

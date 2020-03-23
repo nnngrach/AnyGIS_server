@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <aqx version="9">
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:52
--->
 
 
 <name>Слои - Подписи</name>
 <description></description>
 
     <source id="2020007">
-        <name>TomTom - Гибрид (ночь)</name>
+        <name>⏹️ 🏷 = TomTom - Гибрид (ночь)</name>
         <copyright>TomTom</copyright>
         <data-source></data-source>
         <region>WRLD</region>

@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:51
--->
 
 
 <customMapSource>
-<name>Туризм - Европа - Юго-восточная - Черногория 250м 1970-72</name>
+<name>🥾 = 🇲🇪 - Черногория 250м 1970</name>
 <layers>
 
 <layer>

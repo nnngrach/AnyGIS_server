@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--
-Map pack from AnyGIS.ru
-Updated: 02-03-2020 20:51
--->
 
 
 <customMapSource>
-<name>Hystoric - Eurasia - Siberian - Irkutsk 5km 1980</name>
+<name>🏛 = 🇷🇺 Siberia - Irkutsk 5km 1980</name>
 <layers>
 
 <layer>
