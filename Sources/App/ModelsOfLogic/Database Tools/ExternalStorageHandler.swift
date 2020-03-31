@@ -9,8 +9,6 @@ import Vapor
 
 class ExternalStorageHandler {
     
-    //let storageApiUrl = "http://localhost:8081/"
-    
     let storageApiUrl = "https://nnnnstorage.herokuapp.com/"
     let allUrlPatameter = "all/"
     let allByTitleUrlParameter = "allByTitle/"

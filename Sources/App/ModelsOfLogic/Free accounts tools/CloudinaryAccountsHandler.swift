@@ -30,9 +30,6 @@ class CloudinaryAccountsHandler {
                 
                 try self.getStatusOf(account: account, req).map { responseJson in
                     
-                    //logging with another heroku account
-                    //try self.externalStorage.writeToDB(title: currentTitle, jsonData: responseJson, req)
-                    
                     let decodedJson = try JSONDecoder().decode(CloudinaryUsage.self, from: responseJson)
                     
                     try self.addWorkingAccountToList(decodedJson, account, req)

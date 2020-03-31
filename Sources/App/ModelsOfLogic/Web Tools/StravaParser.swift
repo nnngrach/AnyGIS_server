@@ -56,7 +56,6 @@ class StravaParser {
                 print(login)
                 print(resonseWithCookies)
                 throw(GlobalErrors.parsingFail)
-                //fatalError("Error with Strava JSON decoding")
             }
             
             return resultHttpParameters

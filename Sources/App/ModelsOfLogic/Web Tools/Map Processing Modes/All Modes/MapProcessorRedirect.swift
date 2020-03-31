@@ -14,8 +14,6 @@ class MapProcessorRedirect: AbstractMapProcessorSimple {
         
         let newUrl = urlPatchCreator.calculateTileURL(tileNumbers.x, tileNumbers.y, tileNumbers.z, mapObject)
         
-        //print(newUrl)
-        
         return output.redirect(to: newUrl, with: req)
     }
     

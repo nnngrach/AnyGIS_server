@@ -235,7 +235,7 @@ class UrlFIleChecker {
                 let mapTemplate = MapsList(name: "", mode: "", backgroundUrl: urls[currentShuffledIndex], backgroundServerName: "", referer: "", zoomMin: 0, zoomMax: 0, dpiSD: "", dpiHD: "", parameters: 0, description: "")
                 
                 let newUrl = self.urlPatchCreator.calculateTileURL(x, y, z, mapTemplate)
-                //return self.output.redirect(to: newUrl, with: req)
+                 
                 return self.output.redirectWithReferer(to: newUrl, referer: nil, with: req)
                 
             } else if (index + 1) < hosts.count {

@@ -53,10 +53,6 @@ class URLPatchCreator {
     
     public func calculateFourNextZoomTilesUrls (_ x: Int, _ y: Int, _ z: Int, _ mapObject: MapsList) -> [String] {
         
-        // let maxTileNumber = Int(pow(2.0, Double(z+1))) - 1
-        // let rightTileNumber = (x == maxTileNumber) ? 0 : x*2+1
-        // let bottomTileNumber = (y == maxTileNumber) ? 0 : y*2+1
-        
         let topLeftTileUrl = calculateTileURL(x*2, y*2, z+1, mapObject)
         let topRightTileUrl = calculateTileURL(x*2+1, y*2, z+1, mapObject)
         let bottomRightTileUrl = calculateTileURL(x*2+1, y*2+1, z+1, mapObject)
@@ -153,7 +149,6 @@ class URLPatchCreator {
             return "http://91.237.82.95:8088/"
             
         default:
-            //let serverLetters = Array(serverName)
             let serverLetters = serverName.split(separator: ";")
             let randomNumber = randomNubmerForHeroku(serverLetters.count)
             return String(serverLetters[randomNumber])

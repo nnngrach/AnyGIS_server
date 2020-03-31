@@ -34,8 +34,6 @@ class MapProcessorReferer: AbstractMapProcessorSimple {
         }
        
         return bodyResponce
-        
-        //return try req.client().get(newUrl, headers: headers)
     }
     
 }

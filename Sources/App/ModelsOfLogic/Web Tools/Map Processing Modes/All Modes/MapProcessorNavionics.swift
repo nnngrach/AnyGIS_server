@@ -35,8 +35,6 @@ class MapProcessorNavionics: AbstractMapProcessorSimple {
             
                 let tileUrlWithCode = tileUrlBase + secretCode
                 
-                //print(autherUrl)
-                //print(tileUrlWithCode)
                 let rawRespose = try req.client().get(tileUrlWithCode, headers: headers)
                 
                 let cleanResponse = rawRespose.map(to: Response.self) { res in

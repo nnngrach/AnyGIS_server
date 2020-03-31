@@ -46,7 +46,6 @@ class CloudinaryImageProcessor {
             filenameString = filenameString.replacingOccurrences(of: String(char), with: "")
         }
         
-        //print(filenameString)
         return prefix + filenameString
     }
     
@@ -104,7 +103,6 @@ class CloudinaryImageProcessor {
         
         
         return loadingResponce.flatMap(to: Response.self) { _ in
-            //Body
             return closure(req)
         }
     }
@@ -117,7 +115,6 @@ class CloudinaryImageProcessor {
         
         return loadingResponces[0].flatMap(to: Response.self) { _ in
             return loadingResponces[1].flatMap(to: Response.self) { _ in
-                //Body
                 return closure(req)
             }
         }
@@ -134,8 +131,6 @@ class CloudinaryImageProcessor {
             return loadingResponces[1].flatMap(to: Response.self) { _ in
                 return loadingResponces[2].flatMap(to: Response.self) { _ in
                     return loadingResponces[3].flatMap(to: Response.self) { _ in
-                        
-                        //Body
                         return closure(req)
                     }
                 }

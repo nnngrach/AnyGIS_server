@@ -93,17 +93,13 @@ class MapTester {
         
         let anygisMapUrl = SERVER_HOST + mapName + "/" + String(x) + "/" + String(y) + "/" + String(z)
         
-        //let anygisMapUrl = "http://localhost:8080/api/v1/" + mapName + "/" + String(x) + "/" + String(y) + "/" + String(z)
-        
         
         do {
             return try urlChecker.checkUrlStatusAndProxy(anygisMapUrl, nil, nil, req)
         } catch {
             return req.future(HTTPResponseStatus(statusCode: 502))
         }
-        
-       
-        //return urlChecker.checkUrlStatus("anygis.ru", "any", anygisMapUrl, false, req: req)
+
     }
     
     
