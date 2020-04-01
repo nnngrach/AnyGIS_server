@@ -8,7 +8,7 @@ This proxi component can perform various additional calculations and can generat
 
 Also, this utility is able to do various image processing on the fly. For example, it can transform tiles from the WGS84 ellipsoid projection to the WebMerkatror spherical projection. Or overlay one image on another if the client application does not allow such operations.
 
-You can read more about how this utility works on [this page](https://nnngrach.github.io/AnyGIS_maps/Web/Html/Description).
+You can read more about how this utility works on [this page](https://anygis.ru/Web/Html/Description_en).
 
 
 
