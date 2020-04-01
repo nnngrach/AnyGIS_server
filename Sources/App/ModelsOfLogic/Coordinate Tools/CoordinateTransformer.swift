@@ -37,7 +37,7 @@ class CoordinateTransformer {
     
     
     
-    private func coordinatesToTileNumbers(_ latitude: Double, _ longitude: Double, withZoom zoom: Int) -> (x: Int, y: Int, z: Int) {
+    public func coordinatesToTileNumbers(_ latitude: Double, _ longitude: Double, withZoom zoom: Int) -> (x: Int, y: Int, z: Int) {
         let tileX = Int(floor((longitude + 180) / 360.0 * pow(2.0, Double(zoom))))
         let tileY = Int(floor((1 - log( tan( latitude * Double.pi / 180.0 ) + 1 / cos( latitude * Double.pi / 180.0 )) / Double.pi ) / 2 * pow(2.0, Double(zoom))))
         
