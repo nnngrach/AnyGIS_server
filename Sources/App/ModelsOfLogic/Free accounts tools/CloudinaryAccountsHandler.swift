@@ -22,13 +22,13 @@ class CloudinaryAccountsHandler {
         try clearWorkingAccountsList(req)
         
         
-        try getAllAccountsInfo(req).map { accounts in
+        let _ = try getAllAccountsInfo(req).map { accounts in
                 
             for account in accounts {
                 
-                let currentTitle = self.titleIntro + account.userName
+                //let currentTitle = self.titleIntro + account.userName
                 
-                try self.getStatusOf(account: account, req).map { responseJson in
+                let _ = try self.getStatusOf(account: account, req).map { responseJson in
                     
                     let decodedJson = try JSONDecoder().decode(CloudinaryUsage.self, from: responseJson)
                     
@@ -73,20 +73,20 @@ class CloudinaryAccountsHandler {
     
     private func clearWorkingAccountsList(_ req: Request) throws {
        
-        try sqlHandler.getServiceDataBy(serviceName: "CloudinaryWorkedAccountsList", req)
+        let _ = try sqlHandler.getServiceDataBy(serviceName: "CloudinaryWorkedAccountsList", req)
             .map { record in
                 record[0].apiSecret = ""
-                record[0].save(on: req)
+                let _ = record[0].save(on: req)
         }
     }
     
     
     private func appendToWorkingAccountsList(_ content: String, _ req: Request) throws {
         
-        try sqlHandler.getServiceDataBy(serviceName: "CloudinaryWorkedAccountsList", req)
+        let _ = try sqlHandler.getServiceDataBy(serviceName: "CloudinaryWorkedAccountsList", req)
             .map { record in
                 record[0].apiSecret = record[0].apiSecret + content
-                record[0].save(on: req)
+                let _ = record[0].save(on: req)
         }
     }
   

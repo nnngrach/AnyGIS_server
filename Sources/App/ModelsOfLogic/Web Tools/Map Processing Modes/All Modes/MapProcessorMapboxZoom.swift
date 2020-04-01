@@ -16,7 +16,7 @@ class MapProcessorMapboxZoom: AbstractMapProcessorSession {
         guard cloudinarySessionID != nil else {return try output.serverErrorResponce("MapProcessor unwarping error", req)}
         
         
-        let mapboxSessionId = try self.paralleliser.getMapboxSessionId()
+        //let mapboxSessionId = try self.paralleliser.getMapboxSessionId()
         
         // Load layers info from data base in Future format
         let mapList = try self.sqlHandler.getMirrorsListBy(setName: mapName, req)

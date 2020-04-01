@@ -35,7 +35,7 @@ class CloudinaryCasheHandler {
         
         let futureImageCount = try self.checkImageCount(account.userName, account.apiKey, account.apiSecret, folder, req)
         
-        futureImageCount.map { imageCount in
+        let _ = futureImageCount.map { imageCount in
             
             let needDeleteOperations = imageCount / self.deletingPerTimeLimit
             
@@ -75,7 +75,7 @@ class CloudinaryCasheHandler {
         
         let url = "https://\(apiKey):\(apiSecret)@api.cloudinary.com/v1_1/\(account)/resources/image/\(folder)?all=true"
         
-        try req.client().delete(url)
+        let _ = try req.client().delete(url)
     }
     
 }

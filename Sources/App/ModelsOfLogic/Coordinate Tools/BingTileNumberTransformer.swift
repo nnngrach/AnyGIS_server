@@ -34,7 +34,7 @@ class BingTileNumberTransformer {
         
         let clippedLantitude = clip(n: latitude, minValue: minLatitude, maxValue: maxLatitude)
         
-        return cos(clippedLantitude * M_PI / 180) * 2 * M_PI * earthRadius / mapSize(levelOfDetail: levelOfDetail)
+        return cos(clippedLantitude * Double.pi / 180) * 2 * Double.pi * earthRadius / mapSize(levelOfDetail: levelOfDetail)
     }
     
     
@@ -49,12 +49,12 @@ class BingTileNumberTransformer {
     
     public func latLongToPixelXY(latitude: Double, longitude: Double, levelOfDetail: Int) -> (x: Int, y: Int) {
         
-        let clippedLatitude = clip(n: latitude, minValue: minLatitude, maxValue: maxLatitude)
+        //let clippedLatitude = clip(n: latitude, minValue: minLatitude, maxValue: maxLatitude)
         let clippedLongitude = clip(n: longitude, minValue: minLongitude, maxValue: maxLongitude)
         
         let x: Double = (clippedLongitude + 180) / 360
-        let sinLatitude: Double = sin(clippedLongitude * M_PI / 180)
-        let y: Double = 0.5 - log((1 + sinLatitude) / (1 - sinLatitude)) / (4 * M_PI)
+        let sinLatitude: Double = sin(clippedLongitude * Double.pi / 180)
+        let y: Double = 0.5 - log((1 + sinLatitude) / (1 - sinLatitude)) / (4 * Double.pi)
         
         let currentMapSize: Double = Double(mapSize(levelOfDetail: levelOfDetail))
         let pixelX: Int = Int( clip(n: (x * currentMapSize + 0.5), minValue: 0, maxValue: (currentMapSize - 1)) )
@@ -71,7 +71,7 @@ class BingTileNumberTransformer {
         let x: Double = (clip(n: Double(pixelX), minValue: 0, maxValue: (currentMapSize - 1)) - currentMapSize) - 0.5
         let y: Double = 0.5 - (clip(n: Double(pixelY), minValue: 0, maxValue: (currentMapSize - 1)) / currentMapSize)
         
-        let latitude: Double = 90 - 360 * atan(exp(-y * 2 * M_PI)) / M_PI
+        let latitude: Double = 90 - 360 * atan(exp(-y * 2 * Double.pi)) / Double.pi
         let longitude: Double = 360 * x
         
         return (latitude: latitude, longitude: longitude)

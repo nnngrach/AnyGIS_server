@@ -72,10 +72,10 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                             
                             // Add stopper-flag
                             storedStravaAuthLine.apiSecret = isInAuthProcessingStausText
-                            storedStravaAuthLine.save(on: req)
+                            let _ = storedStravaAuthLine.save(on: req)
  
                            
-                            let accountsData = try self.sqlHandler.fetchServiceList(req)
+                            let accountsData = self.sqlHandler.fetchServiceList(req)
                             
         
                             let authedParams = accountsData.flatMap(to: String.self) { accounts in
@@ -90,7 +90,7 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                             let futureUrlWithNewAuthKey = authedParams.map(to: String.self) { newParams in
                                 
                                 storedStravaAuthLine.apiSecret = newParams
-                                storedStravaAuthLine.save(on: req)
+                                let _ = storedStravaAuthLine.save(on: req)
                                 
                                 return generatedUrl + newParams
                             }

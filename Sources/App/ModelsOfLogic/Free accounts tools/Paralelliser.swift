@@ -36,7 +36,7 @@ class FreeAccountsParalleliser {
         
         let firstWorkingAccount = workingAccountsString.map { text -> String in
             
-            var workingAccounts = text.components(separatedBy: ";")
+            let workingAccounts = text.components(separatedBy: ";")
         
             let firstWorkingAccountNumber = try self.findFirstWorkingAccount(randomNumber, workingAccounts)
             

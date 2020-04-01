@@ -9,8 +9,6 @@ public func routes(_ router: Router) throws {
     
     let webHandler = WebHandler()
     let sqlHandler = SQLHandler()
-    let casheHandler = CloudinaryCasheHandler()
-    let cloudinaryHandler = CloudinaryAccountsHandler()
     let previewHandler = PreviewHandler()
     let mapTester = MapTester()
     

@@ -30,7 +30,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     // Configure a SQLite database
     let sqlite = try SQLiteDatabase(storage: .file(path: "\(directoryConfig.workDir)base.sqlite"))
     
-    let tempStorage = try SQLiteDatabase(storage: .file(path: "\(directoryConfig.workDir)tempStorage.sqlite"))
+    //let tempStorage = try SQLiteDatabase(storage: .file(path: "\(directoryConfig.workDir)tempStorage.sqlite"))
 
     /// Register the configured SQLite database to the database config.
     var databases = DatabasesConfig()

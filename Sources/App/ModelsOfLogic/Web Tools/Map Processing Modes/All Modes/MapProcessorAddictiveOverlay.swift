@@ -17,7 +17,7 @@ class MapProcessorAddictiveOverlay: AbstractMapProcessorOverlay {
         guard baseObject != nil && overlayObject != nil && cloudinarySessionID != nil else {return try output.serverErrorResponce("MapProcessor unwarping error", req)}
         
         
-        var template = MapsList(name: "", mode: "redirect", backgroundUrl: "", backgroundServerName: "", referer: "", zoomMin: 0, zoomMax: 19, dpiSD: "", dpiHD: "", parameters: 0, description: "")
+        let template = MapsList(name: "", mode: "redirect", backgroundUrl: "", backgroundServerName: "", referer: "", zoomMin: 0, zoomMax: 19, dpiSD: "", dpiHD: "", parameters: 0, description: "")
         
         
         template.backgroundUrl = SERVER_HOST + baseObject!.name + "\\" + String(tileNumbers.x) + "\\" + String(tileNumbers.y) + "\\" + String(tileNumbers.z)
