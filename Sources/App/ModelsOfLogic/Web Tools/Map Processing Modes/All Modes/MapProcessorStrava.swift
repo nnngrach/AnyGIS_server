@@ -52,16 +52,6 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                         return req.future(self.getMirrorUrl(tileNumbers: tileNumbers, urlTemplate: mapObject.backgroundUrl))
                     }
                     
-                    // Redirect to Nakarte Strava mirror
-                    //guard !self.isNeedToWaitFrom(scrtiptStartTime: storedStravaAuthLine.apiSecret) else {
-                    //    return req.future(self.getMirrorUrl(tileNumbers: tileNumbers, urlTemplate: mapObject.backgroundUrl))
-                    //}
-                    
-                    
-                    // TODO: Delete this old method if all is ok
-                    // Break connection If is in auth processing now
-                    // guard !self.isNeedToWaitFrom(scrtiptStartTime: storedStravaAuthLine.apiSecret) else {return req.future(isInAuthProcessingStausText)}
-                    
                     
                     let urlWithStoredAuthKey = generatedUrl + storedStravaAuthLine.apiSecret
                     
@@ -81,7 +71,6 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                         } else {
                             
                             // Add stopper-flag
-                            //storedStravaAuthLine.apiSecret = String(Date().timeIntervalSince1970)
                             storedStravaAuthLine.apiSecret = isInAuthProcessingStausText
                             storedStravaAuthLine.save(on: req)
  
