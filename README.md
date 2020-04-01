@@ -28,16 +28,16 @@ You can use standard WebMercator tile numbers. Just like numbers from OpenStreet
 For example let's load a tile of Wikimapia.org map:
 
 ```
-Host = https://anygis.herokuapp.com/
+Host = https://anygis.ru/api/v1/
 MapName = Wikimapia
-xTileNumber = 619
-yTileNumber = 320
-zoomLevel = 10
+X = 619
+Y = 320
+Z = 10
 ```
 
 Result URL to load this tile will be looking like this:
 
-[https://anygis.herokuapp.com/Wikimapia/619/320/10](https://anygis.herokuapp.com/Wikimapia/619/320/10)
+[https://anygis.ru/api/v1/Wikimapia/619/320/10](https://anygis.ru/api/v1/Wikimapia/619/320/10)
 
 
 
@@ -46,15 +46,26 @@ Result URL to load this tile will be looking like this:
 You can also find tiles by its coordinates in decimal format:
 
 ```
-Host / MapName / longitude / latitude / zoomLevel
+Host / MapName / Longitude / Latitude / Z
 ```
-[https://anygis.herokuapp.com/Wikimapia/56.062293/37.708244/10](https://anygis.herokuapp.com/Wikimapia/56.062293/37.708244/10)
+[https://anygis.ru/api/v1/Wikimapia/56.062293/37.708244/10](https://anygis.ru/api/v1/Wikimapia/56.062293/37.708244/10)
 
 
 
 ### Get maps list
 
-To get MapName parameter you have to open a list of map sources and found there a map which you wish to load:
+To get MapName parameter you have to open a list of available maps.
 
-[https://anygis.herokuapp.com/list](https://anygis.herokuapp.com/list)
+[https://anygis.ru/Web/Html/Download_en?app=Desktop](https://anygis.ru/Web/Html/Download_en?app=Desktop)
+
+Found there a map which you wish to load. Click on it. In the window that opens, find the "[URL via AnyGIS proxy]" field. You will find MapName parameter in it.
+
+
+```
+[Name]
+Info - Wikimapia.org
+
+[URL via AnyGIS proxy]
+https://anygis.ru/api/v1/Wikimapia/{x}/{y}/{z}
+```
 
