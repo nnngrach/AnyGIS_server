@@ -1,5 +1,6 @@
 import XCTest
 @testable import App
+@testable import Vapor
 
 
 final class CoordinateTransformerTests: XCTestCase {
