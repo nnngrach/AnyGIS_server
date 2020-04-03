@@ -40,12 +40,12 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
 
     /// Configure migrations
     var migrations = MigrationConfig()
-    migrations.add(model: MapsList.self, database: .sqlite)
-    migrations.add(model: OverlayMapsList.self, database: .sqlite)
-    migrations.add(model: PriorityMapsList.self, database: .sqlite)
-    migrations.add(model: MirrorsMapsList.self, database: .sqlite)
-    migrations.add(model: ServiceData.self, database: .sqlite)
-    migrations.add(model: CoordinateMapList.self, database: .sqlite)
+//    migrations.add(model: MapsList.self, database: .sqlite)
+//    migrations.add(model: OverlayMapsList.self, database: .sqlite)
+//    migrations.add(model: PriorityMapsList.self, database: .sqlite)
+//    migrations.add(model: MirrorsMapsList.self, database: .sqlite)
+//    migrations.add(model: ServiceData.self, database: .sqlite)
+//    migrations.add(model: CoordinateMapList.self, database: .sqlite)
     
     //migrations.add(model: TempStorage.self, database: .tempStorage)
     services.register(migrations)
