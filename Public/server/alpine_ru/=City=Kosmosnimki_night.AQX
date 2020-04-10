@@ -3,11 +3,11 @@
 
 
 
-<name>City</name>
+<name>Городские</name>
 <description></description>
 
-    <source id="1020010">
-        <name>🏠 = 🌍 - OSM Kosmosnimki (day)</name>
+    <source id="1020015">
+        <name>🏠 = OSM Kosmosnimki (ночь)</name>
         <copyright>OpenStreetMap, Kosmosnimki</copyright>
         <data-source></data-source>
         <region>WRLD</region>
@@ -24,9 +24,9 @@
             <servers>
                 
                 
-                <server><![CDATA[http://a.tile.osm.kosmosnimki.ru/kosmo/{z}/{x}/{y}.png]]></server>
-                <server><![CDATA[http://b.tile.osm.kosmosnimki.ru/kosmo/{z}/{x}/{y}.png]]></server>
-                <server><![CDATA[http://c.tile.osm.kosmosnimki.ru/kosmo/{z}/{x}/{y}.png]]></server>
+                <server><![CDATA[http://a.tile.osm.kosmosnimki.ru/night/{z}/{x}/{y}.png]]></server>
+                <server><![CDATA[http://b.tile.osm.kosmosnimki.ru/night/{z}/{x}/{y}.png]]></server>
+                <server><![CDATA[http://c.tile.osm.kosmosnimki.ru/night/{z}/{x}/{y}.png]]></server>
 
             </servers>
         </level>

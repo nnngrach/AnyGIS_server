@@ -3,13 +3,13 @@
 
 
 <customMapSource>
-<name>🏠 = 🌍 - OSM Kosmosnimki (day)</name>
+<name>🏠 = OSM Kosmosnimki (ночь)</name>
 <layers>
 
 <layer>
     <minZoom>0</minZoom>
     <maxZoom>17</maxZoom>
-    <url>http://{$serverpart}.tile.osm.kosmosnimki.ru/kosmo/{$z}/{$x}/{$y}.png</url>
+    <url>http://{$serverpart}.tile.osm.kosmosnimki.ru/night/{$z}/{$x}/{$y}.png</url>
     <serverParts>a b c</serverParts>
 </layer>
 
