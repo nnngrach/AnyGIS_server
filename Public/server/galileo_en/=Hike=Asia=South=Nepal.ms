@@ -3,13 +3,13 @@
 
 
 <customMapSource>
-<name>🥾 = 🌍 - OSM 4U maps</name>
+<name>🥾 = 🇳🇵 - Nepal</name>
 <layers>
 
 <layer>
     <minZoom>0</minZoom>
-    <maxZoom>19</maxZoom>
-    <url>https://tileserver.4umaps.com/{$z}/{$x}/{$y}.png</url>
+    <maxZoom>18</maxZoom>
+    <url>https://anygis.ru/api/v1/Local_Nepal/{$x}/{$y}/{$z}</url>
 </layer>
 
 </layers>
