@@ -14,6 +14,28 @@ class PreviewHandler {
     private let baseHandler = SQLHandler()
     
 
+    public func generateLinkForOneTilePreview(mapName: String, req: Request) throws -> Future<String> {
+    
+        let errorTileUrl = "https://anygis.ru/Web/Img/tiles/tile_error.png"
+        
+        // Load records from db
+        let mapListData = try baseHandler.getBy(mapName: mapName, req)
+        let coordinatesData = try baseHandler.getCoordinatesDataBy(name: mapName, req)
+        
+        // synchronize
+            return coordinatesData.flatMap(to: String.self) { previewRecord in
+                guard previewRecord.hasPrewiew else {return req.future(errorTileUrl)}
+                
+                
+                let previewLink = "https://anygis.ru/api/v1/\(mapName)/\(previewRecord.previewLat)/\(previewRecord.previewLon)/\(previewRecord.previewZoom)"
+                
+                return req.future(previewLink)
+            }
+    }
+        
+    
+    
+    
     public func generateLinkFor(mapName: String, req: Request) throws -> Future<String> {
         
         // Load records from db

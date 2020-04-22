@@ -53,6 +53,29 @@ public func routes(_ router: Router) throws {
     }
     
   
+    
+    // Preview one tile of map
+    router.get("api", "v1", "previewTile", String.parameter) { req -> Future<Response> in
+        
+        let mapName = try req.parameters.next(String.self)
+        
+        do {
+            
+            let url = try previewHandler.generateLinkForOneTilePreview(mapName: mapName, req: req)
+            
+            return url.map { urlText in
+                return req.redirect(to: urlText)
+            }
+            
+        } catch {
+            print("catch")
+            return req.future(error: GlobalErrors.parsingFail)
+        }
+    }
+
+    
+    
+    
     // Preview my maps with Nakarte.me
     router.get("api", "v1", "preview", String.parameter) { req -> Future<Response> in
         
@@ -71,6 +94,8 @@ public func routes(_ router: Router) throws {
             return req.future(error: GlobalErrors.parsingFail)
         }
     }
+    
+    
  
     
     
