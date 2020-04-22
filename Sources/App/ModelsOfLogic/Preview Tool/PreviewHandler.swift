@@ -16,7 +16,7 @@ class PreviewHandler {
 
     public func generateLinkForOneTilePreview(mapName: String, req: Request) throws -> Future<String> {
     
-        let errorTileUrl = "https://anygis.ru/Web/Img/tiles/tile_error.png"
+        let errorTileUrl = "https://anygis.ru/Web/Img/tiles/tile_no_preview.png"
         
         // Load records from db
         let mapListData = try baseHandler.getBy(mapName: mapName, req)
