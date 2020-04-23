@@ -29,6 +29,8 @@ class PreviewHandler {
                 //guard previewRecord.hasPrewiew else {return req.future(errorTileUrl)}
                 
                 
+                //let previewLink = "https://anygis.ru/api/v1/\(mapName)/\(previewRecord.previewLat)/\(previewRecord.previewLon)/\(previewRecord.previewZoom)"
+                
                 let previewLink = "https://anygis.ru/api/v1/\(mapName)/\(previewRecord.previewLat)/\(previewRecord.previewLon)/\(previewRecord.previewZoom)"
                 
                 return req.future(previewLink)
