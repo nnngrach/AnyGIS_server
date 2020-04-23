@@ -24,7 +24,9 @@ class PreviewHandler {
         
         // synchronize
             return coordinatesData.flatMap(to: String.self) { previewRecord in
-                guard previewRecord.hasPrewiew else {return req.future(errorTileUrl)}
+                
+                // turned off for testing
+                //guard previewRecord.hasPrewiew else {return req.future(errorTileUrl)}
                 
                 
                 let previewLink = "https://anygis.ru/api/v1/\(mapName)/\(previewRecord.previewLat)/\(previewRecord.previewLon)/\(previewRecord.previewZoom)"
