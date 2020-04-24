@@ -14,6 +14,22 @@ class ImageProcessor {
     let host = "http://68.183.65.138:3000/"
     
     
+    func attachRow(tilesUrl: [String], req: Request) throws -> Future<Response> {
+        let apiUrl = host + "attach_row"
+        
+        let message = ImageProcessorAttachRowMessage(urlLeft: tilesUrl[0],
+                                                     urlCentral: tilesUrl[1],
+                                                     urlRight: tilesUrl[2])
+        
+        let postResponse = try req.client().post(apiUrl) { postReq in
+            try postReq.content.encode(message)
+        }
+        
+        return postResponse
+    }
+    
+    
+    
     func move(tilesUrl: [String], xOffset: Int, yOffset: Int, req: Request) throws -> Future<Response> {
         
         let apiUrl = host + "move"

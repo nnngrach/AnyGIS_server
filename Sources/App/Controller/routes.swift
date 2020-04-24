@@ -72,6 +72,25 @@ public func routes(_ router: Router) throws {
             return req.future(error: GlobalErrors.parsingFail)
         }
     }
+    
+    
+    router.get("api", "v1", "previewRowOfTiles", String.parameter) { req -> Future<Response> in
+        
+        let mapName = try req.parameters.next(String.self)
+        
+        do {
+            
+            return try previewHandler.generateLinkForRowOfTilesPreview(mapName: mapName, req: req)
+            
+//            return url.map { urlText in
+//                return req.redirect(to: urlText)
+//            }
+            
+        } catch {
+            print("catch")
+            return req.future(error: GlobalErrors.parsingFail)
+        }
+    }
 
     
     

@@ -12,6 +12,8 @@ import Foundation
 class PreviewHandler {
     
     private let baseHandler = SQLHandler()
+    private let coordinateTransformer = CoordinateTransformer()
+    private let imageProcessor = ImageProcessor()
     
 
     public func generateLinkForOneTilePreview(mapName: String, req: Request) throws -> Future<String> {
@@ -37,6 +39,37 @@ class PreviewHandler {
             }
     }
         
+    
+    
+    public func generateLinkForRowOfTilesPreview(mapName: String, req: Request) throws -> Future<Response> {
+    
+        let errorTileUrl = "https://anygis.ru/Web/Img/tiles/tile_no_preview.png"
+        
+        
+        
+        // Load records from db
+        let mapListData = try baseHandler.getBy(mapName: mapName, req)
+        let coordinatesData = try baseHandler.getCoordinatesDataBy(name: mapName, req)
+        
+        // synchronize
+            return coordinatesData.flatMap(to: Response.self) { previewRecord in
+                
+                let centerTileNumber = self.coordinateTransformer.coordinatesToTileNumbers(previewRecord.previewLat, previewRecord.previewLon, withZoom: previewRecord.previewZoom)
+                
+                let leftTilePreviewLink = "https://anygis.ru/api/v1/\(mapName)/\(centerTileNumber.x - 1)/\(centerTileNumber.y)/\(centerTileNumber.z)"
+                
+                let centerTilePreviewLink = "https://anygis.ru/api/v1/\(mapName)/\(centerTileNumber.x)/\(centerTileNumber.y)/\(centerTileNumber.z)"
+                
+                
+                
+                let rightTilePreviewLink = "https://anygis.ru/api/v1/\(mapName)/\(centerTileNumber.x + 1)/\(centerTileNumber.y)/\(centerTileNumber.z)"
+
+                
+                return try self.imageProcessor.attachRow(tilesUrl: [leftTilePreviewLink, centerTilePreviewLink, rightTilePreviewLink], req: req)
+                
+                //return req.future(centerTilePreviewLink)
+            }
+    }
     
     
     
@@ -79,8 +112,6 @@ class PreviewHandler {
                 
                 let previewUrl = nakartePrefix + String(previewRecord.previewZoom) + "/" + String(previewRecord.previewLat) + "/" + String(previewRecord.previewLon) + "&l=" + overlayPrefix + "-cs" + mapParametersInBase64!
                 
-                print(mapParametersInJson)
-                print(previewUrl)
     
                 return previewUrl
             }

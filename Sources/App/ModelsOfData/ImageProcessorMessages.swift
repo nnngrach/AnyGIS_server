@@ -10,6 +10,13 @@ import Foundation
 
 import Vapor
 
+struct ImageProcessorAttachRowMessage: Content {
+    var urlLeft: String
+    var urlCentral: String
+    var urlRight: String
+}
+
+
 struct ImageProcessorMoveMessage: Content {
     var urlTL: String
     var urlTR: String
