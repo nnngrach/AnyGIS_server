@@ -3,11 +3,11 @@
 
 
 
-<name>Слои - Туристические</name>
+<name>Overlay - Bike</name>
 <description></description>
 
-    <source id="1050021">
-        <name>⏹️ ⛺ = Strava - Бег (красный)</name>
+    <source id="2040009" layer="true">
+        <name>⏹️ 🚲 = Strava Heatmap - Ride (Gray)</name>
         <copyright>Strava</copyright>
         <data-source></data-source>
         <region>WRLD</region>
@@ -23,7 +23,7 @@
 
             <servers>
                 <referer><![CDATA[https://www.strava.com/heatmap]]></referer>
-                <server><![CDATA[http://anygis.ru/api/v1/Tracks_Strava_Run_Red/{x}/{y}/{z}]]></server>
+                <server><![CDATA[http://anygis.ru/api/v1/Tracks_Strava_Ride_Gray/{x}/{y}/{z}]]></server>
             </servers>
         </level>
     </source>

@@ -3,11 +3,11 @@
 
 
 
-<name>Слои - Зимние</name>
+<name>Overlay - Hike</name>
 <description></description>
 
-    <source id="2060009">
-        <name>⏹️ ❄️ = Strava - Зимние (красный)</name>
+    <source id="1050021" layer="true">
+        <name>⏹️ ⛺ = Strava Heatmap - Run (Gray)</name>
         <copyright>Strava</copyright>
         <data-source></data-source>
         <region>WRLD</region>
@@ -23,7 +23,7 @@
 
             <servers>
                 <referer><![CDATA[https://www.strava.com/heatmap]]></referer>
-                <server><![CDATA[http://anygis.ru/api/v1/Tracks_Strava_Winter_Red/{x}/{y}/{z}]]></server>
+                <server><![CDATA[http://anygis.ru/api/v1/Tracks_Strava_Run_Gray/{x}/{y}/{z}]]></server>
             </servers>
         </level>
     </source>
