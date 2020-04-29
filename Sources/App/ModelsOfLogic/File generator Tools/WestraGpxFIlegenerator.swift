@@ -186,7 +186,7 @@ class WestraGpxFileGenerator {
             <extensions>
                 <icon>natural_saddle</icon>
                 <background>square</background>
-                <color>#a8a8a8</color>
+                <color>#727272</color>
             </extensions>
         """
         
@@ -199,54 +199,54 @@ class WestraGpxFileGenerator {
             iconTags = """
                     <icon>natural_saddle</icon>
                     <background>square</background>
-                    <color>#a8a8a8</color>
+                    <color>#727272</color>
             """
         } else if grade.contains("н") || grade_en == "nograde" {
             iconTags = """
                     <icon>special_number_0</icon>
                     <background>square</background>
-                    <color>#a8a8a8</color>
+                    <color>#727272</color>
             """
         } else if grade.contains("1А") || grade_en == "1a" {
             iconTags = """
                     <icon>special_number_1</icon>
                     <background>square</background>
-                    <color>#1beeee</color>
+                    <color>#38ccd4</color>
             """
         } else if grade.contains("1Б") || grade_en == "1b" {
             iconTags = """
                     <icon>special_number_1</icon>
                     <background>square</background>
-                    <color>#7575f6</color>
+                    <color>#536CFE</color>
             """
         } else if grade.contains("2А") || grade_en == "2a" {
             iconTags = """
                     <icon>special_number_2</icon>
                     <background>square</background>
-                    <color>#10f85d</color>
+                    <color>#52a262</color>
             """
         } else if grade.contains("2Б") || grade_en == "2b" {
             iconTags = """
                     <icon>special_number_2</icon>
                     <background>square</background>
-                    <color>#52a262</color>
+                    <color>#2d703c</color>
             """
         } else if grade.contains("3А") || grade_en == "3a" {
             iconTags = """
                     <icon>special_number_3</icon>
                     <background>square</background>
-                    <color>#feb64a</color>
+                    <color>#e68200</color>
             """
         } else if grade.contains("3Б") || grade_en == "3b" {
             iconTags = """
                     <icon>special_number_3</icon>
                     <background>square</background>
-                    <color>#ff001e</color>
+                    <color>#c64f2e</color>
             """
         } else if isSummit != nil  &&  isSummit! == 1 {
             iconTags = """
                     <icon>natural_peak_big</icon>
-                    <color>#874625</color>
+                    <color>#804800</color>
                     <background>square</background>
             """
         } else {
