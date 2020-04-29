@@ -26,14 +26,11 @@ class WestraGpxFileGenerator {
                         
                         let gpxContent =  self.generateGpxFromFetchedData(pointsObjects, mode)
                         
-                        let headers: HTTPHeaders = ["content-disposition": "attachment; filename=\"my_westra.gpx\""]
+                        let headers: HTTPHeaders = ["content-disposition": "attachment; filename=\"westra_passes.gpx\""]
                         
                         let res = HTTPResponse(headers: headers, body: gpxContent)
                         
                         return Response(http: res, using: request)
-                        
-                        //return self.generateGpxFromFetchedData(pointsObjects, mode)
-                        
                 }
             }
         } catch let error {
@@ -46,7 +43,6 @@ class WestraGpxFileGenerator {
     private func generateGpxFromFetchedData(_ pointsObjects: [WestraPassNakarte], _ mode: String) -> String {
         do {
             let isForLocus = mode == "locus"
-            //let pointsObjects = try self.encodeFromJson(data)
             let gpxPointsContent = isForLocus ? self.createGpxContentForLocus(using: pointsObjects) : self.createGpxContentUniversal(using: pointsObjects)
             let gpxFileContent = self.getFullGpxFileContent(with: gpxPointsContent)
             return gpxFileContent

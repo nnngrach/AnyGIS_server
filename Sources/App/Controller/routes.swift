@@ -201,17 +201,11 @@ public func routes(_ router: Router) throws {
     }
     
     
-    
+    // Download Json from Nakarte with Westra passes. Convert it to Gpx file.
     router.get("api", "v1", "westra_gpx", String.parameter) { req -> Future<Response> in
         
-        // Extracting values from URL parameters
         let mode = try req.parameters.next(String.self)
-        let result = westraGenerator.generateGpxFile(mode: mode, request: req)
-        return result
-        //return req.redirect(to: "")
+        return westraGenerator.generateGpxFile(mode: mode, request: req)
     }
-    
-    
-
 
 }
