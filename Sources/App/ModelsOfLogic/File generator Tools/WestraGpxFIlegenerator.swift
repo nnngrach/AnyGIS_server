@@ -70,7 +70,7 @@ class WestraGpxFileGenerator {
             pointsBlocks +=
             """
             <wpt lat="\(point.latlon[0])" lon="\(point.latlon[1])">
-            <name>\(grade) - "\(name)" (\(elevation) m)</name>
+                <name>\(grade) - "\(name)" (\(elevation) m)</name>
             </wpt>
             
             """
@@ -133,14 +133,14 @@ class WestraGpxFileGenerator {
             pointsBlocks +=
             """
             <wpt lat="\(point.latlon[0])" lon="\(point.latlon[1])">
-            <name>\(name)</name>
-            <ele>\(elevation)</ele>
-            <link href="http://westra.ru/passes/Passes/\(point.id!)"/>
-            <sym>\(iconName)</sym>
-            <extensions>
-            <locus:icon>file:RTSA Scale.zip:\(iconName).png</locus:icon>
-            </extensions>
-            <desc><![CDATA[\(description)]]></desc>
+                <name>\(name)</name>
+                <ele>\(elevation)</ele>
+                <link href="http://westra.ru/passes/Passes/\(point.id!)"/>
+                <sym>\(iconName)</sym>
+                <extensions>
+                <locus:icon>file:RTSA Scale.zip:\(iconName).png</locus:icon>
+                </extensions>
+                <desc><![CDATA[\(description)]]></desc>
             </wpt>
             
             """
@@ -162,6 +162,7 @@ class WestraGpxFileGenerator {
         xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3"
         xmlns:gpxtrkx="http://www.garmin.com/xmlschemas/TrackStatsExtension/v1"
         xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v2">
+        
         \(pointsContent)
         </gpx>
         """
