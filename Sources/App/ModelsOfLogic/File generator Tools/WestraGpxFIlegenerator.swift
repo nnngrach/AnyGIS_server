@@ -241,7 +241,7 @@ class WestraGpxFileGenerator {
             iconTags = """
                     <icon>special_number_3</icon>
                     <background>square</background>
-                    <color>#b94a2b</color>
+                    <color>#b24729</color>
             """
         } else if isSummit != nil  &&  isSummit! == 1 {
             iconTags = """
