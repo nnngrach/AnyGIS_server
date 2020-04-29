@@ -229,7 +229,7 @@ class WestraGpxFileGenerator {
             iconTags = """
                     <icon>special_number_2</icon>
                     <background>square</background>
-                    <color>#2d703c</color>
+                    <color>#23572e</color>
             """
         } else if grade.contains("3А") || grade_en == "3a" {
             iconTags = """
@@ -241,7 +241,7 @@ class WestraGpxFileGenerator {
             iconTags = """
                     <icon>special_number_3</icon>
                     <background>square</background>
-                    <color>#c64f2e</color>
+                    <color>#b94a2b</color>
             """
         } else if isSummit != nil  &&  isSummit! == 1 {
             iconTags = """
