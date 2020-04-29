@@ -1,0 +1,19 @@
+<locusActions>
+<download>
+<source size="16223">
+<![CDATA[ https://melda.ru/locus/RTSA%20Scale.zip ]]>
+</source>
+<dest>
+<![CDATA[ /icons/RTSA Scale.zip ]]>
+</dest>
+</download>
+<download>
+<source size="711872">
+<![CDATA[ https://melda.ru/locus/Westra%20Passes.zip ]]>
+</source>
+<dest>
+<![CDATA[ /cache/temp/Westra Passes.zip ]]>
+</dest>
+<after>importData</after>
+</download>
+</locusActions>
