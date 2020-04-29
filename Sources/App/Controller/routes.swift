@@ -11,6 +11,7 @@ public func routes(_ router: Router) throws {
     let sqlHandler = SQLHandler()
     let previewHandler = PreviewHandler()
     let mapTester = MapTester()
+    let westraGenerator = WestraGpxFileGenerator()
     
     
 
@@ -197,6 +198,17 @@ public func routes(_ router: Router) throws {
         }
 
         return response
+    }
+    
+    
+    
+    router.get("api", "v1", "westra_gpx", String.parameter) { req -> Future<Response> in
+        
+        // Extracting values from URL parameters
+        let mode = try req.parameters.next(String.self)
+        let result = westraGenerator.generateGpxFile(mode: mode, request: req)
+        return result
+        //return req.redirect(to: "")
     }
     
     

@@ -1,0 +1,19 @@
+<locusActions>
+<download>
+<source size="16223">
+<![CDATA[ http://anygis.ru/server/Westra/RTSA%20Scale.zip ]]>
+</source>
+<dest>
+<![CDATA[ /icons/RTSA Scale.zip ]]>
+</dest>
+</download>
+<download>
+<source size="711872">
+<![CDATA[ http://anygis.ru/api/v1/westra_gpx/locus ]]>
+</source>
+<dest>
+<![CDATA[ /cache/temp/Westra Passes.gpx ]]>
+</dest>
+<after>importData</after>
+</download>
+</locusActions>
