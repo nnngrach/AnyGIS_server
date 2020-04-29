@@ -42,8 +42,13 @@ class WestraGpxFileGenerator {
     
     private func generateGpxFromFetchedData(_ pointsObjects: [WestraPassNakarte], _ mode: String) -> String {
         do {
-            let isForLocus = mode == "locus"
-            let gpxPointsContent = isForLocus ? self.createGpxContentForLocus(using: pointsObjects) : self.createGpxContentUniversal(using: pointsObjects)
+            var gpxPointsContent = ""
+            if mode == "locus" {
+                gpxPointsContent = self.createGpxContentForLocus(using: pointsObjects)
+            } else {
+                gpxPointsContent = self.createGpxContentUniversal(using: pointsObjects, mode: mode)
+            }
+            
             let gpxFileContent = self.getFullGpxFileContent(with: gpxPointsContent)
             return gpxFileContent
         } catch let error {
@@ -58,7 +63,7 @@ class WestraGpxFileGenerator {
     }
     
     
-    private func createGpxContentUniversal(using nakartePasses: [WestraPassNakarte]) -> String {
+    private func createGpxContentUniversal(using nakartePasses: [WestraPassNakarte], mode: String) -> String {
         var pointsBlocks = ""
         
         for point in nakartePasses {
@@ -67,10 +72,16 @@ class WestraGpxFileGenerator {
             let name = point.name ?? "?"
             let elevation = point.elevation ?? "?"
             
+            var additionaTags = ""
+            if mode == "osmand" {
+                additionaTags = getOsmandIconsTags(point.grade, point.grade_eng, point.is_summit)
+            }
+            
             pointsBlocks +=
             """
             <wpt lat="\(point.latlon[0])" lon="\(point.latlon[1])">
                 <name>\(grade) - "\(name)" (\(elevation) m)</name>
+            \(additionaTags)
             </wpt>
             
             """
@@ -164,6 +175,90 @@ class WestraGpxFileGenerator {
         xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v2">
         \(pointsContent)
         </gpx>
+        """
+    }
+    
+    
+    
+    private func getOsmandIconsTags(_ pointGrade: String?, _ pointGrade_eng: String?, _ isSummit: Int?) -> String {
+        
+        let tagsForUnknownPoins = """
+            <extensions>
+                <icon>natural_saddle</icon>
+                <background>square</background>
+                <color>#a8a8a8</color>
+            </extensions>
+        """
+        
+        guard let grade = pointGrade else {return tagsForUnknownPoins}
+        guard let grade_en = pointGrade_eng else {return tagsForUnknownPoins}
+        
+        var iconTags = ""
+        
+        if grade.contains("?") || grade_en == "" {
+            iconTags = """
+                    <icon>natural_saddle</icon>
+                    <background>square</background>
+                    <color>#a8a8a8</color>
+            """
+        } else if grade.contains("н") || grade_en == "nograde" {
+            iconTags = """
+                    <icon>special_number_0</icon>
+                    <background>square</background>
+                    <color>#a8a8a8</color>
+            """
+        } else if grade.contains("1А") || grade_en == "1a" {
+            iconTags = """
+                    <icon>special_number_1</icon>
+                    <background>square</background>
+                    <color>#1beeee</color>
+            """
+        } else if grade.contains("1Б") || grade_en == "1b" {
+            iconTags = """
+                    <icon>special_number_1</icon>
+                    <background>square</background>
+                    <color>#7575f6</color>
+            """
+        } else if grade.contains("2А") || grade_en == "2a" {
+            iconTags = """
+                    <icon>special_number_2</icon>
+                    <background>square</background>
+                    <color>#10f85d</color>
+            """
+        } else if grade.contains("2Б") || grade_en == "2b" {
+            iconTags = """
+                    <icon>special_number_2</icon>
+                    <background>square</background>
+                    <color>#52a262</color>
+            """
+        } else if grade.contains("3А") || grade_en == "3a" {
+            iconTags = """
+                    <icon>special_number_3</icon>
+                    <background>square</background>
+                    <color>#feb64a</color>
+            """
+        } else if grade.contains("3Б") || grade_en == "3b" {
+            iconTags = """
+                    <icon>special_number_3</icon>
+                    <background>square</background>
+                    <color>#ff001e</color>
+            """
+        } else if isSummit != nil  &&  isSummit! == 1 {
+            iconTags = """
+                    <icon>natural_peak_big</icon>
+                    <color>#874625</color>
+                    <background>square</background>
+            """
+        } else {
+            return""
+        }
+        
+        
+        return
+        """
+            <extensions>
+        \(iconTags)
+            </extensions>
         """
     }
     
