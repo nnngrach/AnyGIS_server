@@ -138,7 +138,7 @@ class WestraGpxFileGenerator {
                 <link href="http://westra.ru/passes/Passes/\(point.id!)"/>
                 <sym>\(iconName)</sym>
                 <extensions>
-                <locus:icon>file:RTSA Scale.zip:\(iconName).png</locus:icon>
+                    <locus:icon>file:RTSA Scale.zip:\(iconName).png</locus:icon>
                 </extensions>
                 <desc><![CDATA[\(description)]]></desc>
             </wpt>
@@ -162,7 +162,6 @@ class WestraGpxFileGenerator {
         xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3"
         xmlns:gpxtrkx="http://www.garmin.com/xmlschemas/TrackStatsExtension/v1"
         xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v2">
-        
         \(pointsContent)
         </gpx>
         """
