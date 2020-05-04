@@ -17,8 +17,14 @@ class MapProcessorMultyLayers: AbstractMapProcessorSimple {
         // Load info for every layers from data base in Future format
         let layersList = try sqlHandler.getPriorityListBy(setName: mapName, zoom: tileNumbers.z, req)
         
+        
+        
         // Synchronization Futrure to data object.
         let redirectingResponce = layersList.flatMap(to: Response.self) { layersListData  in
+            
+//            print("============")
+//            layersListData.map {print($0.mapName)}
+//            print("======")
             
             guard layersListData.count != 0 else {return self.output.notFoundResponce(req)}
             

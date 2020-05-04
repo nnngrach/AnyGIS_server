@@ -217,6 +217,7 @@ class UrlFIleChecker {
     // MARK: Mirrors mode recursive checker sub function
     private func findExistingMirrorNumber(index: Int, _ hosts: [String], _ ports: [String], _ patchs: [String], _ urls: [String], _ protocols: [Bool], _ x: Int, _ y: Int, _ z: Int, _ order: [Int:Int], req: Request) -> Future<Response> {
         
+        
         guard let currentShuffledIndex = order[index] else {return output.notFoundResponce(req)}
         
         let mapTemplate = MapsList(name: "", mode: "", backgroundUrl: patchs[currentShuffledIndex], backgroundServerName: "", referer: "", zoomMin: 0, zoomMax: 0, dpiSD: "", dpiHD: "", parameters: 0, description: "")
