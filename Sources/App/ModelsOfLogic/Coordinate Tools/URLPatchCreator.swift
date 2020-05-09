@@ -176,6 +176,16 @@ class URLPatchCreator {
     
     
     
+    private let getSasPath: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let z = coordinates[2] + 1
+        let folderX = Int(coordinates[0] / 1024)
+        let folderY = Int(coordinates[1] / 1024)
+        return "z\(z)/\(folderX)/\(coordinates[0])/\(folderY)/\(coordinates[1])"
+    }
+    
+    
     private let getXDiv1024: ([Int], MapsList) -> String = {
         coordinates, mapObject in
         
@@ -521,9 +531,9 @@ class URLPatchCreator {
     
     // Two arrays for quick and short iterating of all this functions
     
-    private let urlPlaceholders = ["{x}", "{y}", "{z}", "{bbox}", "{s}", "{-y}", "{z+1}", "{z-2}", "{z-6}", "{z-7}", "{18-z}", "{17-z}", "{x/1024}", "{y/1024}", "{yandexX}", "{yandexY}", "{timeStamp}", "{timeStampOfLast10Minutes}", "{kosmosnimkiX}", "{kosmosnimkiY}", "{left}", "{right}", "{top}", "{bottom}", "{q}", "{tileSize}", "{fonectaX}", "{fonectaY}", "{sentinelJanuary}", "{sentinelFebruary}", "{sentinelMarch}", "{sentinelApril}", "{sentinelMay}", "{sentinelJune}", "{sentinelJuly}", "{sentinelAugust}", "{sentinelSeptember}", "{sentinelOctober}", "{sentinelNovember}", "{sentinelDecember}", "{eightZeroesX}", "{eightZeroesInvY}", "{zeroZ}"]
+    private let urlPlaceholders = ["{x}", "{y}", "{z}", "{bbox}", "{s}", "{-y}", "{z+1}", "{z-2}", "{z-6}", "{z-7}", "{18-z}", "{17-z}", "{sas_path}", "{x/1024}", "{y/1024}", "{yandexX}", "{yandexY}", "{timeStamp}", "{timeStampOfLast10Minutes}", "{kosmosnimkiX}", "{kosmosnimkiY}", "{left}", "{right}", "{top}", "{bottom}", "{q}", "{tileSize}", "{fonectaX}", "{fonectaY}", "{sentinelJanuary}", "{sentinelFebruary}", "{sentinelMarch}", "{sentinelApril}", "{sentinelMay}", "{sentinelJune}", "{sentinelJuly}", "{sentinelAugust}", "{sentinelSeptember}", "{sentinelOctober}", "{sentinelNovember}", "{sentinelDecember}", "{eightZeroesX}", "{eightZeroesInvY}", "{zeroZ}"]
     
-    private lazy var urlTransformers = [getX, getY, getZ, getBbox, getS, getInvY, getZPlus1, getZMinus2, getZMinus6, getZMinus7, get18MinusZ, get17MinusZ, getXDiv1024, getYDiv1024, getYandexX, getYandexY, getTimestamp, getTimestampOfLast10Minutes, getKosmosnimkiX, getKosmosnimkiY, getMetersL, getMetersR, getMetersT, getMetersB, getQuad, getTileSize, getFonectaX, getFonectaY, getSentinelJanuary, getSentinelFebruary, getSentinelMarch, getSentinelApril, getSentinelMay, getSentinelJune, getSentinelJuly, getSentinelAugust, getSentinelSeptember, getSentinelOctober, getSentinelNovember, getSentinelDecember, getEightZeroX, getEightZeroInvY, getZeroZ]
+    private lazy var urlTransformers = [getX, getY, getZ, getBbox, getS, getInvY, getZPlus1, getZMinus2, getZMinus6, getZMinus7, get18MinusZ, get17MinusZ, getXDiv1024, getSasPath, getYDiv1024, getYandexX, getYandexY, getTimestamp, getTimestampOfLast10Minutes, getKosmosnimkiX, getKosmosnimkiY, getMetersL, getMetersR, getMetersT, getMetersB, getQuad, getTileSize, getFonectaX, getFonectaY, getSentinelJanuary, getSentinelFebruary, getSentinelMarch, getSentinelApril, getSentinelMay, getSentinelJune, getSentinelJuly, getSentinelAugust, getSentinelSeptember, getSentinelOctober, getSentinelNovember, getSentinelDecember, getEightZeroX, getEightZeroInvY, getZeroZ]
     
     
     
