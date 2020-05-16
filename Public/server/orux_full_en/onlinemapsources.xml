@@ -1127,6 +1127,21 @@
 <qop></qop>
 </onlinemapsource>
 
+<onlinemapsource uid="1040007">
+<name>Strava Heatmap - Ride (BIKE)</name>
+<url><![CDATA[https://anygis.ru/api/v1/Tracks_Strava_Ride_SD_Flat/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>16</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
 <onlinemapsource uid="1041001">
 <name>OSM Chepetsk (BIKEEURASIA)</name>
 <url><![CDATA[http://ingreelab.net/A52CEA6D090B666F0A2C6A85A53832F128B6CAED/{$z}/{$x}/{$y}.png]]></url>
@@ -1252,6 +1267,36 @@
 <url><![CDATA[http://{$s}.tile.thunderforest.com/outdoors/{$z}/{$x}/{$y}.png?apikey=6170aad10dfd42a38d4d8c709a536f38]]></url>
 <servers>a,b,c</servers>
 <maxzoom>22</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="1050018">
+<name>Strava Heatmap - All (HIKE)</name>
+<url><![CDATA[https://anygis.ru/api/v1/Tracks_Strava_All_SD_Flat/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>16</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="1050019">
+<name>Strava Heatmap - Run (HIKE)</name>
+<url><![CDATA[https://anygis.ru/api/v1/Tracks_Strava_Run_SD_Flat/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
@@ -1923,7 +1968,7 @@
 </onlinemapsource>
 
 <onlinemapsource uid="1057501">
-<name>New Zealand Topo (HIKE)</name>
+<name>New Zealand Topo (HIKEOTHER)</name>
 <url><![CDATA[http://nz1.nztopomaps.com/{$z}/{$x}/{$y}.png]]></url>
 <servers></servers>
 <maxzoom>15</maxzoom>
@@ -2017,6 +2062,21 @@
 <url><![CDATA[https://m{$s}.mapserver.mapy.cz/winter-m/{$z}-{$x}-{$y}]]></url>
 <servers>1,2,3,4</servers>
 <maxzoom>19</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="1060004">
+<name>Strava Heatmap - Winter (WINTER)</name>
+<url><![CDATA[https://anygis.ru/api/v1/Tracks_Strava_Winter_SD_Flat/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
@@ -2242,6 +2302,21 @@
 <url><![CDATA[https://anygis.ru/api/v1/Navionics_Sonar_Charts/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>19</maxzoom>
+<minzoom>0</minzoom>
+<projection>MERCATORESFERICA</projection>
+<downloadable>1</downloadable>
+<cacheable>1</cacheable>
+<xop></xop>
+<yop></yop>
+<zop></zop>
+<qop></qop>
+</onlinemapsource>
+
+<onlinemapsource uid="1070010">
+<name>Strava Heatmap - Water (WATER)</name>
+<url><![CDATA[https://anygis.ru/api/v1/Tracks_Strava_Water_SD_Flat/{$x}/{$y}/{$z}]]></url>
+<servers></servers>
+<maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
 <projection>MERCATORESFERICA</projection>
 <downloadable>1</downloadable>
