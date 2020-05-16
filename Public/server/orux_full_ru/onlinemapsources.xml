@@ -1114,7 +1114,7 @@
 
 <onlinemapsource uid="1040007">
 <name>Strava - Вело (BIKE)</name>
-<url><![CDATA[https://anygis.ru/api/v1/Tracks_Strava_Ride_SD_Flat/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[https://anygis.ru/api/v1/Tracks_Strava_Ride_HD_Flat/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
@@ -1264,7 +1264,7 @@
 
 <onlinemapsource uid="1050019">
 <name>Strava  - Бег (HIKE)</name>
-<url><![CDATA[https://anygis.ru/api/v1/Tracks_Strava_Run_SD_Flat/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[https://anygis.ru/api/v1/Tracks_Strava_Run_HD_Flat/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
@@ -1279,7 +1279,7 @@
 
 <onlinemapsource uid="1050018">
 <name>Strava - Все слои (HIKE)</name>
-<url><![CDATA[https://anygis.ru/api/v1/Tracks_Strava_All_SD_Flat/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[https://anygis.ru/api/v1/Tracks_Strava_All_HD_Flat/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
@@ -2059,7 +2059,7 @@
 
 <onlinemapsource uid="1060004">
 <name>Strava - Зимние (WINTER)</name>
-<url><![CDATA[https://anygis.ru/api/v1/Tracks_Strava_Winter_SD_Flat/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[https://anygis.ru/api/v1/Tracks_Strava_Winter_HD_Flat/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
@@ -2299,7 +2299,7 @@
 
 <onlinemapsource uid="1070010">
 <name>Strava - Водные (WATER)</name>
-<url><![CDATA[https://anygis.ru/api/v1/Tracks_Strava_Water_SD_Flat/{$x}/{$y}/{$z}]]></url>
+<url><![CDATA[https://anygis.ru/api/v1/Tracks_Strava_Water_HD_Flat/{$x}/{$y}/{$z}]]></url>
 <servers></servers>
 <maxzoom>16</maxzoom>
 <minzoom>0</minzoom>
