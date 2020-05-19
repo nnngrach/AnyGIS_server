@@ -30,7 +30,7 @@ class URLPatchCreator {
             }
         }
         
-        print(result)
+        //print(result)
         return result
     }
     
