@@ -32,6 +32,7 @@ class WebHandler {
     let processorMirrors = MapProcessorMirrors()
     let processorMultyLayers = MapProcessorMultyLayers()
     let processorCookies = MapProcessorCookies()
+    let precessorYaPogoda = MapProcessorYaPogoda()
     
     
     init() {
@@ -99,6 +100,9 @@ class WebHandler {
                 
             case "navionics":
                 return try self.processorNavionics.process(mapName, tileNumbers, mapObject, req)
+                
+            case "yandexPogoda":
+                return try self.precessorYaPogoda.process(mapName, tileNumbers, mapObject, req)
                 
             case "wgs84":
                 return try self.processorWgs84.process(mapName, tileNumbers, mapObject, req)
