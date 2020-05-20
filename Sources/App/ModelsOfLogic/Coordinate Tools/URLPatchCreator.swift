@@ -252,6 +252,34 @@ class URLPatchCreator {
     }
     
     
+    private let getTimestampOfNext30Minutes: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let currentTime = Int( NSDate().timeIntervalSince1970 )
+        let timeOfLast10Minutes = ( currentTime / 600 ) * 600
+        let halfOfHour = 1800
+        return "\(timeOfLast10Minutes + halfOfHour)"
+    }
+    
+    
+    private let getTimestampOfNext60Minutes: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let currentTime = Int( NSDate().timeIntervalSince1970 )
+        let timeOfLast10Minutes = ( currentTime / 600 ) * 600
+        let hour = 3600
+        return "\(timeOfLast10Minutes + hour)"
+    }
+    
+    
+    private let getTimestampOfNext120Minutes: ([Int], MapsList) -> String = {
+        coordinates, mapObject in
+        
+        let currentTime = Int( NSDate().timeIntervalSince1970 )
+        let timeOfLast10Minutes = ( currentTime / 600 ) * 600
+        let hour = 3600
+        return "\(timeOfLast10Minutes + 2*hour)"
+    }
     
     private let getKosmosnimkiX: ([Int], MapsList) -> String = {
         coordinates, mapObject in
@@ -550,9 +578,9 @@ class URLPatchCreator {
     
     // Two arrays for quick and short iterating of all this functions
     
-    private let urlPlaceholders = ["{x}", "{y}", "{z}", "{bbox}", "{lat}", "{lon}", "{s}", "{-y}", "{z+1}", "{z-2}", "{z-6}", "{z-7}", "{18-z}", "{17-z}", "{sas_path}", "{x/1024}", "{y/1024}", "{yandexX}", "{yandexY}", "{timeStamp}", "{timeStampOfLast10Minutes}", "{kosmosnimkiX}", "{kosmosnimkiY}", "{left}", "{right}", "{top}", "{bottom}", "{q}", "{tileSize}", "{fonectaX}", "{fonectaY}", "{sentinelJanuary}", "{sentinelFebruary}", "{sentinelMarch}", "{sentinelApril}", "{sentinelMay}", "{sentinelJune}", "{sentinelJuly}", "{sentinelAugust}", "{sentinelSeptember}", "{sentinelOctober}", "{sentinelNovember}", "{sentinelDecember}", "{eightZeroesX}", "{eightZeroesInvY}", "{zeroZ}"]
+    private let urlPlaceholders = ["{x}", "{y}", "{z}", "{bbox}", "{lat}", "{lon}", "{s}", "{-y}", "{z+1}", "{z-2}", "{z-6}", "{z-7}", "{18-z}", "{17-z}", "{sas_path}", "{x/1024}", "{y/1024}", "{yandexX}", "{yandexY}", "{timeStamp}", "{timeStampOfLast10Minutes}", "{timeStampOfNext30Minutes}", "{timeStampOfNext60Minutes}", "{timeStampOfNext120Minutes}", "{kosmosnimkiX}", "{kosmosnimkiY}", "{left}", "{right}", "{top}", "{bottom}", "{q}", "{tileSize}", "{fonectaX}", "{fonectaY}", "{sentinelJanuary}", "{sentinelFebruary}", "{sentinelMarch}", "{sentinelApril}", "{sentinelMay}", "{sentinelJune}", "{sentinelJuly}", "{sentinelAugust}", "{sentinelSeptember}", "{sentinelOctober}", "{sentinelNovember}", "{sentinelDecember}", "{eightZeroesX}", "{eightZeroesInvY}", "{zeroZ}"]
     
-    private lazy var urlTransformers = [getX, getY, getZ, getBbox, getLat, getLon, getS, getInvY, getZPlus1, getZMinus2, getZMinus6, getZMinus7, get18MinusZ, get17MinusZ, getSasPath, getXDiv1024, getYDiv1024, getYandexX, getYandexY, getTimestamp, getTimestampOfLast10Minutes, getKosmosnimkiX, getKosmosnimkiY, getMetersL, getMetersR, getMetersT, getMetersB, getQuad, getTileSize, getFonectaX, getFonectaY, getSentinelJanuary, getSentinelFebruary, getSentinelMarch, getSentinelApril, getSentinelMay, getSentinelJune, getSentinelJuly, getSentinelAugust, getSentinelSeptember, getSentinelOctober, getSentinelNovember, getSentinelDecember, getEightZeroX, getEightZeroInvY, getZeroZ]
+    private lazy var urlTransformers = [getX, getY, getZ, getBbox, getLat, getLon, getS, getInvY, getZPlus1, getZMinus2, getZMinus6, getZMinus7, get18MinusZ, get17MinusZ, getSasPath, getXDiv1024, getYDiv1024, getYandexX, getYandexY, getTimestamp, getTimestampOfLast10Minutes, getTimestampOfNext30Minutes, getTimestampOfNext60Minutes, getTimestampOfNext120Minutes, getKosmosnimkiX, getKosmosnimkiY, getMetersL, getMetersR, getMetersT, getMetersB, getQuad, getTileSize, getFonectaX, getFonectaY, getSentinelJanuary, getSentinelFebruary, getSentinelMarch, getSentinelApril, getSentinelMay, getSentinelJune, getSentinelJuly, getSentinelAugust, getSentinelSeptember, getSentinelOctober, getSentinelNovember, getSentinelDecember, getEightZeroX, getEightZeroInvY, getZeroZ]
     
     
     
