@@ -31,7 +31,7 @@ class MapProcessorYaPogoda: AbstractMapProcessorSimple {
 
         let fullResponce = try req.client()
             .get(authCalculatedUrl, headers: aurhHeaders)
-            .map(to: Response.self) { res in
+            .flatMap(to: Response.self) { res in
                 
                 // extract unix time value from server answer
                 let bodyText = "\(res.http.body)"
@@ -43,14 +43,28 @@ class MapProcessorYaPogoda: AbstractMapProcessorSimple {
                 
                 tileUrlBase = tileUrlBase.replacingOccurrences(of: "{yaPogodaUnixTime}", with: correctUnixTime)
                 
+                //return req.redirect(to: tileUrlBase)
+                
                 let tileHeaders: HTTPHeaders = ["Referer": mapObject.referer,
                                                 "User-Agent": USER_AGENT]
                 
                 // and download it
                 //let tileRes = try req.client().get(tileUrlBase, headers: tileHeaders)
+                let tileRes = try req.client().get(tileUrlBase)
                 //return tileRes
                 
-                return req.redirect(to: tileUrlBase)
+                let bodyResponce = tileRes.flatMap(to: Response.self) { res in
+                    
+                    let body = res.http.body
+                    
+                    let response = Response(http: HTTPResponse(status: HTTPResponseStatus(statusCode: 200), body: body), using: req)
+                    
+                    return req.future(response)
+                }
+                
+                return bodyResponce
+                
+                
             }
         
         return fullResponce
