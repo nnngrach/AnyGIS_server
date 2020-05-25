@@ -53,6 +53,7 @@ class MapProcessorProxy: AbstractMapProcessorSession {
     
     
     
+    
     func getCustomHeaders(_ mapObject: (MapsList)) -> HTTPHeaders {
         
         var parameters: [(String, String)] = []
@@ -65,14 +66,13 @@ class MapProcessorProxy: AbstractMapProcessorSession {
             
         } else {
             let splittedParamerers = stringWithParameters.components(separatedBy: ";")
-            
+              
             for i in 0 ..< splittedParamerers.count where (i % 2 == 0) {
                 parameters.append((splittedParamerers[i], splittedParamerers[i+1]))
             }
         }
         
         parameters.append(("User-Agent", USER_AGENT))
-        
         return HTTPHeaders(parameters)
     }
 }
