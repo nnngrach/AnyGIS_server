@@ -6,8 +6,8 @@
 <name>Слои - Справочные</name>
 <description></description>
 
-    <source id="2080001">
-        <name>⏹️ 📖 = Сетка тайловая Белая</name>
+    <source id="2080003">
+        <name>⏹️ 📖 = Сетка тайловая  Черная</name>
         <copyright>AnyGIS</copyright>
         <data-source></data-source>
         <region>WRLD</region>
@@ -23,7 +23,7 @@
 
             <servers>
                 
-                <server><![CDATA[http://anygis.ru/api/v1/TILE_GRID_WHITE/{x}/{y}/{z}]]></server>
+                <server><![CDATA[http://anygis.ru/api/v1/TILE_GRID_BLACK/{x}/{y}/{z}]]></server>
             </servers>
         </level>
     </source>
