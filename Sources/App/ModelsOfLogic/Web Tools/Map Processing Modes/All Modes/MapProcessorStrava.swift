@@ -48,9 +48,14 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                 } else {
                     
                     // Redirect to Nakarte Strava mirror
-                    guard storedStravaAuthLine.apiSecret != isInAuthProcessingStausText else {
-                        return req.future(self.getMirrorUrl(tileNumbers: tileNumbers, urlTemplate: mapObject.backgroundUrl))
-                    }
+//                    guard storedStravaAuthLine.apiSecret != isInAuthProcessingStausText else {
+//                        return req.future(self.getMirrorUrl(tileNumbers: tileNumbers, urlTemplate: mapObject.backgroundUrl))
+//                    }
+                    
+//                    guard storedStravaAuthLine.apiSecret != isInAuthProcessingStausText else {
+//                        return req.response(http: HTTPResponse(status: HTTPResponseStatus(statusCode: 500)))
+//                    }
+
                     
                     
                     let urlWithStoredAuthKey = generatedUrl + storedStravaAuthLine.apiSecret
