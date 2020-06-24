@@ -55,6 +55,8 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
 //                    guard storedStravaAuthLine.apiSecret != isInAuthProcessingStausText else {
 //                        return req.response(http: HTTPResponse(status: HTTPResponseStatus(statusCode: 500)))
 //                    }
+                    
+                    guard !self.isNeedToWaitFrom(scrtiptStartTime: storedStravaAuthLine.apiSecret) else {return req.future(isInAuthProcessingStausText)}
 
                     
                     

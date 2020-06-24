@@ -207,5 +207,24 @@ public func routes(_ router: Router) throws {
         let mode = try req.parameters.next(String.self)
         return westraGenerator.generateGpxFile(mode: mode, request: req)
     }
+    
+    
+    
+    router.get("api", "v1", "experimental_playground") { req -> Future<String> in
+        
+        let tableStrings = try sqlHandler
+            .fetchServiceList(req)
+            .map {items -> String in
+                var result = ""
+                for item in items {
+                    if item.serviceName.contains("Strava") {
+                        result += "\(item.serviceName) | \(item.userName) | \(item.apiKey) | \(item.apiSecret) \n"
+                    }
+                }
+                return result
+            }
+        
+        return tableStrings
+    }
 
 }
