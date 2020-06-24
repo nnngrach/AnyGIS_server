@@ -16,7 +16,7 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
     
     override func makeCustomActions(_ mapName:String, _ tileNumbers: (x: Int, y: Int, z: Int), _ tilePosition: (x: Int, y: Int, offsetX: Int, offsetY: Int)?, _ mapObject: (MapsList), _ baseObject: (MapsList)?, _ overlayObject: (MapsList)?,   _ cloudinarySessionID: String?, _ req: Request) throws -> EventLoopFuture<Response> {
         
-
+        
         let isInAuthProcessingStausText = "The app is processing Strava authorization. Please reload this map after 2 minutes"
         
         var futureUrl: Future<String> = req.future("")
@@ -116,17 +116,27 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
             let response = futureUrl.flatMap(to: Response.self){ resultUrl in
                 
                 guard resultUrl != isInAuthProcessingStausText else {
-                    return req.future(self.output.customErrorResponce(501, isInAuthProcessingStausText, req))
+                    //return req.future(self.output.customErrorResponce(501, isInAuthProcessingStausText, req))
+                    return req.future(Response(http: HTTPResponse(status: .ok, body: isInAuthProcessingStausText), using: req))
                 }
                 
                 // AlpineQuest app can't handle 303 redirect.
                 // So, maps for it marked with suffix "proxy"
                 // to use special mode
-                if mapName.hasSuffix("proxy") {
+                if true {
+//                if mapName.hasSuffix("proxy") {
                     return try req.client().get(resultUrl)
+                        .catchMap { error in
+                             let errorText = error.localizedDescription + "\n" + req.description
+                             return Response(http: HTTPResponse(status: .ok, body: errorText), using: req)
+                        }
                 } else {
                 // Regular mode
                     return req.future(req.redirect(to: resultUrl))
+                        .catchMap { error in
+                            let errorText = error.localizedDescription + "\n" + req.description
+                            return Response(http: HTTPResponse(status: .ok, body: errorText), using: req)
+                        }
                 }
             }
             

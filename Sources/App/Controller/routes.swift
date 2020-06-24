@@ -226,5 +226,19 @@ public func routes(_ router: Router) throws {
         
         return tableStrings
     }
+    
+    
+    router.get("api", "v1", "experimental_playground2") { req -> Future<Response> in
+        
+        let b = try req.client()
+            .get("https://a.tile.opentopommmmap.org/4/4/6.png")
+            .catchMap { error in
+                let errorText = error.localizedDescription + "\n" + req.description
+                return Response(http: HTTPResponse(status: .ok, body: errorText), using: req)
+            }
+        
+        return b
+    }
+    
 
 }
