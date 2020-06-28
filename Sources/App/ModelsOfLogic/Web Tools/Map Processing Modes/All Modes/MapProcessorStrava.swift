@@ -16,7 +16,7 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
     
     override func makeCustomActions(_ mapName:String, _ tileNumbers: (x: Int, y: Int, z: Int), _ tilePosition: (x: Int, y: Int, offsetX: Int, offsetY: Int)?, _ mapObject: (MapsList), _ baseObject: (MapsList)?, _ overlayObject: (MapsList)?,   _ cloudinarySessionID: String?, _ req: Request) throws -> EventLoopFuture<Response> {
         
-        
+//        print("!!! 0 - Start")
         let isInAuthProcessingStausText = "The app is processing Strava authorization. Please reload this map after 2 minutes"
         
         var futureUrl: Future<String> = req.future("")
@@ -31,14 +31,14 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
         let resultResponse = storedStravaAuthCookies.flatMap(to: Response.self) { data in
             
             let storedStravaAuthLine = data[0]
-
+//            print("!!! 1 - Extract db")
             
             // Final URL as a future
             futureUrl = futureUrl.flatMap(to: String.self) {_ in
-                
+//                print("!!! 2 - Sync db")
                 // Load free version of map (/tiles/)
                 if tileNumbers.z < 12 {
-                    
+//                    print("!!! 3 - Low zoom")
                     generatedUrl = generatedUrl.replacingOccurrences(of: "tiles-auth", with: "tiles")
                     
                     return req.future(generatedUrl)
@@ -46,6 +46,7 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                     
                 // Load map with auth parameters (/tiles-auth/)
                 } else {
+//                    print("!!! 4 - Hight zoom")
                     
                     // Redirect to Nakarte Strava mirror
 //                    guard storedStravaAuthLine.apiSecret != isInAuthProcessingStausText else {
@@ -57,7 +58,7 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
 //                    }
                     
                     guard !self.isNeedToWaitFrom(scrtiptStartTime: storedStravaAuthLine.apiSecret) else {return req.future(isInAuthProcessingStausText)}
-
+//                    print("!!! 5 - No need to wait")
                     
                     
                     let urlWithStoredAuthKey = generatedUrl + storedStravaAuthLine.apiSecret
@@ -67,16 +68,17 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                     
                     // Checking stored AuthKey
                     let futureUrlWithWorkingAuthKey = checkedStatus.flatMap(to: String.self) { status in
+//                        print("!!! 6 - checkedURLStatus ", status)
                         
                         // Key is valid. Return the same URL
                         if status.code == 200 {
-                            
+//                            print("!!! 7 - status valid")
                             return req.future(urlWithStoredAuthKey)
                         
                             
                         // Key is invalid. Fetching new key. Return URL with new key
                         } else {
-                            
+//                            print("!!! 8 - status invalid")
                             // Add stopper-flag
                             storedStravaAuthLine.apiSecret = isInAuthProcessingStausText
                             let _ = storedStravaAuthLine.save(on: req)
@@ -88,7 +90,7 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                             let authedParams = accountsData.flatMap(to: String.self) { accounts in
                                 
                                 let stravaAccouts = accounts.filter {$0.serviceName.hasPrefix("Strava")}
-                                
+//                                print("!!! 9 - Fetched Strava accouns", stravaAccouts)
                                 return try self.recursiveStravaAuth(interanionNumber: 0, accounts: stravaAccouts, req: req)
                             }
                                 
@@ -98,7 +100,7 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                                 
                                 storedStravaAuthLine.apiSecret = newParams
                                 let _ = storedStravaAuthLine.save(on: req)
-                                
+//                                print("!!! 10 - new param ", newParams)
                                 return generatedUrl + newParams
                             }
                             
@@ -117,14 +119,16 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                 
                 guard resultUrl != isInAuthProcessingStausText else {
                     //return req.future(self.output.customErrorResponce(501, isInAuthProcessingStausText, req))
+//                    print("!!! 11 - isInAuthProcessingStausText")
                     return req.future(Response(http: HTTPResponse(status: .ok, body: isInAuthProcessingStausText), using: req))
                 }
                 
                 // AlpineQuest app can't handle 303 redirect.
                 // So, maps for it marked with suffix "proxy"
                 // to use special mode
-                if true {
-//                if mapName.hasSuffix("proxy") {
+//                print("!!! 12 - Get ", resultUrl)
+//                if true {
+                if mapName.hasSuffix("proxy") {
                     return try req.client().get(resultUrl)
                         .catchMap { error in
                              let errorText = error.localizedDescription + "\n" + req.description
@@ -188,7 +192,7 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
     
     
     func isNeedToWaitFrom(scrtiptStartTime: String) -> Bool {
-        
+//        print("$$$$ scrtiptStartTime ", scrtiptStartTime)
         let periodToWait = 120 // sec
         
         // check on text or empty value

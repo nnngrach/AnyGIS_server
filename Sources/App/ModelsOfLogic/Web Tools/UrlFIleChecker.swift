@@ -304,28 +304,37 @@ class UrlFIleChecker {
     
     public func checkUrlStatusAndProxy(_ url: String, _ headers: HTTPHeaders?, _ body: LosslessHTTPBodyRepresentable?,  _ req: Request) throws -> Future<HTTPResponseStatus> {
         
-
+        print("@@@ checkUrlStatusAndProxy 1 - Start ", url)
+        
+        guard URL(string: url) != nil else {
+            let s = HTTPStatus(statusCode: 400, reasonPhrase: "Invalid url found in Recusive checkUrlStatusAndProxy checker")
+            print("@@@ checkUrlStatusAndProxy 2 - error response ", url)
+            return req.future(s)
+        }
+        
         var checkingResponse: Future<Response>
         
         if headers == nil || body == nil {
+            print("@@@ checkUrlStatusAndProxy 3 - empty headers")
             
             checkingResponse = try req.client().get(url)
             
         } else {
-            
+            print("@@@ checkUrlStatusAndProxy 4 - not empty headers")
             let request = Request(http: HTTPRequest(method: .HEAD, url: url, headers: headers!, body: body!), using: req)
             
             checkingResponse = try req.client().send(request)
         }
         
         
-        
+        print("@@@ checkUrlStatusAndProxy 5 - after get")
         let responseStatus = checkingResponse.map(to: HTTPResponseStatus.self) { res in
-            
+            print("@@@ checkUrlStatusAndProxy 6 - status ", res.http.status)
             //print(res.http.status.code, url)
             return res.http.status
         }
         
+        print("@@@ finish 7")
         return responseStatus
     }
     
