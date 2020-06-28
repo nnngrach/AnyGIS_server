@@ -80,7 +80,9 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
                         } else {
 //                            print("!!! 8 - status invalid")
                             // Add stopper-flag
-                            storedStravaAuthLine.apiSecret = isInAuthProcessingStausText
+                            storedStravaAuthLine.apiSecret = String(Date().timeIntervalSince1970)
+                            storedStravaAuthLine.save(on: req)
+//                            storedStravaAuthLine.apiSecret = isInAuthProcessingStausText
                             let _ = storedStravaAuthLine.save(on: req)
  
                            
@@ -118,9 +120,9 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
             let response = futureUrl.flatMap(to: Response.self){ resultUrl in
                 
                 guard resultUrl != isInAuthProcessingStausText else {
-                    //return req.future(self.output.customErrorResponce(501, isInAuthProcessingStausText, req))
+                    return req.future(self.output.customErrorResponce(501, isInAuthProcessingStausText, req))
 //                    print("!!! 11 - isInAuthProcessingStausText")
-                    return req.future(Response(http: HTTPResponse(status: .ok, body: isInAuthProcessingStausText), using: req))
+//                    return req.future(Response(http: HTTPResponse(status: .ok, body: isInAuthProcessingStausText), using: req))
                 }
                 
                 // AlpineQuest app can't handle 303 redirect.
@@ -193,7 +195,7 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
     
     func isNeedToWaitFrom(scrtiptStartTime: String) -> Bool {
 //        print("$$$$ scrtiptStartTime ", scrtiptStartTime)
-        let periodToWait = 120 // sec
+        let periodToWait = 90 // sec
         
         // check on text or empty value
         guard let storedTime = Double(scrtiptStartTime) else { return false }
