@@ -240,5 +240,23 @@ public func routes(_ router: Router) throws {
         return b
     }
     
-
+    
+    router.get("api", "v1", "manual_set_strava_key",String.parameter, String.parameter, String.parameter) { req -> String in
+        
+        let signature = try req.parameters.next(String.self)
+        let keyPairId = try req.parameters.next(String.self)
+        let policy = try req.parameters.next(String.self)
+        let params = "&Signature=\(signature)&Key-Pair-Id=\(keyPairId)&Policy=\(policy)"
+        
+        try sqlHandler
+            .getServiceDataBy(serviceName: "TempCookieStrava", req)
+            .map { data in
+                let storedStravaAuthLine = data[0]
+                storedStravaAuthLine.apiSecret = params
+                storedStravaAuthLine.save(on: req)
+            }
+        
+        return params
+        //return request.redirect(to: mirrorUrl)
+    }
 }
