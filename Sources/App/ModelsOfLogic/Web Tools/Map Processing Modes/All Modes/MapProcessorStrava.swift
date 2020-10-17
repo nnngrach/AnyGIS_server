@@ -18,7 +18,7 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
         
         
     
-        return req.future(Response(http: HTTPResponse(status: .ok, body: "Strava temporart turned off"), using: req))
+        return req.future(Response(http: HTTPResponse(status: .ok, body: "Strava blocked my account. I'll try to fix it"), using: req))
         
         //===============================
         
