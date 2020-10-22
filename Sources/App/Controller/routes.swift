@@ -213,7 +213,7 @@ public func routes(_ router: Router) throws {
     router.get("api", "v1", "update_strava_tokens") { req -> String in
         
         stravaProcessor.updateAllStravaTokens(req)
-        return "starting Stav tokens updating script... "
+        return "Starting Strava tokens updating script... "
     }
     
     
