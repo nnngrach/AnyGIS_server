@@ -30,7 +30,11 @@ class MapProcessorStrava: AbstractMapProcessorSimple {
         } else {
             futureUrl = getRandomAuthParam(req)
                 .map(to: String.self) { newAuthParams in
-                    return generatedUrl + newAuthParams
+                    if (newAuthParams != self.invalidValue) {
+                        return generatedUrl + newAuthParams
+                    } else {
+                        return self.invalidValue
+                    }
                 }
         }
         
