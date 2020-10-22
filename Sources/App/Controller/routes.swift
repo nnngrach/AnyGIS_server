@@ -12,6 +12,7 @@ public func routes(_ router: Router) throws {
     let previewHandler = PreviewHandler()
     let mapTester = MapTester()
     let westraGenerator = WestraGpxFileGenerator()
+    let stravaProcessor = MapProcessorStrava()
     
     
 
@@ -206,6 +207,13 @@ public func routes(_ router: Router) throws {
         
         let mode = try req.parameters.next(String.self)
         return westraGenerator.generateGpxFile(mode: mode, request: req)
+    }
+    
+    
+    router.get("api", "v1", "update_strava_tokens") { req -> String in
+        
+        stravaProcessor.updateAllStravaTokens(req)
+        return "starting Stav tokens updating script... "
     }
     
     

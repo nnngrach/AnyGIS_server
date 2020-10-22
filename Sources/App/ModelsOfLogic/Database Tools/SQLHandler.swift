@@ -102,9 +102,6 @@ class SQLHandler {
     }
     
     
-    
-    
-    
     public func getCoordinatesDataBy (name: String, _ request: Request) throws -> Future<CoordinateMapList>  {
         return CoordinateMapList.query(on: request)
             .filter(\CoordinateMapList.name == name)

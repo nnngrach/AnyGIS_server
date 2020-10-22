@@ -95,7 +95,7 @@ class MapTester {
         
         
         do {
-            return try urlChecker.checkUrlStatusAndProxy(anygisMapUrl, nil, nil, req)
+            return try urlChecker.checkUrlStatusWithProxy(anygisMapUrl, nil, nil, req)
         } catch {
             return req.future(HTTPResponseStatus(statusCode: 502))
         }

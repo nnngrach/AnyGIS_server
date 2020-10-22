@@ -11,11 +11,12 @@ import Vapor
 class StravaParser {
     
     private let cookieExtractorApi = "http://68.183.65.138:5050/StravaAuth/"
+//    private let cookieExtractorApi = "http://localhost:4000/StravaAuth/"
     
     
     
     
-    public func getAuthParameters(login: String, password: String, _ req: Request) throws -> Future<String> {
+    public func fetchNewAuthParameters(login: String, password: String, _ req: Request) throws -> Future<String> {
         
         var resultHttpParameters = ""
         
@@ -28,43 +29,59 @@ class StravaParser {
         
         let resultingHttpParameters = authedCookieResponse.map(to: String.self) { res in
             
-            let resonseWithCookies = "\(res.http.body)"
+            var resonseWithCookies = "\(res.http.body)"
             
-        
-            if let decodedCookies = try? JSONDecoder().decode([StravaOutputJson].self, from: resonseWithCookies) {
-                
-                var isFoundedCloudFront = false
-                
-                for cookie in decodedCookies {
-                    
-                    if cookie.name.hasPrefix("CloudFront") {
-                        
-                        isFoundedCloudFront = true
- 
-                        let parametrName = cookie.name.replacingOccurrences(of: "CloudFront-", with: "")
-                        
-                        resultHttpParameters.append("&" + parametrName + "=" + cookie.value)
-                    }
-                }
-                
-                if !isFoundedCloudFront { return "Error: wrong parsing cookies" }
-                
-                
-            } else {
-
-                print("Error with Strava JSON decoding")
-                print(login)
-                print(resonseWithCookies)
+            //print("result :", resonseWithCookies)
+            resultHttpParameters = resonseWithCookies
+            //resultHttpParameters = try self.parseCookies(resonseWithCookies)
+            
+            if (self.isContainsAllNeededParamsIn(resultHttpParameters))
+            {
+                return resultHttpParameters
+            } else
+            {
                 throw(GlobalErrors.parsingFail)
             }
-            
-            return resultHttpParameters
         }
         
         return resultingHttpParameters
-        
     }
     
     
+    private func parseCookies(_ cookies: String) throws -> String {
+        
+        var parsedNewHttpAtuthParams = ""
+        
+        if let decodedCookies = try? JSONDecoder().decode([StravaOutputJson].self, from: cookies) {
+            
+            var isFoundedCloudFront = false
+            
+            for cookie in decodedCookies {
+                
+                if cookie.name.hasPrefix("CloudFront") {
+                    
+                    isFoundedCloudFront = true
 
+                    let parametrName = cookie.name.replacingOccurrences(of: "CloudFront-", with: "")
+                    
+                    parsedNewHttpAtuthParams.append("&" + parametrName + "=" + cookie.value)
+                }
+            }
+            
+            if !isFoundedCloudFront {
+                print("Error: wrong parsing cookies")
+                throw(GlobalErrors.parsingFail)
+            }
+            
+        } else {
+            print("Error with Strava JSON decoding")
+            throw(GlobalErrors.parsingFail)
+        }
+        
+        return parsedNewHttpAtuthParams
+    }
+
+    private func isContainsAllNeededParamsIn(_ params: String) -> Bool {
+        return params.contains("Signature") && params.contains("Key-Pair-Id") && params.contains("Policy")
+    }
 }
